@@ -28,11 +28,7 @@ public class Word {
         String RandomString = "";
         Random generator = new Random();
         int RandomInt = 0;
-        for (int i = 0; i < 20; i++)
-        {
-            RandomInt = generator.nextInt(12);
-            System.out.println(RandomInt);
-        }
+        RandomInt = generator.nextInt(12);
         switch (RandomInt)
         {
             case 1:
