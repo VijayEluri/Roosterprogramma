@@ -28,17 +28,20 @@ public class Main {
             if (input != null && !input.equalsIgnoreCase(" ")&& !input.equalsIgnoreCase(""))        // Niet allemaal nodig...voor de zekerheid gedaan tijdens testen
             {
                 input = input.toLowerCase();
-                InputChar = input.charAt(0);        // Alleen de eerste letter gebruiken we
-                if (InputChar >= 'a' && InputChar <= 'z')       // Geen vage tekens accepteren...
+                for (int i = 0; i < input.length(); i++)
                 {
-                    letters.add(woord, InputChar);      // Toevoegen aan het al eerder gebruikte deel
-                    letters.print();                    // Weergeven wat we fout geraden hebben
-                    if (woord.processGuess(InputChar) == false)     // Voor iedere verkeerde letter tellen we 1 op bij "state" voor de galg
-                        state += 1;
-                    woord.print(guiobj.WordArea);       // Print het woord voor zover we die hebben in de woord TextArea
-                    galg.print(guiobj.GallowsArea, state);      // Teken de galg in de galg TextArea, geef de "state" mee zodat het weet welke versie van de galg hij moet tonen
+                    InputChar = input.charAt(i);        // Alleen de eerste letter gebruiken we
+                    if (InputChar >= 'a' && InputChar <= 'z')       // Geen vage tekens accepteren...
+                    {
+                        letters.add(woord, InputChar);      // Toevoegen aan het al eerder gebruikte deel
+                        letters.print();                    // Weergeven wat we fout geraden hebben
+                        if (woord.processGuess(InputChar) == false)     // Voor iedere verkeerde letter tellen we 1 op bij "state" voor de galg
+                            state += 1;
+                        woord.print(guiobj.WordArea);       // Print het woord voor zover we die hebben in de woord TextArea
+                        galg.print(guiobj.GallowsArea, state);      // Teken de galg in de galg TextArea, geef de "state" mee zodat het weet welke versie van de galg hij moet tonen
+                    }
+                    Listen.ClearInput();        // We legen de variabele van het Input boxje
                 }
-                Listen.ClearInput();        // We legen de variabele van het Input boxje
             }
         }
         if (state >= 9)
