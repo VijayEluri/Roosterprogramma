@@ -19,12 +19,12 @@ import javax.swing.JTextArea;
  */
 public class SlideShow
 {
-    int SlideNr;
+    int SlideNr = 0;
     String IconName;
     String IconDescription = null;
     public void MainSlide()
     {
-        this.SlideNr = 0;
+        this.SlideNr = 1;
     }
     public void NextSlide()
     {
@@ -58,31 +58,57 @@ public class SlideShow
             case 0:
                 return "Dia: "+(this.SlideNr-1)+" bestaat niet.";
             case 1:
-                return "Deur Keuzemenu...";
+                this.SlideNr = 3;
+                break;
             case 2:
             case 3:
             case 4:
             case 5:
                 PrevSlide();
-                return "Dia: "+this.SlideNr;
+                break;
             case 6:
             case 7:
             case 8:
             case 9:
             default:
                 MainSlide();
-                return "Dia: "+this.SlideNr;
+                break;
         }
+        return "Dia: "+this.SlideNr;
     }
     public String HandleNextSlide() throws IOException
     {
-        if (this.SlideNr != 3)
+        switch (this.SlideNr)
         {
-            NextSlide();
-            return "Dia: "+this.SlideNr;
+            case 0:
+            case 1:
+            case 2:
+                NextSlide();
+                break;
+            case 3:
+                MainSlide();
+                break;
+            case 4:
+                NextSlide();
+                break;
+            case 5:
+                MainSlide();
+                break;
+            case 6:
+                NextSlide();
+                break;
+            case 7:
+                MainSlide();
+                break;
+            case 8:
+                NextSlide();
+                break;
+            case 9:
+            default:
+                MainSlide();
+                break;
         }
-        else
-            return null;
+        return "Dia: "+this.SlideNr;
     }
     public void HandleContent(JLabel ImageLabel, JTextArea TextArea) throws IOException
     {
@@ -91,12 +117,10 @@ public class SlideShow
             case 0:
                 ImageLabel.setSize(750, 400);
                 ImageLabel.setIcon(createImageIcon(Integer.toString(this.SlideNr), IconDescription, 750, 400));
-                TextArea.setVisible(false);
                 break;
             case 1:
             case 2:
             case 3:
-                TextArea.setVisible(true);
                 TextArea.setText("Voor U ziet U 3 deuren. Achter elk van deze deuren schuilt een probleem\n" +
                         "dat betrekking heeft tot de sector handel, en dan specifiek de Webwinkel branche.\n" +
                         "Achter deur 1 zit: Slordige magazijnen\n" +
@@ -109,17 +133,14 @@ public class SlideShow
             case 5:
             case 6:
             case 7:
-                TextArea.setVisible(false);
                 ImageLabel.setSize(850, 600);
                 ImageLabel.setIcon(createImageIcon(Integer.toString(this.SlideNr), IconDescription, 850, 600));
                 break;
             case 8:
-                TextArea.setVisible(false);
                 ImageLabel.setSize(500, 650);
                 ImageLabel.setIcon(createImageIcon(Integer.toString(this.SlideNr), IconDescription, 500, 650));
                 break;
             case 9:
-                TextArea.setVisible(false);
                 ImageLabel.setSize(450, 750);
                 ImageLabel.setIcon(createImageIcon(Integer.toString(this.SlideNr), IconDescription, 450, 750));
                 break;
