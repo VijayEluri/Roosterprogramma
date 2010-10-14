@@ -1,6 +1,6 @@
 package phidgets;
 
-import com.phidgets.*;
+import com.phidgets.*;          // Phidget library
 
 public class Main {
 
@@ -10,19 +10,19 @@ public class Main {
     static String str;
     static VLC rc;
     static long x;
-    long sensor1;
-    long sensor2;
-    long sensor3;
-    long sensor4;
+    long sensor1;       // "Vorige" sensor
+    long sensor2;       // "Select" sensor
+    long sensor3;       // "Volgende" sensor
+    long sensor4;       // Afstands sensor
     boolean IsPlaying = false;
     int Count;
 
     public Main() {
         guiobj = new GUI();
         guiobj.setVisible(true);
-        guiobj.setExtendedState(guiobj.MAXIMIZED_BOTH);
-        rc = new VLC("localhost", 1234);
-        rc.start();
+        guiobj.setExtendedState(guiobj.MAXIMIZED_BOTH);     // Volledige scherm zetten van de GUI
+        rc = new VLC("5.79.80.32", 1234);       // Verbinding met de VLC van Jimmy via Hamachi
+        rc.start();     // Start de VLC thread
         try {
             interf = new InterfaceKitPhidget();
         } catch (PhidgetException e) {
@@ -33,58 +33,61 @@ public class Main {
 
     private void PlayVLC()
     {
-        if (IsPlaying == false)
+        if (this.IsPlaying == false)        // Als we nog niet aan het afspelen zijn
         {
-            IsPlaying = true;
-            rc.control.play();
+            this.IsPlaying = true;      // Zeg dat we aan het afspelen zijn
+            rc.control.play();      // Speel af
+            rc.control.fullscreen();        // In volledig scherm
         }
     }
     private void StopVLC()
     {
-        if (IsPlaying == true)
+        if (this.IsPlaying == true)     // Als we wel aan het afspelen zijn
         {
-            IsPlaying = false;
-            rc.control.play();
+            this.IsPlaying = false;     // Zeg dat we niet meer aan het afspelen zijn
+            rc.control.stop();      // Stop de video
         }
     }
     public void ReadSensors() {
-        SlideShow SlideSensors = new SlideShow();
+        SlideShow SlideSensors = new SlideShow();       // Start de Diavoorstelling controls
         while (true) {
             try {
-                sensor1 = readSensorValue(1);
+                sensor1 = readSensorValue(1);       // Lees de waardes van de sensoren
                 sensor2 = readSensorValue(2);
                 sensor3 = readSensorValue(3);
                 sensor4 = readSensorValue(4);
                 String output = null;
-                SlideSensors.HandleContent(guiobj.ImageLabel, guiobj.TextArea);
-                InputKeyListener Keylistener = new InputKeyListener(guiobj);
-                rc.control.play();
-                if(sensor4 > 80)
+                SlideSensors.HandleContent(guiobj.ImageLabel, guiobj.TextArea);     // Regel de inhoud van de dia (zowel tekst als plaatjes)
+                InputKeyListener Keylistener = new InputKeyListener(guiobj);        // Check voor de Escape toets om de applicatie te sluiten
+                if(sensor4 > 80)        // Als een persoon voor de sensor langs loopt
                 {
-                    PlayVLC();
-                    Count = 0;
+                    PlayVLC();      // Gebruik functie PlayVLC (Speel af als je dat nog niet doet)
+                    Count = 0;      // Zet de "geen mensen in de buurt" teller op 0
                 }
                 else
                 {
-                    Count += 1;
-                    if (Count == 60)
-                        StopVLC();
+                    Count += 1;     // Tel er 1 bij op als er geen mensen voor langs lopen
+                    if (Count > 60)     // Als we 30 seconden lang geen beweging hebben
+                    {
+                        StopVLC();      // Stop VLC als die nog niet gestopt was
+                        Count = 0;      // Begin opnieuw te tellen
+                    }
                 }
-                if(sensor1 == 0)
+                if(sensor1 == 0)        // Als de "vorige" knop is ingedrukt
                 {
-                    output = SlideSensors.HandlePrevSlide();
+                    output = SlideSensors.HandlePrevSlide();        // Doe de actie voor de vorige knop, en krijg een String output terug
                 }
-                if(sensor2 == 0)
+                else if(sensor3 == 0)// Als de "volgende" knop is ingedrukt (met else if gedaan zodat ze niet tegelijk werken)
+                {
+                    output = SlideSensors.HandleNextSlide();// Doe de actie voor de volgende knop, en krijg een String output terug
+                }
+                if(sensor2 == 0)// Als de "select" knop is ingedrukt
                 {
                     SlideSensors.HandleSelect();
                 }
-                if(sensor3 == 0)
-                {
-                    output = SlideSensors.HandleNextSlide();
-                }
-                if (output != null)
+                if (output != null)     // als de output niet leeg was (dus of de vorige OF de volgende knop was ingedrukt)
                     System.out.println(output);
-                Thread.sleep(500);
+                Thread.sleep(500);      // wacht een halve seconde
             } catch (Exception e) {
                 e.printStackTrace();
             }
