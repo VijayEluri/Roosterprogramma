@@ -1,2 +1,0 @@
-phidgets.SlideShow
-phidgets.Main
