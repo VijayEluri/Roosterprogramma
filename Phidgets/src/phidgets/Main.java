@@ -84,7 +84,7 @@ public class Main {
                 }
                 if (output != null)
                     System.out.println(output);
-                Thread.sleep(250);
+                Thread.sleep(500);
             } catch (Exception e) {
                 e.printStackTrace();
             }
