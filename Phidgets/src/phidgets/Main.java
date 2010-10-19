@@ -40,14 +40,6 @@ public class Main {
             rc.control.fullscreen();        // In volledig scherm
         }
     }
-    private void StopVLC()
-    {
-        if (this.IsPlaying == true)     // Als we wel aan het afspelen zijn
-        {
-            this.IsPlaying = false;     // Zeg dat we niet meer aan het afspelen zijn
-            rc.control.stop();      // Stop de video
-        }
-    }
     public void ReadSensors() {
         SlideShow SlideSensors = new SlideShow();       // Start de Diavoorstelling controls
         while (true) {
@@ -59,17 +51,18 @@ public class Main {
                 String output = null;
                 SlideSensors.HandleContent(guiobj.ImageLabel, guiobj.TextArea);     // Regel de inhoud van de dia (zowel tekst als plaatjes)
                 InputKeyListener Keylistener = new InputKeyListener(guiobj);        // Check voor de Escape toets om de applicatie te sluiten
-                if(sensor4 > 80)        // Als een persoon voor de sensor langs loopt
+                PlayVLC();      // Gebruik functie PlayVLC (Speel af als je dat nog niet doet)
+                if(sensor4 > 90)        // Als een persoon voor de sensor langs loopt
                 {
-                    PlayVLC();      // Gebruik functie PlayVLC (Speel af als je dat nog niet doet)
+                    rc.control.add("C:/Users/Jimmy/Desktop/ProjectExpo/presentatie/2.wmv");
                     Count = 0;      // Zet de "geen mensen in de buurt" teller op 0
                 }
                 else
                 {
                     Count += 1;     // Tel er 1 bij op als er geen mensen voor langs lopen
-                    if (Count > 60)     // Als we 30 seconden lang geen beweging hebben
+                    if (Count > 120)     // Als we 30 seconden lang geen beweging hebben
                     {
-                        StopVLC();      // Stop VLC als die nog niet gestopt was
+                        rc.control.add("C:/Users/Jimmy/Desktop/ProjectExpo/presentatie/1.wmv");
                         Count = 0;      // Begin opnieuw te tellen
                     }
                 }
@@ -87,7 +80,7 @@ public class Main {
                 }
                 if (output != null)     // als de output niet leeg was (dus of de vorige OF de volgende knop was ingedrukt)
                     System.out.println(output);
-                Thread.sleep(500);      // wacht een halve seconde
+                Thread.sleep(250);      // wacht een kwart seconde (dit is de gevoeligheid)
             } catch (Exception e) {
                 e.printStackTrace();
             }
