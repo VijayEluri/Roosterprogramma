@@ -144,13 +144,14 @@ public class CoreStatus extends JPanel implements MouseListener {
         }
         else
         {
+            File WorkingDir = new File("D:\\Users\\Dark\\Desktop\\Batch\\Completed_Release_x32");
             String mangosdname = "D:\\Users\\Dark\\Desktop\\Batch\\Completed_Release_x32\\mangosd.exe";
             String realmdname = "D:\\Users\\Dark\\Desktop\\Batch\\Completed_Release_x32\\realmd.exe";
             try {
                 if (isRunning(mangosdname) == false) {
                     if (canExecute(mangosdname) == true)
                     {
-                        this.mangosd = Runtime.getRuntime().exec(mangosdname);
+                        this.mangosd = Runtime.getRuntime().exec(mangosdname,null,WorkingDir);
                     }
                     else
                         notExist.setText("Cannot run " + mangosdname + ": file not found. ");
@@ -162,7 +163,7 @@ public class CoreStatus extends JPanel implements MouseListener {
                 if (isRunning(realmdname) == false) {
                     if (canExecute(realmdname) == true)
                     {
-                        this.realmd = Runtime.getRuntime().exec(realmdname);
+                        this.realmd = Runtime.getRuntime().exec(realmdname,null,WorkingDir);
                     }
                     else
                         notExist.setText(notExist.getText() + "Cannot run " + realmdname + ": file not found.");
