@@ -1,6 +1,4 @@
-TheWave/*
-nbproject/*
-dist/*
-*.jar
+*.class
+Outfit4You
 *.xml
-*.mf
+*mf
