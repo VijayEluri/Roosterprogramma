@@ -1,0 +1,7 @@
+nbproject/*
+build/*
+*.properties
+*.xml
+*.class
+build.*
+manifest.*
