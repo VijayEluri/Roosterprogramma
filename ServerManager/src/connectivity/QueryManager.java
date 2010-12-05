@@ -35,8 +35,35 @@ public class QueryManager {
             String sql = "SELECT * FROM characters ORDER BY name ASC";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
-                if (result.getInt("guid") == 0 || result.getInt("account") == 0 || result.getString("name").equals(""))
-                    continue;
+                characters.add(
+                        new PlayerCharacter(
+                            result.getInt("guid"),
+                            result.getInt("account"),
+                            result.getString("name"),
+                            result.getInt("gmlevel"),
+                            result.getInt("race"),
+                            result.getInt("class"),
+                            result.getInt("gender"),
+                            result.getInt("level"),
+                            result.getInt("money"),
+                            result.getInt("online")
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println(Dbmanager.SQL_EXCEPTION + e.getMessage());
+        }
+        return characters;
+    }
+
+    public List<PlayerCharacter> getCharacters(String name)
+    {
+        dbmanager.openConnection("characters");
+        List<PlayerCharacter> characters = new ArrayList<PlayerCharacter>();
+        try {
+            String sql = "SELECT * FROM characters WHERE (SELECT `name` REGEXP '^"+name+".*') = 1 ORDER BY name ASC";
+            ResultSet result = dbmanager.doQuery(sql);
+            while (result.next()) {
                 characters.add(
                         new PlayerCharacter(
                             result.getInt("guid"),

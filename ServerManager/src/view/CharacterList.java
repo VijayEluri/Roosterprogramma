@@ -7,8 +7,12 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import main.TextChangeListener;
 import model.PlayerCharacter;
 
 public class CharacterList extends JPanel implements MouseListener {
@@ -17,6 +21,9 @@ public class CharacterList extends JPanel implements MouseListener {
 
     private QueryManager queryManager = ServerManager.getQueryManager();
     private List<PlayerCharacter> characters = queryManager.getCharacters();
+
+    private JComboBox CharResultList;
+    private JButton Submit;
 
     public CharacterList() {
         super();
@@ -56,6 +63,42 @@ public class CharacterList extends JPanel implements MouseListener {
         }
         else
         {
+            JLabel SearchFor = new JLabel();
+            SearchFor.setText("Search for:");
+            SearchFor.setBounds(220, verticalPosition + offset, 200, 20);
+            SearchFor.setFont(ServerManager.FONT_12_BOLD);
+            add(SearchFor);
+
+            JTextField SearchCharacter = new JTextField();
+            SearchCharacter.setName("SearchCharacter");
+            SearchCharacter.setBounds(320, verticalPosition + offset, 200, 20);
+            SearchCharacter.setFont(ServerManager.FONT_12_BOLD);
+            add(SearchCharacter);
+
+            JLabel SearchResult = new JLabel();
+            SearchResult.setText("Search for:");
+            SearchResult.setBounds(220, verticalPosition + 2 * offset, 200, 20);
+            SearchResult.setFont(ServerManager.FONT_12_BOLD);
+            add(SearchResult);
+
+            CharResultList = new javax.swing.JComboBox();
+            CharResultList.setName("CharResultList");
+            CharResultList.setBounds(320, verticalPosition + 2 * offset, 200, 20);
+            CharResultList.setFont(ServerManager.FONT_12_BOLD);
+            add(CharResultList);
+
+            Submit = new JButton();
+            Submit.setName("Submit");
+            Submit.setText("Go");
+            Submit.setBounds(550, verticalPosition + offset, 200, 20);
+            Submit.setFont(ServerManager.FONT_12_BOLD);
+            Submit.addMouseListener(this);
+            Submit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            add(Submit);
+
+            TextChangeListener listener = new TextChangeListener(SearchCharacter, CharResultList);
+            listener.start();
+
             for (int i = 0; i < characters.size(); i++)
             {
                 PlayerCharacter character = characters.get(i);
@@ -89,8 +132,16 @@ public class CharacterList extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-        JLabel label = (JLabel) event.getSource();
-        ServerManager.getInstance().showPanel(new view.CharacterView(getPlayerByName(label.getName())));
+        String charName;
+        if (event.getComponent().equals(Submit))
+            charName = CharResultList.getSelectedItem().toString();
+        else
+        {
+            charName = ((JLabel) event.getSource()).getName();
+        }
+
+        if (!charName.equals(""))
+            ServerManager.getInstance().showPanel(new view.CharacterView(getPlayerByName(charName)));
     }
 
     @Override
