@@ -132,13 +132,11 @@ public class CharacterList extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-        String charName;
+        String charName = "";
         if (event.getComponent().equals(Submit))
             charName = CharResultList.getSelectedItem().toString();
         else
-        {
             charName = ((JLabel) event.getSource()).getName();
-        }
 
         if (!charName.equals(""))
             ServerManager.getInstance().showPanel(new view.CharacterView(getPlayerByName(charName)));
