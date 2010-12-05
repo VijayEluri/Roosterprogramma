@@ -160,18 +160,11 @@ public class MakeAccount extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int Addon;
         String Name = tfName.getText();
         String Pass = tfPass.getText();
         String GmlevelValue = (String) tfGmlevel.getSelectedValue();
         int Gmlevel = Integer.parseInt(GmlevelValue);
-        String RawAddon = (String) tfAddon.getSelectedValue();
-        if (RawAddon.equals("Vanilla"))
-            Addon = 0;
-        else if (RawAddon.equals("TBC"))
-            Addon = 1;
-        else
-            Addon = 2;
+        int Addon = tfAddon.getSelectedIndex();
         try {
             ServerManager.getQueryManager().makeAccount(Name, Pass, Gmlevel, Addon);
         } catch (NoSuchAlgorithmException ex) {
