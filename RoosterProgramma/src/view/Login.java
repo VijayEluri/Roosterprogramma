@@ -89,7 +89,7 @@ public class Login extends JPanel implements MouseListener, ActionListener {
 
     private void addTitle() {
         JLabel lblTitle1 = new JLabel();
-        lblTitle1.setText("Winkelapplicatie");
+        lblTitle1.setText("RoosterProgramma");
         lblTitle1.setBounds(20, 20, 150, 20);
         lblTitle1.setFont(RoosterProgramma.FONT_16_BOLD);
         add(lblTitle1);
