@@ -1,9 +1,0 @@
-Character editing (stats)
-Account editing
-
-Worldmap? (Coords displayed as layer on top of an image)
-Message sender? (Through SOAP)
-Ban manager? (Banning through SOAP or SQL ?)
-
-
-More coming...
