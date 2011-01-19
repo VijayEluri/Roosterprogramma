@@ -29,7 +29,7 @@ public class medewerkerInfo extends javax.swing.JPanel {
         this.werknemer = RoosterProgramma.getQueryManager().getEmployee(medewerkerID);
         initComponents();
         fillInfoTable();
-        fillWerktijdenInfoTable();
+        //fillWerktijdenInfoTable(); //tijdelijk weggecomment, werkt nog niet.
         fillVerantwoordingTable();
     }
 

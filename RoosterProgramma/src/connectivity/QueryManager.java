@@ -28,11 +28,10 @@ public class QueryManager {
     public Employee getEmployee(int id) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM `medewerkers` WHERE `id` = '" + id + "';";
+            String sql = "SELECT * FROM `medewerkers` WHERE `personeelsnummer` = '" + id + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
-                    result.getInt("id"),
                     result.getInt("personeelsnummer"),
                     result.getString("voornaam"),
                     result.getString("achternaam"),
@@ -57,7 +56,6 @@ public class QueryManager {
             while (result.next()) {
                 employees.add(
                     new Employee(
-                        result.getInt("id"),
                         result.getInt("personeelsnummer"),
                         result.getString("voornaam"),
                         result.getString("achternaam"),
@@ -75,10 +73,22 @@ public class QueryManager {
         return employees;
     }
 
+    public void addEmployee(Employee employee) {
+        int fulltime = employee.isFulltime() ? 1 : 0;
+        int parttime = employee.isParttime() ? 1 : 0;
+        int oproepkracht = employee.isOproepkracht() ? 1 : 0;
+        int admin = employee.isAdmin() ? 1 : 0;
+        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht, admin)"
+                + "VALUES('" + employee.getPersoneelsNummer() + "', '" + employee.getVoornaam() + "', '"
+                + employee.getAchternaam() + "', '" + employee.getWachtwoord() + "', '" + fulltime + "', '"
+                + parttime + "', '" + oproepkracht + "', '" + admin + "')";
+        dbmanager.insertQuery(sql);
+    }
+
     public EmployeeInfo getInfo(int id, int weeknr, int dag) {
         EmployeeInfo info = new EmployeeInfo();
         try {
-            String sql = "SELECT * FROM `medewerkerinfo` WHERE `id` = '" + id + "' AND `weeknr` = '" + weeknr + "' AND `dag` = '" + dag + "';";
+            String sql = "SELECT * FROM `medewerkerinfo` WHERE `personeelsnummer` = '" + id + "' AND `weeknr` = '" + weeknr + "' AND `dag` = '" + dag + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 info = new EmployeeInfo(

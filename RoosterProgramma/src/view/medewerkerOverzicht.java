@@ -42,7 +42,6 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             model.addRow(new Object[] {
-                employee.getID(),
                 employee.getPersoneelsNummer(),
                 employee.getVoornaam(),
                 employee.getAchternaam()
@@ -72,14 +71,14 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
 
             },
             new String [] {
-                "medewerkerID", "personeelsNummer", "Voornaam", "Achternaam"
+                "personeelsNummer", "Voornaam", "Achternaam"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -108,6 +107,11 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
         });
 
         toevoegen.setText("Medewerker toevoegen");
+        toevoegen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toevoegenActionPerformed(evt);
+            }
+        });
 
         wijzigen.setText("Medewerker wijzigen");
 
@@ -156,6 +160,10 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
         RoosterProgramma.getInstance().showPanel(new medewerkerInfo(medewerkerID));
     }//GEN-LAST:event_OKActionPerformed
+
+    private void toevoegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegenActionPerformed
+        RoosterProgramma.getInstance().showPanel(new AddMedewerker());
+    }//GEN-LAST:event_toevoegenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

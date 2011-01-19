@@ -15,7 +15,6 @@ import roosterprogramma.RoosterProgramma;
  */
 public class Employee {
 
-    private int ID;
     private int personeelsNummer;
     private String voornaam;
     private String achternaam;
@@ -33,12 +32,11 @@ public class Employee {
     private EmployeeInfo zondag;
 
     public Employee() {
-        this(-1, 0, "", "", "", false, false, false, false);
+        this(0, "", "", "", false, false, false, false);
     }
 
-    public Employee(int medewerkerID, int personeelsNummer, String voornaam,  String achternaam, String wachtwoord,
+    public Employee(int personeelsNummer, String voornaam,  String achternaam, String wachtwoord,
             boolean fulltime, boolean parttime, boolean oproepkracht, boolean admin) {
-        this.ID = medewerkerID;
         this.personeelsNummer = personeelsNummer;
         this.voornaam = voornaam;
         this.achternaam = achternaam;
@@ -47,13 +45,6 @@ public class Employee {
         this.parttime = parttime;
         this.oproepkracht = oproepkracht;
         this.admin = admin;
-    }
-
-    /**
-     * @return the ID
-     */
-    public int getID() {
-        return ID;
     }
 
     /**
@@ -124,13 +115,6 @@ public class Employee {
      */
     public void setAdmin(boolean admin) {
         this.admin = admin;
-    }
-
-    /**
-     * @param ID the ID to set
-     */
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     /**
