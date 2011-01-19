@@ -96,7 +96,7 @@ public class QueryManager {
                     result.getInt("dokter"),
                     result.getInt("ziekte"),
                     result.getInt("eigenrekening"),
-                    result.getInt("feestdagem"),
+                    result.getInt("feestdagen"),
                     result.getInt("compensatieopname"),
                     result.getInt("caoverlof")
                 );
