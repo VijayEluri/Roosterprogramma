@@ -6,6 +6,8 @@ import connectivity.UpdateChecker;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -76,6 +78,13 @@ public class RoosterProgramma {
 
     public void startup() {
         mainWindow = new JFrame(NAME);
+        mainWindow.setSize(600, 500);
+        mainWindow.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                shutdown();
+            }
+        });
 
         InputKeyListener keylisten = new InputKeyListener(mainWindow);
         keylisten.start();
