@@ -77,11 +77,10 @@ public class QueryManager {
         int fulltime = employee.isFulltime() ? 1 : 0;
         int parttime = employee.isParttime() ? 1 : 0;
         int oproepkracht = employee.isOproepkracht() ? 1 : 0;
-        int admin = employee.isAdmin() ? 1 : 0;
-        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht, admin)"
+        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
                 + "VALUES('" + employee.getPersoneelsNummer() + "', '" + employee.getVoornaam() + "', '"
                 + employee.getAchternaam() + "', '" + employee.getWachtwoord() + "', '" + fulltime + "', '"
-                + parttime + "', '" + oproepkracht + "', '" + admin + "')";
+                + parttime + "', '" + oproepkracht + "')";
         dbmanager.insertQuery(sql);
     }
 
