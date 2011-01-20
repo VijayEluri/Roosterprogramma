@@ -111,6 +111,6 @@ public class RoosterProgramma {
             typedPassword += output;
         }
         Arrays.fill(input, '0');
-        return typedPassword;
+        return typedPassword.toUpperCase();
     }
 }

@@ -11,6 +11,7 @@
 
 package view;
 
+import connectivity.ShaEncrypt;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
@@ -166,7 +167,7 @@ public class AddMedewerker extends javax.swing.JPanel {
         newemployee.setPersoneelsNummer(employeeNumber);
         newemployee.setVoornaam(firstName);
         newemployee.setAchternaam(familyName);
-        newemployee.setWachtwoord(password);
+        newemployee.setWachtwoord(ShaEncrypt.SHA1(password));
         newemployee.setFulltime(fulltime);
         newemployee.setParttime(parttime);
         newemployee.setOproepkracht(oproepkracht);

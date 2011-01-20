@@ -11,6 +11,7 @@
 
 package view;
 
+import connectivity.ShaEncrypt;
 import java.awt.Color;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
@@ -82,12 +83,14 @@ public class Login extends javax.swing.JPanel {
     }
 
     private void handlePassword() {
-        if (RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).equals(employee.getWachtwoord()))
+        String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
+        if (Sha1Pass.equals(employee.getWachtwoord()))
         {
             RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         }
         else
         {
+            System.out.println(Sha1Pass);
             tfPassword.setText("");
         }
     }
