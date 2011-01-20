@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
  * AddMedewerker.java
  *
  * Created on 19-jan-2011, 23:20:39
@@ -27,22 +22,26 @@ public class ChAddMedewerker extends javax.swing.JPanel {
     /** Creates new form AddMedewerker */
     public ChAddMedewerker() {
         initComponents();
+        lblNameInUse.setVisible(false);
+        lblNumberInUse.setVisible(false);
     }
 
     public ChAddMedewerker(Employee employee) {
         this.employee = employee;
         this.isAdd = false;
+        lblNameInUse.setVisible(false);
+        lblNumberInUse.setVisible(false);
         initComponents();
         fillFields();
     }
 
     private void fillFields() {
-        tfPersoneelsNr.setText(Integer.toString(employee.getPersoneelsNummer()));
+        tfEmployeeNumber.setText(Integer.toString(employee.getPersoneelsNummer()));
         tfFirstName.setText(employee.getVoornaam());
         tfFamilyName.setText(employee.getAchternaam());
-        cbFulltime.setSelected(employee.isFulltime());
-        cbParttime.setSelected(employee.isParttime());
-        cbOproepkracht.setSelected(employee.isOproepkracht());
+        cbFullTime.setSelected(employee.isFulltime());
+        cbPartTime.setSelected(employee.isParttime());
+        cbCallWorker.setSelected(employee.isOproepkracht());
     }
 
     /** This method is called from within the constructor to
@@ -54,36 +53,75 @@ public class ChAddMedewerker extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblPersoneelNr = new javax.swing.JLabel();
-        lblVoornaam = new javax.swing.JLabel();
-        lblAchternaam = new javax.swing.JLabel();
+        lblEmployeeNumber = new javax.swing.JLabel();
+        lblFirstName = new javax.swing.JLabel();
+        lblFamilyName = new javax.swing.JLabel();
         lblWachtwoord = new javax.swing.JLabel();
-        lblFulltime = new javax.swing.JLabel();
-        lblParttime = new javax.swing.JLabel();
-        lblOproepkracht = new javax.swing.JLabel();
-        tfPersoneelsNr = new javax.swing.JTextField();
+        lblFullTime = new javax.swing.JLabel();
+        lblPartTime = new javax.swing.JLabel();
+        lblCallWorker = new javax.swing.JLabel();
+        tfEmployeeNumber = new javax.swing.JTextField();
         tfFirstName = new javax.swing.JTextField();
         tfFamilyName = new javax.swing.JTextField();
-        cbFulltime = new javax.swing.JCheckBox();
-        cbParttime = new javax.swing.JCheckBox();
-        cbOproepkracht = new javax.swing.JCheckBox();
+        cbFullTime = new javax.swing.JCheckBox();
+        cbPartTime = new javax.swing.JCheckBox();
+        cbCallWorker = new javax.swing.JCheckBox();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         tfPassword = new javax.swing.JPasswordField();
+        lblNameInUse = new javax.swing.JLabel();
+        lblNumberInUse = new javax.swing.JLabel();
 
-        lblPersoneelNr.setText("PersoneelsNummer:");
+        lblEmployeeNumber.setText("PersoneelsNummer:");
 
-        lblVoornaam.setText("Voornaam:");
+        lblFirstName.setText("Voornaam:");
 
-        lblAchternaam.setText("Achternaam:");
+        lblFamilyName.setText("Achternaam:");
 
         lblWachtwoord.setText("Wachtwoord:");
 
-        lblFulltime.setText("Fulltime:");
+        lblFullTime.setText("Fulltime:");
 
-        lblParttime.setText("Parttime:");
+        lblPartTime.setText("Parttime:");
 
-        lblOproepkracht.setText("Oproepkracht:");
+        lblCallWorker.setText("Oproepkracht:");
+
+        tfEmployeeNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfEmployeeNumberKeyReleased(evt);
+            }
+        });
+
+        tfFirstName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfFirstNameKeyReleased(evt);
+            }
+        });
+
+        tfFamilyName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfFamilyNameKeyReleased(evt);
+            }
+        });
+
+        cbFullTime.setSelected(true);
+        cbFullTime.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbFullTimeStateChanged(evt);
+            }
+        });
+
+        cbPartTime.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbPartTimeStateChanged(evt);
+            }
+        });
+
+        cbCallWorker.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbCallWorkerStateChanged(evt);
+            }
+        });
 
         btnCancel.setText("Annuleren");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +137,16 @@ public class ChAddMedewerker extends javax.swing.JPanel {
             }
         });
 
+        tfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfPasswordKeyReleased(evt);
+            }
+        });
+
+        lblNameInUse.setText("De combinatie voor- en achternaam is al in gebruik!");
+
+        lblNumberInUse.setText("Dat nummer is al in gebruik!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,22 +156,26 @@ public class ChAddMedewerker extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPersoneelNr)
-                            .addComponent(lblVoornaam)
-                            .addComponent(lblAchternaam)
+                            .addComponent(lblEmployeeNumber)
+                            .addComponent(lblFirstName)
+                            .addComponent(lblFamilyName)
                             .addComponent(lblWachtwoord)
-                            .addComponent(lblFulltime)
-                            .addComponent(lblParttime)
-                            .addComponent(lblOproepkracht))
+                            .addComponent(lblFullTime)
+                            .addComponent(lblPartTime)
+                            .addComponent(lblCallWorker))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(tfPassword)
-                            .addComponent(cbOproepkracht)
-                            .addComponent(cbParttime)
-                            .addComponent(cbFulltime)
-                            .addComponent(tfPersoneelsNr, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .addComponent(cbCallWorker)
+                            .addComponent(cbPartTime)
+                            .addComponent(cbFullTime)
+                            .addComponent(tfEmployeeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                             .addComponent(tfFirstName)
-                            .addComponent(tfFamilyName)))
+                            .addComponent(tfFamilyName))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblNumberInUse)
+                            .addComponent(lblNameInUse)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
@@ -135,32 +187,34 @@ public class ChAddMedewerker extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPersoneelNr)
-                    .addComponent(tfPersoneelsNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblEmployeeNumber)
+                    .addComponent(tfEmployeeNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNumberInUse))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblVoornaam)
+                    .addComponent(lblFirstName)
                     .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAchternaam)
-                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblFamilyName)
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNameInUse))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblWachtwoord)
                     .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFulltime)
-                    .addComponent(cbFulltime))
+                    .addComponent(lblFullTime)
+                    .addComponent(cbFullTime))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblParttime)
-                    .addComponent(cbParttime))
+                    .addComponent(lblPartTime)
+                    .addComponent(cbPartTime))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblOproepkracht)
-                    .addComponent(cbOproepkracht))
+                    .addComponent(lblCallWorker)
+                    .addComponent(cbCallWorker))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
@@ -174,58 +228,131 @@ public class ChAddMedewerker extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        int employeeNumber = Integer.parseInt(tfPersoneelsNr.getText());
+        int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
         String firstName = tfFirstName.getText();
         String familyName = tfFamilyName.getText();
         String password = RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword());
-        boolean fulltime = cbFulltime.isSelected();
-        boolean parttime = cbParttime.isSelected();
-        boolean oproepkracht = cbOproepkracht.isSelected(); // Moet nog renamed worden
+        boolean fullTime = cbFullTime.isSelected();
+        boolean partTime = cbPartTime.isSelected();
+        boolean callWorker = cbCallWorker.isSelected();
 
         if (isAdd)
         {
-            Employee newemployee = new Employee();
-            newemployee.setPersoneelsNummer(employeeNumber);
-            newemployee.setVoornaam(firstName);
-            newemployee.setAchternaam(familyName);
-            newemployee.setWachtwoord(ShaEncrypt.SHA1(password));
-            newemployee.setFulltime(fulltime);
-            newemployee.setParttime(parttime);
-            newemployee.setOproepkracht(oproepkracht);
-            RoosterProgramma.getQueryManager().addEmployee(newemployee);
+            Employee newEmployee = new Employee();
+            newEmployee.setPersoneelsNummer(employeeNumber);
+            newEmployee.setVoornaam(firstName);
+            newEmployee.setAchternaam(familyName);
+            newEmployee.setWachtwoord(ShaEncrypt.SHA1(password));
+            newEmployee.setFulltime(fullTime);
+            newEmployee.setParttime(partTime);
+            newEmployee.setOproepkracht(callWorker);
+            RoosterProgramma.getQueryManager().addEmployee(newEmployee);
         }
         else
         {
             employee.setVoornaam(firstName);
             employee.setAchternaam(familyName);
             employee.setWachtwoord(ShaEncrypt.SHA1(password));
-            employee.setFulltime(fulltime);
-            employee.setParttime(parttime);
-            employee.setOproepkracht(oproepkracht);
+            employee.setFulltime(fullTime);
+            employee.setParttime(partTime);
+            employee.setOproepkracht(callWorker);
             RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
         RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void tfEmployeeNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmployeeNumberKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfEmployeeNumberKeyReleased
+
+    private void tfFirstNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfFirstNameKeyReleased
+
+    private void tfFamilyNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFamilyNameKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfFamilyNameKeyReleased
+
+    private void tfPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfPasswordKeyReleased
+
+    private void cbFullTimeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbFullTimeStateChanged
+        checkEnabled();
+    }//GEN-LAST:event_cbFullTimeStateChanged
+
+    private void cbPartTimeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbPartTimeStateChanged
+        checkEnabled();
+    }//GEN-LAST:event_cbPartTimeStateChanged
+
+    private void cbCallWorkerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbCallWorkerStateChanged
+        checkEnabled();
+    }//GEN-LAST:event_cbCallWorkerStateChanged
+
+    private void checkEnabled() {
+        if (!tfEmployeeNumber.getText().isEmpty() &&
+            !tfFirstName.getText().isEmpty() &&
+            !tfFamilyName.getText().isEmpty() &&
+            !Exist() &&
+            !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() &&
+            (cbFullTime.isSelected() || cbPartTime.isSelected() || cbCallWorker.isSelected()))
+        {
+            btnSave.setEnabled(true);
+        }
+        else
+        {
+            btnSave.setEnabled(false);
+        }
+    }
+
+    private boolean Exist() {
+        int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
+        String familyName = tfFamilyName.getText().toLowerCase();
+        String firstName = tfFirstName.getText().toLowerCase();
+        boolean exists = false;
+        for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees())
+        {
+            if (!isAdd && existingEmployee.getPersoneelsNummer() == employeeNumber)
+            {
+                lblNameInUse.setVisible(false);
+                exists = true;
+                lblNumberInUse.setVisible(true);
+            }
+            else if(!isAdd && (existingEmployee.getAchternaam().toLowerCase().equals(familyName) && existingEmployee.getVoornaam().toLowerCase().equals(firstName)))
+            {
+                lblNumberInUse.setVisible(false);
+                exists = true;
+                lblNameInUse.setVisible(true);
+            }
+            else
+            {
+                lblNameInUse.setVisible(false);
+                lblNumberInUse.setVisible(false);
+            }
+        }
+        return exists;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox cbFulltime;
-    private javax.swing.JCheckBox cbOproepkracht;
-    private javax.swing.JCheckBox cbParttime;
-    private javax.swing.JLabel lblAchternaam;
-    private javax.swing.JLabel lblFulltime;
-    private javax.swing.JLabel lblOproepkracht;
-    private javax.swing.JLabel lblParttime;
-    private javax.swing.JLabel lblPersoneelNr;
-    private javax.swing.JLabel lblVoornaam;
+    private javax.swing.JCheckBox cbCallWorker;
+    private javax.swing.JCheckBox cbFullTime;
+    private javax.swing.JCheckBox cbPartTime;
+    private javax.swing.JLabel lblCallWorker;
+    private javax.swing.JLabel lblEmployeeNumber;
+    private javax.swing.JLabel lblFamilyName;
+    private javax.swing.JLabel lblFirstName;
+    private javax.swing.JLabel lblFullTime;
+    private javax.swing.JLabel lblNameInUse;
+    private javax.swing.JLabel lblNumberInUse;
+    private javax.swing.JLabel lblPartTime;
     private javax.swing.JLabel lblWachtwoord;
+    private javax.swing.JTextField tfEmployeeNumber;
     private javax.swing.JTextField tfFamilyName;
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JPasswordField tfPassword;
-    private javax.swing.JTextField tfPersoneelsNr;
     // End of variables declaration//GEN-END:variables
 
 }
