@@ -13,19 +13,18 @@ package view;
 
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
-import model.EmployeeInfo;
 import roosterprogramma.RoosterProgramma;
 
 /**
  *
  * @author Dark
  */
-public class MedewerkerInfo extends javax.swing.JPanel {
+public class EmployeeInfo extends javax.swing.JPanel {
 
     private Employee employee;
 
     /** Creates new form medewerkerInfo */
-    public MedewerkerInfo(Employee employee) {
+    public EmployeeInfo(Employee employee) {
         this.employee = employee;
         initComponents();
         fillInfoTable();
@@ -258,7 +257,7 @@ public class MedewerkerInfo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
     }//GEN-LAST:event_btnBackActionPerformed
 
 

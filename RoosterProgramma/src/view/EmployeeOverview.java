@@ -20,12 +20,12 @@ import roosterprogramma.RoosterProgramma;
  *
  * @author Dark
  */
-public class MedewerkerOverzicht extends javax.swing.JPanel {
+public class EmployeeOverview extends javax.swing.JPanel {
 
     private Employee selectedEmployee;
 
     /** Creates new form medewerkerOverzicht */
-    public MedewerkerOverzicht() {
+    public EmployeeOverview() {
         initComponents();
         fillTable();
     }
@@ -168,11 +168,11 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
-        RoosterProgramma.getInstance().showPanel(new MedewerkerInfo(selectedEmployee));
+        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee));
     }//GEN-LAST:event_OKActionPerformed
 
     private void toevoegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegenActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddMedewerker());
+        RoosterProgramma.getInstance().showPanel(new ChAddEmployee());
     }//GEN-LAST:event_toevoegenActionPerformed
 
     private void verwijderenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verwijderenActionPerformed
@@ -187,7 +187,7 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
         if (choice == JOptionPane.YES_OPTION)
         {
             selectedEmployee.delete();
-            RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
+            RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
         }
     }//GEN-LAST:event_verwijderenActionPerformed
 
@@ -199,7 +199,7 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     }//GEN-LAST:event_medewerkerTabelMouseClicked
 
     private void wijzigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wijzigenActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddMedewerker(selectedEmployee));
+        RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
     }//GEN-LAST:event_wijzigenActionPerformed
 
 

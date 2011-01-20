@@ -14,19 +14,19 @@ import roosterprogramma.RoosterProgramma;
  *
  * @author Dymion
  */
-public class ChAddMedewerker extends javax.swing.JPanel {
+public class ChAddEmployee extends javax.swing.JPanel {
 
     private Employee employee;
     private boolean isAdd = true;
 
     /** Creates new form AddMedewerker */
-    public ChAddMedewerker() {
+    public ChAddEmployee() {
         initComponents();
         lblNameInUse.setVisible(false);
         lblNumberInUse.setVisible(false);
     }
 
-    public ChAddMedewerker(Employee employee) {
+    public ChAddEmployee(Employee employee) {
         this.employee = employee;
         this.isAdd = false;
         lblNameInUse.setVisible(false);
@@ -224,7 +224,7 @@ public class ChAddMedewerker extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -258,7 +258,7 @@ public class ChAddMedewerker extends javax.swing.JPanel {
             employee.setOproepkracht(callWorker);
             RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
-        RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
         
     }//GEN-LAST:event_btnSaveActionPerformed
 
