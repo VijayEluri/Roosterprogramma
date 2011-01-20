@@ -24,6 +24,7 @@ import roosterprogramma.RoosterProgramma;
  */
 public class MedewerkerOverzicht extends javax.swing.JPanel {
 
+    private Employee employee;
     private int medewerkerID;
 
     /** Creates new form medewerkerOverzicht */
@@ -172,8 +173,6 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     }//GEN-LAST:event_toevoegenActionPerformed
 
     private void verwijderenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verwijderenActionPerformed
-        Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
-
         int choice = JOptionPane.showConfirmDialog(
             null,
             "Weet je zeker dat je " + employee.getVoornaam() + " " + employee.getAchternaam() + " wilt verwijderen?",
