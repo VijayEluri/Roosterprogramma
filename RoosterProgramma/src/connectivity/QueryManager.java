@@ -106,6 +106,17 @@ public class QueryManager {
                 + parttime + "', '" + oproepkracht + "')";
         dbmanager.insertQuery(sql);
     }
+
+    public void changeEmployee(Employee employee) {
+        int fulltime = employee.isFulltime() ? 1 : 0;
+        int parttime = employee.isParttime() ? 1 : 0;
+        int oproepkracht = employee.isOproepkracht() ? 1 : 0;
+        String sql = "REPLACE INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
+                + "VALUES('" + employee.getPersoneelsNummer() + "', '" + employee.getVoornaam() + "', '"
+                + employee.getAchternaam() + "', '" + employee.getWachtwoord() + "', '" + fulltime + "', '"
+                + parttime + "', '" + oproepkracht + "');";
+        dbmanager.insertQuery(sql);
+    }
     
     public void deleteEmployee(int id) {
         String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + id + "';";

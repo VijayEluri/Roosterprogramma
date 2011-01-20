@@ -19,20 +19,30 @@ import roosterprogramma.RoosterProgramma;
  *
  * @author Dymion
  */
-public class AddMedewerker extends javax.swing.JPanel {
+public class ChAddMedewerker extends javax.swing.JPanel {
 
     private Employee employee;
     private boolean isAdd = true;
 
     /** Creates new form AddMedewerker */
-    public AddMedewerker() {
+    public ChAddMedewerker() {
         initComponents();
     }
 
-    public AddMedewerker(Employee employee) {
+    public ChAddMedewerker(Employee employee) {
         this.employee = employee;
         this.isAdd = false;
         initComponents();
+        fillFields();
+    }
+
+    private void fillFields() {
+        tfPersoneelsNr.setText(Integer.toString(employee.getPersoneelsNummer()));
+        tfFirstName.setText(employee.getVoornaam());
+        tfFamilyName.setText(employee.getAchternaam());
+        cbFulltime.setSelected(employee.isFulltime());
+        cbParttime.setSelected(employee.isParttime());
+        cbOproepkracht.setSelected(employee.isOproepkracht());
     }
 
     /** This method is called from within the constructor to
@@ -192,7 +202,7 @@ public class AddMedewerker extends javax.swing.JPanel {
             employee.setFulltime(fulltime);
             employee.setParttime(parttime);
             employee.setOproepkracht(oproepkracht);
-            //RoosterProgramma.getQueryManager().changeEmployee(employee);
+            RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
         RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         
