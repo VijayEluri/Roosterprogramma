@@ -22,11 +22,11 @@ import roosterprogramma.RoosterProgramma;
  */
 public class MedewerkerInfo extends javax.swing.JPanel {
 
-    private Employee werknemer;
+    private Employee employee;
 
     /** Creates new form medewerkerInfo */
-    public MedewerkerInfo(int medewerkerID) {
-        this.werknemer = RoosterProgramma.getQueryManager().getEmployee(medewerkerID);
+    public MedewerkerInfo(Employee employee) {
+        this.employee = employee;
         initComponents();
         fillInfoTable();
         //fillWerktijdenInfoTable(); //tijdelijk weggecomment, werkt nog niet.
@@ -37,25 +37,25 @@ public class MedewerkerInfo extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblEmployeeInformation.getModel();
         //  Algmene werknemer info
         model.addRow(new Object[] {
-            werknemer.getVoornaam(),
-            werknemer.getAchternaam(),
-            werknemer.getPersoneelsNummer(),
-            werknemer.isFulltime(),
-            werknemer.isParttime(),
-            werknemer.isOproepkracht()
+            employee.getVoornaam(),
+            employee.getAchternaam(),
+            employee.getPersoneelsNummer(),
+            employee.isFulltime(),
+            employee.isParttime(),
+            employee.isOproepkracht()
         });
     }
 
     private void fillWerktijdenInfoTable() {
         DefaultTableModel model = (DefaultTableModel) tblHours.getModel();
         model.addRow(new Object[] {
-            werknemer.getMaandag().getContracturen(),
-            werknemer.getDinsdag().getContracturen(),
-            werknemer.getWoensdag().getContracturen(),
-            werknemer.getDonderdag().getContracturen(),
-            werknemer.getVrijdag().getContracturen(),
-            werknemer.getZaterdag().getContracturen(),
-            werknemer.getZondag().getContracturen()
+            employee.getMaandag().getContracturen(),
+            employee.getDinsdag().getContracturen(),
+            employee.getWoensdag().getContracturen(),
+            employee.getDonderdag().getContracturen(),
+            employee.getVrijdag().getContracturen(),
+            employee.getZaterdag().getContracturen(),
+            employee.getZondag().getContracturen()
         });
     }
 

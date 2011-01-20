@@ -22,7 +22,7 @@
                   <Component id="jScrollPane1" alignment="0" pref="824" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="231" max="32767" attributes="0"/>
+                      <EmptySpace pref="411" max="32767" attributes="0"/>
                       <Component id="verwijderen" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="wijzigen" min="-2" max="-2" attributes="0"/>
@@ -94,6 +94,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="medewerkerTabelMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -116,7 +119,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="toevoegen">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Medewerker toevoegen"/>
+        <Property name="text" type="java.lang.String" value="Toevoegen"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toevoegenActionPerformed"/>
@@ -124,12 +127,17 @@
     </Component>
     <Component class="javax.swing.JButton" name="wijzigen">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Medewerker wijzigen"/>
+        <Property name="text" type="java.lang.String" value="Wijzijgen"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="wijzigenActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="verwijderen">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Medewerker verwijderen"/>
+        <Property name="text" type="java.lang.String" value="Verwijderen"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verwijderenActionPerformed"/>

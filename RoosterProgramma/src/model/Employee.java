@@ -5,8 +5,6 @@
 
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -255,5 +253,9 @@ public class Employee {
      */
     public void setZondag(EmployeeInfo zondag) {
         this.zondag = zondag;
+    }
+
+    public void delete() {
+        RoosterProgramma.getQueryManager().deleteEmployee(personeelsNummer);
     }
 }

@@ -11,8 +11,6 @@
 
 package view;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
@@ -24,19 +22,12 @@ import roosterprogramma.RoosterProgramma;
  */
 public class MedewerkerOverzicht extends javax.swing.JPanel {
 
-    private Employee employee;
-    private int medewerkerID;
+    private Employee selectedEmployee;
 
     /** Creates new form medewerkerOverzicht */
     public MedewerkerOverzicht() {
         initComponents();
         fillTable();
-        startChangeListener();
-    }
-
-    private void startChangeListener() {
-        ChangeListener listen = new ChangeListener();
-        listen.start();
     }
 
     private void fillTable() {
@@ -91,6 +82,11 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        medewerkerTabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                medewerkerTabelMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(medewerkerTabel);
 
         OK.setText("OK");
@@ -108,16 +104,23 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
             }
         });
 
-        toevoegen.setText("Medewerker toevoegen");
+        toevoegen.setText("Toevoegen");
         toevoegen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toevoegenActionPerformed(evt);
             }
         });
 
-        wijzigen.setText("Medewerker wijzigen");
+        wijzigen.setText("Wijzijgen");
+        wijzigen.setEnabled(false);
+        wijzigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wijzigenActionPerformed(evt);
+            }
+        });
 
-        verwijderen.setText("Medewerker verwijderen");
+        verwijderen.setText("Verwijderen");
+        verwijderen.setEnabled(false);
         verwijderen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 verwijderenActionPerformed(evt);
@@ -134,7 +137,7 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
                         .addComponent(verwijderen)
                         .addGap(18, 18, 18)
                         .addComponent(wijzigen)
@@ -165,7 +168,7 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
-        RoosterProgramma.getInstance().showPanel(new MedewerkerInfo(medewerkerID));
+        RoosterProgramma.getInstance().showPanel(new MedewerkerInfo(selectedEmployee));
     }//GEN-LAST:event_OKActionPerformed
 
     private void toevoegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegenActionPerformed
@@ -175,7 +178,7 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     private void verwijderenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verwijderenActionPerformed
         int choice = JOptionPane.showConfirmDialog(
             null,
-            "Weet je zeker dat je " + employee.getVoornaam() + " " + employee.getAchternaam() + " wilt verwijderen?",
+            "Weet je zeker dat je " + selectedEmployee.getVoornaam() + " " + selectedEmployee.getAchternaam() + " wilt verwijderen?",
             "Waarschuwing!",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.WARNING_MESSAGE
@@ -183,10 +186,21 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
 
         if (choice == JOptionPane.YES_OPTION)
         {
-            RoosterProgramma.getQueryManager().deleteEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+            selectedEmployee.delete();
             RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         }
     }//GEN-LAST:event_verwijderenActionPerformed
+
+    private void medewerkerTabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medewerkerTabelMouseClicked
+        verwijderen.setEnabled(true);
+        wijzigen.setEnabled(true);
+        OK.setEnabled(true);
+        selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+    }//GEN-LAST:event_medewerkerTabelMouseClicked
+
+    private void wijzigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wijzigenActionPerformed
+        RoosterProgramma.getInstance().showPanel(new AddMedewerker(selectedEmployee));
+    }//GEN-LAST:event_wijzigenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -198,27 +212,4 @@ public class MedewerkerOverzicht extends javax.swing.JPanel {
     private javax.swing.JButton verwijderen;
     private javax.swing.JButton wijzigen;
     // End of variables declaration//GEN-END:variables
-
-    private class ChangeListener extends Thread {
-        @Override
-        public void run() {
-            while (true)
-            {
-                try {
-                    if (medewerkerTabel.getSelectedColumn() != -1)
-                    {
-                        medewerkerID = Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString());
-                        OK.setEnabled(true);
-                    }
-                    else
-                    {
-                        OK.setEnabled(false);
-                    }
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MedewerkerOverzicht.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
 }

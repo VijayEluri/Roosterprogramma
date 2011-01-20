@@ -21,8 +21,17 @@ import roosterprogramma.RoosterProgramma;
  */
 public class AddMedewerker extends javax.swing.JPanel {
 
+    private Employee employee;
+    private boolean isAdd = true;
+
     /** Creates new form AddMedewerker */
     public AddMedewerker() {
+        initComponents();
+    }
+
+    public AddMedewerker(Employee employee) {
+        this.employee = employee;
+        this.isAdd = false;
         initComponents();
     }
 
@@ -163,15 +172,28 @@ public class AddMedewerker extends javax.swing.JPanel {
         boolean parttime = cbParttime.isSelected();
         boolean oproepkracht = cbOproepkracht.isSelected(); // Moet nog renamed worden
 
-        Employee newemployee = new Employee();
-        newemployee.setPersoneelsNummer(employeeNumber);
-        newemployee.setVoornaam(firstName);
-        newemployee.setAchternaam(familyName);
-        newemployee.setWachtwoord(ShaEncrypt.SHA1(password));
-        newemployee.setFulltime(fulltime);
-        newemployee.setParttime(parttime);
-        newemployee.setOproepkracht(oproepkracht);
-        RoosterProgramma.getQueryManager().addEmployee(newemployee);
+        if (isAdd)
+        {
+            Employee newemployee = new Employee();
+            newemployee.setPersoneelsNummer(employeeNumber);
+            newemployee.setVoornaam(firstName);
+            newemployee.setAchternaam(familyName);
+            newemployee.setWachtwoord(ShaEncrypt.SHA1(password));
+            newemployee.setFulltime(fulltime);
+            newemployee.setParttime(parttime);
+            newemployee.setOproepkracht(oproepkracht);
+            RoosterProgramma.getQueryManager().addEmployee(newemployee);
+        }
+        else
+        {
+            employee.setVoornaam(firstName);
+            employee.setAchternaam(familyName);
+            employee.setWachtwoord(ShaEncrypt.SHA1(password));
+            employee.setFulltime(fulltime);
+            employee.setParttime(parttime);
+            employee.setOproepkracht(oproepkracht);
+            //RoosterProgramma.getQueryManager().changeEmployee(employee);
+        }
         RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         
     }//GEN-LAST:event_btnSaveActionPerformed
