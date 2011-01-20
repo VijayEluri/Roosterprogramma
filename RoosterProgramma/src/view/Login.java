@@ -28,7 +28,7 @@ public class Login extends javax.swing.JPanel {
     public Login(int state) {
         initComponents();
         setUpdateLabel(state);
-        togglePassword();
+        disablePassword();
     }
 
     private void setUpdateLabel(int state) {
@@ -65,33 +65,31 @@ public class Login extends javax.swing.JPanel {
         }
     }
 
-    private void togglePassword() {
-        if (tfPassword.isVisible())
-        {
-            tfPassword.setVisible(false);
-            lblPassword.setVisible(false);
-            btnPasswordOk.setVisible(false);
-        }
-        else
-        {
-            tfPassword.setVisible(true);
-            lblPassword.setVisible(true);
-            btnPasswordOk.setVisible(true);
-        }
+    private void enablePassword() {
+        tfPassword.setVisible(true);
+        lblPassword.setVisible(true);
+        btnPasswordOk.setVisible(true);
+    }
+
+    private void disablePassword() {
+        tfPassword.setVisible(false);
+        lblPassword.setVisible(false);
+        btnPasswordOk.setVisible(false);
     }
 
     private void handleName() {
         String firstName = tfFirstName.getText();
         String familyName = tfFamilyName.getText();
         employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
-        togglePassword();
         if (!employee.getVoornaam().isEmpty())
         {
+            enablePassword();
             lblIncorrectField.setText("");
             tfPassword.requestFocusInWindow();
         }
         else
         {
+            disablePassword();
             lblIncorrectField.setText("Er bestaat geen medewerker met die combinatie van voornaam en achternaam");
             tfPassword.setText("");
         }
@@ -187,16 +185,20 @@ public class Login extends javax.swing.JPanel {
                     .addComponent(lblFamilyName)
                     .addComponent(lblPassword)
                     .addComponent(lblFirstName))
-                .addGap(15, 15, 15)
-                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(tfFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(familyNamePanelLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfFirstName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, familyNamePanelLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNameOk)
                     .addComponent(btnPasswordOk))
-                .addContainerGap())
+                .addGap(11, 11, 11))
         );
         familyNamePanelLayout.setVerticalGroup(
             familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +252,7 @@ public class Login extends javax.swing.JPanel {
     private void tfFirstNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyTyped
         if (evt.getKeyChar() == '\n')
         {
-            handleName();
+            tfFamilyName.requestFocusInWindow();
         }
     }//GEN-LAST:event_tfFirstNameKeyTyped
 
