@@ -106,6 +106,11 @@ public class QueryManager {
                 + parttime + "', '" + oproepkracht + "')";
         dbmanager.insertQuery(sql);
     }
+    
+    public void deleteEmployee(int id) {
+        String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + id + "';";
+        dbmanager.insertQuery(sql);
+    }
 
     public EmployeeInfo getInfo(int id, int weeknr, int dag) {
         EmployeeInfo info = new EmployeeInfo();
