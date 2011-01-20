@@ -150,7 +150,7 @@ public class AddMedewerker extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
+        RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -171,7 +171,7 @@ public class AddMedewerker extends javax.swing.JPanel {
         newemployee.setParttime(parttime);
         newemployee.setOproepkracht(oproepkracht);
         RoosterProgramma.getQueryManager().addEmployee(newemployee);
-        RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
+        RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

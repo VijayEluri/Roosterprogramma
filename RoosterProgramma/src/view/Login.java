@@ -84,7 +84,7 @@ public class Login extends javax.swing.JPanel {
     private void handlePassword() {
         if (RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).equals(employee.getWachtwoord()))
         {
-            RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
+            RoosterProgramma.getInstance().showPanel(new MedewerkerOverzicht());
         }
         else
         {

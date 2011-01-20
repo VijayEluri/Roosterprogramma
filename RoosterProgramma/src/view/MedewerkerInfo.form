@@ -1,0 +1,295 @@
+<?xml version="1.1" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="1117" max="32767" attributes="0"/>
+                      <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lblWeekNr" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="varWeekNr" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="seperator" min="-2" pref="47" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblVan" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="vanDatum" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="lblTot" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="totDatum" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane3" alignment="0" pref="1307" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="1307" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" pref="1307" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblWeekNr" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="varWeekNr" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblVan" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="vanDatum" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTot" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="totDatum" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="seperator" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="43" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="59" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane3" min="-2" pref="267" max="-2" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tblHours">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="9" rowCount="2">
+                <Column editable="false" title="" type="java.lang.String">
+                  <Data value="Contracturen"/>
+                  <Data value="Te werken"/>
+                </Column>
+                <Column editable="false" title="Ma" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Di" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Wo" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Do" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Vr" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Za" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="false" title="Zo" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+                <Column editable="true" title="Totaal" type="java.lang.Integer">
+                  <Data value="0"/>
+                  <Data value="0"/>
+                </Column>
+              </Table>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="btnSave">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Wijzigingen opslaan"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBack">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Vorige"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
+      </Events>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tblEmployeeInformation">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="7" rowCount="1">
+                <Column editable="false" title="Voornaam" type="java.lang.String">
+                  <Data value=""/>
+                </Column>
+                <Column editable="false" title="Achternaam" type="java.lang.String">
+                  <Data value=""/>
+                </Column>
+                <Column editable="false" title="Personeelsnummer" type="java.lang.Integer"/>
+                <Column editable="false" title="Fulltime" type="java.lang.Boolean">
+                  <Data value="false"/>
+                </Column>
+                <Column editable="false" title="Parttime" type="java.lang.Boolean"/>
+                <Column editable="false" title="Oproepkracht" type="java.lang.Boolean"/>
+                <Column editable="false" title="Noodhulp" type="java.lang.Boolean">
+                  <Data value="false"/>
+                </Column>
+              </Table>
+            </Property>
+            <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+              <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
+              </TableColumnModel>
+            </Property>
+            <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+              <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane3">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="tblTimeSheets">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="9" rowCount="15">
+                <Column editable="false" title="" type="java.lang.String">
+                  <Data value="Werkelijk gewerkt"/>
+                  <Data value="Meer gewerkt te betalen"/>
+                  <Data value="Meer gewerkt te compenseren"/>
+                  <Data value="Minder gewerkt"/>
+                  <Data value="ATV"/>
+                  <Data value="Vakantie"/>
+                  <Data value="Compensatie 33.33%"/>
+                  <Data value="Compensatie 50%"/>
+                  <Data value="Compensatie 100%"/>
+                  <Data value="Doktersbezoek"/>
+                  <Data value="Ziekte"/>
+                  <Data value="Niet gewerkt eigen rekenening"/>
+                  <Data value="Feestdagen"/>
+                  <Data value="Compensatie Opname"/>
+                  <Data value="CAO Verlof"/>
+                </Column>
+                <Column editable="true" title="Ma" type="java.lang.Double"/>
+                <Column editable="true" title="Di" type="java.lang.Double"/>
+                <Column editable="true" title="Wo" type="java.lang.Double"/>
+                <Column editable="true" title="Do" type="java.lang.Double"/>
+                <Column editable="true" title="Vr" type="java.lang.Double"/>
+                <Column editable="true" title="Za" type="java.lang.Double"/>
+                <Column editable="true" title="Zo" type="java.lang.Double"/>
+                <Column editable="true" title="Totaal" type="java.lang.Double"/>
+              </Table>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblWeekNr">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Weeknummer:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="varWeekNr">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="weekNr"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblVan">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Van:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="vanDatum">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="vanDatum"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblTot">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tot:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="totDatum">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="totDatum"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="seperator">
+    </Component>
+  </SubComponents>
+</Form>
