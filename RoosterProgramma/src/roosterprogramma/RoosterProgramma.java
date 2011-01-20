@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package roosterprogramma;
 
 import connectivity.Dbmanager;
@@ -11,11 +6,11 @@ import connectivity.UpdateChecker;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import model.Employee;
 import view.Login;
 
 /**
@@ -35,8 +30,8 @@ public class RoosterProgramma {
     private Dbmanager dbManager;
     private QueryManager queryManager;
 
-    public int ScreenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-    public int ScreenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    public int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    public int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 
     public static RoosterProgramma getInstance() {
         return instance;
@@ -74,16 +69,13 @@ public class RoosterProgramma {
         } catch (Exception e) {
             System.err.println("Error setting LookAndFeelClassName: " + e);
         }
-        // create and initialize the connectivity
         dbManager = new Dbmanager();
         dbManager.openConnection();
         queryManager = new QueryManager(dbManager);
     }
 
     public void startup() {
-        mainWindow = new JFrame("UrenVerantwoording");
-        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainWindow.setUndecorated(true);
+        mainWindow = new JFrame(NAME);
 
         InputKeyListener keylisten = new InputKeyListener(mainWindow);
         keylisten.start();
@@ -101,5 +93,15 @@ public class RoosterProgramma {
         mainWindow.dispose();
         dbManager.closeConnection();
         System.exit(0);
+    }
+
+    public String decodePassword(char[] input) {
+        String typedPassword = "";
+        for (char output : input)
+        {
+            typedPassword += output;
+        }
+        Arrays.fill(input, '0');
+        return typedPassword;
     }
 }

@@ -16,10 +16,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblPersoneelNr" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblVoornaam" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -32,14 +32,14 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="tfPassword" max="32767" attributes="1"/>
                           <Component id="cbAdmin" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cbOproepkracht" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cbParttime" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="cbFulltime" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="tfPersoneelsNr" alignment="0" pref="163" max="32767" attributes="1"/>
-                          <Component id="tfVoornaam" alignment="0" max="32767" attributes="1"/>
-                          <Component id="tfAchternaam" alignment="0" max="32767" attributes="1"/>
-                          <Component id="tfWachtwoord" alignment="0" max="32767" attributes="1"/>
+                          <Component id="tfFirstName" alignment="0" max="32767" attributes="1"/>
+                          <Component id="tfFamilyName" alignment="0" max="32767" attributes="1"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -54,8 +54,8 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblPersoneelNr" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfPersoneelsNr" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -63,17 +63,17 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblVoornaam" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfVoornaam" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfFirstName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblAchternaam" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfAchternaam" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfFamilyName" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblWachtwoord" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfWachtwoord" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -95,7 +95,7 @@
                   <Component id="lblAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cbAdmin" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="177" max="32767" attributes="0"/>
+              <EmptySpace pref="211" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -148,14 +148,12 @@
     </Component>
     <Component class="javax.swing.JTextField" name="tfPersoneelsNr">
     </Component>
-    <Component class="javax.swing.JTextField" name="tfVoornaam">
+    <Component class="javax.swing.JTextField" name="tfFirstName">
     </Component>
-    <Component class="javax.swing.JTextField" name="tfAchternaam">
+    <Component class="javax.swing.JTextField" name="tfFamilyName">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfAchternaamActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfFamilyNameActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfWachtwoord">
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbFulltime">
     </Component>
@@ -180,6 +178,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="tfPassword">
     </Component>
   </SubComponents>
 </Form>

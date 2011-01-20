@@ -11,8 +11,6 @@
 
 package view;
 
-import java.util.ArrayList;
-import java.util.List;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
@@ -45,15 +43,15 @@ public class AddMedewerker extends javax.swing.JPanel {
         lblOproepkracht = new javax.swing.JLabel();
         lblAdmin = new javax.swing.JLabel();
         tfPersoneelsNr = new javax.swing.JTextField();
-        tfVoornaam = new javax.swing.JTextField();
-        tfAchternaam = new javax.swing.JTextField();
-        tfWachtwoord = new javax.swing.JTextField();
+        tfFirstName = new javax.swing.JTextField();
+        tfFamilyName = new javax.swing.JTextField();
         cbFulltime = new javax.swing.JCheckBox();
         cbParttime = new javax.swing.JCheckBox();
         cbOproepkracht = new javax.swing.JCheckBox();
         cbAdmin = new javax.swing.JCheckBox();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
+        tfPassword = new javax.swing.JPasswordField();
 
         lblPersoneelNr.setText("PersoneelsNummer:");
 
@@ -71,9 +69,9 @@ public class AddMedewerker extends javax.swing.JPanel {
 
         lblAdmin.setText("Admin:");
 
-        tfAchternaam.addActionListener(new java.awt.event.ActionListener() {
+        tfFamilyName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfAchternaamActionPerformed(evt);
+                tfFamilyNameActionPerformed(evt);
             }
         });
 
@@ -110,14 +108,14 @@ public class AddMedewerker extends javax.swing.JPanel {
                             .addComponent(lblAdmin))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfPassword)
                             .addComponent(cbAdmin)
                             .addComponent(cbOproepkracht)
                             .addComponent(cbParttime)
                             .addComponent(cbFulltime)
                             .addComponent(tfPersoneelsNr, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(tfVoornaam)
-                            .addComponent(tfAchternaam)
-                            .addComponent(tfWachtwoord)))
+                            .addComponent(tfFirstName)
+                            .addComponent(tfFamilyName)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
@@ -126,23 +124,23 @@ public class AddMedewerker extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPersoneelNr)
                     .addComponent(tfPersoneelsNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblVoornaam)
-                    .addComponent(tfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAchternaam)
-                    .addComponent(tfAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblWachtwoord)
-                    .addComponent(tfWachtwoord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFulltime)
@@ -159,7 +157,7 @@ public class AddMedewerker extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAdmin)
                     .addComponent(cbAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
@@ -167,29 +165,29 @@ public class AddMedewerker extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfAchternaamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAchternaamActionPerformed
+    private void tfFamilyNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfFamilyNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfAchternaamActionPerformed
+    }//GEN-LAST:event_tfFamilyNameActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        int personeelNr = Integer.parseInt(tfPersoneelsNr.getText());
-        String voornaam = tfVoornaam.getText();
-        String achternaam = tfAchternaam.getText();
-        String wachtwoord = tfWachtwoord.getText();
+        int employeeNumber = Integer.parseInt(tfPersoneelsNr.getText());
+        String firstName = tfFirstName.getText();
+        String familyName = tfFamilyName.getText();
+        String password = RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword());
         boolean fulltime = cbFulltime.isSelected();
         boolean parttime = cbParttime.isSelected();
-        boolean oproepkracht = cbOproepkracht.isSelected();
+        boolean oproepkracht = cbOproepkracht.isSelected(); // Moet nog renamed worden
         boolean admin = cbAdmin.isSelected();
 
         Employee newemployee = new Employee();
-        newemployee.setPersoneelsNummer(personeelNr);
-        newemployee.setVoornaam(voornaam);
-        newemployee.setAchternaam(achternaam);
-        newemployee.setWachtwoord(wachtwoord);
+        newemployee.setPersoneelsNummer(employeeNumber);
+        newemployee.setVoornaam(firstName);
+        newemployee.setAchternaam(familyName);
+        newemployee.setWachtwoord(password);
         newemployee.setFulltime(fulltime);
         newemployee.setParttime(parttime);
         newemployee.setOproepkracht(oproepkracht);
@@ -215,10 +213,10 @@ public class AddMedewerker extends javax.swing.JPanel {
     private javax.swing.JLabel lblPersoneelNr;
     private javax.swing.JLabel lblVoornaam;
     private javax.swing.JLabel lblWachtwoord;
-    private javax.swing.JTextField tfAchternaam;
+    private javax.swing.JTextField tfFamilyName;
+    private javax.swing.JTextField tfFirstName;
+    private javax.swing.JPasswordField tfPassword;
     private javax.swing.JTextField tfPersoneelsNr;
-    private javax.swing.JTextField tfVoornaam;
-    private javax.swing.JTextField tfWachtwoord;
     // End of variables declaration//GEN-END:variables
 
 }

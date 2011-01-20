@@ -48,6 +48,29 @@ public class QueryManager {
         return employee;
     }
 
+    public Employee getEmployee(String firstName, String familyName) {
+        Employee employee = new Employee();
+        try {
+            String sql = "SELECT * FROM `medewerkers` WHERE `voornaam` = '" + firstName + "' AND `achternaam` = '" + familyName + "';";
+            ResultSet result = dbmanager.doQuery(sql);
+            if (result.next()) {
+                employee = new Employee(
+                    result.getInt("personeelsnummer"),
+                    result.getString("voornaam"),
+                    result.getString("achternaam"),
+                    result.getString("wachtwoord"),
+                    result.getBoolean("fulltime"),
+                    result.getBoolean("parttime"),
+                    result.getBoolean("oproepkracht"),
+                    result.getBoolean("admin")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employee;
+    }
+
     public List<Employee> getEmployees() {
         List<Employee> employees = new ArrayList<Employee>();
         try {

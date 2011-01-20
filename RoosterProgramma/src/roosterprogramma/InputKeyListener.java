@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package roosterprogramma;
 
 import java.awt.event.ActionEvent;
@@ -14,7 +9,7 @@ import javax.swing.KeyStroke;
 
 /**
  *
- * @author UDP
+ * @author Dark
  */
 public class InputKeyListener extends Thread{
     JFrame main;
@@ -27,7 +22,7 @@ public class InputKeyListener extends Thread{
     @Override
     public void run()
     {
-        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);       // Als de escape toets was ingedrukt
+        KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
         AbstractAction escapeAction = new AbstractAction()
         {
             public void actionPerformed(ActionEvent e)
@@ -38,5 +33,4 @@ public class InputKeyListener extends Thread{
         this.main.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "Exit");
         this.main.getRootPane().getActionMap().put("Exit", escapeAction);
     }
-
 }

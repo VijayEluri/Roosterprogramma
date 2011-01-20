@@ -1,83 +1,59 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * Login2.java
+ *
+ * Created on 20-jan-2011, 11:12:42
+ */
+
 package view;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
+import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
-public class Login extends JPanel implements MouseListener, ActionListener {
+/**
+ *
+ * @author Dark
+ */
+public class Login extends javax.swing.JPanel {
 
-    private JTextField tfUsername;
-    private JPasswordField tfPassword;
-    private JTextField WrongPass;
-    private JLabel lblPass;
-    private JButton GebruikersnaamOk;
-    private JButton WachtwoordOk;
-    private Border blackline;
+    private Employee employee;
 
-    private static String Gebruikersnaam = "arend";
-    private static String Wachtwoord = "arjogi";
-
+    /** Creates new form Login2 */
     public Login(int state) {
-        super();
-        this.setLayout(null);
         initComponents();
-        addUpdateLabel(state);
+        setUpdateLabel(state);
     }
 
-    private void initComponents() {
-        addTitle();
-        addForm();
-    }
-
-    private void addUpdateLabel(int state) {
-        JPanel updatePanel = new JPanel();
-        updatePanel.setLayout(new FlowLayout());
-        updatePanel.setBounds(0, RoosterProgramma.getInstance().ScreenHeight, RoosterProgramma.getInstance().ScreenWidth, 50);
-        add(updatePanel);
-
-        JLabel updateLabel = new JLabel();
-        updateLabel.setFont(RoosterProgramma.FONT_12_BOLD);
-        updateLabel.setSize(updatePanel.getWidth(), updatePanel.getHeight());
-        updatePanel.add(updateLabel);
-
+    private void setUpdateLabel(int state) {
         switch (state)
         {
             case 0:
             {
-                updateLabel.setText("U gebruikt de laatste versie van deze applicatie.");
-                updateLabel.setForeground(Color.green);
+                lblUpdate.setText("U gebruikt de laatste versie van deze applicatie.");
+                lblUpdate.setForeground(Color.green);
                 break;
             }
             case 1:
             {
-                updateLabel.setText("U gebruikt niet de laatste versie van deze applicatie");
-                updateLabel.setForeground(Color.red);
+                lblUpdate.setText("U gebruikt niet de laatste versie van deze applicatie");
+                lblUpdate.setForeground(Color.red);
                 break;
             }
             case 2:
             {
-                updateLabel.setText("U heeft geen internetverbinding, versiecontrole is uit.");
-                updateLabel.setForeground(Color.orange);
+                lblUpdate.setText("U heeft geen internetverbinding, versiecontrole is uit.");
+                lblUpdate.setForeground(Color.orange);
                 break;
             }
             case 3:
             {
-                updateLabel.setText("Er kan niet worden gecontroleerd op updates, een herinstallatie verhelpt dit probleem.");
-                updateLabel.setForeground(Color.orange);
+                lblUpdate.setText("Er kan niet worden gecontroleerd op updates, een herinstallatie verhelpt dit probleem.");
+                lblUpdate.setForeground(Color.orange);
                 break;
             }
             default:
@@ -87,196 +63,217 @@ public class Login extends JPanel implements MouseListener, ActionListener {
         }
     }
 
-    private void addTitle() {
-        JLabel lblTitle1 = new JLabel();
-        lblTitle1.setText("RoosterProgramma");
-        lblTitle1.setBounds(20, 20, 150, 20);
-        lblTitle1.setFont(RoosterProgramma.FONT_16_BOLD);
-        add(lblTitle1);
-
-        JLabel lblTitle2 = new JLabel();
-        lblTitle2.setText("-");
-        lblTitle2.setBounds(170, 20, 20, 20);
-        lblTitle2.setFont(RoosterProgramma.FONT_16_BOLD);
-        add(lblTitle2);
-
-        JLabel lblTitle3 = new JLabel();
-        lblTitle3.setText("Login");
-        lblTitle3.setBounds(190, 20, 500, 20);
-        lblTitle3.setFont(RoosterProgramma.FONT_16_BOLD);
-        add(lblTitle3);
-
-    }
-
-    private void addForm() {
-        int height = (int) (RoosterProgramma.getInstance().ScreenHeight);
-        double width = RoosterProgramma.getInstance().ScreenWidth;
-
-        blackline = BorderFactory.createLineBorder(Color.black);
-
-        JPanel loginbox = new JPanel();
-        loginbox.setBackground(Color.gray);
-        loginbox.setForeground(Color.black);
-        loginbox.setBorder(blackline);
-        loginbox.setSize((int) (width / 2.2), (int) (height / 2));
-        loginbox.setLocation((int) (width / 3.5), height / 8);
-        loginbox.setLayout(null);
-        add(loginbox);
-
-        JLabel lblFormTitle = new JLabel("Login");
-        lblFormTitle.setBounds((int) (loginbox.getWidth() / 2.2), (int) (loginbox.getHeight()/ 5.5), 150, 50);
-        lblFormTitle.setFont(RoosterProgramma.FONT_16_BOLD);
-        loginbox.add(lblFormTitle);
-
-        JLabel lblName = new JLabel("Username:");
-        lblName.setBounds((int) (loginbox.getWidth() / 4), (int) (loginbox.getHeight() / 3), 100, 20);
-        lblName.setFont(RoosterProgramma.FONT_12_BOLD);
-        loginbox.add(lblName);
-
-        lblPass = new JLabel("Password:");
-        lblPass.setVisible(false);
-        lblPass.setBounds((int) (loginbox.getWidth() / 4), (int) (loginbox.getHeight() / 2), 100, 20);
-        lblPass.setFont(RoosterProgramma.FONT_12_BOLD);
-        loginbox.add(lblPass);
-
-        WrongPass = new JTextField();
-        WrongPass.setBounds((int) (loginbox.getWidth() / 4), (int) (loginbox.getHeight() / 1.5), 270, 20);
-        WrongPass.setFont(RoosterProgramma.FONT_12_BOLD);
-        WrongPass.setVisible(false);
-        loginbox.add(WrongPass);
-
-        tfUsername = new JTextField();
-        tfUsername.setBounds((int) (lblName.getWidth() + lblName.getX()), (int) (loginbox.getHeight() / 3), 150, 20);
-        tfUsername.setFont(RoosterProgramma.FONT_12_BOLD);
-        loginbox.add(tfUsername);
-
-        GebruikersnaamOk = new JButton("Ok");
-        GebruikersnaamOk.setBounds((int) (tfUsername.getWidth() + tfUsername.getX()+20), (int) (loginbox.getHeight() / 3), 50, 20);
-        GebruikersnaamOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HandleUsername();
-            }
-        });
-        loginbox.add(GebruikersnaamOk);
-
-        tfPassword = new JPasswordField();
-        tfPassword.setVisible(false);
-        tfPassword.setBounds((int) (lblPass.getWidth() + lblPass.getX()), (int) (loginbox.getHeight() / 2), 150, 20);
-        tfPassword.setFont(RoosterProgramma.FONT_12_BOLD);
-        loginbox.add(tfPassword);
-
-        WachtwoordOk = new JButton("Ok");
-        WachtwoordOk.setBounds((int) (tfPassword.getWidth() + tfPassword.getX()+20), (int) (loginbox.getHeight() / 2), 50, 20);
-        WachtwoordOk.setVisible(false);
-        WachtwoordOk.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                HandlePassword();
-            }
-        });
-        loginbox.add(WachtwoordOk);
-
-        tfUsername.addKeyListener(new java.awt.event.KeyAdapter()
+    private void handleName() {
+        String firstName = tfFirstName.getText();
+        String familyName = tfFamilyName.getText();
+        employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
+        if (!employee.getVoornaam().isEmpty())
         {
-            @Override
-            public void keyTyped(final KeyEvent e)
-            {
-                if (e.getKeyChar() == '\n')
-                {
-                    HandleUsername();
-                }
-            }
-        });
-
-        tfPassword.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            @Override
-            public void keyTyped(final KeyEvent e)
-            {
-                if (e.getKeyChar() == '\n')
-                {
-                    HandlePassword();
-                }
-            }
-        });
-    }
-
-    private void HandleUsername() {
-        String Username = tfUsername.getText();
-        if (Gebruikersnaam.equals(Username))
-        {
-            WrongPass.setVisible(false);
             tfPassword.setVisible(true);
-            lblPass.setVisible(true);
-            WachtwoordOk.setVisible(true);
+            lblPassword.setVisible(true);
             tfPassword.requestFocusInWindow();
         }
         else
         {
-            WrongPass.setVisible(true);
-            WrongPass.setText("Gebruikersnaam is onjuist!");
-            WrongPass.setEnabled(false);
             tfPassword.setVisible(false);
-            lblPass.setVisible(false);
+            lblPassword.setVisible(false);
             tfPassword.setText("");
-            WachtwoordOk.setVisible(false);
         }
     }
 
-    private void HandlePassword() {
-        String TypedPass = "";
-        char[] input = tfPassword.getPassword();
-        for (char output : input)
-        {
-            TypedPass += output;
-        }
-        Arrays.fill(input, '0');
-
-        if (TypedPass.equals(Wachtwoord))
+    private void handlePassword() {
+        if (RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).equals(employee.getWachtwoord()))
         {
             RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
         }
         else
         {
             tfPassword.setText("");
-            WrongPass.setVisible(true);
-            WrongPass.setText("Wachtwoord is onjuist!");
-            WrongPass.setEnabled(false);
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        // Intentionally left blank.
-    }
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-    @Override
-    public void mouseClicked(MouseEvent event) {
-        // Intentionally left blank.
-    }
+        mainPanel = new javax.swing.JPanel();
+        familyNamePanel = new javax.swing.JPanel();
+        tfFamilyName = new javax.swing.JTextField();
+        btnNameOk = new javax.swing.JButton();
+        lblFamilyName = new javax.swing.JLabel();
+        tfFirstName = new javax.swing.JTextField();
+        lblFirstName = new javax.swing.JLabel();
+        tfPassword = new javax.swing.JPasswordField();
+        lblPassword = new javax.swing.JLabel();
+        btnPasswordOk = new javax.swing.JButton();
+        textPanel = new javax.swing.JPanel();
+        lblIncorrectField = new javax.swing.JLabel();
+        updatePanel = new javax.swing.JPanel();
+        lblUpdate = new javax.swing.JLabel();
 
-    @Override
-    public void mouseEntered(MouseEvent event) {
-        // Intentionally left blank.
-    }
+        tfFamilyName.setMinimumSize(new java.awt.Dimension(150, 20));
+        tfFamilyName.setPreferredSize(new java.awt.Dimension(150, 20));
+        tfFamilyName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfFamilyNameKeyTyped(evt);
+            }
+        });
 
-    @Override
-    public void mousePressed(MouseEvent event) {
-        // Intentionally left blank.
-    }
+        btnNameOk.setText("OK");
+        btnNameOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNameOkActionPerformed(evt);
+            }
+        });
 
-    @Override
-    public void mouseReleased(MouseEvent event) {
-        // Intentionally left blank.
-    }
+        lblFamilyName.setText("Achternaam");
 
-    @Override
-    public void mouseExited(MouseEvent event) {
-        // Intentionally left blank.
-    }
+        tfFirstName.setPreferredSize(new java.awt.Dimension(150, 20));
+        tfFirstName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfFirstNameKeyTyped(evt);
+            }
+        });
 
-    @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
-        graphics.drawLine(20, 45, 540, 45);		// under H Title
-    }
+        lblFirstName.setText("Voornaam");
+
+        tfPassword.setPreferredSize(new java.awt.Dimension(150, 20));
+        tfPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfPasswordKeyTyped(evt);
+            }
+        });
+
+        lblPassword.setText("Wachtwoord");
+
+        btnPasswordOk.setText("OK");
+        btnPasswordOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPasswordOkActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout familyNamePanelLayout = new javax.swing.GroupLayout(familyNamePanel);
+        familyNamePanel.setLayout(familyNamePanelLayout);
+        familyNamePanelLayout.setHorizontalGroup(
+            familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(familyNamePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFamilyName)
+                    .addComponent(lblPassword)
+                    .addComponent(lblFirstName))
+                .addGap(15, 15, 15)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tfFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnNameOk)
+                    .addComponent(btnPasswordOk))
+                .addContainerGap())
+        );
+        familyNamePanelLayout.setVerticalGroup(
+            familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(familyNamePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFirstName)
+                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFamilyName)
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNameOk))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPassword)
+                    .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPasswordOk))
+                .addContainerGap(172, Short.MAX_VALUE))
+        );
+
+        lblIncorrectField.setText("Onjuist veld");
+        textPanel.add(lblIncorrectField);
+
+        lblUpdate.setText("Update Status");
+        updatePanel.add(lblUpdate);
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(familyNamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                    .addComponent(textPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                    .addComponent(updatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)))
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(familyNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(textPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        add(mainPanel);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void tfFirstNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyTyped
+        if (evt.getKeyChar() == '\n')
+        {
+            handleName();
+        }
+    }//GEN-LAST:event_tfFirstNameKeyTyped
+
+    private void tfPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyTyped
+        if (evt.getKeyChar() == '\n')
+        {
+            handlePassword();
+        }
+    }//GEN-LAST:event_tfPasswordKeyTyped
+
+    private void btnNameOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNameOkActionPerformed
+        handleName();
+    }//GEN-LAST:event_btnNameOkActionPerformed
+
+    private void btnPasswordOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasswordOkActionPerformed
+        handlePassword();
+    }//GEN-LAST:event_btnPasswordOkActionPerformed
+
+    private void tfFamilyNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFamilyNameKeyTyped
+        if (evt.getKeyChar() == '\n')
+        {
+            handleName();
+        }
+    }//GEN-LAST:event_tfFamilyNameKeyTyped
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnNameOk;
+    private javax.swing.JButton btnPasswordOk;
+    private javax.swing.JPanel familyNamePanel;
+    private javax.swing.JLabel lblFamilyName;
+    private javax.swing.JLabel lblFirstName;
+    private javax.swing.JLabel lblIncorrectField;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblUpdate;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JPanel textPanel;
+    private javax.swing.JTextField tfFamilyName;
+    private javax.swing.JTextField tfFirstName;
+    private javax.swing.JPasswordField tfPassword;
+    private javax.swing.JPanel updatePanel;
+    // End of variables declaration//GEN-END:variables
 }
