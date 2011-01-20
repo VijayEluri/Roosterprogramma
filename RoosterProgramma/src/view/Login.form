@@ -169,9 +169,6 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblIncorrectField">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Onjuist veld"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -180,9 +177,6 @@
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblUpdate">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Update Status"/>
-              </Properties>
             </Component>
           </SubComponents>
         </Container>

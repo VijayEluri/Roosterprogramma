@@ -28,6 +28,7 @@ public class Login extends javax.swing.JPanel {
     public Login(int state) {
         initComponents();
         setUpdateLabel(state);
+        togglePassword();
     }
 
     private void setUpdateLabel(int state) {
@@ -64,20 +65,34 @@ public class Login extends javax.swing.JPanel {
         }
     }
 
+    private void togglePassword() {
+        if (tfPassword.isVisible())
+        {
+            tfPassword.setVisible(false);
+            lblPassword.setVisible(false);
+            btnPasswordOk.setVisible(false);
+        }
+        else
+        {
+            tfPassword.setVisible(true);
+            lblPassword.setVisible(true);
+            btnPasswordOk.setVisible(true);
+        }
+    }
+
     private void handleName() {
         String firstName = tfFirstName.getText();
         String familyName = tfFamilyName.getText();
         employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
+        togglePassword();
         if (!employee.getVoornaam().isEmpty())
         {
-            tfPassword.setVisible(true);
-            lblPassword.setVisible(true);
+            lblIncorrectField.setText("");
             tfPassword.requestFocusInWindow();
         }
         else
         {
-            tfPassword.setVisible(false);
-            lblPassword.setVisible(false);
+            lblIncorrectField.setText("Er bestaat geen medewerker met die combinatie van voornaam en achternaam");
             tfPassword.setText("");
         }
     }
@@ -91,6 +106,7 @@ public class Login extends javax.swing.JPanel {
         else
         {
             System.out.println(Sha1Pass);
+            lblIncorrectField.setText("Wachtwoord onjuist");
             tfPassword.setText("");
         }
     }
@@ -202,10 +218,8 @@ public class Login extends javax.swing.JPanel {
                 .addContainerGap(172, Short.MAX_VALUE))
         );
 
-        lblIncorrectField.setText("Onjuist veld");
         textPanel.add(lblIncorrectField);
 
-        lblUpdate.setText("Update Status");
         updatePanel.add(lblUpdate);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
