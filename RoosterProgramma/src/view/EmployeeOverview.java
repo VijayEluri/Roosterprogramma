@@ -164,7 +164,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(new Login(4));
+        RoosterProgramma.getInstance().showPanel(new MainMenu());
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
