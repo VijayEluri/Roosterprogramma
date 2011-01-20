@@ -13,6 +13,7 @@ package view;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
@@ -116,6 +117,11 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
         wijzigen.setText("Medewerker wijzigen");
 
         verwijderen.setText("Medewerker verwijderen");
+        verwijderen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verwijderenActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -164,6 +170,24 @@ public class medewerkerOverzicht extends javax.swing.JPanel {
     private void toevoegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegenActionPerformed
         RoosterProgramma.getInstance().showPanel(new AddMedewerker());
     }//GEN-LAST:event_toevoegenActionPerformed
+
+    private void verwijderenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verwijderenActionPerformed
+        Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+
+        int choice = JOptionPane.showConfirmDialog(
+            null,
+            "Weet je zeker dat je " + employee.getVoornaam() + " " + employee.getAchternaam() + " wilt verwijderen?",
+            "Waarschuwing!",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (choice == JOptionPane.YES_OPTION)
+        {
+            RoosterProgramma.getQueryManager().deleteEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+            RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
+        }
+    }//GEN-LAST:event_verwijderenActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

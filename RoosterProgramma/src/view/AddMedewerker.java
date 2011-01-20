@@ -43,7 +43,6 @@ public class AddMedewerker extends javax.swing.JPanel {
         lblFulltime = new javax.swing.JLabel();
         lblParttime = new javax.swing.JLabel();
         lblOproepkracht = new javax.swing.JLabel();
-        lblAdmin = new javax.swing.JLabel();
         tfPersoneelsNr = new javax.swing.JTextField();
         tfVoornaam = new javax.swing.JTextField();
         tfAchternaam = new javax.swing.JTextField();
@@ -51,7 +50,6 @@ public class AddMedewerker extends javax.swing.JPanel {
         cbFulltime = new javax.swing.JCheckBox();
         cbParttime = new javax.swing.JCheckBox();
         cbOproepkracht = new javax.swing.JCheckBox();
-        cbAdmin = new javax.swing.JCheckBox();
         btnCancel = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
 
@@ -68,8 +66,6 @@ public class AddMedewerker extends javax.swing.JPanel {
         lblParttime.setText("Parttime:");
 
         lblOproepkracht.setText("Oproepkracht:");
-
-        lblAdmin.setText("Admin:");
 
         tfAchternaam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,11 +102,9 @@ public class AddMedewerker extends javax.swing.JPanel {
                             .addComponent(lblWachtwoord)
                             .addComponent(lblFulltime)
                             .addComponent(lblParttime)
-                            .addComponent(lblOproepkracht)
-                            .addComponent(lblAdmin))
+                            .addComponent(lblOproepkracht))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbAdmin)
                             .addComponent(cbOproepkracht)
                             .addComponent(cbParttime)
                             .addComponent(cbFulltime)
@@ -155,11 +149,7 @@ public class AddMedewerker extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblOproepkracht)
                     .addComponent(cbOproepkracht))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblAdmin)
-                    .addComponent(cbAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 177, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
@@ -183,7 +173,6 @@ public class AddMedewerker extends javax.swing.JPanel {
         boolean fulltime = cbFulltime.isSelected();
         boolean parttime = cbParttime.isSelected();
         boolean oproepkracht = cbOproepkracht.isSelected();
-        boolean admin = cbAdmin.isSelected();
 
         Employee newemployee = new Employee();
         newemployee.setPersoneelsNummer(personeelNr);
@@ -193,7 +182,6 @@ public class AddMedewerker extends javax.swing.JPanel {
         newemployee.setFulltime(fulltime);
         newemployee.setParttime(parttime);
         newemployee.setOproepkracht(oproepkracht);
-        newemployee.setAdmin(admin);
         RoosterProgramma.getQueryManager().addEmployee(newemployee);
         RoosterProgramma.getInstance().showPanel(new medewerkerOverzicht());
         
@@ -203,12 +191,10 @@ public class AddMedewerker extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
-    private javax.swing.JCheckBox cbAdmin;
     private javax.swing.JCheckBox cbFulltime;
     private javax.swing.JCheckBox cbOproepkracht;
     private javax.swing.JCheckBox cbParttime;
     private javax.swing.JLabel lblAchternaam;
-    private javax.swing.JLabel lblAdmin;
     private javax.swing.JLabel lblFulltime;
     private javax.swing.JLabel lblOproepkracht;
     private javax.swing.JLabel lblParttime;
