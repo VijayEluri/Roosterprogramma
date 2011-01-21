@@ -5,6 +5,8 @@
 
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -21,6 +23,7 @@ public class Employee {
     private boolean partTime;
     private boolean callWorker;
     private boolean admin;
+    private List<WorkHours> workHours = new ArrayList<WorkHours>();
 
     public Employee() {
         this(0, "", "", "", false, false, false, false);
@@ -145,5 +148,21 @@ public class Employee {
      */
     public boolean isAdmin() {
         return admin;
+    }
+
+    public WorkHours getWorkHours(String date) {
+        WorkHours workHour = new WorkHours();
+        if (workHours.isEmpty())
+        {
+            workHours = RoosterProgramma.getQueryManager().getWorkHours(this, date.substring(7, date.length()));
+        }
+        for (WorkHours hour : workHours)
+        {
+            if (hour.getDate().equals(date))
+            {
+                workHour = hour;
+            }
+        }
+        return workHour;
     }
 }

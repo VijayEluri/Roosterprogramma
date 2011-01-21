@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Employee;
-import model.EmployeeInfo;
+import model.WorkHours;
 
 /**
  *
@@ -123,35 +123,19 @@ public class QueryManager {
         dbmanager.insertQuery(sql);
     }
 
-    public EmployeeInfo getInfo(int id, int weeknr, int dag) {
-        EmployeeInfo info = new EmployeeInfo();
+    public List<WorkHours> getWorkHours(Employee employee, String year) {
+        List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT * FROM `medewerkerinfo` WHERE `personeelsnummer` = '" + id + "' AND `weeknr` = '" + weeknr + "' AND `dag` = '" + dag + "';";
+            String sql = "SELECT '" + employee.getFirstName() + " " + employee.getFamilyName() + "' FROM `werktijden` WHERE (SELECT `datum` REGEXP '" + year + "') = 1;";
             ResultSet result = dbmanager.doQuery(sql);
-            if (result.next()) {
-                info = new EmployeeInfo(
-                    result.getInt("contracturen"),
-                    result.getInt("tewerken"),
-                    result.getInt("werkelijkgewerkt"),
-                    result.getInt("gewerkttebetalen"),
-                    result.getInt("gewerkttecompenseren"),
-                    result.getInt("mindergewerkt"),
-                    result.getInt("atv"),
-                    result.getInt("vakantie"),
-                    result.getInt("compensatie33"),
-                    result.getInt("compensatie50"),
-                    result.getInt("compensatie100"),
-                    result.getInt("dokter"),
-                    result.getInt("ziekte"),
-                    result.getInt("eigenrekening"),
-                    result.getInt("feestdagen"),
-                    result.getInt("compensatieopname"),
-                    result.getInt("caoverlof")
-                );
+            while (result.next()) {
+                hours.add(new WorkHours(
+                    result.getString("datum"), result.getString(employee.getFirstName() + " " + employee.getFamilyName())
+                ));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return info;
+        return hours;
     }
 }
