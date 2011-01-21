@@ -29,10 +29,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
     public ChAddEmployee(Employee employee) {
         this.employee = employee;
         this.isAdd = false;
-        lblNameInUse.setVisible(false);
-        lblNumberInUse.setVisible(false);
         initComponents();
         fillFields();
+        lblNameInUse.setVisible(false);
+        lblNumberInUse.setVisible(false);
     }
 
     private void fillFields() {
