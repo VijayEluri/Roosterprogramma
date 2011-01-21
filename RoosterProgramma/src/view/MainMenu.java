@@ -33,21 +33,12 @@ public class MainMenu extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnLogout = new javax.swing.JButton();
+        flowPanel = new javax.swing.JPanel();
+        boxPanel = new javax.swing.JPanel();
         btnRoosters = new javax.swing.JButton();
         btnOverzicht = new javax.swing.JButton();
         btnUren = new javax.swing.JButton();
-        btnLogout = new javax.swing.JButton();
-
-        btnRoosters.setText("Roosters bekijken en veranderen");
-
-        btnOverzicht.setText("Medewerker Overzicht");
-        btnOverzicht.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOverzichtActionPerformed(evt);
-            }
-        });
-
-        btnUren.setText("Urenverantwoording");
 
         btnLogout.setText("Uitloggen");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -56,6 +47,30 @@ public class MainMenu extends javax.swing.JPanel {
             }
         });
 
+        boxPanel.setLayout(new javax.swing.BoxLayout(boxPanel, javax.swing.BoxLayout.Y_AXIS));
+
+        btnRoosters.setText("Roosters bekijken en veranderen");
+        btnRoosters.setMaximumSize(new java.awt.Dimension(200, 23));
+        btnRoosters.setPreferredSize(new java.awt.Dimension(200, 23));
+        boxPanel.add(btnRoosters);
+
+        btnOverzicht.setText("Medewerker Overzicht");
+        btnOverzicht.setMaximumSize(new java.awt.Dimension(200, 23));
+        btnOverzicht.setPreferredSize(new java.awt.Dimension(200, 23));
+        btnOverzicht.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOverzichtActionPerformed(evt);
+            }
+        });
+        boxPanel.add(btnOverzicht);
+
+        btnUren.setText("Urenverantwoording");
+        btnUren.setMaximumSize(new java.awt.Dimension(200, 23));
+        btnUren.setPreferredSize(new java.awt.Dimension(200, 23));
+        boxPanel.add(btnUren);
+
+        flowPanel.add(boxPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -63,22 +78,18 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUren, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRoosters, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnOverzicht, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(378, 378, 378)
+                        .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnLogout))
-                .addContainerGap(481, Short.MAX_VALUE))
+                .addContainerGap(388, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnOverzicht, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnRoosters, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnUren, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
                 .addComponent(btnLogout)
                 .addContainerGap())
         );
@@ -94,10 +105,12 @@ public class MainMenu extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel boxPanel;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOverzicht;
     private javax.swing.JButton btnRoosters;
     private javax.swing.JButton btnUren;
+    private javax.swing.JPanel flowPanel;
     // End of variables declaration//GEN-END:variables
 
 }
