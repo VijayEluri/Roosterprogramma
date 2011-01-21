@@ -29,8 +29,6 @@ public class RoosterProgramma {
     public static final Font FONT_12_BOLD = new Font("Verdana", Font.BOLD, 12);
     public static final Font FONT_16_BOLD = new Font("Verdana", Font.BOLD, 16);
     public static final Font FONT_25_BOLD = new Font("Verdana", Font.BOLD, 25);
-    private static final int HEIGHT = 500;
-    private static final int WIDTH = 650;
     private Dbmanager dbManager;
     private QueryManager queryManager;
 
@@ -80,7 +78,7 @@ public class RoosterProgramma {
 
     public void startup() {
         mainWindow = new JFrame(NAME);
-        mainWindow.setSize(WIDTH, HEIGHT);
+        mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {

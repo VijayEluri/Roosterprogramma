@@ -52,6 +52,11 @@ public class MainMenu extends javax.swing.JPanel {
         btnRoosters.setText("Roosters bekijken en veranderen");
         btnRoosters.setMaximumSize(new java.awt.Dimension(200, 23));
         btnRoosters.setPreferredSize(new java.awt.Dimension(200, 23));
+        btnRoosters.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRoostersActionPerformed(evt);
+            }
+        });
         boxPanel.add(btnRoosters);
 
         btnOverzicht.setText("Medewerker Overzicht");
@@ -78,15 +83,13 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(378, 378, 378)
-                        .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(flowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1468, Short.MAX_VALUE)
                     .addComponent(btnLogout))
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
@@ -102,6 +105,10 @@ public class MainMenu extends javax.swing.JPanel {
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         RoosterProgramma.getInstance().showPanel(new Login(4));
     }//GEN-LAST:event_btnLogoutActionPerformed
+
+    private void btnRoostersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoostersActionPerformed
+        RoosterProgramma.getInstance().showPanel(new Rooster());
+    }//GEN-LAST:event_btnRoostersActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
