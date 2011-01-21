@@ -101,8 +101,8 @@ public class QueryManager {
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
-                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName() + "', '"
-                + employee.getFamilyName() + "', '" + employee.getPassword() + "', '" + fulltime + "', '"
+                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
+                + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
                 + parttime + "', '" + oproepkracht + "')";
         dbmanager.insertQuery(sql);
     }
@@ -112,8 +112,8 @@ public class QueryManager {
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         String sql = "REPLACE INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
-                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName() + "', '"
-                + employee.getFamilyName() + "', '" + employee.getPassword() + "', '" + fulltime + "', '"
+                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
+                + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
                 + parttime + "', '" + oproepkracht + "');";
         dbmanager.insertQuery(sql);
     }
