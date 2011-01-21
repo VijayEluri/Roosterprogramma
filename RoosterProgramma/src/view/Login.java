@@ -81,7 +81,7 @@ public class Login extends javax.swing.JPanel {
         String firstName = tfFirstName.getText();
         String familyName = tfFamilyName.getText();
         employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
-        if (!employee.getVoornaam().isEmpty())
+        if (!employee.getFirstName().isEmpty())
         {
             enablePassword();
             lblIncorrectField.setText("");
@@ -97,7 +97,7 @@ public class Login extends javax.swing.JPanel {
 
     private void handlePassword() {
         String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
-        if (Sha1Pass.equals(employee.getWachtwoord()))
+        if (Sha1Pass.equals(employee.getPassword()))
         {
             RoosterProgramma.getInstance().showPanel(new MainMenu());
         }

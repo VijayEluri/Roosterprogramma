@@ -36,27 +36,20 @@ public class EmployeeInfo extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblEmployeeInformation.getModel();
         //  Algmene werknemer info
         model.addRow(new Object[] {
-            employee.getVoornaam(),
-            employee.getAchternaam(),
-            employee.getPersoneelsNummer(),
-            employee.isFulltime(),
-            employee.isParttime(),
-            employee.isOproepkracht()
+            employee.getFirstName(),
+            employee.getFamilyName(),
+            employee.getEmployeeNumber(),
+            employee.isFullTime(),
+            employee.isPartTime(),
+            employee.isCallWorker()
         });
     }
 
-    private void fillWerktijdenInfoTable() {
-        DefaultTableModel model = (DefaultTableModel) tblHours.getModel();
-        model.addRow(new Object[] {
-            employee.getMaandag().getContracturen(),
-            employee.getDinsdag().getContracturen(),
-            employee.getWoensdag().getContracturen(),
-            employee.getDonderdag().getContracturen(),
-            employee.getVrijdag().getContracturen(),
-            employee.getZaterdag().getContracturen(),
-            employee.getZondag().getContracturen()
-        });
-    }
+//    private void fillWerktijdenInfoTable() {
+//        DefaultTableModel model = (DefaultTableModel) tblHours.getModel();
+//        model.addRow(new Object[] {
+//        });
+//    }
 
     private void fillVerantwoordingTable() {
         DefaultTableModel model = (DefaultTableModel) tblTimeSheets.getModel();

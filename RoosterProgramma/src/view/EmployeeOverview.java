@@ -35,9 +35,9 @@ public class EmployeeOverview extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             model.addRow(new Object[] {
-                employee.getPersoneelsNummer(),
-                employee.getVoornaam(),
-                employee.getAchternaam()
+                employee.getEmployeeNumber(),
+                employee.getFirstName(),
+                employee.getFamilyName()
             });
         }
     }
@@ -178,7 +178,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private void verwijderenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verwijderenActionPerformed
         int choice = JOptionPane.showConfirmDialog(
             null,
-            "Weet je zeker dat je " + selectedEmployee.getVoornaam() + " " + selectedEmployee.getAchternaam() + " wilt verwijderen?",
+            "Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?",
             "Waarschuwing!",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.WARNING_MESSAGE

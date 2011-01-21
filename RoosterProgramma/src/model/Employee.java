@@ -13,21 +13,14 @@ import roosterprogramma.RoosterProgramma;
  */
 public class Employee {
 
-    private int personeelsNummer;
-    private String voornaam;
-    private String achternaam;
-    private String wachtwoord;
-    private boolean fulltime;
-    private boolean parttime;
-    private boolean oproepkracht;
+    private int employeeNumber;
+    private String firstName;
+    private String familyName;
+    private String password;
+    private boolean fullTime;
+    private boolean partTime;
+    private boolean callWorker;
     private boolean admin;
-    private EmployeeInfo maandag;
-    private EmployeeInfo dinsdag;
-    private EmployeeInfo woensdag;
-    private EmployeeInfo donderdag;
-    private EmployeeInfo vrijdag;
-    private EmployeeInfo zaterdag;
-    private EmployeeInfo zondag;
 
     public Employee() {
         this(0, "", "", "", false, false, false, false);
@@ -35,70 +28,116 @@ public class Employee {
 
     public Employee(int personeelsNummer, String voornaam,  String achternaam, String wachtwoord,
             boolean fulltime, boolean parttime, boolean oproepkracht, boolean admin) {
-        this.personeelsNummer = personeelsNummer;
-        this.voornaam = voornaam;
-        this.achternaam = achternaam;
-        this.wachtwoord = wachtwoord;
-        this.fulltime = fulltime;
-        this.parttime = parttime;
-        this.oproepkracht = oproepkracht;
+        this.employeeNumber = personeelsNummer;
+        this.firstName = voornaam;
+        this.familyName = achternaam;
+        this.password = wachtwoord;
+        this.fullTime = fulltime;
+        this.partTime = parttime;
+        this.callWorker = oproepkracht;
         this.admin = admin;
     }
 
-    /**
-     * @return the personeelsNummer
-     */
-    public int getPersoneelsNummer() {
-        return personeelsNummer;
+    public void delete() {
+        RoosterProgramma.getQueryManager().deleteEmployee(getEmployeeNumber());
     }
 
     /**
-     * @return the voornaam
+     * @return the employeeNumber
      */
-    public String getVoornaam() {
-        return voornaam;
+    public int getEmployeeNumber() {
+        return employeeNumber;
     }
 
     /**
-     * @return the achternaam
+     * @param employeeNumber the employeeNumber to set
      */
-    public String getAchternaam() {
-        return achternaam;
+    public void setEmployeeNumber(int employeeNumber) {
+        this.employeeNumber = employeeNumber;
     }
 
     /**
-     * @return the fulltime
+     * @return the firstName
      */
-    public boolean isFulltime() {
-        return fulltime;
+    public String getFirstName() {
+        return firstName;
     }
 
     /**
-     * @return the parttime
+     * @param firstName the firstName to set
      */
-    public boolean isParttime() {
-        return parttime;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     /**
-     * @return the noodhulp
+     * @return the familyName
      */
-    public boolean isOproepkracht() {
-        return oproepkracht;
+    public String getFamilyName() {
+        return familyName;
     }
 
     /**
-     * @return the wachtwoord
+     * @param familyName the familyName to set
      */
-    public String getWachtwoord() {
-        return wachtwoord;
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
     }
 
     /**
-     * @param wachtwoord the wachtwoord to set
+     * @return the password
      */
-    public void setWachtwoord(String wachtwoord) {
-        this.wachtwoord = wachtwoord;
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the fullTime
+     */
+    public boolean isFullTime() {
+        return fullTime;
+    }
+
+    /**
+     * @param fullTime the fullTime to set
+     */
+    public void setFullTime(boolean fullTime) {
+        this.fullTime = fullTime;
+    }
+
+    /**
+     * @return the partTime
+     */
+    public boolean isPartTime() {
+        return partTime;
+    }
+
+    /**
+     * @param partTime the partTime to set
+     */
+    public void setPartTime(boolean partTime) {
+        this.partTime = partTime;
+    }
+
+    /**
+     * @return the callWorker
+     */
+    public boolean isCallWorker() {
+        return callWorker;
+    }
+
+    /**
+     * @param callWorker the callWorker to set
+     */
+    public void setCallWorker(boolean callWorker) {
+        this.callWorker = callWorker;
     }
 
     /**
@@ -106,156 +145,5 @@ public class Employee {
      */
     public boolean isAdmin() {
         return admin;
-    }
-
-    /**
-     * @param admin the admin to set
-     */
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
-    /**
-     * @param personeelsNummer the personeelsNummer to set
-     */
-    public void setPersoneelsNummer(int personeelsNummer) {
-        this.personeelsNummer = personeelsNummer;
-    }
-
-    /**
-     * @param voornaam the voornaam to set
-     */
-    public void setVoornaam(String voornaam) {
-        this.voornaam = voornaam;
-    }
-
-    /**
-     * @param achternaam the achternaam to set
-     */
-    public void setAchternaam(String achternaam) {
-        this.achternaam = achternaam;
-    }
-
-    /**
-     * @param fulltime the fulltime to set
-     */
-    public void setFulltime(boolean fulltime) {
-        this.fulltime = fulltime;
-    }
-
-    /**
-     * @param parttime the parttime to set
-     */
-    public void setParttime(boolean parttime) {
-        this.parttime = parttime;
-    }
-
-    /**
-     * @param oproepkracht the oproepkracht to set
-     */
-    public void setOproepkracht(boolean oproepkracht) {
-        this.oproepkracht = oproepkracht;
-    }
-
-    /**
-     * @return the maandag
-     */
-    public EmployeeInfo getMaandag() {
-        return maandag;
-    }
-
-    /**
-     * @param maandag the maandag to set
-     */
-    public void setMaandag(EmployeeInfo maandag) {
-        this.maandag = maandag;
-    }
-
-    /**
-     * @return the dinsdag
-     */
-    public EmployeeInfo getDinsdag() {
-        return dinsdag;
-    }
-
-    /**
-     * @param dinsdag the dinsdag to set
-     */
-    public void setDinsdag(EmployeeInfo dinsdag) {
-        this.dinsdag = dinsdag;
-    }
-
-    /**
-     * @return the woensdag
-     */
-    public EmployeeInfo getWoensdag() {
-        return woensdag;
-    }
-
-    /**
-     * @param woensdag the woensdag to set
-     */
-    public void setWoensdag(EmployeeInfo woensdag) {
-        this.woensdag = woensdag;
-    }
-
-    /**
-     * @return the donderdag
-     */
-    public EmployeeInfo getDonderdag() {
-        return donderdag;
-    }
-
-    /**
-     * @param donderdag the donderdag to set
-     */
-    public void setDonderdag(EmployeeInfo donderdag) {
-        this.donderdag = donderdag;
-    }
-
-    /**
-     * @return the vrijdag
-     */
-    public EmployeeInfo getVrijdag() {
-        return vrijdag;
-    }
-
-    /**
-     * @param vrijdag the vrijdag to set
-     */
-    public void setVrijdag(EmployeeInfo vrijdag) {
-        this.vrijdag = vrijdag;
-    }
-
-    /**
-     * @return the zaterdag
-     */
-    public EmployeeInfo getZaterdag() {
-        return zaterdag;
-    }
-
-    /**
-     * @param zaterdag the zaterdag to set
-     */
-    public void setZaterdag(EmployeeInfo zaterdag) {
-        this.zaterdag = zaterdag;
-    }
-
-    /**
-     * @return the zondag
-     */
-    public EmployeeInfo getZondag() {
-        return zondag;
-    }
-
-    /**
-     * @param zondag the zondag to set
-     */
-    public void setZondag(EmployeeInfo zondag) {
-        this.zondag = zondag;
-    }
-
-    public void delete() {
-        RoosterProgramma.getQueryManager().deleteEmployee(personeelsNummer);
     }
 }

@@ -36,12 +36,12 @@ public class ChAddEmployee extends javax.swing.JPanel {
     }
 
     private void fillFields() {
-        tfEmployeeNumber.setText(Integer.toString(employee.getPersoneelsNummer()));
-        tfFirstName.setText(employee.getVoornaam());
-        tfFamilyName.setText(employee.getAchternaam());
-        cbFullTime.setSelected(employee.isFulltime());
-        cbPartTime.setSelected(employee.isParttime());
-        cbCallWorker.setSelected(employee.isOproepkracht());
+        tfEmployeeNumber.setText(Integer.toString(employee.getEmployeeNumber()));
+        tfFirstName.setText(employee.getFirstName());
+        tfFamilyName.setText(employee.getFamilyName());
+        cbFullTime.setSelected(employee.isFullTime());
+        cbPartTime.setSelected(employee.isPartTime());
+        cbCallWorker.setSelected(employee.isCallWorker());
     }
 
     /** This method is called from within the constructor to
@@ -239,23 +239,23 @@ public class ChAddEmployee extends javax.swing.JPanel {
         if (isAdd)
         {
             Employee newEmployee = new Employee();
-            newEmployee.setPersoneelsNummer(employeeNumber);
-            newEmployee.setVoornaam(firstName);
-            newEmployee.setAchternaam(familyName);
-            newEmployee.setWachtwoord(ShaEncrypt.SHA1(password));
-            newEmployee.setFulltime(fullTime);
-            newEmployee.setParttime(partTime);
-            newEmployee.setOproepkracht(callWorker);
+            newEmployee.setEmployeeNumber(employeeNumber);
+            newEmployee.setFirstName(firstName);
+            newEmployee.setFamilyName(familyName);
+            newEmployee.setPassword(ShaEncrypt.SHA1(password));
+            newEmployee.setFullTime(fullTime);
+            newEmployee.setPartTime(partTime);
+            newEmployee.setCallWorker(callWorker);
             RoosterProgramma.getQueryManager().addEmployee(newEmployee);
         }
         else
         {
-            employee.setVoornaam(firstName);
-            employee.setAchternaam(familyName);
-            employee.setWachtwoord(ShaEncrypt.SHA1(password));
-            employee.setFulltime(fullTime);
-            employee.setParttime(partTime);
-            employee.setOproepkracht(callWorker);
+            employee.setFirstName(firstName);
+            employee.setFamilyName(familyName);
+            employee.setPassword(ShaEncrypt.SHA1(password));
+            employee.setFullTime(fullTime);
+            employee.setPartTime(partTime);
+            employee.setCallWorker(callWorker);
             RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
@@ -313,13 +313,13 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean exists = false;
         for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            if (!isAdd && existingEmployee.getPersoneelsNummer() == employeeNumber)
+            if (!isAdd && existingEmployee.getEmployeeNumber() == employeeNumber)
             {
                 lblNameInUse.setVisible(false);
                 exists = true;
                 lblNumberInUse.setVisible(true);
             }
-            else if(!isAdd && (existingEmployee.getAchternaam().toLowerCase().equals(familyName) && existingEmployee.getVoornaam().toLowerCase().equals(firstName)))
+            else if(!isAdd && (existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName)))
             {
                 lblNumberInUse.setVisible(false);
                 exists = true;

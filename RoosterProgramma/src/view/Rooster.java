@@ -44,7 +44,7 @@ public class Rooster extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             Object[] fields = new Object[daysOfMonth+1];
-            fields[0] = employee.getVoornaam() + " " + employee.getAchternaam();
+            fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
             for (int i = 1; i <= daysOfMonth; i++)
             {
                 fields[i] = "";
