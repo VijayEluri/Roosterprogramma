@@ -47,10 +47,18 @@ public class Rooster extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlTable = new javax.swing.JScrollPane();
         tblSchedule = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        pnlLegenda = new javax.swing.JScrollPane();
+        pnlColors = new javax.swing.JPanel();
+        pnlRed = new javax.swing.JPanel();
+        pnlGreen = new javax.swing.JPanel();
+        lblVacation = new javax.swing.JLabel();
+        lblIllness = new javax.swing.JLabel();
+        lblPregnancy = new javax.swing.JLabel();
+        pnlPurple = new javax.swing.JPanel();
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -60,7 +68,7 @@ public class Rooster extends javax.swing.JPanel {
 
             }
         ));
-        jScrollPane1.setViewportView(tblSchedule);
+        pnlTable.setViewportView(tblSchedule);
 
         btnSave.setText("Opslaan");
 
@@ -71,6 +79,95 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
+        pnlRed.setBackground(new java.awt.Color(255, 0, 0));
+        pnlRed.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        javax.swing.GroupLayout pnlRedLayout = new javax.swing.GroupLayout(pnlRed);
+        pnlRed.setLayout(pnlRedLayout);
+        pnlRedLayout.setHorizontalGroup(
+            pnlRedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        pnlRedLayout.setVerticalGroup(
+            pnlRedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+
+        pnlGreen.setBackground(new java.awt.Color(0, 204, 0));
+        pnlGreen.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        javax.swing.GroupLayout pnlGreenLayout = new javax.swing.GroupLayout(pnlGreen);
+        pnlGreen.setLayout(pnlGreenLayout);
+        pnlGreenLayout.setHorizontalGroup(
+            pnlGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        pnlGreenLayout.setVerticalGroup(
+            pnlGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+
+        lblVacation.setText("Vakantie");
+
+        lblIllness.setText("Ziekteverlof");
+
+        lblPregnancy.setText("Zwangerschapsverlof");
+
+        pnlPurple.setBackground(new java.awt.Color(204, 0, 204));
+        pnlPurple.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        javax.swing.GroupLayout pnlPurpleLayout = new javax.swing.GroupLayout(pnlPurple);
+        pnlPurple.setLayout(pnlPurpleLayout);
+        pnlPurpleLayout.setHorizontalGroup(
+            pnlPurpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+        pnlPurpleLayout.setVerticalGroup(
+            pnlPurpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 25, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlColorsLayout = new javax.swing.GroupLayout(pnlColors);
+        pnlColors.setLayout(pnlColorsLayout);
+        pnlColorsLayout.setHorizontalGroup(
+            pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlColorsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlColorsLayout.createSequentialGroup()
+                        .addComponent(pnlRed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblVacation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                        .addComponent(pnlPurple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblPregnancy)
+                        .addGap(136, 136, 136))
+                    .addGroup(pnlColorsLayout.createSequentialGroup()
+                        .addComponent(pnlGreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblIllness)
+                        .addContainerGap(399, Short.MAX_VALUE))))
+        );
+        pnlColorsLayout.setVerticalGroup(
+            pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlColorsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlPurple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblVacation)
+                        .addComponent(lblPregnancy))
+                    .addComponent(pnlRed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlGreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblIllness))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        pnlLegenda.setViewportView(pnlColors);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -78,7 +175,8 @@ public class Rooster extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                    .addComponent(pnlTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                    .addComponent(pnlLegenda, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 710, Short.MAX_VALUE)
@@ -89,7 +187,9 @@ public class Rooster extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(pnlLegenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
@@ -106,7 +206,15 @@ public class Rooster extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblIllness;
+    private javax.swing.JLabel lblPregnancy;
+    private javax.swing.JLabel lblVacation;
+    private javax.swing.JPanel pnlColors;
+    private javax.swing.JPanel pnlGreen;
+    private javax.swing.JScrollPane pnlLegenda;
+    private javax.swing.JPanel pnlPurple;
+    private javax.swing.JPanel pnlRed;
+    private javax.swing.JScrollPane pnlTable;
     private javax.swing.JTable tblSchedule;
     // End of variables declaration//GEN-END:variables
 
