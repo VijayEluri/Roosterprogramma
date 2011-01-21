@@ -12,7 +12,9 @@
 package view;
 
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
+import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -24,17 +26,30 @@ public class Rooster extends javax.swing.JPanel {
     /** Creates new form Rooster */
     public Rooster() {
         initComponents();
-        makeTable();
+        process();
     }
 
-    private void makeTable() {
+    private void process() {
         DefaultTableModel tableModel = (DefaultTableModel) tblSchedule.getModel();
-        tableModel.addColumn("Medewerkernaam");
+        tableModel.addColumn("Naam");
         Calendar calendar = Calendar.getInstance();
-        for (int i = 1; i <= calendar.getActualMaximum(Calendar.DAY_OF_MONTH); i++)
+        lblYear.setText(Integer.toString(calendar.get(Calendar.YEAR)));
+        lblMonth.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
+        int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, i);
             tableModel.addColumn(calendar.get(Calendar.DAY_OF_MONTH));
+        }
+        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
+        {
+            Object[] fields = new Object[daysOfMonth+1];
+            fields[0] = employee.getVoornaam() + " " + employee.getAchternaam();
+            for (int i = 1; i <= daysOfMonth; i++)
+            {
+                fields[i] = "";
+            }
+            tableModel.addRow(fields);
         }
     }
 
@@ -59,6 +74,8 @@ public class Rooster extends javax.swing.JPanel {
         lblIllness = new javax.swing.JLabel();
         lblPregnancy = new javax.swing.JLabel();
         pnlPurple = new javax.swing.JPanel();
+        lblYear = new javax.swing.JLabel();
+        lblMonth = new javax.swing.JLabel();
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -180,14 +197,22 @@ public class Rooster extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 710, Short.MAX_VALUE)
-                        .addComponent(btnSave)))
+                        .addComponent(btnSave))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(lblYear)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblMonth)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblYear)
+                    .addComponent(lblMonth))
+                .addGap(18, 18, 18)
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlLegenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -207,8 +232,10 @@ public class Rooster extends javax.swing.JPanel {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel lblIllness;
+    private javax.swing.JLabel lblMonth;
     private javax.swing.JLabel lblPregnancy;
     private javax.swing.JLabel lblVacation;
+    private javax.swing.JLabel lblYear;
     private javax.swing.JPanel pnlColors;
     private javax.swing.JPanel pnlGreen;
     private javax.swing.JScrollPane pnlLegenda;
