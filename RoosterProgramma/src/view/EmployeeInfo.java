@@ -11,6 +11,7 @@
 
 package view;
 
+import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
@@ -22,19 +23,18 @@ import roosterprogramma.RoosterProgramma;
 public class EmployeeInfo extends javax.swing.JPanel {
 
     private Employee employee;
+    private DefaultTableModel model;
 
     /** Creates new form medewerkerInfo */
     public EmployeeInfo(Employee employee) {
         this.employee = employee;
         initComponents();
         fillInfoTable();
-        //fillWerktijdenInfoTable(); //tijdelijk weggecomment, werkt nog niet.
         fillVerantwoordingTable();
     }
 
     private void fillInfoTable() {
         DefaultTableModel model = (DefaultTableModel) tblEmployeeInformation.getModel();
-        //  Algmene werknemer info
         model.addRow(new Object[] {
             employee.getFirstName(),
             employee.getFamilyName(),
@@ -45,16 +45,59 @@ public class EmployeeInfo extends javax.swing.JPanel {
         });
     }
 
-//    private void fillWerktijdenInfoTable() {
-//        DefaultTableModel model = (DefaultTableModel) tblHours.getModel();
-//        model.addRow(new Object[] {
-//        });
-//    }
-
     private void fillVerantwoordingTable() {
-        DefaultTableModel model = (DefaultTableModel) tblTimeSheets.getModel();
+        model = (DefaultTableModel) tblTimeSheet.getModel();
+        Calendar calendar = Calendar.getInstance();
+        int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int i = 1; i <= daysOfMonth; i++)
+        {
+            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, i);
+            model.addRow(new Object[] {
+                calendar.get(Calendar.DAY_OF_MONTH),
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            });
+        }
         model.addRow(new Object[] {
+            "Totaal",
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
         });
+    }
+
+    private void calculateTotal() {
+        for (int i = 0; i < model.getRowCount(); i++)
+        {
+            double totalHours = 0;
+            for (int j = 1; j < model.getColumnCount()-1; j++)
+            {
+                totalHours += Double.parseDouble(model.getValueAt(i, j).toString());
+            }
+            model.setValueAt(totalHours, i, model.getColumnCount()-1);
+        }
+        for (int k = 1; k < model.getColumnCount(); k++)
+        {
+            double totalHours = 0;
+            for (int l = 0; l < model.getRowCount()-1; l++)
+            {
+                totalHours += Double.parseDouble(model.getValueAt(l, k).toString());
+            }
+            model.setValueAt(totalHours, model.getRowCount()-1, k);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -66,14 +109,12 @@ public class EmployeeInfo extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblHours = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblEmployeeInformation = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblTimeSheets = new javax.swing.JTable();
+        tblTimeSheet = new javax.swing.JTable();
         lblWeekNr = new javax.swing.JLabel();
         varWeekNr = new javax.swing.JLabel();
         lblVan = new javax.swing.JLabel();
@@ -81,32 +122,6 @@ public class EmployeeInfo extends javax.swing.JPanel {
         lblTot = new javax.swing.JLabel();
         totDatum = new javax.swing.JLabel();
         seperator = new javax.swing.JLabel();
-
-        tblHours.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"Contracturen", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)},
-                {"Te werken", new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)}
-            },
-            new String [] {
-                "", "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo", "Totaal"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblHours);
 
         btnSave.setText("Wijzigingen opslaan");
 
@@ -119,7 +134,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
         tblEmployeeInformation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", null, new Boolean(false), null, null, new Boolean(false)}
+
             },
             new String [] {
                 "Voornaam", "Achternaam", "Personeelsnummer", "Fulltime", "Parttime", "Oproepkracht", "Noodhulp"
@@ -142,33 +157,19 @@ public class EmployeeInfo extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tblEmployeeInformation);
 
-        tblTimeSheets.setModel(new javax.swing.table.DefaultTableModel(
+        tblTimeSheet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Werkelijk gewerkt", null, null, null, null, null, null, null, null},
-                {"Meer gewerkt te betalen", null, null, null, null, null, null, null, null},
-                {"Meer gewerkt te compenseren", null, null, null, null, null, null, null, null},
-                {"Minder gewerkt", null, null, null, null, null, null, null, null},
-                {"ATV", null, null, null, null, null, null, null, null},
-                {"Vakantie", null, null, null, null, null, null, null, null},
-                {"Compensatie 33.33%", null, null, null, null, null, null, null, null},
-                {"Compensatie 50%", null, null, null, null, null, null, null, null},
-                {"Compensatie 100%", null, null, null, null, null, null, null, null},
-                {"Doktersbezoek", null, null, null, null, null, null, null, null},
-                {"Ziekte", null, null, null, null, null, null, null, null},
-                {"Niet gewerkt eigen rekenening", null, null, null, null, null, null, null, null},
-                {"Feestdagen", null, null, null, null, null, null, null, null},
-                {"Compensatie Opname", null, null, null, null, null, null, null, null},
-                {"CAO Verlof", null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "", "Ma", "Di", "Wo", "Do", "Vr", "Za", "Zo", "Totaal"
+                "Dag vd maand", "Gewerkt", "Compensatie 150", "Compensatie 200", "Vakantie", "ADV", "Ziek", "Speciaal verlof", "Project", "Totaal"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true, true
+                false, true, true, true, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -179,7 +180,13 @@ public class EmployeeInfo extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(tblTimeSheets);
+        tblTimeSheet.setRowSelectionAllowed(false);
+        tblTimeSheet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tblTimeSheetKeyTyped(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblTimeSheet);
 
         lblWeekNr.setText("Weeknummer:");
 
@@ -200,6 +207,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1117, Short.MAX_VALUE)
@@ -218,8 +226,6 @@ public class EmployeeInfo extends javax.swing.JPanel {
                         .addComponent(lblTot)
                         .addGap(18, 18, 18)
                         .addComponent(totDatum))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -238,10 +244,8 @@ public class EmployeeInfo extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnBack))
@@ -253,11 +257,17 @@ public class EmployeeInfo extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
     }//GEN-LAST:event_btnBackActionPerformed
 
+    private void tblTimeSheetKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTimeSheetKeyTyped
+        if (evt.getKeyChar() == '\n')
+        {
+            calculateTotal();
+        }
+    }//GEN-LAST:event_tblTimeSheetKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblTot;
@@ -265,8 +275,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private javax.swing.JLabel lblWeekNr;
     private javax.swing.JLabel seperator;
     private javax.swing.JTable tblEmployeeInformation;
-    private javax.swing.JTable tblHours;
-    private javax.swing.JTable tblTimeSheets;
+    private javax.swing.JTable tblTimeSheet;
     private javax.swing.JLabel totDatum;
     private javax.swing.JLabel vanDatum;
     private javax.swing.JLabel varWeekNr;
