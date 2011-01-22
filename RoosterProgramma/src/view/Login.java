@@ -103,7 +103,6 @@ public class Login extends javax.swing.JPanel {
         }
         else
         {
-            System.out.println(Sha1Pass);
             lblIncorrectField.setText("Wachtwoord onjuist");
             tfPassword.setText("");
         }
