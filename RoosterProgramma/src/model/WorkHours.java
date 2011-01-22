@@ -5,7 +5,7 @@
 
 package model;
 
-import java.util.Arrays;
+import roosterprogramma.RoosterProgramma;
 
 /**
  *
@@ -22,12 +22,14 @@ public class WorkHours {
     private double illness;
     private double verlof;
     private double project;
+    private Employee employee;
 
     public WorkHours() {
-        this("", "");
+        this(new Employee(), "", "");
     }
 
-    public WorkHours(String date, String werkuren) {
+    public WorkHours(Employee employee, String date, String werkuren) {
+        this.employee = employee;
         this.date = date;
         if (!werkuren.isEmpty())
         {
@@ -178,5 +180,16 @@ public class WorkHours {
      */
     public void setProject(double project) {
         this.project = project;
+    }
+
+    public void update() {
+        RoosterProgramma.getQueryManager().updateWorkHours(this);
+    }
+
+    /**
+     * @return the employee
+     */
+    public Employee getEmployee() {
+        return employee;
     }
 }

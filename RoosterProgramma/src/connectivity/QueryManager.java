@@ -130,12 +130,25 @@ public class QueryManager {
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                    date, result.getString(employee.getFirstName() + " " + employee.getFamilyName())
+                    employee, date, result.getString(employee.getFirstName() + " " + employee.getFamilyName())
                 ));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return hours;
+    }
+
+    public void updateWorkHours(WorkHours hours) {
+        String data = hours.getWorked() + ";"
+                + hours.getCompensation150() + ";"
+                + hours.getCompensation200() + ";"
+                + hours.getVacation() + ";"
+                + hours.getADV() + ";"
+                + hours.getIllness() + ";"
+                + hours.getVerlof() + ";"
+                + hours.getProject();
+        String sql = "UPDATE `werktijden` SET `" + hours.getEmployee() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
+        dbmanager.insertQuery(sql);
     }
 }

@@ -123,6 +123,11 @@ public class EmployeeInfo extends javax.swing.JPanel {
         lblMonth = new javax.swing.JLabel();
 
         btnSave.setText("Wijzigingen opslaan");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Vorige");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -227,6 +232,25 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private void tblTimeSheetFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblTimeSheetFocusGained
         calculateTotal();
     }//GEN-LAST:event_tblTimeSheetFocusGained
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Calendar calendar = Calendar.getInstance();
+        for (int i = 0; i < model.getRowCount(); i++)
+        {
+            String year = Integer.toString(calendar.get(Calendar.YEAR));
+            String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
+            WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + model.getValueAt(i, 0).toString());
+            hour.setWorked(Double.parseDouble(model.getValueAt(i, 1).toString()));
+            hour.setCompensation150(Double.parseDouble(model.getValueAt(i, 2).toString()));
+            hour.setCompensation200(Double.parseDouble(model.getValueAt(i, 3).toString()));
+            hour.setVacation(Double.parseDouble(model.getValueAt(i, 4).toString()));
+            hour.setADV(Double.parseDouble(model.getValueAt(i, 5).toString()));
+            hour.setIllness(Double.parseDouble(model.getValueAt(i, 6).toString()));
+            hour.setVerlof(Double.parseDouble(model.getValueAt(i, 7).toString()));
+            hour.setProject(Double.parseDouble(model.getValueAt(i, 8).toString()));
+            hour.update();
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
