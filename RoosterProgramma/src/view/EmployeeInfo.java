@@ -90,7 +90,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             double totalHours = 0;
             for (int j = 1; j < model.getColumnCount()-1; j++)
             {
-                totalHours += Double.parseDouble(model.getValueAt(i, j).toString());
+                totalHours += model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString());
             }
             model.setValueAt(totalHours, i, model.getColumnCount()-1);
         }
@@ -99,7 +99,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             double totalHours = 0;
             for (int l = 0; l < model.getRowCount()-1; l++)
             {
-                totalHours += Double.parseDouble(model.getValueAt(l, k).toString());
+                totalHours += model.getValueAt(l, k).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(l, k).toString());
             }
             model.setValueAt(totalHours, model.getRowCount()-1, k);
         }
