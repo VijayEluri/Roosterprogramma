@@ -2,7 +2,6 @@ package roosterprogramma;
 
 import connectivity.Dbmanager;
 import connectivity.QueryManager;
-import connectivity.UpdateChecker;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -23,7 +22,7 @@ public class RoosterProgramma {
 
     private static RoosterProgramma instance = new RoosterProgramma();
     private static JFrame mainWindow;
-    public static final String NAME = "Uren Verantwoording";
+    public static final String NAME = "Rooster Programma";      // ToDo : Setting ervan maken?
     public static final Font FONT_10_PLAIN = new Font("Verdana", Font.PLAIN, 10);
     public static final Font FONT_10_BOLD = new Font("Verdana", Font.BOLD, 10);
     public static final Font FONT_12_BOLD = new Font("Verdana", Font.BOLD, 12);
@@ -78,6 +77,7 @@ public class RoosterProgramma {
 
     public void startup() {
         mainWindow = new JFrame(NAME);
+        mainWindow.setSize(screenWidth, screenHeight);
         mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainWindow.addWindowListener(new WindowAdapter() {
             @Override
