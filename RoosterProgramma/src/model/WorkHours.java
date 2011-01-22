@@ -192,4 +192,11 @@ public class WorkHours {
     public Employee getEmployee() {
         return employee;
     }
+
+    /**
+     * @param employee the employee to set
+     */
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }
