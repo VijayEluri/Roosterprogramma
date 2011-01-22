@@ -34,8 +34,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
     }
 
     private void fillInfoTable() {
-        DefaultTableModel model = (DefaultTableModel) tblEmployeeInformation.getModel();
-        model.addRow(new Object[] {
+        ((DefaultTableModel) tblEmployeeInformation.getModel()).addRow(new Object[] {
             employee.getFirstName(),
             employee.getFamilyName(),
             employee.getEmployeeNumber(),
@@ -51,7 +50,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, i);
+            calendar.set(Calendar.DAY_OF_MONTH, i);
             model.addRow(new Object[] {
                 calendar.get(Calendar.DAY_OF_MONTH),
                 0,
@@ -115,13 +114,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
         tblEmployeeInformation = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTimeSheet = new javax.swing.JTable();
-        lblWeekNr = new javax.swing.JLabel();
-        varWeekNr = new javax.swing.JLabel();
-        lblVan = new javax.swing.JLabel();
-        vanDatum = new javax.swing.JLabel();
-        lblTot = new javax.swing.JLabel();
-        totDatum = new javax.swing.JLabel();
-        seperator = new javax.swing.JLabel();
+        lblMonth = new javax.swing.JLabel();
 
         btnSave.setText("Wijzigingen opslaan");
 
@@ -188,63 +181,31 @@ public class EmployeeInfo extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tblTimeSheet);
 
-        lblWeekNr.setText("Weeknummer:");
-
-        varWeekNr.setText("weekNr");
-
-        lblVan.setText("Van:");
-
-        vanDatum.setText("vanDatum");
-
-        lblTot.setText("Tot:");
-
-        totDatum.setText("totDatum");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1117, Short.MAX_VALUE)
                         .addComponent(btnSave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lblWeekNr)
-                        .addGap(18, 18, 18)
-                        .addComponent(varWeekNr)
-                        .addGap(18, 18, 18)
-                        .addComponent(seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblVan)
-                        .addGap(18, 18, 18)
-                        .addComponent(vanDatum)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblTot)
-                        .addGap(18, 18, 18)
-                        .addComponent(totDatum))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
+                    .addComponent(lblMonth))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblWeekNr)
-                    .addComponent(varWeekNr)
-                    .addComponent(lblVan)
-                    .addComponent(vanDatum)
-                    .addComponent(lblTot)
-                    .addComponent(totDatum)
-                    .addComponent(seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                .addComponent(lblMonth)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
@@ -270,15 +231,9 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lblTot;
-    private javax.swing.JLabel lblVan;
-    private javax.swing.JLabel lblWeekNr;
-    private javax.swing.JLabel seperator;
+    private javax.swing.JLabel lblMonth;
     private javax.swing.JTable tblEmployeeInformation;
     private javax.swing.JTable tblTimeSheet;
-    private javax.swing.JLabel totDatum;
-    private javax.swing.JLabel vanDatum;
-    private javax.swing.JLabel varWeekNr;
     // End of variables declaration//GEN-END:variables
 
 }

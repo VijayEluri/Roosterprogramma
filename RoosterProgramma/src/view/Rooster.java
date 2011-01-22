@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
+import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -38,7 +39,7 @@ public class Rooster extends javax.swing.JPanel {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
-            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1, i);
+            calendar.set(Calendar.DAY_OF_MONTH, i);
             tableModel.addColumn(calendar.get(Calendar.DAY_OF_MONTH));
         }
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
@@ -47,10 +48,19 @@ public class Rooster extends javax.swing.JPanel {
             fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
             for (int i = 1; i <= daysOfMonth; i++)
             {
-                fields[i] = "";
+                calendar.set(Calendar.DAY_OF_MONTH, i);
+                handleField(calendar, employee, fields);
             }
             tableModel.addRow(fields);
         }
+    }
+
+    private void handleField(Calendar calendar, Employee employee, Object[] fields) {
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
+        String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+        WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + day);
+        fields[calendar.get(Calendar.DAY_OF_MONTH)] = hour.getWorked();
     }
 
     /** This method is called from within the constructor to

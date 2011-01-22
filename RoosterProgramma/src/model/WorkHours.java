@@ -5,6 +5,8 @@
 
 package model;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Dark
@@ -27,15 +29,29 @@ public class WorkHours {
 
     public WorkHours(String date, String werkuren) {
         this.date = date;
-        String[] fields = werkuren.split(";");
-        worked = Integer.parseInt(fields[0]);
-        compensation150 = Double.parseDouble(fields[1]);
-        compensation200 = Double.parseDouble(fields[2]);
-        vacation = Double.parseDouble(fields[3]);
-        ADV = Double.parseDouble(fields[4]);
-        illness = Double.parseDouble(fields[5]);
-        verlof = Double.parseDouble(fields[6]);
-        project = Double.parseDouble(fields[7]);
+        if (!werkuren.isEmpty())
+        {
+            String[] fields = werkuren.split(";");
+            worked = Double.parseDouble(fields[0]);
+            compensation150 = Double.parseDouble(fields[1]);
+            compensation200 = Double.parseDouble(fields[2]);
+            vacation = Double.parseDouble(fields[3]);
+            ADV = Double.parseDouble(fields[4]);
+            illness = Double.parseDouble(fields[5]);
+            verlof = Double.parseDouble(fields[6]);
+            project = Double.parseDouble(fields[7]);
+        }
+        else
+        {
+            worked = 0;
+            compensation150 = 0;
+            compensation200 = 0;
+            vacation = 0;
+            ADV = 0;
+            illness = 0;
+            verlof = 0;
+            project = 0;
+        }
     }
 
     /**

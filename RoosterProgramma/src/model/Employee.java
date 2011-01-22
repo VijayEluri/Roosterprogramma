@@ -154,7 +154,7 @@ public class Employee {
         WorkHours workHour = new WorkHours();
         if (workHours.isEmpty())
         {
-            workHours = RoosterProgramma.getQueryManager().getWorkHours(this, date.substring(7, date.length()));
+            workHours = RoosterProgramma.getQueryManager().getWorkHours(this, date);
         }
         for (WorkHours hour : workHours)
         {

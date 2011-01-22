@@ -123,14 +123,14 @@ public class QueryManager {
         dbmanager.insertQuery(sql);
     }
 
-    public List<WorkHours> getWorkHours(Employee employee, String year) {
+    public List<WorkHours> getWorkHours(Employee employee, String date) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT '" + employee.getFirstName() + " " + employee.getFamilyName() + "' FROM `werktijden` WHERE (SELECT `datum` REGEXP '" + year + "') = 1;";
+            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                    result.getString("datum"), result.getString(employee.getFirstName() + " " + employee.getFamilyName())
+                    date, result.getString(employee.getFirstName() + " " + employee.getFamilyName())
                 ));
             }
         } catch (SQLException ex) {

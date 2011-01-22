@@ -16,31 +16,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jScrollPane3" alignment="0" pref="1307" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="1117" max="32767" attributes="0"/>
                       <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblWeekNr" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="varWeekNr" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="seperator" min="-2" pref="47" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblVan" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="vanDatum" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblTot" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="totDatum" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="jScrollPane2" alignment="0" pref="1307" max="32767" attributes="0"/>
+                  <Component id="lblMonth" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -50,19 +36,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblWeekNr" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="varWeekNr" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblVan" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="vanDatum" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTot" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="totDatum" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="seperator" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="43" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jScrollPane3" pref="372" max="32767" attributes="0"/>
+              <Component id="lblMonth" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jScrollPane3" pref="386" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -184,37 +162,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="lblWeekNr">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Weeknummer:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="varWeekNr">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="weekNr"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblVan">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Van:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="vanDatum">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="vanDatum"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblTot">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Tot:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="totDatum">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="totDatum"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="seperator">
+    <Component class="javax.swing.JLabel" name="lblMonth">
     </Component>
   </SubComponents>
 </Form>
