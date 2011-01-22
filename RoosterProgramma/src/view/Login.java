@@ -147,7 +147,7 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
-        lblFamilyName.setText("Achternaam");
+        lblFamilyName.setText("Achternaam   ");
 
         tfFirstName.setPreferredSize(new java.awt.Dimension(150, 20));
         tfFirstName.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -185,14 +185,14 @@ public class Login extends javax.swing.JPanel {
                     .addComponent(lblPassword)
                     .addComponent(lblFirstName))
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(familyNamePanelLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfFirstName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, familyNamePanelLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(familyNamePanelLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNameOk)
