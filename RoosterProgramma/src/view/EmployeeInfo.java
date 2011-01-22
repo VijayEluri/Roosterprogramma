@@ -235,7 +235,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         Calendar calendar = Calendar.getInstance();
-        for (int i = 0; i < model.getRowCount(); i++)
+        for (int i = 0; i < model.getRowCount()-1; i++)
         {
             String year = Integer.toString(calendar.get(Calendar.YEAR));
             String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
