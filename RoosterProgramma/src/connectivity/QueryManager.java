@@ -123,20 +123,34 @@ public class QueryManager {
         dbmanager.insertQuery(sql);
     }
 
-    public List<WorkHours> getWorkHours(Employee employee, String date) {
+    public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
+            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "`, `datum` FROM `werktijden`;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                    employee, date, result.getString(employee.getFirstName() + " " + employee.getFamilyName())
+                    employee, result.getString("datum"), result.getString(employee.getFirstName() + " " + employee.getFamilyName())
                 ));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return hours;
+    }
+
+    public boolean workHourExists(Employee employee, String date) {
+        boolean exists = false;
+        try {
+            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
+            ResultSet result = dbmanager.doQuery(sql);
+            if (result.next()) {
+                exists = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return exists;
     }
 
     public void updateWorkHours(WorkHours hours) {
@@ -148,7 +162,15 @@ public class QueryManager {
                 + hours.getIllness() + ";"
                 + hours.getVerlof() + ";"
                 + hours.getProject();
-        String sql = "UPDATE `werktijden` SET `" + hours.getEmployee() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
+        String sql = "";
+        if (workHourExists(hours.getEmployee(), hours.getDate()))
+        {
+            sql = "UPDATE `werktijden` SET `" + hours.getEmployee().getFirstName() + " " + hours.getEmployee().getFamilyName() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
+        }
+        else
+        {
+            sql = "INSERT INTO `werktijden` (datum, `" + hours.getEmployee().getFirstName() + " " + hours.getEmployee().getFamilyName() + "`) VALUES ('" + hours.getDate() + "', '" + data + "');";
+        }
         dbmanager.insertQuery(sql);
     }
 }
