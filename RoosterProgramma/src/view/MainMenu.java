@@ -38,7 +38,6 @@ public class MainMenu extends javax.swing.JPanel {
         boxPanel = new javax.swing.JPanel();
         btnRoosters = new javax.swing.JButton();
         btnOverzicht = new javax.swing.JButton();
-        btnUren = new javax.swing.JButton();
 
         btnLogout.setText("Uitloggen");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -50,8 +49,8 @@ public class MainMenu extends javax.swing.JPanel {
         boxPanel.setLayout(new javax.swing.BoxLayout(boxPanel, javax.swing.BoxLayout.Y_AXIS));
 
         btnRoosters.setText("Roosters bekijken en veranderen");
-        btnRoosters.setMaximumSize(new java.awt.Dimension(200, 23));
-        btnRoosters.setPreferredSize(new java.awt.Dimension(200, 23));
+        btnRoosters.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnRoosters.setPreferredSize(new java.awt.Dimension(200, 100));
         btnRoosters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRoostersActionPerformed(evt);
@@ -60,19 +59,14 @@ public class MainMenu extends javax.swing.JPanel {
         boxPanel.add(btnRoosters);
 
         btnOverzicht.setText("Medewerker Overzicht");
-        btnOverzicht.setMaximumSize(new java.awt.Dimension(200, 23));
-        btnOverzicht.setPreferredSize(new java.awt.Dimension(200, 23));
+        btnOverzicht.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnOverzicht.setPreferredSize(new java.awt.Dimension(200, 100));
         btnOverzicht.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOverzichtActionPerformed(evt);
             }
         });
         boxPanel.add(btnOverzicht);
-
-        btnUren.setText("Urenverantwoording");
-        btnUren.setMaximumSize(new java.awt.Dimension(200, 23));
-        btnUren.setPreferredSize(new java.awt.Dimension(200, 23));
-        boxPanel.add(btnUren);
 
         flowPanel.add(boxPanel);
 
@@ -83,8 +77,8 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(flowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1468, Short.MAX_VALUE)
-                    .addComponent(btnLogout))
+                    .addComponent(btnLogout)
+                    .addComponent(flowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1468, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -92,7 +86,7 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 512, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
                 .addComponent(btnLogout)
                 .addContainerGap())
         );
@@ -116,7 +110,6 @@ public class MainMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnOverzicht;
     private javax.swing.JButton btnRoosters;
-    private javax.swing.JButton btnUren;
     private javax.swing.JPanel flowPanel;
     // End of variables declaration//GEN-END:variables
 
