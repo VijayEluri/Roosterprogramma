@@ -192,10 +192,17 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_verwijderenActionPerformed
 
     private void medewerkerTabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_medewerkerTabelMouseClicked
-        verwijderen.setEnabled(true);
-        wijzigen.setEnabled(true);
-        OK.setEnabled(true);
-        selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+        if (evt.getClickCount() < 2)
+        {
+            verwijderen.setEnabled(true);
+            wijzigen.setEnabled(true);
+            OK.setEnabled(true);
+            selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(medewerkerTabel.getModel().getValueAt(medewerkerTabel.getSelectedRow(), 0).toString()));
+        }
+        else
+        {
+            RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee));
+        }
     }//GEN-LAST:event_medewerkerTabelMouseClicked
 
     private void wijzigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wijzigenActionPerformed

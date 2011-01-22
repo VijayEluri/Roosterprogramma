@@ -14,6 +14,7 @@ package view;
 import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
+import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -51,16 +52,20 @@ public class EmployeeInfo extends javax.swing.JPanel {
         for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
+            String year = Integer.toString(calendar.get(Calendar.YEAR));
+            String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
+            String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+            WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + day);
             model.addRow(new Object[] {
                 calendar.get(Calendar.DAY_OF_MONTH),
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
+                hour.getWorked(),
+                hour.getCompensation150(),
+                hour.getCompensation200(),
+                hour.getVacation(),
+                hour.getADV(),
+                hour.getIllness(),
+                hour.getVerlof(),
+                hour.getProject(),
                 0
             });
         }
@@ -76,6 +81,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             0,
             0
         });
+        calculateTotal();
     }
 
     private void calculateTotal() {
@@ -174,9 +180,9 @@ public class EmployeeInfo extends javax.swing.JPanel {
             }
         });
         tblTimeSheet.setRowSelectionAllowed(false);
-        tblTimeSheet.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                tblTimeSheetKeyTyped(evt);
+        tblTimeSheet.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tblTimeSheetFocusGained(evt);
             }
         });
         jScrollPane3.setViewportView(tblTimeSheet);
@@ -218,12 +224,9 @@ public class EmployeeInfo extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void tblTimeSheetKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTimeSheetKeyTyped
-        if (evt.getKeyChar() == '\n')
-        {
-            calculateTotal();
-        }
-    }//GEN-LAST:event_tblTimeSheetKeyTyped
+    private void tblTimeSheetFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblTimeSheetFocusGained
+        calculateTotal();
+    }//GEN-LAST:event_tblTimeSheetFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

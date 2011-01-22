@@ -157,7 +157,7 @@
             <Property name="rowSelectionAllowed" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tblTimeSheetKeyTyped"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblTimeSheetFocusGained"/>
           </Events>
         </Component>
       </SubComponents>
