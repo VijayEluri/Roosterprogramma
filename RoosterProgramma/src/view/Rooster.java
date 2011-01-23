@@ -13,6 +13,7 @@ package view;
 
 import java.util.Calendar;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
@@ -98,6 +99,11 @@ public class Rooster extends javax.swing.JPanel {
         pnlTable.setViewportView(tblSchedule);
 
         btnSave.setText("Opslaan");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         btnBack.setText("Terug");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -236,6 +242,21 @@ public class Rooster extends javax.swing.JPanel {
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         RoosterProgramma.getInstance().showPanel(new MainMenu());
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        int choice = JOptionPane.showConfirmDialog(
+            null,
+            "",
+            "Waarschuwing!",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (choice == JOptionPane.YES_OPTION)
+        {
+
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
