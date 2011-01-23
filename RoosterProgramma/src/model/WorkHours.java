@@ -14,13 +14,14 @@ import roosterprogramma.RoosterProgramma;
 public class WorkHours {
 
     private String date;
+    private double shouldWork;
     private double worked;
     private double compensation150;
     private double compensation200;
     private double vacation;
     private double ADV;
     private double illness;
-    private double verlof;
+    private double leave;
     private double project;
     private Employee employee;
 
@@ -34,24 +35,26 @@ public class WorkHours {
         if (!werkuren.isEmpty())
         {
             String[] fields = werkuren.split(";");
-            worked = Double.parseDouble(fields[0]);
-            compensation150 = Double.parseDouble(fields[1]);
-            compensation200 = Double.parseDouble(fields[2]);
-            vacation = Double.parseDouble(fields[3]);
-            ADV = Double.parseDouble(fields[4]);
-            illness = Double.parseDouble(fields[5]);
-            verlof = Double.parseDouble(fields[6]);
-            project = Double.parseDouble(fields[7]);
+            shouldWork = Double.parseDouble(fields[0]);
+            worked = Double.parseDouble(fields[1]);
+            compensation150 = Double.parseDouble(fields[2]);
+            compensation200 = Double.parseDouble(fields[3]);
+            vacation = Double.parseDouble(fields[4]);
+            ADV = Double.parseDouble(fields[5]);
+            illness = Double.parseDouble(fields[6]);
+            leave = Double.parseDouble(fields[7]);
+            project = Double.parseDouble(fields[8]);
         }
         else
         {
+            shouldWork = 0;
             worked = 0;
             compensation150 = 0;
             compensation200 = 0;
             vacation = 0;
             ADV = 0;
             illness = 0;
-            verlof = 0;
+            leave = 0;
             project = 0;
         }
     }
@@ -157,15 +160,15 @@ public class WorkHours {
     /**
      * @return the verlof
      */
-    public double getVerlof() {
-        return verlof;
+    public double getLeave() {
+        return leave;
     }
 
     /**
-     * @param verlof the verlof to set
+     * @param leave the verlof to set
      */
-    public void setVerlof(double verlof) {
-        this.verlof = verlof;
+    public void setLeave(double leave) {
+        this.leave = leave;
     }
 
     /**
@@ -198,5 +201,19 @@ public class WorkHours {
      */
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    /**
+     * @return the shouldwork
+     */
+    public double getShouldWork() {
+        return shouldWork;
+    }
+
+    /**
+     * @param shouldWork the shouldwork to set
+     */
+    public void setShouldWork(double shouldWork) {
+        this.shouldWork = shouldWork;
     }
 }

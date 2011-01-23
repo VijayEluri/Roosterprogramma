@@ -64,7 +64,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
                 hour.getVacation(),
                 hour.getADV(),
                 hour.getIllness(),
-                hour.getVerlof(),
+                hour.getLeave(),
                 hour.getProject(),
                 0
             });
@@ -246,7 +246,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             hour.setVacation(Double.parseDouble(model.getValueAt(i, 4).toString()));
             hour.setADV(Double.parseDouble(model.getValueAt(i, 5).toString()));
             hour.setIllness(Double.parseDouble(model.getValueAt(i, 6).toString()));
-            hour.setVerlof(Double.parseDouble(model.getValueAt(i, 7).toString()));
+            hour.setLeave(Double.parseDouble(model.getValueAt(i, 7).toString()));
             hour.setProject(Double.parseDouble(model.getValueAt(i, 8).toString()));
             hour.update();
         }

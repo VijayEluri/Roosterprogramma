@@ -154,13 +154,14 @@ public class QueryManager {
     }
 
     public void updateWorkHours(WorkHours hours) {
-        String data = hours.getWorked() + ";"
+        String data = hours.getShouldWork() + ";"
+                + hours.getWorked() + ";"
                 + hours.getCompensation150() + ";"
                 + hours.getCompensation200() + ";"
                 + hours.getVacation() + ";"
                 + hours.getADV() + ";"
                 + hours.getIllness() + ";"
-                + hours.getVerlof() + ";"
+                + hours.getLeave() + ";"
                 + hours.getProject();
         String sql = "";
         if (workHourExists(hours.getEmployee(), hours.getDate()))

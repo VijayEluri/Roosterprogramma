@@ -60,7 +60,7 @@ public class Rooster extends javax.swing.JPanel {
         String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
         String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
         WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + day);
-        fields[calendar.get(Calendar.DAY_OF_MONTH)] = hour.getWorked();
+        fields[calendar.get(Calendar.DAY_OF_MONTH)] = hour.getShouldWork();
     }
 
     /** This method is called from within the constructor to
