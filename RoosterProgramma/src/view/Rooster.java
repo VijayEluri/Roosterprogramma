@@ -25,6 +25,8 @@ import roosterprogramma.RoosterProgramma;
  */
 public class Rooster extends javax.swing.JPanel {
 
+    private DefaultTableModel model;
+
     /** Creates new form Rooster */
     public Rooster() {
         initComponents();
@@ -32,8 +34,8 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void process() {
-        DefaultTableModel tableModel = (DefaultTableModel) tblSchedule.getModel();
-        tableModel.addColumn("Naam");
+        model = (DefaultTableModel) tblSchedule.getModel();
+        model.addColumn("Naam");
         Calendar calendar = Calendar.getInstance();
         lblYear.setText(Integer.toString(calendar.get(Calendar.YEAR)));
         lblMonth.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
@@ -41,7 +43,7 @@ public class Rooster extends javax.swing.JPanel {
         for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            tableModel.addColumn(calendar.get(Calendar.DAY_OF_MONTH));
+            model.addColumn(calendar.get(Calendar.DAY_OF_MONTH));
         }
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
@@ -52,7 +54,7 @@ public class Rooster extends javax.swing.JPanel {
                 calendar.set(Calendar.DAY_OF_MONTH, i);
                 handleField(calendar, employee, fields);
             }
-            tableModel.addRow(fields);
+            model.addRow(fields);
         }
     }
 
@@ -244,6 +246,28 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        
+        Calendar calendar = Calendar.getInstance();
+        String month = Integer.toString(calendar.get(Calendar.MONTH)+1);
+        String year = Integer.toString(calendar.get(Calendar.YEAR));
+        for (int i = 0; i < model.getRowCount(); i++)
+        {
+            String[] pieces = model.getValueAt(i, 0).toString().split(" ");
+            String firstName = pieces[0];
+            String familyName = pieces[1];
+            Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
+            for (int j = 1; j < model.getColumnCount(); j++)
+            {
+                String day = model.getColumnName(j);
+                WorkHours hours = employee.getWorkHours(year + "-" + month + "-" + day);
+                double shouldWork = Double.parseDouble(model.getValueAt(i, j).toString());
+                hours.setShouldWork(shouldWork);
+                hours.update();
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void promptWarning() {
         int choice = JOptionPane.showConfirmDialog(
             null,
             "",
@@ -256,8 +280,7 @@ public class Rooster extends javax.swing.JPanel {
         {
 
         }
-    }//GEN-LAST:event_btnSaveActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
