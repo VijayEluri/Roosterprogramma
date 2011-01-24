@@ -11,6 +11,8 @@
 
 package view;
 
+import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
@@ -168,7 +170,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee));
+        showInfo();
     }//GEN-LAST:event_OKActionPerformed
 
     private void toevoegenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toevoegenActionPerformed
@@ -201,7 +203,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
         }
         else
         {
-            RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee));
+            showInfo();
         }
     }//GEN-LAST:event_medewerkerTabelMouseClicked
 
@@ -209,6 +211,10 @@ public class EmployeeOverview extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
     }//GEN-LAST:event_wijzigenActionPerformed
 
+    private void showInfo() {
+        Calendar calendar = Calendar.getInstance();
+        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OK;

@@ -25,13 +25,33 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
     private Employee employee;
     private DefaultTableModel model;
+    private Calendar calendar = Calendar.getInstance();
+    private int year, month;
 
     /** Creates new form medewerkerInfo */
-    public EmployeeInfo(Employee employee) {
+    public EmployeeInfo(Employee employee, int year, int month) {
         this.employee = employee;
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        this.year = year;
+        this.month = month;
         initComponents();
         fillInfoTable();
         fillVerantwoordingTable();
+        fillBoxes();
+    }
+
+    private void fillBoxes() {
+        for (int i = -20; i <= 20; i++)
+        {
+            cmbYear.addItem(calendar.get(Calendar.YEAR)+i);
+        }
+        cmbYear.setSelectedItem(calendar.get(Calendar.YEAR));
+        for (int j = 1; j <= 12; j++)
+        {
+            cmbMonth.addItem(j);
+        }
+        cmbMonth.setSelectedItem(calendar.get(Calendar.MONTH)+1);
     }
 
     private void fillInfoTable() {
@@ -47,15 +67,12 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
     private void fillVerantwoordingTable() {
         model = (DefaultTableModel) tblTimeSheet.getModel();
-        Calendar calendar = Calendar.getInstance();
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            String year = Integer.toString(calendar.get(Calendar.YEAR));
-            String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
             String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-            WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + day);
+            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + day);
             model.addRow(new Object[] {
                 calendar.get(Calendar.DAY_OF_MONTH),
                 hour.getWorked(),
@@ -121,6 +138,12 @@ public class EmployeeInfo extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblTimeSheet = new javax.swing.JTable();
         lblMonth = new javax.swing.JLabel();
+        btnPreviousMonth = new javax.swing.JButton();
+        btnNextMonth = new javax.swing.JButton();
+        pnlDateSelect = new javax.swing.JPanel();
+        cmbYear = new javax.swing.JComboBox();
+        cmbMonth = new javax.swing.JComboBox();
+        btnGo = new javax.swing.JButton();
 
         btnSave.setText("Wijzigingen opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -192,20 +215,56 @@ public class EmployeeInfo extends javax.swing.JPanel {
         });
         jScrollPane3.setViewportView(tblTimeSheet);
 
+        btnPreviousMonth.setText("Vorige maand");
+        btnPreviousMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousMonthActionPerformed(evt);
+            }
+        });
+
+        btnNextMonth.setText("Volgende maand");
+        btnNextMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextMonthActionPerformed(evt);
+            }
+        });
+
+        pnlDateSelect.add(cmbYear);
+
+        pnlDateSelect.add(cmbMonth);
+
+        btnGo.setText("Ga");
+        btnGo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoActionPerformed(evt);
+            }
+        });
+        pnlDateSelect.add(btnGo);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 1303, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1117, Short.MAX_VALUE)
-                        .addComponent(btnSave))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
-                    .addComponent(lblMonth))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1117, Short.MAX_VALUE)
+                                .addComponent(btnSave))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblMonth)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPreviousMonth)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1095, Short.MAX_VALUE)
+                                .addComponent(btnNextMonth))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -213,10 +272,20 @@ public class EmployeeInfo extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblMonth)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 386, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                        .addComponent(lblMonth)
+                        .addGap(41, 41, 41))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnPreviousMonth)
+                            .addComponent(btnNextMonth))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
@@ -234,17 +303,14 @@ public class EmployeeInfo extends javax.swing.JPanel {
     }//GEN-LAST:event_tblTimeSheetFocusGained
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        Calendar calendar = Calendar.getInstance();
         for (int i = 0; i < model.getRowCount()-1; i++)
         {
-            String year = Integer.toString(calendar.get(Calendar.YEAR));
-            String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
-            WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + model.getValueAt(i, 0).toString());
+            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString());
             boolean save = true;
             if (!model.getValueAt(i, 9).toString().equals(Double.toString(hour.getShouldWork())))
             {
                 save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, 9).toString()
-                        + ")\nis niet gelijk aan het aantal uren dat de werknemer zou moeten werken (" + hour.getShouldWork() + ")\n Wilt u toch opslaan?");
+                        + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hour.getShouldWork() + ")\n Wilt u toch opslaan?");
             }
 
             if (save)
@@ -262,13 +328,49 @@ public class EmployeeInfo extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
+        handleTime(year, month-1);
+    }//GEN-LAST:event_btnPreviousMonthActionPerformed
+
+    private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed
+        handleTime(year, month+1);
+    }//GEN-LAST:event_btnNextMonthActionPerformed
+
+    private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
+        int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
+        int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString())-1;
+        handleTime(selectedYear, selectedMonth);
+    }//GEN-LAST:event_btnGoActionPerformed
+
+    private void handleTime(int year, int month) {
+        if (month == 0)
+        {
+            month = 12;
+            year -= 1;
+        }
+        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(employee, year, month));
+    }
+
+    private String getYear() {
+        return year < 10 ? "0" + Integer.toString(year) : Integer.toString(year);
+    }
+
+    private String getMonth() {
+        return month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnGo;
+    private javax.swing.JButton btnNextMonth;
+    private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox cmbMonth;
+    private javax.swing.JComboBox cmbYear;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblMonth;
+    private javax.swing.JPanel pnlDateSelect;
     private javax.swing.JTable tblEmployeeInformation;
     private javax.swing.JTable tblTimeSheet;
     // End of variables declaration//GEN-END:variables
