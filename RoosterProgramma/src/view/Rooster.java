@@ -267,21 +267,6 @@ public class Rooster extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void promptWarning() {
-        int choice = JOptionPane.showConfirmDialog(
-            null,
-            "",
-            "Waarschuwing!",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
-        );
-
-        if (choice == JOptionPane.YES_OPTION)
-        {
-
-        }
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnSave;

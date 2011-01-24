@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -113,5 +114,24 @@ public class RoosterProgramma {
         }
         Arrays.fill(input, '0');
         return typedPassword.toUpperCase();
+    }
+
+    public boolean promptWarning(String question) {
+        int choice = JOptionPane.showConfirmDialog(
+            null,
+            question,
+            "Waarschuwing!",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (choice == JOptionPane.YES_OPTION)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
