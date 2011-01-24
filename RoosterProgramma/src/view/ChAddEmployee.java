@@ -258,7 +258,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setCallWorker(callWorker);
             RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
         
     }//GEN-LAST:event_btnSaveActionPerformed
 

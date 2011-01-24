@@ -11,6 +11,7 @@
 
 package view;
 
+import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
@@ -19,12 +20,12 @@ import roosterprogramma.RoosterProgramma;
  *
  * @author Dark
  */
-public class EmployeeOverview extends javax.swing.JPanel {
+public class EmployeeSelect extends javax.swing.JPanel {
 
     private Employee selectedEmployee;
 
     /** Creates new form medewerkerOverzicht */
-    public EmployeeOverview() {
+    public EmployeeSelect() {
         initComponents();
         fillTable();
     }
@@ -33,16 +34,10 @@ public class EmployeeOverview extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            String contracttype = "Fulltime";
-            if (employee.isCallWorker())
-                contracttype = "Oproepkracht";
-            if (employee.isPartTime())
-                contracttype = "Parttime";
             model.addRow(new Object[] {
                 employee.getEmployeeNumber(),
                 employee.getFirstName(),
-                employee.getFamilyName(),
-                contracttype
+                employee.getFamilyName()
             });
         }
     }
@@ -58,24 +53,22 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmployee = new javax.swing.JTable();
+        OK = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
-        btnChange = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
 
         tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Personeelsnummer", "Voornaam", "Achternaam", "Contracttype"
+                "PersoneelsNummer", "Voornaam", "Achternaam"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -93,33 +86,18 @@ public class EmployeeOverview extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblEmployee);
 
+        OK.setText("OK");
+        OK.setEnabled(false);
+        OK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKActionPerformed(evt);
+            }
+        });
+
         btnBack.setText("Terug");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
-            }
-        });
-
-        btnAdd.setText("Toevoegen");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
-            }
-        });
-
-        btnChange.setText("Wijzijgen");
-        btnChange.setEnabled(false);
-        btnChange.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnChangeActionPerformed(evt);
-            }
-        });
-
-        btnDelete.setText("Verwijderen");
-        btnDelete.setEnabled(false);
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
             }
         });
 
@@ -131,14 +109,10 @@ public class EmployeeOverview extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 476, Short.MAX_VALUE)
-                        .addComponent(btnDelete)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnChange)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAdd)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 716, Short.MAX_VALUE)
+                        .addComponent(OK)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -149,9 +123,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
-                    .addComponent(btnAdd)
-                    .addComponent(btnChange)
-                    .addComponent(btnDelete))
+                    .addComponent(OK))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -160,40 +132,30 @@ public class EmployeeOverview extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new MainMenu());
     }//GEN-LAST:event_btnBackActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddEmployee());
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (RoosterProgramma.getInstance().promptWarning("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?"))
-        {
-            selectedEmployee.delete();
-            RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
+        showInfo();
+    }//GEN-LAST:event_OKActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
         if (evt.getClickCount() < 2)
         {
-            btnDelete.setEnabled(true);
-            btnChange.setEnabled(true);
+            OK.setEnabled(true);
             selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
         }
         else
         {
-            RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+            showInfo();
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
 
-    private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
-    }//GEN-LAST:event_btnChangeActionPerformed
+    private void showInfo() {
+        Calendar calendar = Calendar.getInstance();
+        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton OK;
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnChange;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEmployee;
     // End of variables declaration//GEN-END:variables

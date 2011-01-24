@@ -38,6 +38,7 @@ public class MainMenu extends javax.swing.JPanel {
         boxPanel = new javax.swing.JPanel();
         btnRoosters = new javax.swing.JButton();
         btnOverzicht = new javax.swing.JButton();
+        btnManage = new javax.swing.JButton();
 
         btnLogout.setText("Uitloggen");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -68,6 +69,16 @@ public class MainMenu extends javax.swing.JPanel {
         });
         boxPanel.add(btnOverzicht);
 
+        btnManage.setText("Medewerkers beheren");
+        btnManage.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnManage.setPreferredSize(new java.awt.Dimension(200, 100));
+        btnManage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageActionPerformed(evt);
+            }
+        });
+        boxPanel.add(btnManage);
+
         flowPanel.add(boxPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -86,14 +97,14 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
                 .addComponent(btnLogout)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOverzichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverzichtActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
     }//GEN-LAST:event_btnOverzichtActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -104,10 +115,15 @@ public class MainMenu extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new Rooster());
     }//GEN-LAST:event_btnRoostersActionPerformed
 
+    private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+    }//GEN-LAST:event_btnManageActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel boxPanel;
     private javax.swing.JButton btnLogout;
+    private javax.swing.JButton btnManage;
     private javax.swing.JButton btnOverzicht;
     private javax.swing.JButton btnRoosters;
     private javax.swing.JPanel flowPanel;

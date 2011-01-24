@@ -295,7 +295,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void tblTimeSheetFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblTimeSheetFocusGained
