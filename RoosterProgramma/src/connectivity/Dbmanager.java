@@ -1,6 +1,7 @@
 package connectivity;
 
 import java.sql.*;
+import roosterprogramma.RoosterProgramma;
 
 /**
  *
@@ -26,8 +27,10 @@ public class Dbmanager {
             connection = DriverManager.getConnection(url, user, pass);
         } catch (ClassNotFoundException e) {
             System.err.println(JDBC_EXCEPTION + e);
+            RoosterProgramma.getInstance().shutdown();
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
+            RoosterProgramma.getInstance().shutdown();
         }
     }
 
