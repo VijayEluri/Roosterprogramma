@@ -240,15 +240,25 @@ public class EmployeeInfo extends javax.swing.JPanel {
             String year = Integer.toString(calendar.get(Calendar.YEAR));
             String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
             WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + model.getValueAt(i, 0).toString());
-            hour.setWorked(Double.parseDouble(model.getValueAt(i, 1).toString()));
-            hour.setCompensation150(Double.parseDouble(model.getValueAt(i, 2).toString()));
-            hour.setCompensation200(Double.parseDouble(model.getValueAt(i, 3).toString()));
-            hour.setVacation(Double.parseDouble(model.getValueAt(i, 4).toString()));
-            hour.setADV(Double.parseDouble(model.getValueAt(i, 5).toString()));
-            hour.setIllness(Double.parseDouble(model.getValueAt(i, 6).toString()));
-            hour.setLeave(Double.parseDouble(model.getValueAt(i, 7).toString()));
-            hour.setProject(Double.parseDouble(model.getValueAt(i, 8).toString()));
-            hour.update();
+            boolean save = true;
+            if (!model.getValueAt(i, 9).toString().equals(Double.toString(hour.getShouldWork())))
+            {
+                save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, 9).toString()
+                        + ")\nis niet gelijk aan het aantal uren dat de werknemer zou moeten werken (" + hour.getShouldWork() + ")\n Wilt u toch opslaan?");
+            }
+
+            if (save)
+            {
+                hour.setWorked(Double.parseDouble(model.getValueAt(i, 1).toString()));
+                hour.setCompensation150(Double.parseDouble(model.getValueAt(i, 2).toString()));
+                hour.setCompensation200(Double.parseDouble(model.getValueAt(i, 3).toString()));
+                hour.setVacation(Double.parseDouble(model.getValueAt(i, 4).toString()));
+                hour.setADV(Double.parseDouble(model.getValueAt(i, 5).toString()));
+                hour.setIllness(Double.parseDouble(model.getValueAt(i, 6).toString()));
+                hour.setLeave(Double.parseDouble(model.getValueAt(i, 7).toString()));
+                hour.setProject(Double.parseDouble(model.getValueAt(i, 8).toString()));
+                hour.update();
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
