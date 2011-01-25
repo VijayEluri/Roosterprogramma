@@ -46,11 +46,6 @@ public class Rooster extends javax.swing.JPanel {
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
             String day = translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
-            if (day.isEmpty())
-            {
-                day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
-                System.out.println("Error:  " + day + " returns an empty translation!");
-            }
             model.addColumn(i + " - " + day.substring(0, 2));
         }
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())

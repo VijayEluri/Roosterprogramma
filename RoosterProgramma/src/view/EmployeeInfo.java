@@ -12,10 +12,12 @@
 package view;
 
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
+import roosterprogramma.Translater;
 
 /**
  *
@@ -66,6 +68,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
     }
 
     private void fillVerantwoordingTable() {
+        Translater translater = new Translater();
         model = (DefaultTableModel) tblTimeSheet.getModel();
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
@@ -74,7 +77,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
             WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + day);
             model.addRow(new Object[] {
-                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
                 hour.getWorked(),
                 hour.getCompensation150(),
                 hour.getCompensation200(),
@@ -305,7 +308,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         for (int i = 0; i < model.getRowCount()-1; i++)
         {
-            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString());
+            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
             boolean save = true;
             if (!model.getValueAt(i, 9).toString().equals(Double.toString(hour.getShouldWork())))
             {
