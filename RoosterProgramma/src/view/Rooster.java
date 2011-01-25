@@ -13,11 +13,11 @@ package view;
 
 import java.util.Calendar;
 import java.util.Locale;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
+import roosterprogramma.Translater;
 
 /**
  *
@@ -26,6 +26,7 @@ import roosterprogramma.RoosterProgramma;
 public class Rooster extends javax.swing.JPanel {
 
     private DefaultTableModel model;
+    private Translater translater = new Translater();
 
     /** Creates new form Rooster */
     public Rooster() {
@@ -36,19 +37,27 @@ public class Rooster extends javax.swing.JPanel {
     private void process() {
         model = (DefaultTableModel) tblSchedule.getModel();
         model.addColumn("Naam");
+        model.addColumn("ContractUren");
         Calendar calendar = Calendar.getInstance();
         lblYear.setText(Integer.toString(calendar.get(Calendar.YEAR)));
-        lblMonth.setText(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH));
+        lblMonth.setText(translater.Translate(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)));
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            model.addColumn(calendar.get(Calendar.DAY_OF_MONTH));
+            String day = translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
+            if (day.isEmpty())
+            {
+                day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH);
+                System.out.println("Error:  " + day + " returns an empty translation!");
+            }
+            model.addColumn(i + " - " + day.substring(0, 2));
         }
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            Object[] fields = new Object[daysOfMonth+1];
+            Object[] fields = new Object[daysOfMonth+2];
             fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
+            fields[1] = employee.getContractHours();
             for (int i = 1; i <= daysOfMonth; i++)
             {
                 calendar.set(Calendar.DAY_OF_MONTH, i);
@@ -59,11 +68,15 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void handleField(Calendar calendar, Employee employee, Object[] fields) {
+        WorkHours hour = employee.getWorkHours(getDate(calendar));
+        fields[calendar.get(Calendar.DAY_OF_MONTH)+1] = hour.getShouldWork();
+    }
+
+    private String getDate(Calendar calendar) {
         String year = Integer.toString(calendar.get(Calendar.YEAR));
         String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
         String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-        WorkHours hour = employee.getWorkHours(year + "-" + month + "-" + day);
-        fields[calendar.get(Calendar.DAY_OF_MONTH)] = hour.getShouldWork();
+        return year + "-" + month + "-" + day;
     }
 
     /** This method is called from within the constructor to
@@ -98,6 +111,7 @@ public class Rooster extends javax.swing.JPanel {
 
             }
         ));
+        tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         pnlTable.setViewportView(tblSchedule);
 
         btnSave.setText("Opslaan");
@@ -256,9 +270,10 @@ public class Rooster extends javax.swing.JPanel {
             String firstName = pieces[0];
             String familyName = pieces[1];
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
-            for (int j = 1; j < model.getColumnCount(); j++)
+            for (int j = 2; j < model.getColumnCount(); j++)
             {
-                String day = model.getColumnName(j);
+                pieces = model.getColumnName(j).split(" - ");
+                String day = pieces[0];
                 WorkHours hours = employee.getWorkHours(year + "-" + month + "-" + day);
                 double shouldWork = Double.parseDouble(model.getValueAt(i, j).toString());
                 hours.setShouldWork(shouldWork);

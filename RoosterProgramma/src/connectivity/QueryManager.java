@@ -39,6 +39,7 @@ public class QueryManager {
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
+                    result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
             }
@@ -62,6 +63,7 @@ public class QueryManager {
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
+                    result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
             }
@@ -86,6 +88,7 @@ public class QueryManager {
                         result.getBoolean("fulltime"),
                         result.getBoolean("parttime"),
                         result.getBoolean("oproepkracht"),
+                        result.getDouble("contracturen"),
                         result.getBoolean("admin")
                     )
                 );
@@ -100,10 +103,10 @@ public class QueryManager {
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
-        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
+        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht)"
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
-                + parttime + "', '" + oproepkracht + "')";
+                + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "')";
         dbmanager.insertQuery(sql);
     }
 
@@ -111,10 +114,10 @@ public class QueryManager {
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
-        String sql = "REPLACE INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht)"
+        String sql = "REPLACE INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht)"
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
-                + parttime + "', '" + oproepkracht + "');";
+                + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "');";
         dbmanager.insertQuery(sql);
     }
     
