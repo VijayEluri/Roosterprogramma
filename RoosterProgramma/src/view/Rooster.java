@@ -235,7 +235,7 @@ public class Rooster extends javax.swing.JPanel {
 
     private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
         int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
-        int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString())-1;
+        int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString());
         handleTime(selectedYear, selectedMonth);
     }//GEN-LAST:event_btnGoActionPerformed
 
