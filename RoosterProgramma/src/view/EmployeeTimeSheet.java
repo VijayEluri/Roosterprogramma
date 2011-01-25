@@ -23,7 +23,7 @@ import roosterprogramma.Translater;
  *
  * @author Dark
  */
-public class EmployeeInfo extends javax.swing.JPanel {
+public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private Employee employee;
     private DefaultTableModel model;
@@ -31,10 +31,10 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private int year, month;
 
     /** Creates new form medewerkerInfo */
-    public EmployeeInfo(Employee employee, int year, int month) {
+    public EmployeeTimeSheet(Employee employee, int year, int month) {
         this.employee = employee;
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.MONTH, month-1);
         this.year = year;
         this.month = month;
         initComponents();
@@ -48,12 +48,12 @@ public class EmployeeInfo extends javax.swing.JPanel {
         {
             cmbYear.addItem(calendar.get(Calendar.YEAR)+i);
         }
-        cmbYear.setSelectedItem(calendar.get(Calendar.YEAR));
+        cmbYear.setSelectedItem(year);
         for (int j = 1; j <= 12; j++)
         {
             cmbMonth.addItem(j);
         }
-        cmbMonth.setSelectedItem(calendar.get(Calendar.MONTH)+1);
+        cmbMonth.setSelectedItem(month);
     }
 
     private void fillInfoTable() {
@@ -70,27 +70,58 @@ public class EmployeeInfo extends javax.swing.JPanel {
     private void fillVerantwoordingTable() {
         Translater translater = new Translater();
         model = (DefaultTableModel) tblTimeSheet.getModel();
+        model.addColumn("Dag vd Maand");
+        if (employee.isClerk())
+            model.addColumn("Ingeroosterde Uren");
+        model.addColumn("Gewerkt");
+        model.addColumn("Compensatie 150");
+        model.addColumn("Compensatie 200");
+        model.addColumn("Vakantie");
+        model.addColumn("ADV");
+        model.addColumn("Ziek");
+        model.addColumn("Speciaal Verlof");
+        model.addColumn("Project");
+        model.addColumn("Totaal");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + day);
-            model.addRow(new Object[] {
-                calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
-                hour.getWorked(),
-                hour.getCompensation150(),
-                hour.getCompensation200(),
-                hour.getVacation(),
-                hour.getADV(),
-                hour.getIllness(),
-                hour.getLeave(),
-                hour.getProject(),
-                0
-            });
+            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + getDay());
+            if (employee.isClerk())
+            {
+                model.addRow(new Object[] {
+                    calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
+                    hour.getShouldWork(),
+                    hour.getWorked(),
+                    hour.getCompensation150(),
+                    hour.getCompensation200(),
+                    hour.getVacation(),
+                    hour.getADV(),
+                    hour.getIllness(),
+                    hour.getLeave(),
+                    hour.getProject(),
+                    0
+                });
+            }
+            else
+            {
+                model.addRow(new Object[] {
+                    calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
+                    hour.getWorked(),
+                    hour.getCompensation150(),
+                    hour.getCompensation200(),
+                    hour.getVacation(),
+                    hour.getADV(),
+                    hour.getIllness(),
+                    hour.getLeave(),
+                    hour.getProject(),
+                    0
+                });
+            }
         }
         model.addRow(new Object[] {
             "Totaal",
+            0,
             0,
             0,
             0,
@@ -192,14 +223,14 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Dag vd maand", "Gewerkt", "Compensatie 150", "Compensatie 200", "Vakantie", "ADV", "Ziek", "Speciaal verlof", "Project", "Totaal"
+                "Dag vd maand", "Ingeroosterde uren", "Gewerkt", "Compensatie 150", "Compensatie 200", "Vakantie", "ADV", "Ziek", "Speciaal verlof", "Project", "Totaal"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+                java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true, true, true
+                false, false, true, true, true, true, true, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -310,23 +341,63 @@ public class EmployeeInfo extends javax.swing.JPanel {
         {
             WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
             boolean save = true;
-            if (!model.getValueAt(i, 9).toString().equals(Double.toString(hour.getShouldWork())))
+            for (int j = 0; j < model.getColumnCount(); j++)
             {
-                save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, 9).toString()
-                        + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hour.getShouldWork() + ")\n Wilt u toch opslaan?");
+                if (model.getColumnName(j).equals("Totaal"))
+                {
+                    if (!model.getValueAt(i, j).toString().equals(Double.toString(hour.getShouldWork())))
+                    {
+                        save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, j).toString()
+                                + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hour.getShouldWork()
+                                + ")\n Wilt u toch opslaan?");
+                    }
+                }
+                else if (model.getColumnName(j).equals("Gewerkt"))
+                {
+                    hour.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Compensatie 150"))
+                {
+                    hour.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Compensatie 200"))
+                {
+                    hour.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Vakantie"))
+                {
+                    hour.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("ADV"))
+                {
+                    hour.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Ziek"))
+                {
+                    hour.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Speciaal Verlof"))
+                {
+                    hour.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+                else if (model.getColumnName(j).equals("Project"))
+                {
+                    hour.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
+                }
+
+                if (!save)
+                {
+                    break;
+                }
             }
 
             if (save)
             {
-                hour.setWorked(Double.parseDouble(model.getValueAt(i, 1).toString()));
-                hour.setCompensation150(Double.parseDouble(model.getValueAt(i, 2).toString()));
-                hour.setCompensation200(Double.parseDouble(model.getValueAt(i, 3).toString()));
-                hour.setVacation(Double.parseDouble(model.getValueAt(i, 4).toString()));
-                hour.setADV(Double.parseDouble(model.getValueAt(i, 5).toString()));
-                hour.setIllness(Double.parseDouble(model.getValueAt(i, 6).toString()));
-                hour.setLeave(Double.parseDouble(model.getValueAt(i, 7).toString()));
-                hour.setProject(Double.parseDouble(model.getValueAt(i, 8).toString()));
                 hour.update();
+            }
+            else
+            {
+                break;
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -351,7 +422,7 @@ public class EmployeeInfo extends javax.swing.JPanel {
             month = 12;
             year -= 1;
         }
-        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(employee, year, month));
+        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(employee, year, month));
     }
 
     private String getYear() {
@@ -360,6 +431,10 @@ public class EmployeeInfo extends javax.swing.JPanel {
 
     private String getMonth() {
         return month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
+    }
+
+    private String getDay() {
+        return calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

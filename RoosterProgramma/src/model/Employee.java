@@ -22,16 +22,17 @@ public class Employee {
     private boolean fullTime;
     private boolean partTime;
     private boolean callWorker;
+    private boolean clerk;
     private double contractHours;
     private boolean admin;
     private List<WorkHours> workHours = new ArrayList<WorkHours>();
 
     public Employee() {
-        this(0, "", "", "", false, false, false, 0.0, false);
+        this(0, "", "", "", false, false, false, false, 0.0, false);
     }
 
     public Employee(int personeelsNummer, String voornaam,  String achternaam, String wachtwoord,
-            boolean fulltime, boolean parttime, boolean oproepkracht, double contracturen, boolean admin) {
+            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker, double contracturen, boolean admin) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
         this.familyName = achternaam;
@@ -39,6 +40,7 @@ public class Employee {
         this.fullTime = fulltime;
         this.partTime = parttime;
         this.callWorker = oproepkracht;
+        this.clerk = baliemedewerker;
         this.contractHours = contracturen;
         this.admin = admin;
     }
@@ -182,5 +184,19 @@ public class Employee {
      */
     public void setContractHours(double contractHours) {
         this.contractHours = contractHours;
+    }
+
+    /**
+     * @return the clerk
+     */
+    public boolean isClerk() {
+        return clerk;
+    }
+
+    /**
+     * @param clerk the clerk to set
+     */
+    public void setClerk(boolean clerk) {
+        this.clerk = clerk;
     }
 }

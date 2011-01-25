@@ -39,6 +39,7 @@ public class QueryManager {
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
+                    result.getBoolean("baliemedewerker"),
                     result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
@@ -63,6 +64,7 @@ public class QueryManager {
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
+                    result.getBoolean("baliemedewerker"),
                     result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
@@ -88,6 +90,7 @@ public class QueryManager {
                         result.getBoolean("fulltime"),
                         result.getBoolean("parttime"),
                         result.getBoolean("oproepkracht"),
+                        result.getBoolean("baliemedewerker"),
                         result.getDouble("contracturen"),
                         result.getBoolean("admin")
                     )

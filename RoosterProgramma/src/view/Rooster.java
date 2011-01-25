@@ -33,7 +33,7 @@ public class Rooster extends javax.swing.JPanel {
     /** Creates new form Rooster */
     public Rooster(int year, int month) {
         calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.MONTH, month-1);
         this.year = year;
         this.month = month;
         initComponents();
@@ -46,12 +46,12 @@ public class Rooster extends javax.swing.JPanel {
         {
             cmbYear.addItem(calendar.get(Calendar.YEAR)+i);
         }
-        cmbYear.setSelectedItem(calendar.get(Calendar.YEAR));
+        cmbYear.setSelectedItem(year);
         for (int j = 1; j <= 12; j++)
         {
             cmbMonth.addItem(j);
         }
-        cmbMonth.setSelectedItem(calendar.get(Calendar.MONTH)+1);
+        cmbMonth.setSelectedItem(month);
     }
 
     private void process() {
@@ -168,15 +168,15 @@ public class Rooster extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 710, Short.MAX_VALUE)
                         .addComponent(btnSave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPreviousMonth)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
@@ -188,8 +188,8 @@ public class Rooster extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlTable, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNextMonth)

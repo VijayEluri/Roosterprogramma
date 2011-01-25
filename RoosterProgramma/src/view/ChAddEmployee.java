@@ -33,6 +33,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
         fillFields();
         lblNameInUse.setVisible(false);
         lblNumberInUse.setVisible(false);
+        lblAmountHours.setVisible(false);
+        lblMinAmountHours.setVisible(false);
+        tfAmountHours.setVisible(false);
+        tfMinAmountHours.setVisible(false);
     }
 
     private void fillFields() {
@@ -40,8 +44,18 @@ public class ChAddEmployee extends javax.swing.JPanel {
         tfFirstName.setText(employee.getFirstName());
         tfFamilyName.setText(employee.getFamilyName());
         cbFullTime.setSelected(employee.isFullTime());
-        cbPartTime.setSelected(employee.isPartTime());
-        cbCallWorker.setSelected(employee.isCallWorker());
+        if (employee.isPartTime())
+        {
+            cbPartTime.setSelected(true);
+            lblAmountHours.setVisible(true);
+            tfAmountHours.setVisible(true);
+        }
+        else if(employee.isCallWorker())
+        {
+            cbCallWorker.setSelected(true);
+            lblMinAmountHours.setVisible(true);
+            tfMinAmountHours.setVisible(true);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -71,6 +85,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
         tfPassword = new javax.swing.JPasswordField();
         lblNameInUse = new javax.swing.JLabel();
         lblNumberInUse = new javax.swing.JLabel();
+        lblAmountHours = new javax.swing.JLabel();
+        lblMinAmountHours = new javax.swing.JLabel();
+        tfMinAmountHours = new javax.swing.JTextField();
+        tfAmountHours = new javax.swing.JTextField();
 
         lblEmployeeNumber.setText("PersoneelsNummer:");
 
@@ -147,6 +165,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblNumberInUse.setText("Dat nummer is al in gebruik!");
 
+        lblAmountHours.setText("Aantal uur per week:");
+
+        lblMinAmountHours.setText("Minimum aantal uur per week:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,21 +186,33 @@ public class ChAddEmployee extends javax.swing.JPanel {
                             .addComponent(lblPartTime)
                             .addComponent(lblCallWorker))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfPassword)
-                            .addComponent(cbCallWorker)
-                            .addComponent(cbPartTime)
-                            .addComponent(cbFullTime)
-                            .addComponent(tfEmployeeNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .addComponent(tfFirstName)
-                            .addComponent(tfFamilyName))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblNumberInUse)
-                            .addComponent(lblNameInUse)))
+                            .addComponent(cbFullTime)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(tfEmployeeNumber)
+                                        .addComponent(tfFirstName)
+                                        .addComponent(tfFamilyName)
+                                        .addComponent(tfPassword)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(cbCallWorker)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbPartTime)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNameInUse)
+                                    .addComponent(lblNumberInUse)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(tfMinAmountHours, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(tfAmountHours, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 610, Short.MAX_VALUE)
                         .addComponent(btnSave)))
                 .addContainerGap())
         );
@@ -200,21 +234,30 @@ public class ChAddEmployee extends javax.swing.JPanel {
                     .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNameInUse))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblWachtwoord)
-                    .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblWachtwoord)
+                            .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblFullTime)
+                                    .addComponent(cbFullTime))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblPartTime)
+                                    .addComponent(cbPartTime)))
+                            .addComponent(lblAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(tfAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFullTime)
-                    .addComponent(cbFullTime))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPartTime)
-                    .addComponent(cbPartTime))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCallWorker)
-                    .addComponent(cbCallWorker))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCallWorker, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cbCallWorker, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
@@ -340,18 +383,22 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private javax.swing.JCheckBox cbCallWorker;
     private javax.swing.JCheckBox cbFullTime;
     private javax.swing.JCheckBox cbPartTime;
+    private javax.swing.JLabel lblAmountHours;
     private javax.swing.JLabel lblCallWorker;
     private javax.swing.JLabel lblEmployeeNumber;
     private javax.swing.JLabel lblFamilyName;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblFullTime;
+    private javax.swing.JLabel lblMinAmountHours;
     private javax.swing.JLabel lblNameInUse;
     private javax.swing.JLabel lblNumberInUse;
     private javax.swing.JLabel lblPartTime;
     private javax.swing.JLabel lblWachtwoord;
+    private javax.swing.JTextField tfAmountHours;
     private javax.swing.JTextField tfEmployeeNumber;
     private javax.swing.JTextField tfFamilyName;
     private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfMinAmountHours;
     private javax.swing.JPasswordField tfPassword;
     // End of variables declaration//GEN-END:variables
 

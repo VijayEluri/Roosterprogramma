@@ -16,9 +16,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="pnlTable" alignment="0" pref="842" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
@@ -41,8 +41,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="pnlTable" min="-2" pref="512" max="-2" attributes="0"/>
-              <EmptySpace pref="111" max="32767" attributes="0"/>
+              <Component id="pnlTable" pref="605" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="1"/>
                   <Component id="btnNextMonth" alignment="1" min="-2" max="-2" attributes="1"/>

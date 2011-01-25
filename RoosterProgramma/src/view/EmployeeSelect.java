@@ -150,7 +150,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(new EmployeeInfo(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)));
+        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
