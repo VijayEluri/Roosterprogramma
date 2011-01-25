@@ -11,6 +11,7 @@
 
 package view;
 
+import java.util.Calendar;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -112,7 +113,8 @@ public class MainMenu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnRoostersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoostersActionPerformed
-        RoosterProgramma.getInstance().showPanel(new Rooster());
+        Calendar calendar = Calendar.getInstance();
+        RoosterProgramma.getInstance().showPanel(new Rooster(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
     }//GEN-LAST:event_btnRoostersActionPerformed
 
     private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed

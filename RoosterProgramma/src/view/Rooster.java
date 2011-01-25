@@ -27,20 +27,37 @@ public class Rooster extends javax.swing.JPanel {
 
     private DefaultTableModel model;
     private Translater translater = new Translater();
+    private Calendar calendar = Calendar.getInstance();
+    private int year, month;
 
     /** Creates new form Rooster */
-    public Rooster() {
+    public Rooster(int year, int month) {
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        this.year = year;
+        this.month = month;
         initComponents();
         process();
+        fillBoxes();
+    }
+
+    private void fillBoxes() {
+        for (int i = -20; i <= 20; i++)
+        {
+            cmbYear.addItem(calendar.get(Calendar.YEAR)+i);
+        }
+        cmbYear.setSelectedItem(calendar.get(Calendar.YEAR));
+        for (int j = 1; j <= 12; j++)
+        {
+            cmbMonth.addItem(j);
+        }
+        cmbMonth.setSelectedItem(calendar.get(Calendar.MONTH)+1);
     }
 
     private void process() {
         model = (DefaultTableModel) tblSchedule.getModel();
         model.addColumn("Naam");
         model.addColumn("ContractUren");
-        Calendar calendar = Calendar.getInstance();
-        lblYear.setText(Integer.toString(calendar.get(Calendar.YEAR)));
-        lblMonth.setText(translater.Translate(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)));
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++)
         {
@@ -68,10 +85,12 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private String getDate(Calendar calendar) {
-        String year = Integer.toString(calendar.get(Calendar.YEAR));
-        String month = Integer.toString(calendar.get(Calendar.MONTH)+1).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.MONTH)+1) : Integer.toString(calendar.get(Calendar.MONTH)+1);
-        String day = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-        return year + "-" + month + "-" + day;
+        String strDay = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
+        return year + "-" + getMonth() + "-" + strDay;
+    }
+
+    private String getMonth() {
+        return month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
     }
 
     /** This method is called from within the constructor to
@@ -87,16 +106,12 @@ public class Rooster extends javax.swing.JPanel {
         tblSchedule = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        pnlLegenda = new javax.swing.JScrollPane();
-        pnlColors = new javax.swing.JPanel();
-        pnlRed = new javax.swing.JPanel();
-        pnlGreen = new javax.swing.JPanel();
-        lblVacation = new javax.swing.JLabel();
-        lblIllness = new javax.swing.JLabel();
-        lblPregnancy = new javax.swing.JLabel();
-        pnlPurple = new javax.swing.JPanel();
-        lblYear = new javax.swing.JLabel();
-        lblMonth = new javax.swing.JLabel();
+        btnNextMonth = new javax.swing.JButton();
+        btnPreviousMonth = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        cmbYear = new javax.swing.JComboBox();
+        cmbMonth = new javax.swing.JComboBox();
+        btnGo = new javax.swing.JButton();
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,126 +138,63 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
-        pnlRed.setBackground(new java.awt.Color(255, 0, 0));
-        pnlRed.setPreferredSize(new java.awt.Dimension(25, 25));
+        btnNextMonth.setText("Volgende Maand");
+        btnNextMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextMonthActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout pnlRedLayout = new javax.swing.GroupLayout(pnlRed);
-        pnlRed.setLayout(pnlRedLayout);
-        pnlRedLayout.setHorizontalGroup(
-            pnlRedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-        pnlRedLayout.setVerticalGroup(
-            pnlRedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
+        btnPreviousMonth.setText("Vorige Maand");
+        btnPreviousMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousMonthActionPerformed(evt);
+            }
+        });
 
-        pnlGreen.setBackground(new java.awt.Color(0, 204, 0));
-        pnlGreen.setPreferredSize(new java.awt.Dimension(25, 25));
+        jPanel1.add(cmbYear);
 
-        javax.swing.GroupLayout pnlGreenLayout = new javax.swing.GroupLayout(pnlGreen);
-        pnlGreen.setLayout(pnlGreenLayout);
-        pnlGreenLayout.setHorizontalGroup(
-            pnlGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-        pnlGreenLayout.setVerticalGroup(
-            pnlGreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
+        jPanel1.add(cmbMonth);
 
-        lblVacation.setText("Vakantie");
-
-        lblIllness.setText("Ziekteverlof");
-
-        lblPregnancy.setText("Zwangerschapsverlof");
-
-        pnlPurple.setBackground(new java.awt.Color(204, 0, 204));
-        pnlPurple.setPreferredSize(new java.awt.Dimension(25, 25));
-
-        javax.swing.GroupLayout pnlPurpleLayout = new javax.swing.GroupLayout(pnlPurple);
-        pnlPurple.setLayout(pnlPurpleLayout);
-        pnlPurpleLayout.setHorizontalGroup(
-            pnlPurpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-        pnlPurpleLayout.setVerticalGroup(
-            pnlPurpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout pnlColorsLayout = new javax.swing.GroupLayout(pnlColors);
-        pnlColors.setLayout(pnlColorsLayout);
-        pnlColorsLayout.setHorizontalGroup(
-            pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlColorsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlColorsLayout.createSequentialGroup()
-                        .addComponent(pnlRed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblVacation)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
-                        .addComponent(pnlPurple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblPregnancy)
-                        .addGap(136, 136, 136))
-                    .addGroup(pnlColorsLayout.createSequentialGroup()
-                        .addComponent(pnlGreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblIllness)
-                        .addContainerGap(399, Short.MAX_VALUE))))
-        );
-        pnlColorsLayout.setVerticalGroup(
-            pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlColorsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlPurple, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblVacation)
-                        .addComponent(lblPregnancy))
-                    .addComponent(pnlRed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(pnlColorsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlGreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblIllness))
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
-
-        pnlLegenda.setViewportView(pnlColors);
+        btnGo.setText("Ga");
+        btnGo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnGo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
-                    .addComponent(pnlLegenda, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 710, Short.MAX_VALUE)
                         .addComponent(btnSave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(lblYear)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnPreviousMonth)
                         .addGap(18, 18, 18)
-                        .addComponent(lblMonth)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNextMonth)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblYear)
-                    .addComponent(lblMonth))
-                .addGap(18, 18, 18)
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(pnlLegenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(pnlTable, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNextMonth)
+                    .addComponent(btnPreviousMonth))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnBack))
@@ -255,10 +207,6 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
-        Calendar calendar = Calendar.getInstance();
-        String month = Integer.toString(calendar.get(Calendar.MONTH)+1);
-        String year = Integer.toString(calendar.get(Calendar.YEAR));
         for (int i = 0; i < model.getRowCount(); i++)
         {
             String[] pieces = model.getValueAt(i, 0).toString().split(" ");
@@ -269,7 +217,7 @@ public class Rooster extends javax.swing.JPanel {
             {
                 pieces = model.getColumnName(j).split(" - ");
                 String day = pieces[0];
-                WorkHours hours = employee.getWorkHours(year + "-" + month + "-" + day);
+                WorkHours hours = employee.getWorkHours(year + "-" + getMonth() + "-" + day);
                 double shouldWork = Double.parseDouble(model.getValueAt(i, j).toString());
                 hours.setShouldWork(shouldWork);
                 hours.update();
@@ -277,19 +225,38 @@ public class Rooster extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
+        handleTime(year, month-1);
+    }//GEN-LAST:event_btnPreviousMonthActionPerformed
+
+    private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed
+        handleTime(year, month+1);
+    }//GEN-LAST:event_btnNextMonthActionPerformed
+
+    private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
+        int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
+        int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString())-1;
+        handleTime(selectedYear, selectedMonth);
+    }//GEN-LAST:event_btnGoActionPerformed
+
+    private void handleTime(int year, int month) {
+        if (month == 0)
+        {
+            month = 12;
+            year -= 1;
+        }
+        RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnGo;
+    private javax.swing.JButton btnNextMonth;
+    private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;
-    private javax.swing.JLabel lblIllness;
-    private javax.swing.JLabel lblMonth;
-    private javax.swing.JLabel lblPregnancy;
-    private javax.swing.JLabel lblVacation;
-    private javax.swing.JLabel lblYear;
-    private javax.swing.JPanel pnlColors;
-    private javax.swing.JPanel pnlGreen;
-    private javax.swing.JScrollPane pnlLegenda;
-    private javax.swing.JPanel pnlPurple;
-    private javax.swing.JPanel pnlRed;
+    private javax.swing.JComboBox cmbMonth;
+    private javax.swing.JComboBox cmbYear;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane pnlTable;
     private javax.swing.JTable tblSchedule;
     // End of variables declaration//GEN-END:variables
