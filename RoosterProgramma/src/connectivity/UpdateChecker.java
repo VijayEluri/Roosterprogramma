@@ -13,7 +13,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import roosterprogramma.RoosterProgramma;
 import view.Login;
 
@@ -104,7 +103,7 @@ public class UpdateChecker {
                 prevVersion.delete();
             }
 
-            URL Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/WinkelApplicatieOut2.jar");
+            URL Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/WinkelApplicatieOut2.jar");    //  Dit gaat gehost worden op me NAS nadat ik em heb
             outStream = new BufferedOutputStream(new FileOutputStream(ApplicatieFile));
             URLConnection uCon = Url.openConnection();
             InputStream is = uCon.getInputStream();
@@ -115,7 +114,7 @@ public class UpdateChecker {
                 outStream.write(buf, 0, ByteRead);
             }
 
-            Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/version.txt");
+            Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/version.txt");    //  Dit gaat gehost worden op me NAS nadat ik em heb
             outStream = new BufferedOutputStream(new FileOutputStream(prevVersion));
             uCon = Url.openConnection();
             is = uCon.getInputStream();

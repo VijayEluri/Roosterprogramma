@@ -87,37 +87,28 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         {
             calendar.set(Calendar.DAY_OF_MONTH, i);
             WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + getDay());
+            Object[] fields;
             if (employee.isClerk())
             {
-                model.addRow(new Object[] {
-                    calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
-                    hour.getShouldWork(),
-                    hour.getWorked(),
-                    hour.getCompensation150(),
-                    hour.getCompensation200(),
-                    hour.getVacation(),
-                    hour.getADV(),
-                    hour.getIllness(),
-                    hour.getLeave(),
-                    hour.getProject(),
-                    0
-                });
+                fields = new Object[11];
             }
             else
             {
-                model.addRow(new Object[] {
-                    calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)),
-                    hour.getWorked(),
-                    hour.getCompensation150(),
-                    hour.getCompensation200(),
-                    hour.getVacation(),
-                    hour.getADV(),
-                    hour.getIllness(),
-                    hour.getLeave(),
-                    hour.getProject(),
-                    0
-                });
+                fields = new Object[10];
             }
+            fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
+            fields[1] = hour.getShouldWork();
+            if (employee.isClerk())
+                fields[2] = hour.getWorked();
+            fields[employee.isClerk() ? 3 : 2] = hour.getCompensation150();
+            fields[employee.isClerk() ? 4 : 3] = hour.getCompensation200();
+            fields[employee.isClerk() ? 5 : 4] = hour.getVacation();
+            fields[employee.isClerk() ? 6 : 5] = hour.getADV();
+            fields[employee.isClerk() ? 7 : 6] = hour.getIllness();
+            fields[employee.isClerk() ? 8 : 7] = hour.getLeave();
+            fields[employee.isClerk() ? 9 : 8] = hour.getProject();
+            fields[employee.isClerk() ? 10 : 9] = 0;
+            model.addRow(fields);
         }
         model.addRow(new Object[] {
             "Totaal",
@@ -406,6 +397,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         {
             month = 12;
             year -= 1;
+        }
+        else if (month == 13)
+        {
+            month = 1;
+            year += 1;
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(employee, year, month));
     }

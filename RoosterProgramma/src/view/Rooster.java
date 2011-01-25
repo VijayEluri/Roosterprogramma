@@ -245,6 +245,11 @@ public class Rooster extends javax.swing.JPanel {
             month = 12;
             year -= 1;
         }
+        else if (month == 13)
+        {
+            month = 1;
+            year += 1;
+        }
         RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
     }
 
