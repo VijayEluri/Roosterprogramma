@@ -328,7 +328,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             boolean save = true;
             for (int j = 0; j < model.getColumnCount(); j++)
             {
-                if (model.getColumnName(j).equals("Totaal"))
+                if (model.getColumnName(j).equals("Totaal") && employee.isClerk())
                 {
                     if (!model.getValueAt(i, j).toString().equals(Double.toString(hour.getShouldWork())))
                     {
