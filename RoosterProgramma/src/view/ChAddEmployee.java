@@ -169,6 +169,18 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblMinAmountHours.setText("Minimum aantal uur per week:");
 
+        tfMinAmountHours.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfMinAmountHoursKeyReleased(evt);
+            }
+        });
+
+        tfAmountHours.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfAmountHoursKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -327,11 +339,39 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbPartTimeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbPartTimeStateChanged
         checkEnabled();
+        if (cbPartTime.isSelected())
+        {
+            lblAmountHours.setVisible(true);
+            tfAmountHours.setVisible(true);
+        }
+        else
+        {
+            lblAmountHours.setVisible(false);
+            tfAmountHours.setVisible(false);
+        }
     }//GEN-LAST:event_cbPartTimeStateChanged
 
     private void cbCallWorkerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbCallWorkerStateChanged
         checkEnabled();
+        if (cbCallWorker.isSelected())
+        {
+            lblMinAmountHours.setVisible(true);
+            tfMinAmountHours.setVisible(true);
+        }
+        else
+        {
+            lblMinAmountHours.setVisible(false);
+            tfMinAmountHours.setVisible(false);
+        }
     }//GEN-LAST:event_cbCallWorkerStateChanged
+
+    private void tfAmountHoursKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAmountHoursKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfAmountHoursKeyReleased
+
+    private void tfMinAmountHoursKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMinAmountHoursKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfMinAmountHoursKeyReleased
 
     private void checkEnabled() {
         if (!tfEmployeeNumber.getText().isEmpty() &&
@@ -339,7 +379,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
             !tfFamilyName.getText().isEmpty() &&
             !Exist() &&
             !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() &&
-            (cbFullTime.isSelected() || cbPartTime.isSelected() || cbCallWorker.isSelected()))
+            (cbFullTime.isSelected() || (cbPartTime.isSelected() && !tfAmountHours.getText().isEmpty()) || (cbCallWorker.isSelected() && !tfMinAmountHours.getText().isEmpty())) &&
+            !(cbFullTime.isSelected() && cbPartTime.isSelected()) && !(cbPartTime.isSelected() && cbCallWorker.isSelected()) && !(cbFullTime.isSelected() && cbCallWorker.isSelected()))
         {
             btnSave.setEnabled(true);
         }

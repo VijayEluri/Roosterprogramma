@@ -172,19 +172,7 @@
         <Component class="javax.swing.JTable" name="tblTimeSheet">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="11" rowCount="0">
-                <Column editable="false" title="Dag vd maand" type="java.lang.String"/>
-                <Column editable="false" title="Ingeroosterde uren" type="java.lang.Double"/>
-                <Column editable="true" title="Gewerkt" type="java.lang.Double"/>
-                <Column editable="true" title="Compensatie 150" type="java.lang.Double"/>
-                <Column editable="true" title="Compensatie 200" type="java.lang.Double"/>
-                <Column editable="true" title="Vakantie" type="java.lang.Double"/>
-                <Column editable="true" title="ADV" type="java.lang.Double"/>
-                <Column editable="true" title="Ziek" type="java.lang.Double"/>
-                <Column editable="true" title="Speciaal verlof" type="java.lang.Double"/>
-                <Column editable="true" title="Project" type="java.lang.Double"/>
-                <Column editable="true" title="Totaal" type="java.lang.Double"/>
-              </Table>
+              <Table columnCount="0" rowCount="0"/>
             </Property>
             <Property name="rowSelectionAllowed" type="boolean" value="false"/>
           </Properties>

@@ -248,8 +248,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfMinAmountHours">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfMinAmountHoursKeyReleased"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfAmountHours">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfAmountHoursKeyReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
