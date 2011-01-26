@@ -315,50 +315,50 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         for (int i = 0; i < model.getRowCount()-1; i++)
         {
-            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
+            WorkHours hours = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
             boolean save = true;
             for (int j = 0; j < model.getColumnCount(); j++)
             {
                 if (model.getColumnName(j).equals("Totaal") && employee.isClerk())
                 {
-                    if (!model.getValueAt(i, j).toString().equals(Double.toString(hour.getShouldWork())))
+                    if (!model.getValueAt(i, j).toString().equals(Double.toString(hours.getShouldWork())))
                     {
                         save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, j).toString()
-                                + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hour.getShouldWork()
+                                + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hours.getShouldWork()
                                 + ")\n Wilt u toch opslaan?");
                     }
                 }
                 else if (model.getColumnName(j).equals("Gewerkt"))
                 {
-                    hour.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Compensatie 150"))
                 {
-                    hour.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Compensatie 200"))
                 {
-                    hour.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Vakantie"))
                 {
-                    hour.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("ADV"))
                 {
-                    hour.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Ziek"))
                 {
-                    hour.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Speciaal Verlof"))
                 {
-                    hour.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
                 else if (model.getColumnName(j).equals("Project"))
                 {
-                    hour.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hours.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
 
                 if (!save)
@@ -369,7 +369,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
             if (save)
             {
-                hour.update();
+                hours.update();
             }
             else
             {
