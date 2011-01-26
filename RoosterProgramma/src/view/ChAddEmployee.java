@@ -33,10 +33,6 @@ public class ChAddEmployee extends javax.swing.JPanel {
         fillFields();
         lblNameInUse.setVisible(false);
         lblNumberInUse.setVisible(false);
-        lblAmountHours.setVisible(false);
-        lblMinAmountHours.setVisible(false);
-        tfAmountHours.setVisible(false);
-        tfMinAmountHours.setVisible(false);
     }
 
     private void fillFields() {
@@ -44,17 +40,25 @@ public class ChAddEmployee extends javax.swing.JPanel {
         tfFirstName.setText(employee.getFirstName());
         tfFamilyName.setText(employee.getFamilyName());
         cbFullTime.setSelected(employee.isFullTime());
+        cbClerk.setSelected(employee.isClerk());
         if (employee.isPartTime())
         {
             cbPartTime.setSelected(true);
-            lblAmountHours.setVisible(true);
-            tfAmountHours.setVisible(true);
+            pnlPartTime.setVisible(true);
+            pnlCallWorker.setVisible(false);
+            tfAmountHours.setText(Double.toString(employee.getContractHours()));
         }
         else if(employee.isCallWorker())
         {
             cbCallWorker.setSelected(true);
-            lblMinAmountHours.setVisible(true);
-            tfMinAmountHours.setVisible(true);
+            pnlCallWorker.setVisible(true);
+            pnlPartTime.setVisible(false);
+            tfMinAmountHours.setText(Double.toString(employee.getContractHours()));
+        }
+        else
+        {
+            pnlPartTime.setVisible(false);
+            pnlCallWorker.setVisible(false);
         }
     }
 
@@ -67,6 +71,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup = new javax.swing.ButtonGroup();
         lblEmployeeNumber = new javax.swing.JLabel();
         lblFirstName = new javax.swing.JLabel();
         lblFamilyName = new javax.swing.JLabel();
@@ -85,10 +90,14 @@ public class ChAddEmployee extends javax.swing.JPanel {
         tfPassword = new javax.swing.JPasswordField();
         lblNameInUse = new javax.swing.JLabel();
         lblNumberInUse = new javax.swing.JLabel();
+        pnlPartTime = new javax.swing.JPanel();
         lblAmountHours = new javax.swing.JLabel();
+        tfAmountHours = new javax.swing.JTextField();
+        pnlCallWorker = new javax.swing.JPanel();
         lblMinAmountHours = new javax.swing.JLabel();
         tfMinAmountHours = new javax.swing.JTextField();
-        tfAmountHours = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        cbClerk = new javax.swing.JCheckBox();
 
         lblEmployeeNumber.setText("PersoneelsNummer:");
 
@@ -122,6 +131,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup.add(cbFullTime);
         cbFullTime.setSelected(true);
         cbFullTime.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -129,12 +139,14 @@ public class ChAddEmployee extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup.add(cbPartTime);
         cbPartTime.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbPartTimeStateChanged(evt);
             }
         });
 
+        buttonGroup.add(cbCallWorker);
         cbCallWorker.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbCallWorkerStateChanged(evt);
@@ -167,6 +179,29 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblAmountHours.setText("Aantal uur per week:");
 
+        tfAmountHours.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfAmountHoursKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlPartTimeLayout = new javax.swing.GroupLayout(pnlPartTime);
+        pnlPartTime.setLayout(pnlPartTimeLayout);
+        pnlPartTimeLayout.setHorizontalGroup(
+            pnlPartTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPartTimeLayout.createSequentialGroup()
+                .addComponent(lblAmountHours, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(tfAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlPartTimeLayout.setVerticalGroup(
+            pnlPartTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPartTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lblAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         lblMinAmountHours.setText("Minimum aantal uur per week:");
 
         tfMinAmountHours.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -175,9 +210,29 @@ public class ChAddEmployee extends javax.swing.JPanel {
             }
         });
 
-        tfAmountHours.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfAmountHoursKeyReleased(evt);
+        javax.swing.GroupLayout pnlCallWorkerLayout = new javax.swing.GroupLayout(pnlCallWorker);
+        pnlCallWorker.setLayout(pnlCallWorkerLayout);
+        pnlCallWorkerLayout.setHorizontalGroup(
+            pnlCallWorkerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCallWorkerLayout.createSequentialGroup()
+                .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tfMinAmountHours, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlCallWorkerLayout.setVerticalGroup(
+            pnlCallWorkerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlCallWorkerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jLabel1.setText("Baliemedewerker:");
+
+        buttonGroup.add(cbClerk);
+        cbClerk.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                cbClerkStateChanged(evt);
             }
         });
 
@@ -190,47 +245,48 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblEmployeeNumber)
-                            .addComponent(lblFirstName)
-                            .addComponent(lblFamilyName)
-                            .addComponent(lblWachtwoord)
-                            .addComponent(lblFullTime)
-                            .addComponent(lblPartTime)
-                            .addComponent(lblCallWorker))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbFullTime)
+                            .addComponent(btnCancel)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(tfEmployeeNumber)
-                                        .addComponent(tfFirstName)
-                                        .addComponent(tfFamilyName)
-                                        .addComponent(tfPassword)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(cbCallWorker)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cbPartTime)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(lblAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
+                                    .addComponent(lblPartTime)
+                                    .addComponent(lblEmployeeNumber)
+                                    .addComponent(lblFirstName)
+                                    .addComponent(lblFamilyName)
+                                    .addComponent(lblWachtwoord)
+                                    .addComponent(lblFullTime)
+                                    .addComponent(lblCallWorker))
+                                .addGap(14, 14, 14)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNameInUse)
-                                    .addComponent(lblNumberInUse)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfMinAmountHours, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(tfAmountHours, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 610, Short.MAX_VALUE)
-                        .addComponent(btnSave)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(4, 4, 4)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(tfPassword, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfFirstName, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tfEmployeeNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                                            .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNumberInUse)
+                                            .addComponent(lblNameInUse)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(cbCallWorker)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(cbFullTime)
+                                                .addComponent(cbPartTime))
+                                            .addComponent(cbClerk))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(pnlPartTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(pnlCallWorker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 507, Short.MAX_VALUE)
+                        .addComponent(btnSave))
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEmployeeNumber)
@@ -245,35 +301,40 @@ public class ChAddEmployee extends javax.swing.JPanel {
                     .addComponent(lblFamilyName)
                     .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNameInUse))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblWachtwoord)
-                            .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblFullTime)
-                                    .addComponent(cbFullTime))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblPartTime)
-                                    .addComponent(cbPartTime)))
-                            .addComponent(lblAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(tfAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblWachtwoord))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblFullTime)
+                        .addGap(25, 25, 25)
+                        .addComponent(lblPartTime))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cbFullTime)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pnlPartTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbPartTime))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblCallWorker, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbCallWorker, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tfMinAmountHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel)
-                    .addComponent(btnSave))
+                    .addComponent(pnlCallWorker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cbCallWorker)
+                            .addComponent(lblCallWorker))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(cbClerk))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCancel)
+                            .addComponent(btnSave))))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -290,6 +351,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean fullTime = cbFullTime.isSelected();
         boolean partTime = cbPartTime.isSelected();
         boolean callWorker = cbCallWorker.isSelected();
+        boolean clerk = cbClerk.isSelected();
 
         if (isAdd)
         {
@@ -301,6 +363,19 @@ public class ChAddEmployee extends javax.swing.JPanel {
             newEmployee.setFullTime(fullTime);
             newEmployee.setPartTime(partTime);
             newEmployee.setCallWorker(callWorker);
+            newEmployee.setClerk(clerk);
+            if (newEmployee.isCallWorker())
+            {
+                newEmployee.setContractHours(Double.parseDouble(tfMinAmountHours.getText()));
+            }
+            else if (newEmployee.isPartTime())
+            {
+                newEmployee.setContractHours(Double.parseDouble(tfAmountHours.getText()));
+            }
+            else if (newEmployee.isFullTime())
+            {
+                newEmployee.setContractHours(40);
+            }
             RoosterProgramma.getQueryManager().addEmployee(newEmployee);
         }
         else
@@ -311,6 +386,19 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setFullTime(fullTime);
             employee.setPartTime(partTime);
             employee.setCallWorker(callWorker);
+            employee.setClerk(clerk);
+            if (employee.isCallWorker())
+            {
+                employee.setContractHours(Double.parseDouble(tfMinAmountHours.getText()));
+            }
+            else if (employee.isPartTime())
+            {
+                employee.setContractHours(Double.parseDouble(tfAmountHours.getText()));
+            }
+            else if (employee.isFullTime())
+            {
+                employee.setContractHours(40);
+            }
             RoosterProgramma.getQueryManager().changeEmployee(employee);
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
@@ -341,13 +429,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
         checkEnabled();
         if (cbPartTime.isSelected())
         {
-            lblAmountHours.setVisible(true);
-            tfAmountHours.setVisible(true);
+            pnlPartTime.setVisible(true);
         }
         else
         {
-            lblAmountHours.setVisible(false);
-            tfAmountHours.setVisible(false);
+            pnlPartTime.setVisible(false);
         }
     }//GEN-LAST:event_cbPartTimeStateChanged
 
@@ -355,13 +441,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
         checkEnabled();
         if (cbCallWorker.isSelected())
         {
-            lblMinAmountHours.setVisible(true);
-            tfMinAmountHours.setVisible(true);
+            pnlCallWorker.setVisible(true);
         }
         else
         {
-            lblMinAmountHours.setVisible(false);
-            tfMinAmountHours.setVisible(false);
+            pnlCallWorker.setVisible(false);
         }
     }//GEN-LAST:event_cbCallWorkerStateChanged
 
@@ -373,14 +457,20 @@ public class ChAddEmployee extends javax.swing.JPanel {
         checkEnabled();
     }//GEN-LAST:event_tfMinAmountHoursKeyReleased
 
+    private void cbClerkStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbClerkStateChanged
+        checkEnabled();
+    }//GEN-LAST:event_cbClerkStateChanged
+
     private void checkEnabled() {
         if (!tfEmployeeNumber.getText().isEmpty() &&
+            isNumeric(tfEmployeeNumber.getText()) &&
             !tfFirstName.getText().isEmpty() &&
             !tfFamilyName.getText().isEmpty() &&
             !Exist() &&
             !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() &&
-            (cbFullTime.isSelected() || (cbPartTime.isSelected() && !tfAmountHours.getText().isEmpty()) || (cbCallWorker.isSelected() && !tfMinAmountHours.getText().isEmpty())) &&
-            !(cbFullTime.isSelected() && cbPartTime.isSelected()) && !(cbPartTime.isSelected() && cbCallWorker.isSelected()) && !(cbFullTime.isSelected() && cbCallWorker.isSelected()))
+            (cbFullTime.isSelected() || cbClerk.isSelected() ||
+            (cbPartTime.isSelected() && !tfAmountHours.getText().isEmpty() && isNumeric(tfAmountHours.getText())) ||
+            (cbCallWorker.isSelected() && !tfMinAmountHours.getText().isEmpty() && isNumeric(tfMinAmountHours.getText()))))
         {
             btnSave.setEnabled(true);
         }
@@ -397,14 +487,16 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean exists = false;
         for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            if (!isAdd && existingEmployee.getEmployeeNumber() == employeeNumber)
-            {
+            if (existingEmployee.getEmployeeNumber() == employeeNumber &&
+                    (isAdd || employee.getEmployeeNumber() != employeeNumber))
+            {   // If number is in use
                 lblNameInUse.setVisible(false);
                 exists = true;
                 lblNumberInUse.setVisible(true);
             }
-            else if(!isAdd && (existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName)))
-            {
+            else if(existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName) &&
+                    (isAdd || (!employee.getFirstName().toLowerCase().equals(firstName) || !employee.getFamilyName().toLowerCase().equals(familyName))))
+            {   // If name is in use
                 lblNumberInUse.setVisible(false);
                 exists = true;
                 lblNameInUse.setVisible(true);
@@ -414,16 +506,33 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 lblNameInUse.setVisible(false);
                 lblNumberInUse.setVisible(false);
             }
+            if (exists)
+            {
+                return true;
+            }
         }
-        return exists;
+        return false;
+    }
+
+    private boolean isNumeric (String strToTest) {
+        boolean numeric = true;
+        try {
+            Double.parseDouble(strToTest);
+        } catch (NumberFormatException nfe) {
+            numeric = false;
+        }
+        return numeric;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
+    private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JCheckBox cbCallWorker;
+    private javax.swing.JCheckBox cbClerk;
     private javax.swing.JCheckBox cbFullTime;
     private javax.swing.JCheckBox cbPartTime;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblAmountHours;
     private javax.swing.JLabel lblCallWorker;
     private javax.swing.JLabel lblEmployeeNumber;
@@ -435,6 +544,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private javax.swing.JLabel lblNumberInUse;
     private javax.swing.JLabel lblPartTime;
     private javax.swing.JLabel lblWachtwoord;
+    private javax.swing.JPanel pnlCallWorker;
+    private javax.swing.JPanel pnlPartTime;
     private javax.swing.JTextField tfAmountHours;
     private javax.swing.JTextField tfEmployeeNumber;
     private javax.swing.JTextField tfFamilyName;
