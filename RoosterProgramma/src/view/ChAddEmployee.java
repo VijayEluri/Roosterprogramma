@@ -216,7 +216,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addComponent(lblAmountHours)
                 .addGap(89, 89, 89)
                 .addComponent(tfPartTime, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(710, Short.MAX_VALUE))
+                .addContainerGap(815, Short.MAX_VALUE))
         );
         pnlPartTimeLayout.setVerticalGroup(
             pnlPartTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +250,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addComponent(lblMinAmountHours)
                 .addGap(47, 47, 47)
                 .addComponent(tfCallWorker, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(710, Short.MAX_VALUE))
+                .addContainerGap(815, Short.MAX_VALUE))
         );
         pnlCallWorkerLayout.setVerticalGroup(
             pnlCallWorkerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +284,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addComponent(lblMinAmountHours1)
                 .addGap(46, 46, 46)
                 .addComponent(tfClerk, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(708, Short.MAX_VALUE))
+                .addContainerGap(813, Short.MAX_VALUE))
         );
         pnlClerkLayout.setVerticalGroup(
             pnlClerkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,7 +387,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Sunday)
                     .addComponent(cbSunday))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         buttonGroup.add(cbMuseumEducator);
@@ -415,7 +415,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addComponent(lblMinAmountHours2)
                 .addGap(46, 46, 46)
                 .addComponent(tfMuseumEducator, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(710, Short.MAX_VALUE))
+                .addContainerGap(815, Short.MAX_VALUE))
         );
         pnlMuseumEducatorLayout.setVerticalGroup(
             pnlMuseumEducatorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,7 +441,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(btnCancel)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 957, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1062, Short.MAX_VALUE)
                                     .addComponent(btnSave))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -466,15 +466,15 @@ public class ChAddEmployee extends javax.swing.JPanel {
                             .addGap(10, 10, 10))
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(lblInsertion)
-                            .addContainerGap(1044, Short.MAX_VALUE))
+                            .addContainerGap(1149, Short.MAX_VALUE))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lblMuseumEducator)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1039, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1144, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lblClerk)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1030, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1135, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(lblPartTime)
@@ -549,8 +549,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
                     .addComponent(cbClerk)
                     .addComponent(pnlClerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(pnlDays, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
