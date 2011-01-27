@@ -218,8 +218,7 @@ public class Rooster extends javax.swing.JPanel {
                 pieces = model.getColumnName(j).split(" - ");
                 String day = pieces[0];
                 WorkHours hours = employee.getWorkHours(year + "-" + getMonth() + "-" + day);
-                double shouldWork = Double.parseDouble(model.getValueAt(i, j).toString());
-                hours.setShouldWork(shouldWork);
+                hours.setShouldWork(model.getValueAt(i, j).toString());
                 hours.update();
             }
         }

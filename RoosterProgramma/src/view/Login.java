@@ -13,7 +13,6 @@ package view;
 
 import connectivity.ShaEncrypt;
 import java.awt.Color;
-import java.util.Calendar;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
@@ -100,15 +99,7 @@ public class Login extends javax.swing.JPanel {
         String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
         if (Sha1Pass.equals(employee.getPassword()))
         {
-            if (!employee.isAdmin())
-            {
-                Calendar calendar = Calendar.getInstance();
-                RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(employee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)));
-            }
-            else
-            {
-                RoosterProgramma.getInstance().showPanel(new MainMenu());
-            }
+            RoosterProgramma.getInstance().showPanel(new MainMenu());
         }
         else
         {
