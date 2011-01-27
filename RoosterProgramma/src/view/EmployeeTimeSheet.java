@@ -319,16 +319,31 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             boolean save = true;
             for (int j = 0; j < model.getColumnCount(); j++)
             {
+                /* Dit moet dus per 7 dagen
                 if (model.getColumnName(j).equals("Totaal") && employee.isClerk())
                 {
-                    if (!model.getValueAt(i, j).toString().equals(Double.toString(hours.getShouldWork())))
+                    Double totaal = Double.parseDouble(model.getValueAt(i, j).toString());
+                    if (totaal != hours.getShouldWork())
                     {
-                        save = RoosterProgramma.getInstance().promptWarning("De totaalkolom van de " + i + "e (" + model.getValueAt(i, j).toString()
-                                + ")\nis niet gelijk aan het aantal uren dat (" + employee.getFirstName() + " " + employee.getFamilyName() + ") zou moeten werken (" + hours.getShouldWork()
-                                + ")\n Wilt u toch opslaan?");
+                        if (totaal > hours.getShouldWork())
+                        {
+                            save = RoosterProgramma.getInstance().promptWarning(
+                                  "De totaalkolom van de " + i+1 + "e (" + model.getValueAt(i, j).toString()
+                                + ")\nis niet gelijk aan het aantal uren dat " + employee.getFirstName() + " " + employee.getFamilyName() + " zou moeten werken (" + hours.getShouldWork()
+                                + ")\n Wilt u toch opslaan?"
+                            );
+                        }
+                        else
+                        {
+                            RoosterProgramma.getInstance().showError(
+                                "De totaalkolom van de " + i+1 + "e (" + model.getValueAt(i, j).toString()
+                                + ")\nis niet gelijk aan het aantal uren dat " + employee.getFirstName() + " " + employee.getFamilyName() + " zou moeten werken (" + hours.getShouldWork()
+                                + ")!"
+                            );
+                        }
                     }
                 }
-                else if (model.getColumnName(j).equals("Gewerkt"))
+                else */if (model.getColumnName(j).equals("Gewerkt"))
                 {
                     hours.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }

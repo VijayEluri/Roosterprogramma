@@ -134,4 +134,13 @@ public class RoosterProgramma {
             return false;
         }
     }
+
+    public void showError(String error) {
+        JOptionPane.showMessageDialog(
+            null,
+            error,
+            "Fout!",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
 }
