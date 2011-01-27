@@ -26,6 +26,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
         lblNumberInUse.setVisible(false);
         pnlPartTime.setVisible(false);
         pnlCallWorker.setVisible(false);
+        pnlClerk.setVisible(false);
+        pnlMuseumEducator.setVisible(false);
     }
 
     public ChAddEmployee(Employee employee) {
@@ -40,8 +42,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private void fillFields() {
         tfEmployeeNumber.setText(Integer.toString(employee.getEmployeeNumber()));
         tfFirstName.setText(employee.getFirstName());
+        tfInsertion.setText(employee.getInsertion());
         tfFamilyName.setText(employee.getFamilyName());
-        cbFullTime.setSelected(employee.isFullTime());
         if (employee.isClerk())
         {
             cbClerk.setSelected(true);
@@ -52,7 +54,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             pnlDays.setVisible(true);
             tfClerk.setText(Double.toString(employee.getContractHours()));
         }
-        if (employee.isPartTime())
+        else if(employee.isPartTime())
         {
             cbPartTime.setSelected(true);
             pnlMuseumEducator.setVisible(false);
@@ -84,6 +86,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         }
         else
         {
+            cbFullTime.setSelected(true);
             pnlMuseumEducator.setVisible(false);
             pnlClerk.setVisible(false);
             pnlPartTime.setVisible(false);
@@ -702,10 +705,12 @@ public class ChAddEmployee extends javax.swing.JPanel {
         if (cbClerk.isSelected())
         {
             pnlClerk.setVisible(true);
+            pnlDays.setVisible(true);
         }
         else
         {
             pnlClerk.setVisible(false);
+            pnlDays.setVisible(false);
         }
     }//GEN-LAST:event_cbClerkStateChanged
 
