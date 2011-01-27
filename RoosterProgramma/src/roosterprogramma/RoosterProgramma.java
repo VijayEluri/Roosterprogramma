@@ -144,6 +144,16 @@ public class RoosterProgramma {
         );
     }
 
+    public boolean isEmpty (String strToTest) {
+        boolean empty = true;
+        try {
+            strToTest.length();
+        } catch (NullPointerException npe) {
+            empty = false;
+        }
+        return empty;
+    }
+
     public boolean isNumeric (String strToTest) {
         boolean numeric = true;
         try {
