@@ -13,7 +13,6 @@ package view;
 
 import connectivity.ShaEncrypt;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
@@ -85,9 +84,27 @@ public class Login extends javax.swing.JPanel {
             employee = RoosterProgramma.getQueryManager().getEmployee(employeeNumber);
             if (!employee.getFirstName().isEmpty())
             {
-                enablePassword();
-                lblIncorrectField.setText("");
-                tfPassword.requestFocusInWindow();
+                if (employee.getPassword() == null)
+                {
+                    String password = RoosterProgramma.getInstance().promptInput(
+                        "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
+                        + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
+                        + "Voer hieronder het gewenste wachtwoord in.\n"
+                    );
+                    if (!RoosterProgramma.getInstance().isEmpty(password))
+                    {
+                        password = ShaEncrypt.SHA1(password);
+                        employee.setPassword(password);
+                        employee.update();
+                        RoosterProgramma.getInstance().showPanel(new MainMenu());
+                    }
+                }
+                else
+                {
+                    enablePassword();
+                    lblIncorrectField.setText("");
+                    tfPassword.requestFocusInWindow();
+                }
             }
             else
             {
@@ -105,36 +122,15 @@ public class Login extends javax.swing.JPanel {
     }
 
     private void handlePassword() {
-        if (employee.getPassword() == null)
+        String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
+        if (Sha1Pass.equals(employee.getPassword()))
         {
-            String password = JOptionPane.showInputDialog(
-                null,
-                "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
-                + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
-                + "Voer hieronder het gewenste wachtwoord in.\n",
-                "Wachtwoord instellen.",
-                JOptionPane.WARNING_MESSAGE
-            );
-            if (!password.isEmpty())
-            {
-                password = ShaEncrypt.SHA1(password);
-                employee.setPassword(password);
-                employee.update();
-            }
-            handlePassword();
+            RoosterProgramma.getInstance().showPanel(new MainMenu());
         }
         else
         {
-            String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
-            if (Sha1Pass.equals(employee.getPassword()))
-            {
-                RoosterProgramma.getInstance().showPanel(new MainMenu());
-            }
-            else
-            {
-                lblIncorrectField.setText("Wachtwoord onjuist");
-                tfPassword.setText("");
-            }
+            lblIncorrectField.setText("Wachtwoord onjuist");
+            tfPassword.setText("");
         }
     }
 

@@ -135,6 +135,16 @@ public class RoosterProgramma {
         }
     }
 
+    public String promptInput(String message) {
+        String input = JOptionPane.showInputDialog(
+            null,
+            message,
+            "Input Required!",
+            JOptionPane.WARNING_MESSAGE
+        );
+        return input;
+    }
+
     public void showError(String error) {
         JOptionPane.showMessageDialog(
             null,
