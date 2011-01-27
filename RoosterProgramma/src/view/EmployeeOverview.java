@@ -128,7 +128,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Personeelsnummer", "Voornaam", "Achternaam", "Tussenvoegsel", "Contracttype"
+                "Personeelsnummer", "Voornaam", "Tussenvoegsel", "Achternaam", "Contracttype"
             }
         ) {
             Class[] types = new Class [] {
