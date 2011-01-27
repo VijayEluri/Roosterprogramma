@@ -24,6 +24,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
         initComponents();
         lblNameInUse.setVisible(false);
         lblNumberInUse.setVisible(false);
+        pnlPartTime.setVisible(false);
+        pnlCallWorker.setVisible(false);
     }
 
     public ChAddEmployee(Employee employee) {
