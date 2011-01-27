@@ -150,6 +150,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         cbFriday = new javax.swing.JCheckBox();
         cbSaturday = new javax.swing.JCheckBox();
         cbSunday = new javax.swing.JCheckBox();
+        lblInstruction = new javax.swing.JLabel();
         cbMuseumEducator = new javax.swing.JCheckBox();
         lblMuseumEducator = new javax.swing.JLabel();
         pnlMuseumEducator = new javax.swing.JPanel();
@@ -334,6 +335,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         Sunday.setText("Zondag");
 
+        lblInstruction.setText("Niet in te roosteren dagen");
+
         javax.swing.GroupLayout pnlDaysLayout = new javax.swing.GroupLayout(pnlDays);
         pnlDays.setLayout(pnlDaysLayout);
         pnlDaysLayout.setHorizontalGroup(
@@ -341,28 +344,33 @@ public class ChAddEmployee extends javax.swing.JPanel {
             .addGroup(pnlDaysLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblThursday)
-                    .addComponent(lblWednesday)
-                    .addComponent(lblTuesday)
-                    .addComponent(lblMonday)
-                    .addComponent(lblFriday)
-                    .addComponent(lblSaturday)
-                    .addComponent(Sunday))
-                .addGap(18, 18, 18)
-                .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbSunday)
-                    .addComponent(cbSaturday)
-                    .addComponent(cbFriday)
-                    .addComponent(cbMonday)
-                    .addComponent(cbTuesday)
-                    .addComponent(cbWednesday)
-                    .addComponent(cbThursday))
-                .addContainerGap(352, Short.MAX_VALUE))
+                    .addGroup(pnlDaysLayout.createSequentialGroup()
+                        .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblThursday)
+                            .addComponent(lblWednesday)
+                            .addComponent(lblTuesday)
+                            .addComponent(lblMonday)
+                            .addComponent(lblFriday)
+                            .addComponent(lblSaturday)
+                            .addComponent(Sunday))
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbSunday)
+                            .addComponent(cbSaturday)
+                            .addComponent(cbFriday)
+                            .addComponent(cbMonday)
+                            .addComponent(cbTuesday)
+                            .addComponent(cbWednesday)
+                            .addComponent(cbThursday)))
+                    .addComponent(lblInstruction))
+                .addContainerGap(356, Short.MAX_VALUE))
         );
         pnlDaysLayout.setVerticalGroup(
             pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDaysLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblInstruction)
+                .addGap(18, 18, 18)
                 .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMonday)
                     .addComponent(cbMonday))
@@ -553,7 +561,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                     .addComponent(pnlClerk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
@@ -816,6 +824,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private javax.swing.JLabel lblFriday;
     private javax.swing.JLabel lblFullTime;
     private javax.swing.JLabel lblInsertion;
+    private javax.swing.JLabel lblInstruction;
     private javax.swing.JLabel lblMinAmountHours;
     private javax.swing.JLabel lblMinAmountHours1;
     private javax.swing.JLabel lblMinAmountHours2;

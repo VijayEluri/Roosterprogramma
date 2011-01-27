@@ -178,7 +178,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="pnlDays" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="197" max="32767" attributes="0"/>
+              <EmptySpace pref="165" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -429,25 +429,30 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblThursday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblMonday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblFriday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lblSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="Sunday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblThursday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblMonday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblFriday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="Sunday" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cbSunday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbFriday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbMonday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbThursday" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="lblInstruction" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cbSunday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbFriday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbMonday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbThursday" alignment="0" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="352" max="32767" attributes="0"/>
+                  <EmptySpace pref="356" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -455,6 +460,8 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="lblInstruction" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lblMonday" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cbMonday" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -543,6 +550,11 @@
         <Component class="javax.swing.JCheckBox" name="cbSaturday">
         </Component>
         <Component class="javax.swing.JCheckBox" name="cbSunday">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblInstruction">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Niet in te roosteren dagen"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
