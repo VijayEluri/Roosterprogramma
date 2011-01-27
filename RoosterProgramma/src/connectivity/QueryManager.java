@@ -122,9 +122,14 @@ public class QueryManager {
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
                 + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "')";
         dbmanager.insertQuery(sql);
+
+        sql = "ALTER TABLE `werktijden` ADD COLUMN `" + employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName() + "` VARCHAR(255) DEFAULT '0;0;0;0;0;0;0;0';"; // Moet dynamisch qua velden met ;
+        dbmanager.insertQuery(sql);
     }
 
     public void changeEmployee(Employee employee) {
+        Employee oldEmployee = getEmployee(employee.getEmployeeNumber());
+        String name = oldEmployee.getFirstName() + " " + oldEmployee.getInsertion() + " " + oldEmployee.getFamilyName();
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
@@ -134,10 +139,17 @@ public class QueryManager {
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
                 + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "');";
         dbmanager.insertQuery(sql);
+
+        sql = "ALTER TABLE `werktijden` CHANGE `" + name + "` `" + employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName() + "` varchar(255) character set latin1 collate latin1_swedish_ci default '0;0;0;0;0;0;0;0;0' NOT NULL;"; // Moet dynamisch qua velden met ;
+        dbmanager.insertQuery(sql);
     }
     
-    public void deleteEmployee(int id) {
-        String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + id + "';";
+    public void deleteEmployee(Employee employee) {
+        String name = employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName();
+        String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + employee.getEmployeeNumber() + "';";
+        dbmanager.insertQuery(sql);
+
+        sql = "ALTER TABLE `werktijden` DROP COLUMN `" + name + "`;";
         dbmanager.insertQuery(sql);
     }
 

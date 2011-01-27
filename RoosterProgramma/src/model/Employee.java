@@ -50,7 +50,7 @@ public class Employee {
     }
 
     public void delete() {
-        RoosterProgramma.getQueryManager().deleteEmployee(getEmployeeNumber());
+        RoosterProgramma.getQueryManager().deleteEmployee(this);
     }
 
     /**
