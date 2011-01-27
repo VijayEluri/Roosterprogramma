@@ -4,6 +4,8 @@
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup1">
+    </Component>
   </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -20,62 +22,93 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btnCancel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblPartTime" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblEmployeeNumber" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblFamilyName" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblWachtwoord" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblFullTime" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblCallWorker" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="pnlDays" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="957" max="32767" attributes="0"/>
+                                  <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="4" pref="4" max="4" attributes="0"/>
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="tfPassword" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="tfFirstName" alignment="0" max="32767" attributes="1"/>
-                                          <Component id="tfEmployeeNumber" alignment="0" pref="237" max="32767" attributes="1"/>
-                                          <Component id="tfFamilyName" alignment="0" max="32767" attributes="1"/>
-                                      </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblNumberInUse" min="-2" max="-2" attributes="0"/>
-                                          <Component id="lblNameInUse" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="cbCallWorker" min="-2" max="-2" attributes="0"/>
-                                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                              <Component id="cbFullTime" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="cbPartTime" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="lblEmployeeNumber" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="cbClerk" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="tfFirstName" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="tfEmployeeNumber" alignment="0" pref="237" max="32767" attributes="1"/>
+                                              <Component id="tfInsertion" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="tfFamilyName" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="tfPassword" alignment="0" max="32767" attributes="1"/>
+                                          </Group>
                                       </Group>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="pnlPartTime" max="32767" attributes="1"/>
-                                          <Component id="pnlCallWorker" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="lblFamilyName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblWachtwoord" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblNumberInUse" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblNameInUse" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="496" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="lblInsertion" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="1044" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblMuseumEducator" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="1039" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lblClerk" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="1030" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lblPartTime" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblFullTime" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCallWorker" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="cbCallWorker" min="-2" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                          <Component id="cbFullTime" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="cbPartTime" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="cbMuseumEducator" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cbClerk" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="pnlClerk" max="32767" attributes="1"/>
+                                      <Component id="pnlCallWorker" max="32767" attributes="1"/>
+                                      <Component id="pnlPartTime" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="pnlMuseumEducator" alignment="0" max="32767" attributes="1"/>
                                   </Group>
                               </Group>
                           </Group>
+                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="507" max="32767" attributes="0"/>
-                      <Component id="btnSave" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -95,21 +128,21 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblInsertion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfInsertion" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblFamilyName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfFamilyName" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblNameInUse" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="lblWachtwoord" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Component id="tfPassword" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblWachtwoord" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="lblFullTime" min="-2" max="-2" attributes="0"/>
@@ -126,24 +159,29 @@
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlCallWorker" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="cbCallWorker" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblCallWorker" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbClerk" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="210" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="cbCallWorker" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblCallWorker" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlCallWorker" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="lblMuseumEducator" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbMuseumEducator" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlMuseumEducator" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="lblClerk" min="-2" max="-2" attributes="0"/>
+                  <Component id="cbClerk" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlClerk" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="pnlDays" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -171,21 +209,6 @@
         <Property name="text" type="java.lang.String" value="Wachtwoord:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lblFullTime">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Fulltime:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblPartTime">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Parttime:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblCallWorker">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Oproepkracht:"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JTextField" name="tfEmployeeNumber">
       <Events>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmployeeNumberKeyReleased"/>
@@ -201,6 +224,11 @@
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfFamilyNameKeyReleased"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="lblFullTime">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fulltime:"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JCheckBox" name="cbFullTime">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -212,6 +240,11 @@
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbFullTimeStateChanged"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JLabel" name="lblPartTime">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Parttime:"/>
+      </Properties>
+    </Component>
     <Component class="javax.swing.JCheckBox" name="cbPartTime">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
@@ -221,6 +254,46 @@
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbPartTimeStateChanged"/>
       </Events>
+    </Component>
+    <Container class="javax.swing.JPanel" name="pnlPartTime">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblAmountHours" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+                  <Component id="tfPartTime" min="-2" pref="92" max="-2" attributes="1"/>
+                  <EmptySpace pref="710" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                  <Component id="lblAmountHours" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+                  <Component id="tfPartTime" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblAmountHours">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Aantal uur per week:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfPartTime">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfPartTimeKeyReleased"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblCallWorker">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Oproepkracht:"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="cbCallWorker">
       <Properties>
@@ -232,6 +305,91 @@
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbCallWorkerStateChanged"/>
       </Events>
     </Component>
+    <Container class="javax.swing.JPanel" name="pnlCallWorker">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblMinAmountHours" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                  <Component id="tfCallWorker" min="-2" pref="92" max="-2" attributes="1"/>
+                  <EmptySpace pref="710" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                  <Component id="lblMinAmountHours" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+                  <Component id="tfCallWorker" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblMinAmountHours">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Minimum aantal uur per week:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfCallWorker">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfCallWorkerKeyReleased"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblClerk">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Baliemedewerker:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="cbClerk">
+      <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="buttonGroup"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbClerkStateChanged"/>
+      </Events>
+    </Component>
+    <Container class="javax.swing.JPanel" name="pnlClerk">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblMinAmountHours1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="tfClerk" min="-2" pref="95" max="-2" attributes="1"/>
+                  <EmptySpace pref="708" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                  <Component id="lblMinAmountHours1" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+                  <Component id="tfClerk" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JTextField" name="tfClerk">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfClerkKeyReleased"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblMinAmountHours1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Minimum aantal uur per week:"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Annuleren"/>
@@ -263,90 +421,187 @@
         <Property name="text" type="java.lang.String" value="Dat nummer is al in gebruik!"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="pnlPartTime">
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <Component id="lblAmountHours" pref="176" max="32767" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="tfAmountHours" min="-2" pref="92" max="-2" attributes="1"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                  <Component id="lblAmountHours" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
-                  <Component id="tfAmountHours" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblAmountHours">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Aantal uur per week:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="tfAmountHours">
-          <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfAmountHoursKeyReleased"/>
-          </Events>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="pnlCallWorker">
+    <Container class="javax.swing.JPanel" name="pnlDays">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="lblMinAmountHours" min="-2" pref="177" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="tfMinAmountHours" pref="91" max="32767" attributes="1"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lblThursday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblMonday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFriday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="Sunday" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="cbSunday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbSaturday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbFriday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbMonday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbTuesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbWednesday" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbThursday" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="352" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                  <Component id="lblMinAmountHours" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
-                  <Component id="tfMinAmountHours" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblMonday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbMonday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblTuesday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbTuesday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblWednesday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbWednesday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblThursday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbThursday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblFriday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbFriday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lblSaturday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbSaturday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="Sunday" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbSunday" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="102" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lblMinAmountHours">
+        <Component class="javax.swing.JLabel" name="lblMonday">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Minimum aantal uur per week:"/>
+            <Property name="text" type="java.lang.String" value="Maandag"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tfMinAmountHours">
-          <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfMinAmountHoursKeyReleased"/>
-          </Events>
+        <Component class="javax.swing.JLabel" name="lblTuesday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Dinsdag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblWednesday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Woensdag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblThursday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Donderdag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblFriday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Vrijdag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSaturday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Zaterdag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="Sunday">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Zondag"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbThursday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbWednesday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbTuesday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbMonday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbFriday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbSaturday">
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="cbSunday">
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Baliemedewerker:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="cbClerk">
+    <Component class="javax.swing.JCheckBox" name="cbMuseumEducator">
       <Properties>
         <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
           <ComponentRef name="buttonGroup"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbClerkStateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="cbMuseumEducatorStateChanged"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblMuseumEducator">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Museumdocent:"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JPanel" name="pnlMuseumEducator">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="lblMinAmountHours2" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                  <Component id="tfMuseumEducator" min="-2" pref="93" max="-2" attributes="1"/>
+                  <EmptySpace pref="710" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                  <Component id="lblMinAmountHours2" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+                  <Component id="tfMuseumEducator" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="lblMinAmountHours2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Minimum aantal uur per week:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="tfMuseumEducator">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfMuseumEducatorKeyReleased"/>
+          </Events>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblInsertion">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tussenvoegsel:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="tfInsertion">
     </Component>
   </SubComponents>
 </Form>

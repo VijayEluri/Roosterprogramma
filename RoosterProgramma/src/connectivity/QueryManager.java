@@ -34,12 +34,14 @@ public class QueryManager {
                 employee = new Employee(
                     result.getInt("personeelsnummer"),
                     result.getString("voornaam"),
+                    result.getString("tussenvoegsel"),
                     result.getString("achternaam"),
                     result.getString("wachtwoord"),
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
                     result.getBoolean("baliemedewerker"),
+                    result.getBoolean("museumdocent"),
                     result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
@@ -50,21 +52,26 @@ public class QueryManager {
         return employee;
     }
 
-    public Employee getEmployee(String firstName, String familyName) {
+    public Employee getEmployee(String firstName, String insertion, String familyName) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM `medewerkers` WHERE `voornaam` = '" + firstName + "' AND `achternaam` = '" + familyName + "';";
+            String sql = "SELECT * FROM `medewerkers` WHERE `voornaam` = '" + firstName + "' AND ";
+            if (!insertion.isEmpty())
+                sql += "`tussenvoegsel` = '" + insertion + "' AND ";
+            sql += "`achternaam` = '" + familyName + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
                     result.getInt("personeelsnummer"),
                     result.getString("voornaam"),
+                    result.getString("tussenvoegsel"),
                     result.getString("achternaam"),
                     result.getString("wachtwoord"),
                     result.getBoolean("fulltime"),
                     result.getBoolean("parttime"),
                     result.getBoolean("oproepkracht"),
                     result.getBoolean("baliemedewerker"),
+                    result.getBoolean("museumdocent"),
                     result.getDouble("contracturen"),
                     result.getBoolean("admin")
                 );
@@ -85,12 +92,14 @@ public class QueryManager {
                     new Employee(
                         result.getInt("personeelsnummer"),
                         result.getString("voornaam"),
+                        result.getString("tussenvoegsel"),
                         result.getString("achternaam"),
                         result.getString("wachtwoord"),
                         result.getBoolean("fulltime"),
                         result.getBoolean("parttime"),
                         result.getBoolean("oproepkracht"),
                         result.getBoolean("baliemedewerker"),
+                        result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
                         result.getBoolean("admin")
                     )
@@ -153,12 +162,14 @@ public class QueryManager {
                     new Employee(
                         result.getInt("personeelsnummer"),
                         result.getString("voornaam"),
+                        result.getString("tussenvoegsel"),
                         result.getString("achternaam"),
                         result.getString("wachtwoord"),
                         result.getBoolean("fulltime"),
                         result.getBoolean("parttime"),
                         result.getBoolean("oproepkracht"),
                         result.getBoolean("baliemedewerker"),
+                        result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
                         result.getBoolean("admin")
                     )

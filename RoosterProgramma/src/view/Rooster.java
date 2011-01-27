@@ -68,7 +68,14 @@ public class Rooster extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             Object[] fields = new Object[daysOfMonth+2];
-            fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
+            if (!employee.getInsertion().isEmpty())
+            {
+                fields[0] = employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName();
+            }
+            else
+            {
+                fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
+            }
             fields[1] = employee.getContractHours();
             for (int i = 1; i <= daysOfMonth; i++)
             {
@@ -211,8 +218,17 @@ public class Rooster extends javax.swing.JPanel {
         {
             String[] pieces = model.getValueAt(i, 0).toString().split(" ");
             String firstName = pieces[0];
-            String familyName = pieces[1];
-            Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
+            String insertion = "";
+            for (int k = 1; k < pieces.length-1; k++)
+            {
+                insertion += pieces[k] + " ";
+            }
+            if (!insertion.isEmpty())
+            {
+                insertion.substring(0, insertion.length()-1);
+            }
+            String familyName = pieces[pieces.length-1];
+            Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
             for (int j = 2; j < model.getColumnCount(); j++)
             {
                 pieces = model.getColumnName(j).split(" - ");

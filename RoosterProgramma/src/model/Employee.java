@@ -17,30 +17,34 @@ public class Employee {
 
     private int employeeNumber;
     private String firstName;
+    private String insertion;
     private String familyName;
     private String password;
     private boolean fullTime;
     private boolean partTime;
     private boolean callWorker;
     private boolean clerk;
+    private boolean museumEducator;
     private double contractHours;
     private boolean admin;
     private List<WorkHours> workHours = new ArrayList<WorkHours>();
 
     public Employee() {
-        this(0, "", "", "", false, false, false, false, 0.0, false);
+        this(0, "", "", "", "", true, false, false, false, false, 0.0, false);
     }
 
-    public Employee(int personeelsNummer, String voornaam,  String achternaam, String wachtwoord,
-            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker, double contracturen, boolean admin) {
+    public Employee(int personeelsNummer, String voornaam, String tussenvoegsel,  String achternaam, String wachtwoord,
+            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker, boolean museumdocent, double contracturen, boolean admin) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
+        this.insertion = tussenvoegsel;
         this.familyName = achternaam;
         this.password = wachtwoord;
         this.fullTime = fulltime;
         this.partTime = parttime;
         this.callWorker = oproepkracht;
         this.clerk = baliemedewerker;
+        this.museumEducator = museumdocent;
         this.contractHours = contracturen;
         this.admin = admin;
     }
@@ -198,5 +202,37 @@ public class Employee {
      */
     public void setClerk(boolean clerk) {
         this.clerk = clerk;
+    }
+
+    /**
+     * @return the museumEducator
+     */
+    public boolean isMuseumEducator() {
+        return museumEducator;
+    }
+
+    /**
+     * @param museumEducator the museumEducator to set
+     */
+    public void setMuseumEducator(boolean museumEducator) {
+        this.museumEducator = museumEducator;
+    }
+
+    public void update() {
+        RoosterProgramma.getQueryManager().changeEmployee(this);
+    }
+
+    /**
+     * @return the insertion
+     */
+    public String getInsertion() {
+        return insertion;
+    }
+
+    /**
+     * @param insertion the insertion to set
+     */
+    public void setInsertion(String insertion) {
+        this.insertion = insertion;
     }
 }

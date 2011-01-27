@@ -79,8 +79,9 @@ public class Login extends javax.swing.JPanel {
 
     private void handleName() {
         String firstName = tfFirstName.getText();
+        String insertion = tfInsertion.getText();
         String familyName = tfFamilyName.getText();
-        employee = RoosterProgramma.getQueryManager().getEmployee(firstName, familyName);
+        employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
         if (!employee.getFirstName().isEmpty())
         {
             enablePassword();
@@ -127,10 +128,12 @@ public class Login extends javax.swing.JPanel {
         tfPassword = new javax.swing.JPasswordField();
         lblPassword = new javax.swing.JLabel();
         btnPasswordOk = new javax.swing.JButton();
-        textPanel = new javax.swing.JPanel();
-        lblIncorrectField = new javax.swing.JLabel();
+        lblInsertion = new javax.swing.JLabel();
+        tfInsertion = new javax.swing.JTextField();
         updatePanel = new javax.swing.JPanel();
         lblUpdate = new javax.swing.JLabel();
+        textPanel = new javax.swing.JPanel();
+        lblIncorrectField = new javax.swing.JLabel();
 
         tfFamilyName.setMinimumSize(new java.awt.Dimension(150, 20));
         tfFamilyName.setPreferredSize(new java.awt.Dimension(150, 20));
@@ -174,6 +177,14 @@ public class Login extends javax.swing.JPanel {
             }
         });
 
+        lblInsertion.setText("Tussenvoegsel");
+
+        tfInsertion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfInsertionKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout familyNamePanelLayout = new javax.swing.GroupLayout(familyNamePanel);
         familyNamePanel.setLayout(familyNamePanelLayout);
         familyNamePanelLayout.setHorizontalGroup(
@@ -181,23 +192,24 @@ public class Login extends javax.swing.JPanel {
             .addGroup(familyNamePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblInsertion)
+                    .addComponent(lblFirstName)
                     .addComponent(lblFamilyName)
-                    .addComponent(lblPassword)
-                    .addComponent(lblFirstName))
-                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, familyNamePanelLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(familyNamePanelLayout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfFamilyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))))
+                    .addComponent(lblPassword))
                 .addGap(18, 18, 18)
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnNameOk)
-                    .addComponent(btnPasswordOk))
-                .addGap(11, 11, 11))
+                    .addGroup(familyNamePanelLayout.createSequentialGroup()
+                        .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tfInsertion, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                            .addComponent(tfFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                            .addComponent(tfFamilyName, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNameOk))
+                    .addGroup(familyNamePanelLayout.createSequentialGroup()
+                        .addComponent(tfPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnPasswordOk)))
+                .addContainerGap())
         );
         familyNamePanelLayout.setVerticalGroup(
             familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -206,39 +218,49 @@ public class Login extends javax.swing.JPanel {
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFirstName)
                     .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblInsertion)
+                    .addComponent(tfInsertion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFamilyName)
-                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNameOk))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnNameOk)
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(familyNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPassword)
                     .addComponent(tfPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPasswordOk))
-                .addContainerGap(172, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        textPanel.add(lblIncorrectField);
-
         updatePanel.add(lblUpdate);
+
+        textPanel.add(lblIncorrectField);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(familyNamePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                    .addComponent(textPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                    .addComponent(updatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(familyNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(updatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(textPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(familyNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(textPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(updatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -251,7 +273,7 @@ public class Login extends javax.swing.JPanel {
     private void tfFirstNameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyTyped
         if (evt.getKeyChar() == '\n')
         {
-            tfFamilyName.requestFocusInWindow();
+            tfInsertion.requestFocusInWindow();
         }
     }//GEN-LAST:event_tfFirstNameKeyTyped
 
@@ -277,6 +299,13 @@ public class Login extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tfFamilyNameKeyTyped
 
+    private void tfInsertionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfInsertionKeyReleased
+        if (evt.getKeyChar() == '\n')
+        {
+            tfFamilyName.requestFocusInWindow();
+        }
+}//GEN-LAST:event_tfInsertionKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNameOk;
@@ -285,12 +314,14 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JLabel lblFamilyName;
     private javax.swing.JLabel lblFirstName;
     private javax.swing.JLabel lblIncorrectField;
+    private javax.swing.JLabel lblInsertion;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUpdate;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel textPanel;
     private javax.swing.JTextField tfFamilyName;
     private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfInsertion;
     private javax.swing.JPasswordField tfPassword;
     private javax.swing.JPanel updatePanel;
     // End of variables declaration//GEN-END:variables
