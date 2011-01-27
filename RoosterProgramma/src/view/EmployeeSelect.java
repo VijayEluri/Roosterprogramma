@@ -42,6 +42,44 @@ public class EmployeeSelect extends javax.swing.JPanel {
         }
     }
 
+    private void searchTable() {
+        DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
+        while(model.getRowCount() != 0)
+        {
+            model.removeRow(0);
+        }
+        if (!tfEmployeeNr.getText().isEmpty())
+        {
+            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
+            if(!employee.getFirstName().isEmpty())
+            {
+                model.addRow(new Object[] {
+                    employee.getEmployeeNumber(),
+                    employee.getFirstName(),
+                    employee.getFamilyName()
+                });
+            }
+        }
+        else
+        {
+            if(!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty())
+            {
+                for(Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText()))
+                {
+                    model.addRow(new Object[] {
+                        employee.getEmployeeNumber(),
+                        employee.getFirstName(),
+                        employee.getFamilyName()
+                    });
+                }
+            }
+            else
+            {
+                fillTable();
+            }
+        }
+    }
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -55,6 +93,12 @@ public class EmployeeSelect extends javax.swing.JPanel {
         tblEmployee = new javax.swing.JTable();
         OK = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        tfEmployeeNr = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        tfFirstName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        tfFamilyName = new javax.swing.JTextField();
 
         tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -101,6 +145,30 @@ public class EmployeeSelect extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setText("Personeels Nr:");
+
+        tfEmployeeNr.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfEmployeeNrKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setText("Voornaam");
+
+        tfFirstName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfFirstNameKeyReleased(evt);
+            }
+        });
+
+        jLabel3.setText("Achternaam");
+
+        tfFamilyName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfFamilyNameKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,14 +180,36 @@ public class EmployeeSelect extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 716, Short.MAX_VALUE)
-                        .addComponent(OK)))
+                        .addComponent(OK))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(tfEmployeeNr, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfEmployeeNr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfFamilyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
@@ -148,6 +238,18 @@ public class EmployeeSelect extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
 
+    private void tfFirstNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfFirstNameKeyReleased
+
+    private void tfFamilyNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFamilyNameKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfFamilyNameKeyReleased
+
+    private void tfEmployeeNrKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmployeeNrKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfEmployeeNrKeyReleased
+
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
         RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
@@ -156,7 +258,13 @@ public class EmployeeSelect extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OK;
     private javax.swing.JButton btnBack;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblEmployee;
+    private javax.swing.JTextField tfEmployeeNr;
+    private javax.swing.JTextField tfFamilyName;
+    private javax.swing.JTextField tfFirstName;
     // End of variables declaration//GEN-END:variables
 }

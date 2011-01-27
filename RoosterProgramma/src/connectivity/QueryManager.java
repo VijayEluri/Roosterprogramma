@@ -131,6 +131,45 @@ public class QueryManager {
         dbmanager.insertQuery(sql);
     }
 
+    public List<Employee> searchEmployee(String voornaam, String achternaam) {
+        List<Employee> employees = new ArrayList<Employee>();
+        try {
+            String sql = "SELECT * FROM `medewerkers` WHERE ";
+            if(voornaam.length() > 0)
+            {
+                sql += "(SELECT `voornaam` REGEXP '^"+ voornaam + ".*') = 1";
+            }
+            if(voornaam.length() > 0 && achternaam.length() > 0)
+            {
+                sql += " AND ";
+            }
+            if(achternaam.length() > 0)
+            {
+                sql += "(SELECT `achternaam` REGEXP '^"+ achternaam + ".*') = 1";
+            }
+            ResultSet result = dbmanager.doQuery(sql);
+            while (result.next()) {
+                employees.add(
+                    new Employee(
+                        result.getInt("personeelsnummer"),
+                        result.getString("voornaam"),
+                        result.getString("achternaam"),
+                        result.getString("wachtwoord"),
+                        result.getBoolean("fulltime"),
+                        result.getBoolean("parttime"),
+                        result.getBoolean("oproepkracht"),
+                        result.getBoolean("baliemedewerker"),
+                        result.getDouble("contracturen"),
+                        result.getBoolean("admin")
+                    )
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employees;
+    }
+
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
