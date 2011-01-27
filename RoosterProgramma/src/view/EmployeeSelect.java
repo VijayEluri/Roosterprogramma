@@ -34,11 +34,12 @@ public class EmployeeSelect extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            model.addRow(new Object[] {
-                employee.getEmployeeNumber(),
-                employee.getFirstName(),
-                employee.getFamilyName()
-            });
+            Object[] fields = new Object[4];
+            fields[0] = employee.getEmployeeNumber();
+            fields[1] = employee.getFirstName();
+            fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+            fields[3] = employee.getFamilyName();
+            model.addRow(fields);
         }
     }
 
@@ -105,14 +106,14 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
             },
             new String [] {
-                "PersoneelsNummer", "Voornaam", "Achternaam"
+                "PersoneelsNummer", "Voornaam", "Tussenvoegsel", "Achternaam"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

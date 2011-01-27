@@ -565,6 +565,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
         String firstName = tfFirstName.getText();
+        String insertion = tfInsertion.getText();
         String familyName = tfFamilyName.getText();
         String password = RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword());
         boolean fullTime = cbFullTime.isSelected();
@@ -579,6 +580,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             Employee newEmployee = new Employee();
             newEmployee.setEmployeeNumber(employeeNumber);
             newEmployee.setFirstName(firstName);
+            newEmployee.setInsertion(insertion);
             newEmployee.setFamilyName(familyName);
             newEmployee.setPassword(ShaEncrypt.SHA1(password));
             newEmployee.setFullTime(fullTime);
@@ -610,6 +612,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         else
         {
             employee.setFirstName(firstName);
+            employee.setInsertion(insertion);
             employee.setFamilyName(familyName);
             employee.setPassword(ShaEncrypt.SHA1(password));
             employee.setFullTime(fullTime);

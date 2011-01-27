@@ -34,16 +34,17 @@ public class EmployeeOverview extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             String contracttype = "Fulltime";
-            if (employee.isCallWorker())
+            if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
                 contracttype = "Oproepkracht";
             if (employee.isPartTime())
                 contracttype = "Parttime";
-            model.addRow(new Object[] {
-                employee.getEmployeeNumber(),
-                employee.getFirstName(),
-                employee.getFamilyName(),
-                contracttype
-            });
+            Object[] fields = new Object[5];
+            fields[0] = employee.getEmployeeNumber();
+            fields[1] = employee.getFirstName();
+            fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+            fields[3] = employee.getFamilyName();
+            fields[4] = contracttype;
+            model.addRow(fields);
         }
     }
 
@@ -112,14 +113,14 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Personeelsnummer", "Voornaam", "Achternaam", "Contracttype"
+                "Personeelsnummer", "Voornaam", "Achternaam", "Tussenvoegsel", "Contracttype"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
