@@ -36,6 +36,7 @@ public class ShaEncrypt {
 
     public static String SHA1(String text) {
         String Sha1 = "";
+        text = text.toUpperCase();
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-1");

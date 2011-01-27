@@ -24,14 +24,14 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="updatePanel" pref="574" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="familyNamePanel" min="-2" max="-2" attributes="1"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="updatePanel" pref="574" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="textPanel" pref="574" max="32767" attributes="0"/>
                       </Group>
@@ -42,11 +42,11 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <Component id="familyNamePanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="129" max="32767" attributes="0"/>
+                  <EmptySpace pref="196" max="32767" attributes="0"/>
                   <Component id="textPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="updatePanel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -62,26 +62,20 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblInsertion" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblFamilyName" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEmployeeNumber" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPassword" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="tfInsertion" alignment="1" pref="328" max="32767" attributes="0"/>
-                                  <Component id="tfFirstName" alignment="1" pref="328" max="32767" attributes="1"/>
-                                  <Component id="tfFamilyName" alignment="1" pref="328" max="32767" attributes="1"/>
-                              </Group>
+                              <Component id="tfEmployeeNumber" pref="328" max="32767" attributes="1"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnNameOk" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNumberOK" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="tfPassword" pref="328" max="32767" attributes="1"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnPasswordOk" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnPasswordOK" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -93,25 +87,17 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblFirstName" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfFirstName" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblInsertion" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfInsertion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblFamilyName" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnNameOk" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfFamilyName" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblEmployeeNumber" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="tfEmployeeNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnNumberOK" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="tfPassword" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnPasswordOk" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnPasswordOK" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -119,45 +105,27 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="tfFamilyName">
-              <Properties>
-                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[150, 20]"/>
-                </Property>
-                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[150, 20]"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfFamilyNameKeyTyped"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnNameOk">
+            <Component class="javax.swing.JButton" name="btnNumberOK">
               <Properties>
                 <Property name="text" type="java.lang.String" value="OK"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNameOkActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNumberOKActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblFamilyName">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Achternaam   "/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="tfFirstName">
+            <Component class="javax.swing.JTextField" name="tfEmployeeNumber">
               <Properties>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 20]"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfFirstNameKeyTyped"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmployeeNumberKeyTyped"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="lblFirstName">
+            <Component class="javax.swing.JLabel" name="lblEmployeeNumber">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Voornaam"/>
+                <Property name="text" type="java.lang.String" value="Personeelsnummer"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JPasswordField" name="tfPassword">
@@ -175,22 +143,12 @@
                 <Property name="text" type="java.lang.String" value="Wachtwoord"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnPasswordOk">
+            <Component class="javax.swing.JButton" name="btnPasswordOK">
               <Properties>
                 <Property name="text" type="java.lang.String" value="OK"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPasswordOkActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblInsertion">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Tussenvoegsel"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="tfInsertion">
-              <Events>
-                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfInsertionKeyReleased"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPasswordOKActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

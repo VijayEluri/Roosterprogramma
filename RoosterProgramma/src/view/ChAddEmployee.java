@@ -728,16 +728,16 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void checkEnabled() {
         if (!tfEmployeeNumber.getText().isEmpty() &&
-            isNumeric(tfEmployeeNumber.getText()) &&
+            RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText()) &&
             !tfFirstName.getText().isEmpty() &&
             !tfFamilyName.getText().isEmpty() &&
             !Exist() &&
             !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() &&
             (cbFullTime.isSelected() ||
-            (cbPartTime.isSelected() && !tfPartTime.getText().isEmpty() && isNumeric(tfPartTime.getText())) ||
-            (cbCallWorker.isSelected() && !tfCallWorker.getText().isEmpty() && isNumeric(tfCallWorker.getText())) ||
-            (cbMuseumEducator.isSelected() && !tfMuseumEducator.getText().isEmpty() && isNumeric(tfMuseumEducator.getText())) ||
-            (cbClerk.isSelected() && !tfClerk.getText().isEmpty() && isNumeric(tfClerk.getText()))))
+            (cbPartTime.isSelected() && !tfPartTime.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfPartTime.getText())) ||
+            (cbCallWorker.isSelected() && !tfCallWorker.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfCallWorker.getText())) ||
+            (cbMuseumEducator.isSelected() && !tfMuseumEducator.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfMuseumEducator.getText())) ||
+            (cbClerk.isSelected() && !tfClerk.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfClerk.getText()))))
         {
             btnSave.setEnabled(true);
         }
@@ -779,16 +779,6 @@ public class ChAddEmployee extends javax.swing.JPanel {
             }
         }
         return false;
-    }
-
-    private boolean isNumeric (String strToTest) {
-        boolean numeric = true;
-        try {
-            Double.parseDouble(strToTest);
-        } catch (NumberFormatException nfe) {
-            numeric = false;
-        }
-        return numeric;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

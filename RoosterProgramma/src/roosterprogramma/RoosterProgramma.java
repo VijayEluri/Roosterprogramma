@@ -113,7 +113,7 @@ public class RoosterProgramma {
             typedPassword += output;
         }
         Arrays.fill(input, '0');
-        return typedPassword.toUpperCase();
+        return typedPassword;
     }
 
     public boolean promptWarning(String question) {
@@ -142,5 +142,15 @@ public class RoosterProgramma {
             "Fout!",
             JOptionPane.ERROR_MESSAGE
         );
+    }
+
+    public boolean isNumeric (String strToTest) {
+        boolean numeric = true;
+        try {
+            Double.parseDouble(strToTest);
+        } catch (NumberFormatException nfe) {
+            numeric = false;
+        }
+        return numeric;
     }
 }
