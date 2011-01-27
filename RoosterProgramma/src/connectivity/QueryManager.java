@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Employee;
 import model.WorkHours;
+import roosterprogramma.RoosterProgramma;
 
 /**
  *
@@ -184,7 +185,12 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "`, `datum` FROM `werktijden`;";
+            String sql = "SELECT `" + employee.getFirstName() + " ";
+            if (!RoosterProgramma.getInstance().isEmpty(employee.getInsertion()))
+            {
+                sql += employee.getInsertion() + " ";
+            }
+            sql += employee.getFamilyName() + "`, `datum` FROM `werktijden`;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(

@@ -145,11 +145,12 @@ public class RoosterProgramma {
     }
 
     public boolean isEmpty (String strToTest) {
-        boolean empty = true;
+        boolean empty = false;
         try {
             strToTest.length();
+            
         } catch (NullPointerException npe) {
-            empty = false;
+            empty = true;
         }
         return empty;
     }
