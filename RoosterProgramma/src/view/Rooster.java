@@ -237,11 +237,18 @@ public class Rooster extends javax.swing.JPanel {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
             for (int j = 2; j < model.getColumnCount(); j++)
             {
-                pieces = model.getColumnName(j).split(" - ");
-                String day = pieces[0];
-                WorkHours hours = employee.getWorkHours(year + "-" + getMonth() + "-" + day);
-                hours.setShouldWork(model.getValueAt(i, j).toString());
-                hours.update();
+                String shouldWork = model.getValueAt(i, j).toString();
+                if (!shouldWork.isEmpty())
+                {
+                    pieces = model.getColumnName(j).split(" - ");
+                    String day = pieces[0];
+                    WorkHours hours = employee.getWorkHours(year + "-" + getMonth() + "-" + day);
+                    if (!hours.getShouldWork().equals(shouldWork))
+                    {
+                        hours.setShouldWork(shouldWork);
+                        hours.update();
+                    }
+                }
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
