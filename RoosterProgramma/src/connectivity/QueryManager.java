@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Employee;
 import model.WorkHours;
-import roosterprogramma.RoosterProgramma;
 
 /**
  *
@@ -242,5 +241,26 @@ public class QueryManager {
             sql = "INSERT INTO `werktijden` (datum, `" + hours.getEmployee().getFullName() + "`) VALUES ('" + hours.getDate() + "', '" + data + "');";
         }
         dbmanager.insertQuery(sql);
+    }
+
+    public List<String> getImportedFiles() {
+        List<String> importedFiles = new ArrayList<String>();
+        try {
+            String sql = "SELECT * FROM `sqlfiles`;";
+            ResultSet result = dbmanager.doQuery(sql);
+            while (result.next()) {
+                importedFiles.add(result.getString("bestandsnaam"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return importedFiles;
+    }
+
+    public void doQuery(String query, String sqlFile) {
+        dbmanager.insertQuery(query);
+
+        query = "INSERT INTO `sqlfiles` VALUES ('" + sqlFile + "');";
+        dbmanager.insertQuery(query);
     }
 }
