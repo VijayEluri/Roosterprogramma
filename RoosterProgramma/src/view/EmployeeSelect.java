@@ -279,8 +279,8 @@ public class EmployeeSelect extends javax.swing.JPanel {
             int saveDialog = fileChooser.showDialog(null, "Opslaan");
             if (saveDialog == JFileChooser.APPROVE_OPTION)
             {
-            File file = fileChooser.getSelectedFile();
-            input = file.getAbsolutePath();
+                File file = fileChooser.getSelectedFile();
+                input = file.getAbsolutePath();
             }
 
             tabel.exportTable(tblEmployee, new File(input + ".xls"));
