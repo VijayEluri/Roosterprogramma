@@ -123,13 +123,12 @@ public class QueryManager {
                 + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "')";
         dbmanager.insertQuery(sql);
 
-        sql = "ALTER TABLE `werktijden` ADD COLUMN `" + employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName() + "` VARCHAR(255) DEFAULT '0;0;0;0;0;0;0;0';"; // Moet dynamisch qua velden met ;
+        sql = "ALTER TABLE `werktijden` ADD COLUMN `" + employee.getFullName() + "` VARCHAR(255) DEFAULT '0;0;0;0;0;0;0;0';"; // Moet dynamisch qua velden met ;
         dbmanager.insertQuery(sql);
     }
 
     public void changeEmployee(Employee employee) {
         Employee oldEmployee = getEmployee(employee.getEmployeeNumber());
-        String name = oldEmployee.getFirstName() + " " + oldEmployee.getInsertion() + " " + oldEmployee.getFamilyName();
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
@@ -140,16 +139,15 @@ public class QueryManager {
                 + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "');";
         dbmanager.insertQuery(sql);
 
-        sql = "ALTER TABLE `werktijden` CHANGE `" + name + "` `" + employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName() + "` varchar(255) character set latin1 collate latin1_swedish_ci default '0;0;0;0;0;0;0;0;0' NOT NULL;"; // Moet dynamisch qua velden met ;
+        sql = "ALTER TABLE `werktijden` CHANGE `" + oldEmployee.getFullName() + "` `" + employee.getFullName() + "` varchar(255) character set latin1 collate latin1_swedish_ci default '0;0;0;0;0;0;0;0;0' NOT NULL;"; // Moet dynamisch qua velden met ;
         dbmanager.insertQuery(sql);
     }
     
     public void deleteEmployee(Employee employee) {
-        String name = employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName();
         String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + employee.getEmployeeNumber() + "';";
         dbmanager.insertQuery(sql);
 
-        sql = "ALTER TABLE `werktijden` DROP COLUMN `" + name + "`;";
+        sql = "ALTER TABLE `werktijden` DROP COLUMN `" + employee.getFullName() + "`;";
         dbmanager.insertQuery(sql);
     }
 
@@ -197,16 +195,11 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT `" + employee.getFirstName() + " ";
-            if (!RoosterProgramma.getInstance().isEmpty(employee.getInsertion()))
-            {
-                sql += employee.getInsertion() + " ";
-            }
-            sql += employee.getFamilyName() + "`, `datum` FROM `werktijden`;";
+            String sql = "SELECT `" + employee.getFullName() + "`, `datum` FROM `werktijden`;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                    employee, result.getString("datum"), result.getString(employee.getFirstName() + " " + employee.getFamilyName())
+                    employee, result.getString("datum"), result.getString(employee.getFullName())
                 ));
             }
         } catch (SQLException ex) {
@@ -218,7 +211,7 @@ public class QueryManager {
     public boolean workHourExists(Employee employee, String date) {
         boolean exists = false;
         try {
-            String sql = "SELECT `" + employee.getFirstName() + " " + employee.getFamilyName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
+            String sql = "SELECT `" + employee.getFullName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 exists = true;
@@ -242,11 +235,11 @@ public class QueryManager {
         String sql = "";
         if (workHourExists(hours.getEmployee(), hours.getDate()))
         {
-            sql = "UPDATE `werktijden` SET `" + hours.getEmployee().getFirstName() + " " + hours.getEmployee().getFamilyName() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
+            sql = "UPDATE `werktijden` SET `" + hours.getEmployee().getFullName() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
         }
         else
         {
-            sql = "INSERT INTO `werktijden` (datum, `" + hours.getEmployee().getFirstName() + " " + hours.getEmployee().getFamilyName() + "`) VALUES ('" + hours.getDate() + "', '" + data + "');";
+            sql = "INSERT INTO `werktijden` (datum, `" + hours.getEmployee().getFullName() + "`) VALUES ('" + hours.getDate() + "', '" + data + "');";
         }
         dbmanager.insertQuery(sql);
     }

@@ -26,6 +26,7 @@ import roosterprogramma.RoosterProgramma;
 public class EmployeeSelect extends javax.swing.JPanel {
 
     private Employee selectedEmployee;
+    private DefaultTableModel model;
 
     /** Creates new form medewerkerOverzicht */
     public EmployeeSelect() {
@@ -35,20 +36,23 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
     // ToDo : FillTable functie kan gegeneraliseerd worden waardoor SearchTable hem kan aanroepen...heb je niet meer 3x dezelfde code
     private void fillTable() {
-        DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
+        model = (DefaultTableModel) tblEmployee.getModel();
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            Object[] fields = new Object[4];
-            fields[0] = employee.getEmployeeNumber();
-            fields[1] = employee.getFirstName();
-            fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-            fields[3] = employee.getFamilyName();
-            model.addRow(fields);
+            insertEmployeeIntoTable(employee);
         }
     }
 
+    private void insertEmployeeIntoTable(Employee employee) {
+        Object[] fields = new Object[4];
+        fields[0] = employee.getEmployeeNumber();
+        fields[1] = employee.getFirstName();
+        fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+        fields[3] = employee.getFamilyName();
+        model.addRow(fields);
+    }
+
     private void searchTable() {
-        DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
         while(model.getRowCount() != 0)
         {
             model.removeRow(0);
@@ -58,12 +62,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
             if(!employee.getFirstName().isEmpty())
             {
-                Object[] fields = new Object[4];
-                fields[0] = employee.getEmployeeNumber();
-                fields[1] = employee.getFirstName();
-                fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-                fields[3] = employee.getFamilyName();
-                model.addRow(fields);
+                insertEmployeeIntoTable(employee);
             }
         }
         else
@@ -72,12 +71,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
             {
                 for(Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText()))
                 {
-                    Object[] fields = new Object[4];
-                    fields[0] = employee.getEmployeeNumber();
-                    fields[1] = employee.getFirstName();
-                    fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-                    fields[3] = employee.getFamilyName();
-                    model.addRow(fields);
+                    insertEmployeeIntoTable(employee);
                 }
             }
             else

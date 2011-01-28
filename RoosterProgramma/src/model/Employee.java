@@ -102,6 +102,16 @@ public class Employee {
         return password;
     }
 
+    public String getFullName() {
+        String name = firstName + " ";
+        if (!RoosterProgramma.getInstance().isEmpty(insertion))
+        {
+            name += insertion + " ";
+        }
+        name += familyName;
+        return name;
+    }
+
     /**
      * @param password the password to set
      */

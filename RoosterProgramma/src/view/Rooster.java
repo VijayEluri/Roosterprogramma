@@ -11,14 +11,11 @@
 
 package view;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
-import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Translater;
 
@@ -71,14 +68,7 @@ public class Rooster extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
             Object[] fields = new Object[daysOfMonth+2];
-            if (!RoosterProgramma.getInstance().isEmpty(employee.getInsertion()))
-            {
-                fields[0] = employee.getFirstName() + " " + employee.getInsertion() + " " + employee.getFamilyName();
-            }
-            else
-            {
-                fields[0] = employee.getFirstName() + " " + employee.getFamilyName();
-            }
+            fields[0] = employee.getFullName();
             fields[1] = employee.getContractHours();
             for (int i = 1; i <= daysOfMonth; i++)
             {
@@ -269,13 +259,7 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
-//        try {
-//            ExcelExporter exp = new ExcelExporter();
-//            exp.exportTable(tblSchedule, new File("test.xls"));
-//        } catch (IOException ex) {
-//            System.out.println(ex.getMessage());
-//            ex.printStackTrace();
-//        }
+        // ToDo : functie adden
     }//GEN-LAST:event_btnExcelExportActionPerformed
 
     private void handleTime(int year, int month) {

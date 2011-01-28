@@ -22,6 +22,7 @@ import roosterprogramma.RoosterProgramma;
 public class EmployeeOverview extends javax.swing.JPanel {
 
     private Employee selectedEmployee;
+    private DefaultTableModel model;
 
     /** Creates new form medewerkerOverzicht */
     public EmployeeOverview() {
@@ -31,26 +32,29 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
     // ToDo : FillTable functie kan gegeneraliseerd worden waardoor SearchTable hem kan aanroepen...heb je niet meer 3x dezelfde code
     private void fillTable() {
-        DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
+        model = (DefaultTableModel) tblEmployee.getModel();
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
         {
-            String contracttype = "Fulltime";
-            if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
-                contracttype = "Oproepkracht";
-            if (employee.isPartTime())
-                contracttype = "Parttime";
-            Object[] fields = new Object[5];
-            fields[0] = employee.getEmployeeNumber();
-            fields[1] = employee.getFirstName();
-            fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-            fields[3] = employee.getFamilyName();
-            fields[4] = contracttype;
-            model.addRow(fields);
+            insertEmployeeIntoTable(employee);
         }
     }
 
+    private void insertEmployeeIntoTable(Employee employee) {
+        String contracttype = "Fulltime";
+        if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
+            contracttype = "Oproepkracht";
+        if (employee.isPartTime())
+            contracttype = "Parttime";
+        Object[] fields = new Object[5];
+        fields[0] = employee.getEmployeeNumber();
+        fields[1] = employee.getFirstName();
+        fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+        fields[3] = employee.getFamilyName();
+        fields[4] = contracttype;
+        model.addRow(fields);
+    }
+
     private void searchTable() {
-        DefaultTableModel model = (DefaultTableModel) tblEmployee.getModel();
         while(model.getRowCount() != 0)
         {
             model.removeRow(0);
@@ -60,18 +64,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
             if(!employee.getFirstName().isEmpty())
             {
-                String contracttype = "Fulltime";
-                if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
-                    contracttype = "Oproepkracht";
-                if (employee.isPartTime())
-                    contracttype = "Parttime";
-                Object[] fields = new Object[5];
-                fields[0] = employee.getEmployeeNumber();
-                fields[1] = employee.getFirstName();
-                fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-                fields[3] = employee.getFamilyName();
-                fields[4] = contracttype;
-                model.addRow(fields);
+                insertEmployeeIntoTable(employee);
             }
         }
         else
@@ -80,18 +73,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
             {
                 for(Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText()))
                 {
-                    String contracttype = "Fulltime";
-                    if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
-                        contracttype = "Oproepkracht";
-                    if (employee.isPartTime())
-                        contracttype = "Parttime";
-                    Object[] fields = new Object[5];
-                    fields[0] = employee.getEmployeeNumber();
-                    fields[1] = employee.getFirstName();
-                    fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
-                    fields[3] = employee.getFamilyName();
-                    fields[4] = contracttype;
-                    model.addRow(fields);
+                    insertEmployeeIntoTable(employee);
                 }
             }
             else
