@@ -23,6 +23,12 @@ public class MainMenu extends javax.swing.JPanel {
     /** Creates new form MainMenu */
     public MainMenu() {
         initComponents();
+        adminCheck();
+    }
+
+    public void adminCheck() {
+        btnManage.setEnabled(RoosterProgramma.getEmployee().isAdmin());
+        btnOverview.setEnabled(RoosterProgramma.getEmployee().isAdmin());
     }
 
     /** This method is called from within the constructor to
@@ -38,7 +44,7 @@ public class MainMenu extends javax.swing.JPanel {
         flowPanel = new javax.swing.JPanel();
         boxPanel = new javax.swing.JPanel();
         btnRoosters = new javax.swing.JButton();
-        btnOverzicht = new javax.swing.JButton();
+        btnOverview = new javax.swing.JButton();
         btnManage = new javax.swing.JButton();
 
         btnLogout.setText("Uitloggen");
@@ -60,15 +66,15 @@ public class MainMenu extends javax.swing.JPanel {
         });
         boxPanel.add(btnRoosters);
 
-        btnOverzicht.setText("Medewerker Overzicht");
-        btnOverzicht.setMaximumSize(new java.awt.Dimension(200, 100));
-        btnOverzicht.setPreferredSize(new java.awt.Dimension(200, 100));
-        btnOverzicht.addActionListener(new java.awt.event.ActionListener() {
+        btnOverview.setText("Medewerker Overzicht");
+        btnOverview.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnOverview.setPreferredSize(new java.awt.Dimension(200, 100));
+        btnOverview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOverzichtActionPerformed(evt);
+                btnOverviewActionPerformed(evt);
             }
         });
-        boxPanel.add(btnOverzicht);
+        boxPanel.add(btnOverview);
 
         btnManage.setText("Medewerkers beheren");
         btnManage.setMaximumSize(new java.awt.Dimension(200, 100));
@@ -104,9 +110,9 @@ public class MainMenu extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnOverzichtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverzichtActionPerformed
+    private void btnOverviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverviewActionPerformed
         RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
-    }//GEN-LAST:event_btnOverzichtActionPerformed
+    }//GEN-LAST:event_btnOverviewActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         RoosterProgramma.getInstance().showPanel(new Login(4));
@@ -126,7 +132,7 @@ public class MainMenu extends javax.swing.JPanel {
     private javax.swing.JPanel boxPanel;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnManage;
-    private javax.swing.JButton btnOverzicht;
+    private javax.swing.JButton btnOverview;
     private javax.swing.JButton btnRoosters;
     private javax.swing.JPanel flowPanel;
     // End of variables declaration//GEN-END:variables

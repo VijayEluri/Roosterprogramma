@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileSystemView;
+import model.Employee;
 import view.Login;
 
 /**
@@ -35,6 +36,7 @@ public class RoosterProgramma {
     public static final Font FONT_25_BOLD = new Font("Verdana", Font.BOLD, 25);
     private Dbmanager dbManager;
     private QueryManager queryManager;
+    private model.Employee employee;
 
     public int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     public int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
@@ -169,6 +171,14 @@ public class RoosterProgramma {
             input = file.getAbsolutePath();
         }
         return input;
+    }
+
+    public static model.Employee getEmployee(){
+        return getInstance().employee;
+    }
+
+    public void setEmployee(Employee employee){
+        this.employee = employee;
     }
 
     public boolean isEmpty (String strToTest) {

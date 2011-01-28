@@ -119,6 +119,7 @@ public class Login extends javax.swing.JPanel {
         String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
         if (Sha1Pass.equals(employee.getPassword()))
         {
+            RoosterProgramma.getInstance().setEmployee(employee);
             RoosterProgramma.getInstance().showPanel(new MainMenu());
         }
         else
