@@ -271,18 +271,19 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
          try {
-            ExcelExporter exp = new ExcelExporter();
+            ExcelExporter tabel = new ExcelExporter();
             String input = null;
-            String wd = System.getProperty("user.dir");
-            JFileChooser fc = new JFileChooser(wd);
-            int rc = fc.showDialog(null, "Select Data File");
-            if (rc == JFileChooser.APPROVE_OPTION)
+            String startDirectory = System.getProperty("user.dir");
+
+            JFileChooser fileChooser = new JFileChooser(startDirectory);
+            int saveDialog = fileChooser.showDialog(null, "Opslaan");
+            if (saveDialog == JFileChooser.APPROVE_OPTION)
             {
-            File file = fc.getSelectedFile();
+            File file = fileChooser.getSelectedFile();
             input = file.getAbsolutePath();
             }
 
-            exp.exportTable(tblEmployee, new File(input + ".xls"));
+            tabel.exportTable(tblEmployee, new File(input + ".xls"));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
