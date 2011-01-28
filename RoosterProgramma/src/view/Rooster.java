@@ -11,11 +11,13 @@
 
 package view;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
+import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Translater;
 
