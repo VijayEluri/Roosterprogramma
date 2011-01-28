@@ -45,6 +45,7 @@ public class ExcelExporter {
         } finally {
             try {
                 out.close();
+                file.setReadOnly();
             } catch (IOException ex) {
                 Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
             }
