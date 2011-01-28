@@ -1,16 +1,14 @@
 package connectivity;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import roosterprogramma.RoosterProgramma;
@@ -18,26 +16,13 @@ import view.Login;
 
 public class UpdateChecker {
 
-    private String ApplicatieFile = "WinkelApplicatieOut2.jar";
-    private String VersionFile = "includes/version.txt";
+    private static final String APPLICATIEFILE = "WinkelApplicatieOut2.jar";
+    private static final String APPLICATIELINK = "http://oege.ie.hva.nl/~fritz10/Outfit4You/WinkelApplicatieOut2.jar";
 
     public int checkForUpdate() {
-        String latestVersion = getLatestVersion();
-        String currentVersion = getVersion();
-        if (!latestVersion.isEmpty())
+        if (hasInternet())
         {
-            if (currentVersion.isEmpty())
-            {
-                if (RoosterProgramma.getInstance().promptWarning("Er kan niet worden gecontroleerd op updates omdat het versiebestand ontbreekt.\n"
-                        + "Dit kan worden opgelost door de applicatie opnieuw te installeren.\n"
-                        + "Er zullen geen gegevens verloren gaan.\n"
-                        + "Wilt u dit nu doen?"))
-                {
-                    installNewVersion();
-                }
-                return 3;
-            }
-            else if(!currentVersion.equals(latestVersion))
+            if (!isLatest())
             {
                 if (RoosterProgramma.getInstance().promptWarning("Er is een update beschikbaar!\n"
                         + "Wilt u nu de update installeren?"))
@@ -46,7 +31,10 @@ public class UpdateChecker {
                 }
                 return 1;
             }
-            return 0;
+            else
+            {
+                return 0;
+            }
         }
         else
         {
@@ -54,71 +42,49 @@ public class UpdateChecker {
         }
     }
 
-    private String getVersion() {
-        String version = "";
+    private boolean hasInternet() {
         try {
-            // Kijk wat de versie is die we hebben
-            File versie = new File("includes/version.txt");
-            if (versie.isFile())
-            {
-                FileReader fr = new FileReader(versie);
-                BufferedReader br = new BufferedReader(fr);
-                version = br.readLine();
-            }
+            URL google = new URL("http://www.google.com");
+            URLConnection urlc = google.openConnection();
+            Object objData = urlc.getContent();
+            return true;
         } catch (IOException ex) {
             Logger.getLogger(UpdateChecker.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
-        return version;
     }
 
-    private String getLatestVersion() {
-        String inputLine = "";
+    private boolean isLatest() {
+        boolean latest = true;
         try {
-            // Kijk wat de versie op de website nu is
-            URL versie = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/version.txt");
-            URLConnection url = versie.openConnection();
-            if (url.getInputStream().available() != 0)
+            Date lastModified = new Date(new URL(APPLICATIELINK).openConnection().getLastModified());
+            File executable = new File(APPLICATIEFILE);
+            System.out.println(lastModified.getTime() + " > " + executable.lastModified());
+            if (lastModified.getTime() > executable.lastModified())
             {
-                BufferedReader in = new BufferedReader(new InputStreamReader(url.getInputStream()));
-                inputLine = in.readLine();
+                latest = false;
             }
         } catch (IOException ex) {
             Logger.getLogger(UpdateChecker.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return inputLine;
+        return latest;
     }
 
     public void installNewVersion() {
         OutputStream outStream = null;
         try {
-            File oldFile = new File(ApplicatieFile);
-            File prevVersion = new File(VersionFile);
+            File oldFile = new File(APPLICATIEFILE);
             if (oldFile.isFile())
             {
                 oldFile.delete();
             }
 
-            if (prevVersion.isFile())
-            {
-                prevVersion.delete();
-            }
-
-            URL Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/WinkelApplicatieOut2.jar");    //  Dit gaat gehost worden op me NAS nadat ik em heb
-            outStream = new BufferedOutputStream(new FileOutputStream(ApplicatieFile));
+            URL Url = new URL(APPLICATIELINK);    //  Dit gaat gehost worden op me NAS nadat ik em heb
+            outStream = new BufferedOutputStream(new FileOutputStream(APPLICATIEFILE));
             URLConnection uCon = Url.openConnection();
             InputStream is = uCon.getInputStream();
             byte[] buf = new byte[1024];
             int ByteRead;
-            while ((ByteRead = is.read(buf)) != -1)
-            {
-                outStream.write(buf, 0, ByteRead);
-            }
-
-            Url = new URL("http://oege.ie.hva.nl/~fritz10/Outfit4You/version.txt");    //  Dit gaat gehost worden op me NAS nadat ik em heb
-            outStream = new BufferedOutputStream(new FileOutputStream(prevVersion));
-            uCon = Url.openConnection();
-            is = uCon.getInputStream();
-            buf = new byte[1024];
             while ((ByteRead = is.read(buf)) != -1)
             {
                 outStream.write(buf, 0, ByteRead);

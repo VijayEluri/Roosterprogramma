@@ -2,6 +2,7 @@ package roosterprogramma;
 
 import connectivity.Dbmanager;
 import connectivity.QueryManager;
+import connectivity.UpdateChecker;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Toolkit;

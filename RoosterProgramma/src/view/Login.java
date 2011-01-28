@@ -52,12 +52,6 @@ public class Login extends javax.swing.JPanel {
                 lblUpdate.setForeground(Color.orange);
                 break;
             }
-            case 3:
-            {
-                lblUpdate.setText("Er kan niet worden gecontroleerd op updates, een herinstallatie verhelpt dit probleem.");
-                lblUpdate.setForeground(Color.orange);
-                break;
-            }
             default:
             {
                 break;
