@@ -8,6 +8,8 @@ package roosterprogramma;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -17,24 +19,32 @@ import javax.swing.table.TableModel;
  * @author Dymion
  */
 public class ExcelExporter {
-    public ExcelExporter() { }
-    public void exportTable(JTable table, File file) throws IOException {
-        TableModel model = table.getModel();
-        FileWriter out = new FileWriter(file);
-
-        for(int i=0; i < model.getColumnCount(); i++) {
-            out.write(model.getColumnName(i) + "\t");
-        }
-        out.write("\n");
-
-        for(int i=0; i< model.getRowCount(); i++) {
-            for(int j=0; j < model.getColumnCount(); j++) {
-                out.write(model.getValueAt(i,j).toString()+"\t");
+    public ExcelExporter(JTable table, File file) {
+        FileWriter out = null;
+        try {
+            TableModel model = table.getModel();
+            out = new FileWriter(file);
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                out.write(model.getColumnName(i) + "\t");
             }
             out.write("\n");
+            for (int i = 0; i < model.getRowCount(); i++) {
+                for (int j = 0; j < model.getColumnCount(); j++) {
+                    out.write(model.getValueAt(i, j).toString() + "\t");
+                }
+                out.write("\n");
+            }
+            out.close();
+            String succes = "Exporteren naar excel bestand is gelukt.";
+            JOptionPane.showMessageDialog(null, succes);
+        } catch (IOException ex) {
+            Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        out.close();
-        String succes = "Exporteren naar excel bestand is gelukt.";
-        JOptionPane.showMessageDialog(null, succes);
     }
 }

@@ -269,14 +269,8 @@ public class EmployeeSelect extends javax.swing.JPanel {
     }//GEN-LAST:event_tfEmployeeNrKeyReleased
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
-         try {
-            ExcelExporter tabel = new ExcelExporter();
-            String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
-            tabel.exportTable(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
-        }
+         String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
+         ExcelExporter tabel = new ExcelExporter(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
     }//GEN-LAST:event_btnExportExcelActionPerformed
 
     private void showInfo() {
