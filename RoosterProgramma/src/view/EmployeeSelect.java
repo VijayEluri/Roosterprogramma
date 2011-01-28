@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import roosterprogramma.ExcelExporter;
@@ -273,9 +274,8 @@ public class EmployeeSelect extends javax.swing.JPanel {
          try {
             ExcelExporter tabel = new ExcelExporter();
             String input = null;
-            String startDirectory = System.getProperty("user.dir");
-
-            JFileChooser fileChooser = new JFileChooser(startDirectory);
+            FileSystemView fsv = FileSystemView.getFileSystemView();
+            JFileChooser fileChooser = new JFileChooser(fsv.getRoots()[0]);
             int saveDialog = fileChooser.showDialog(null, "Opslaan");
             if (saveDialog == JFileChooser.APPROVE_OPTION)
             {
