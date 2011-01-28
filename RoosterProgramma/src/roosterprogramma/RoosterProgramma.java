@@ -145,12 +145,12 @@ public class RoosterProgramma {
         return input;
     }
 
-    public void showError(String error) {
+    public void showMessage(String message, String title, boolean error) {
         JOptionPane.showMessageDialog(
             null,
-            error,
-            "Fout!",
-            JOptionPane.ERROR_MESSAGE
+            message,
+            title,
+            error ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE
         );
     }
 
