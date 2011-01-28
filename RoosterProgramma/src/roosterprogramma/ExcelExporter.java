@@ -19,7 +19,10 @@ import javax.swing.table.TableModel;
  * @author Dymion
  */
 public class ExcelExporter {
-    public ExcelExporter(JTable table, File file) {
+    public ExcelExporter() {
+    }
+
+    public static void Export(JTable table, File file) {
         FileWriter out = null;
         try {
             TableModel model = table.getModel();

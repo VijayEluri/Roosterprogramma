@@ -272,7 +272,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
          String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
          if (!input.isEmpty())
          {
-            ExcelExporter tabel = new ExcelExporter(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
+            ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
          }
     }//GEN-LAST:event_btnExportExcelActionPerformed
 
