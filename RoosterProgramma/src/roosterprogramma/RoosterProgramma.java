@@ -7,12 +7,15 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Arrays;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileSystemView;
 import view.Login;
 
 /**
@@ -152,6 +155,19 @@ public class RoosterProgramma {
             title,
             error ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE
         );
+    }
+
+    public String showFileChooser(String message) {
+        String input = null;
+        File startDirectory = FileSystemView.getFileSystemView().getRoots()[0];
+        JFileChooser fileChooser = new JFileChooser(startDirectory);
+        int saveDialog = fileChooser.showDialog(null, message);
+        if (saveDialog == JFileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            input = file.getAbsolutePath();
+        }
+        return input;
     }
 
     public boolean isEmpty (String strToTest) {

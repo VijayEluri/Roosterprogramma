@@ -14,7 +14,6 @@ package view;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
-import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import roosterprogramma.ExcelExporter;
@@ -272,17 +271,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
          try {
             ExcelExporter tabel = new ExcelExporter();
-            String input = null;
-            String startDirectory = System.getProperty("user.dir");
-
-            JFileChooser fileChooser = new JFileChooser(startDirectory);
-            int saveDialog = fileChooser.showDialog(null, "Opslaan");
-            if (saveDialog == JFileChooser.APPROVE_OPTION)
-            {
-                File file = fileChooser.getSelectedFile();
-                input = file.getAbsolutePath();
-            }
-
+            String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
             tabel.exportTable(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
