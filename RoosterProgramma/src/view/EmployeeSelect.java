@@ -283,7 +283,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
                 input = file.getAbsolutePath();
             }
 
-            tabel.exportTable(tblEmployee, new File(input + ".xls"));
+            tabel.exportTable(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
