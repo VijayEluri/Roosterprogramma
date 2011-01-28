@@ -259,7 +259,11 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
-        // ToDo : functie adden
+         String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
+         if (!input.isEmpty())
+         {
+            ExcelExporter.Export(tblSchedule, new File(input.contains(".xls") ? input : input + ".xls"));
+         }
     }//GEN-LAST:event_btnExcelExportActionPerformed
 
     private void handleTime(int year, int month) {
