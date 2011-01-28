@@ -158,7 +158,7 @@ public class RoosterProgramma {
     }
 
     public String showFileChooser(String message) {
-        String input = null;
+        String input = "";
         File startDirectory = FileSystemView.getFileSystemView().getRoots()[0];
         JFileChooser fileChooser = new JFileChooser(startDirectory);
         int saveDialog = fileChooser.showDialog(null, message);
