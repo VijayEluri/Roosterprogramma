@@ -11,9 +11,12 @@
 
 package view;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
+import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -103,6 +106,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
         tfFirstName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         tfFamilyName = new javax.swing.JTextField();
+        btnExportExcel = new javax.swing.JButton();
 
         tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -173,6 +177,13 @@ public class EmployeeSelect extends javax.swing.JPanel {
             }
         });
 
+        btnExportExcel.setText("Exporteer naar Excel");
+        btnExportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,7 +194,9 @@ public class EmployeeSelect extends javax.swing.JPanel {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 824, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 716, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 573, Short.MAX_VALUE)
+                        .addComponent(btnExportExcel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(OK))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +230,8 @@ public class EmployeeSelect extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBack)
-                    .addComponent(OK))
+                    .addComponent(OK)
+                    .addComponent(btnExportExcel))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -254,6 +268,16 @@ public class EmployeeSelect extends javax.swing.JPanel {
         searchTable();
     }//GEN-LAST:event_tfEmployeeNrKeyReleased
 
+    private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
+         try {
+            ExcelExporter exp = new ExcelExporter();
+            exp.exportTable(tblEmployee, new File("MedewerkerLijst.xls"));
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnExportExcelActionPerformed
+
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
         RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
@@ -262,6 +286,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OK;
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnExportExcel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

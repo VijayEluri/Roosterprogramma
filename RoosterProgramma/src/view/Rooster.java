@@ -11,11 +11,14 @@
 
 package view;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
+import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Translater;
 
@@ -119,6 +122,7 @@ public class Rooster extends javax.swing.JPanel {
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
         btnGo = new javax.swing.JButton();
+        btnExcelExport = new javax.swing.JButton();
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,6 +175,13 @@ public class Rooster extends javax.swing.JPanel {
         });
         jPanel1.add(btnGo);
 
+        btnExcelExport.setText("Exporteer naar excel");
+        btnExcelExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,7 +192,9 @@ public class Rooster extends javax.swing.JPanel {
                     .addComponent(pnlTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 710, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 559, Short.MAX_VALUE)
+                        .addComponent(btnExcelExport)
+                        .addGap(18, 18, 18)
                         .addComponent(btnSave))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPreviousMonth)
@@ -204,7 +217,8 @@ public class Rooster extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
-                    .addComponent(btnBack))
+                    .addComponent(btnBack)
+                    .addComponent(btnExcelExport))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -254,6 +268,16 @@ public class Rooster extends javax.swing.JPanel {
         handleTime(selectedYear, selectedMonth);
     }//GEN-LAST:event_btnGoActionPerformed
 
+    private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
+//        try {
+//            ExcelExporter exp = new ExcelExporter();
+//            exp.exportTable(tblSchedule, new File("test.xls"));
+//        } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//            ex.printStackTrace();
+//        }
+    }//GEN-LAST:event_btnExcelExportActionPerformed
+
     private void handleTime(int year, int month) {
         if (month == 0)
         {
@@ -270,6 +294,7 @@ public class Rooster extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnExcelExport;
     private javax.swing.JButton btnGo;
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnPreviousMonth;
