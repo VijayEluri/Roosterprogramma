@@ -34,7 +34,7 @@ public class ExcelExporter {
             out.write("\n");
         }
         out.close();
-        String gelukt = "Exporteren is gelukt";
+        String gelukt = "Exporteren naar excel bestand is gelukt.";
         JOptionPane.showMessageDialog(null, gelukt);
     }
 }

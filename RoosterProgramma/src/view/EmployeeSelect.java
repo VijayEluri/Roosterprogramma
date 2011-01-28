@@ -271,7 +271,8 @@ public class EmployeeSelect extends javax.swing.JPanel {
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
          try {
             ExcelExporter exp = new ExcelExporter();
-            exp.exportTable(tblEmployee, new File("MedewerkerLijst.xls"));
+            String input = RoosterProgramma.getInstance().promptInput("Voer hier de naam in van het excel-bestand.");
+            exp.exportTable(tblEmployee, new File(input + ".xls"));
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
