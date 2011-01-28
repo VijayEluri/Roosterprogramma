@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 
@@ -38,8 +37,7 @@ public class ExcelExporter {
                 out.write("\n");
             }
             out.close();
-            String succes = "Exporteren naar excel bestand is gelukt.";
-            JOptionPane.showMessageDialog(null, succes);
+            RoosterProgramma.getInstance().showMessage("Exporteren naar excel bestand is gelukt.", "Succes!", false);
         } catch (IOException ex) {
             Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
