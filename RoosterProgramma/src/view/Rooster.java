@@ -268,11 +268,12 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnGoActionPerformed
 
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
-         String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
-         if (!input.isEmpty())
-         {
-            ExcelExporter.Export(tblSchedule, new File(input.contains(".xls") ? input : input + ".xls"));
-         }
+        String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
+        if (!input.isEmpty())
+        {
+            boolean inverted = RoosterProgramma.getInstance().promptQuestion("Wilt u de tabel omgedraaid of precies zoals hierboven?", false, "Zoals hierboven", "Omgedraaid");
+            ExcelExporter.Export(tblSchedule, new File(input.contains(".xls") ? input : input + ".xls"), inverted);
+        }
     }//GEN-LAST:event_btnExcelExportActionPerformed
 
     private void handleTime(int year, int month) {

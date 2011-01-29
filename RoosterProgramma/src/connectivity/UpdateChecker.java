@@ -29,8 +29,8 @@ public class UpdateChecker {
         {
             if (!isLatest())
             {
-                if (RoosterProgramma.getInstance().promptWarning("Er is een update beschikbaar!\n"
-                        + "Wilt u nu de update installeren?"))
+                if (RoosterProgramma.getInstance().promptQuestion("Er is een update beschikbaar!\n"
+                        + "Wilt u nu de update installeren?", false, "Ja", "Nee"))
                 {
                     importRequiredSQLFiles();
                     installNewVersion();

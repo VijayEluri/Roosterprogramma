@@ -122,23 +122,27 @@ public class RoosterProgramma {
         return typedPassword;
     }
 
-    public boolean promptWarning(String question) {
-        int choice = JOptionPane.showConfirmDialog(
-            null,
+    public boolean promptQuestion(String question, boolean warning, String yes, String no) {
+        boolean answer = false;
+        Object[] options = {
+            yes,
+            no
+        };
+        int choice = JOptionPane.showOptionDialog(
+            null,   // frame
             question,
-            "Waarschuwing!",
+            warning ? "Waarschuwing!" : "Gebruikersinteractie vereist",
             JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE
+            warning ? JOptionPane.WARNING_MESSAGE : JOptionPane.QUESTION_MESSAGE,
+            null,   // custom icon
+            options,
+            options[0]  // default button
         );
-
         if (choice == JOptionPane.YES_OPTION)
         {
-            return true;
+            answer = true;
         }
-        else
-        {
-            return false;
-        }
+        return answer;
     }
 
     public String promptInput(String message) {

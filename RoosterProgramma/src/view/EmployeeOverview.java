@@ -253,7 +253,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (RoosterProgramma.getInstance().promptWarning("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?"))
+        if (RoosterProgramma.getInstance().promptQuestion("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?", true, "Ja", "Nee"))
         {
             selectedEmployee.delete();
             RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
