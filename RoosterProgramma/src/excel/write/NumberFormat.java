@@ -45,33 +45,6 @@ public class NumberFormat extends NumberFormatRecord implements DisplayFormat
   // Some format strings
 
   /**
-   * Constant format string for the Euro currency symbol where it precedes
-   * the format
-   */
-  public static final String CURRENCY_EURO_PREFIX = "[$€-2]";
-
-  /**
-   * Constant format string for the Euro currency symbol where it precedes
-   * the format
-   */
-  public static final String CURRENCY_EURO_SUFFIX = "[$€-1]";
-
-  /**
-   * Constant format string for the UK pound sign
-   */
-  public static final String CURRENCY_POUND = "£";
-
-  /**
-   * Constant format string for the Japanese Yen sign
-   */
-  public static final String CURRENCY_JAPANESE_YEN = "[$¥-411]";
-
-  /**
-   * Constant format string for the US Dollar sign
-   */
-  public static final String CURRENCY_DOLLAR = "[$$-409]";
-
-  /**
    * Constant format string for three digit fractions
    */
   public static final String FRACTION_THREE_DIGITS = "???/???";
