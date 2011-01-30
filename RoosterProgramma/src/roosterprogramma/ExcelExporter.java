@@ -5,26 +5,28 @@
 
 package roosterprogramma;
 
+import excel.Workbook;
+import excel.write.Label;
+import excel.write.WritableSheet;
+import excel.write.WritableWorkbook;
+import excel.write.WriteException;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
+//import jxl.Workbook;
+//import jxl.write.Label;
+//import jxl.write.WritableSheet;
+//import jxl.write.WritableWorkbook;
+//import jxl.write.WriteException;
 
 /**
  *
  * @author Dymion
  */
 public class ExcelExporter {
-    public ExcelExporter() {
-    }
 
 //    public static void Export(JTable table, File file) {
 //        FileWriter out = null;
