@@ -26,7 +26,7 @@ public class MainMenu extends javax.swing.JPanel {
         adminCheck();
     }
 
-    public void adminCheck() {
+    private void adminCheck() {
         btnManage.setEnabled(RoosterProgramma.getEmployee().isAdmin());
         btnOverview.setEnabled(RoosterProgramma.getEmployee().isAdmin());
     }
@@ -46,6 +46,7 @@ public class MainMenu extends javax.swing.JPanel {
         btnRoosters = new javax.swing.JButton();
         btnOverview = new javax.swing.JButton();
         btnManage = new javax.swing.JButton();
+        btnSettings = new javax.swing.JButton();
 
         btnLogout.setText("Uitloggen");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -86,6 +87,16 @@ public class MainMenu extends javax.swing.JPanel {
         });
         boxPanel.add(btnManage);
 
+        btnSettings.setText("Instellingen");
+        btnSettings.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnSettings.setPreferredSize(new java.awt.Dimension(200, 100));
+        btnSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettingsActionPerformed(evt);
+            }
+        });
+        boxPanel.add(btnSettings);
+
         flowPanel.add(boxPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -104,7 +115,7 @@ public class MainMenu extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(flowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 281, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                 .addComponent(btnLogout)
                 .addContainerGap())
         );
@@ -127,6 +138,14 @@ public class MainMenu extends javax.swing.JPanel {
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
     }//GEN-LAST:event_btnManageActionPerformed
 
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
+        boolean forward = RoosterProgramma.getInstance().promptQuestion("Weet u zeker dat u de instellingen wilt aanpassen?\nDit kan ongewenste gevolgen hebben als u niet weet wat u doet!", true, "Ja, ik weet het zeker", "Nee, ik wil terug naar het hoofdmenu");
+        if (forward)
+        {
+            RoosterProgramma.getInstance().showPanel(new SettingsMenu());
+        }
+    }//GEN-LAST:event_btnSettingsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel boxPanel;
@@ -134,6 +153,7 @@ public class MainMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnManage;
     private javax.swing.JButton btnOverview;
     private javax.swing.JButton btnRoosters;
+    private javax.swing.JButton btnSettings;
     private javax.swing.JPanel flowPanel;
     // End of variables declaration//GEN-END:variables
 
