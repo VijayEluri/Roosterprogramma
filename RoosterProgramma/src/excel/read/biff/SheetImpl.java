@@ -23,13 +23,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import excel.common.Assert;
 
 import excel.Cell;
-import excel.CellType;
 import excel.CellView;
 import excel.Hyperlink;
-import excel.Image;
 import excel.LabelCell;
 import excel.Range;
 import excel.Sheet;
@@ -45,10 +42,6 @@ import excel.biff.EmptyCell;
 import excel.biff.FormattingRecords;
 import excel.biff.Type;
 import excel.biff.WorkspaceInformationRecord;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.Drawing;
-import excel.biff.drawing.DrawingData;
-import excel.biff.drawing.DrawingGroupObject;
 import excel.format.CellFormat;
 
 /**
@@ -291,12 +284,6 @@ public class SheetImpl implements Sheet
 
     // Mark the position in the stream, and then skip on until the end
     startPosition = f.getPos();
-
-    if (sheetBof.isChart())
-    {
-      // Set the start pos to include the bof so the sheet reader can handle it
-      startPosition -= (sheetBof.getLength() + 4);
-    }
 
     Record r = null;
     int bofs = 1;
@@ -718,8 +705,6 @@ public class SheetImpl implements Sheet
     hyperlinks = reader.getHyperlinks();
     conditionalFormats = reader.getConditionalFormats();
     autoFilter = reader.getAutoFilter();
-    charts = reader.getCharts();
-    drawings = reader.getDrawings();
     dataValidation = reader.getDataValidation();
     mergedCells = reader.getMergedCells();
     settings = reader.getSettings();
@@ -904,34 +889,6 @@ public class SheetImpl implements Sheet
   }
 
   /**
-   * Gets the charts.  Called when copying sheets
-   *
-   * @return the charts on this page
-   */
-  public final Chart[] getCharts()
-  {
-    Chart[] ch = new Chart[charts.size()];
-
-    for (int i = 0; i < ch.length; i++)
-    {
-      ch[i] = (Chart) charts.get(i);
-    }
-    return ch;
-  }
-
-  /**
-   * Gets the drawings.  Called when copying sheets
-   *
-   * @return the drawings on this page
-   */
-  public final DrawingGroupObject[] getDrawings()
-  {
-    DrawingGroupObject[] dr = new DrawingGroupObject[drawings.size()];
-    dr = (DrawingGroupObject[]) drawings.toArray(dr);
-    return dr;
-  }
-
-  /**
    * Determines whether the sheet is protected
    *
    * @return whether or not the sheet is protected
@@ -1113,77 +1070,6 @@ public class SheetImpl implements Sheet
   public ButtonPropertySetRecord getButtonPropertySet()
   {
     return buttonPropertySet;
-  }
-
-  /**
-   * Accessor for the number of images on the sheet
-   *
-   * @return the number of images on this sheet
-   */
-  public int getNumberOfImages()
-  {
-    if (images == null)
-    {
-      initializeImages();
-    }
-
-    return images.size();
-  }
-
-  /**
-   * Accessor for the image
-   *
-   * @param i the 0 based image number
-   * @return  the image at the specified position
-   */
-  public Image getDrawing(int i)
-  {
-    if (images == null)
-    {
-      initializeImages();
-    }
-
-    return (Image) images.get(i);
-  }
-
-  /**
-   * Initializes the images
-   */
-  private void initializeImages()
-  {
-    if (images != null)
-    {
-      return;
-    }
-
-    images = new ArrayList();
-    DrawingGroupObject[] dgos = getDrawings();
-
-    for (int i = 0; i < dgos.length; i++)
-    {
-      if (dgos[i] instanceof Drawing)
-      {
-        images.add(dgos[i]);
-      }
-    }
-  }
-
-  /**
-   * Used by one of the demo programs for debugging purposes only
-   */
-  public DrawingData getDrawingData()
-  {
-    SheetReader reader = new SheetReader(excelFile,
-                                         sharedStrings,
-                                         formattingRecords,
-                                         sheetBof,
-                                         workbookBof,
-                                         nineteenFour,
-                                         workbook,
-                                         startPosition,
-                                         this);
-    reader.read();
-    return reader.getDrawingData();
   }
 
   /**

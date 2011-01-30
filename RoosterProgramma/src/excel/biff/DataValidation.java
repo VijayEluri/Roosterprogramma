@@ -64,11 +64,6 @@ public class DataValidation
   private WorkbookSettings workbookSettings;
 
   /**
-   * The object id of the combo box used for drop downs
-   */
-  private int comboBoxObjectId;
-
-  /**
    * Indicates whether this was copied
    */
   private boolean copied;
@@ -98,7 +93,6 @@ public class DataValidation
     externalSheet = es;
     workbookSettings = ws;
     validitySettings = new ArrayList();
-    comboBoxObjectId = objId;
     copied = false;
   }
 
@@ -176,13 +170,6 @@ public class DataValidation
       validitySettings = new ArrayList
         (validitySettings.subList(0, MAX_NO_OF_VALIDITY_SETTINGS - 1));
       Assert.verify(validitySettings.size() <= MAX_NO_OF_VALIDITY_SETTINGS);
-    }
-
-    if (validityList == null)
-    {
-      DValParser dvp = new DValParser(comboBoxObjectId, 
-                                      validitySettings.size());
-      validityList = new DataValidityListRecord(dvp);
     }
 
     if (!validityList.hasDVRecords())
@@ -337,13 +324,5 @@ public class DataValidation
     }
 
     return foundRecord;
-  }
-
-  /**
-   * Accessor for the combo box, used when copying sheets
-   */
-  public int getComboBoxObjectId()
-  {
-    return comboBoxObjectId;
   }
 }

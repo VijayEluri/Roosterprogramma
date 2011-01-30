@@ -48,19 +48,6 @@ import excel.biff.FilterModeRecord;
 import excel.biff.FormattingRecords;
 import excel.biff.Type;
 import excel.biff.WorkspaceInformationRecord;
-import excel.biff.drawing.Button;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.CheckBox;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Comment;
-import excel.biff.drawing.Drawing;
-import excel.biff.drawing.Drawing2;
-import excel.biff.drawing.DrawingData;
-import excel.biff.drawing.DrawingDataException;
-import excel.biff.drawing.MsoDrawingRecord;
-import excel.biff.drawing.NoteRecord;
-import excel.biff.drawing.ObjRecord;
-import excel.biff.drawing.TextObjectRecord;
 import excel.biff.formula.FormulaException;
 import excel.format.PageOrder;
 import excel.format.PageOrientation;
@@ -165,21 +152,6 @@ final class SheetReader
   private DataValidation dataValidation;
 
   /**
-   * The list of charts on this page
-   */
-  private ArrayList charts;
-
-  /**
-   * The list of drawings on this page
-   */
-  private ArrayList drawings;
-
-  /**
-   * The drawing data for the drawings
-   */
-  private DrawingData drawingData;
-
-  /**
    * Indicates whether or not the dates are based around the 1904 date system
    */
   private boolean nineteenFour;
@@ -274,8 +246,6 @@ final class SheetReader
     hyperlinks = new ArrayList();
     conditionalFormats = new ArrayList();
     rowProperties = new ArrayList(10);
-    charts = new ArrayList();
-    drawings = new ArrayList();
     outOfBoundsCells = new ArrayList();
     nineteenFour = nf;
     workbook = wp;
@@ -332,11 +302,6 @@ final class SheetReader
 
     // Set the position within the file
     excelFile.setPos(startPosition);
-
-    // Handles to the last drawing and obj records
-    MsoDrawingRecord msoRecord = null;
-    ObjRecord objRecord = null;
-    boolean firstMsoRecord = true;
     
     // Handle to the last conditional format record
     ConditionalFormat condFormat = null;
@@ -561,38 +526,8 @@ final class SheetReader
         // don't know what this is for, but keep hold of it anyway
         continueRecord = new ContinueRecord(r);
       }
-      else if (type == Type.NOTE)
-      {
-        if (!workbookSettings.getDrawingsDisabled())
-        {
-          NoteRecord nr = new NoteRecord(r);
-
-          // Get the comment for the object id
-          Comment comment = (Comment) comments.remove
-            (new Integer(nr.getObjectId()));
-
-          if (comment == null)
-          {
-            System.out.println(" cannot find comment for note id " +
-                        nr.getObjectId() + "...ignoring");
-          }
-          else
-          {
-            comment.setNote(nr);
-
-            drawings.add(comment);
-
-            addCellComment(comment.getColumn(),
-                           comment.getRow(),
-                           comment.getText(),
-                           comment.getWidth(),
-                           comment.getHeight());
-          }
-        }
-      }
       else if (type == Type.ARRAY)
       {
-        ;
       }
       else if (type == Type.PROTECT)
       {
@@ -714,7 +649,6 @@ final class SheetReader
       }
       else if (type == Type.NAME)
       {
-        ;
       }
       else if (type == Type.PASSWORD)
       {
@@ -969,26 +903,7 @@ final class SheetReader
           DataValidityListRecord dvlr = new DataValidityListRecord(r);
           if (dvlr.getObjectId() == -1)
           {
-            if (msoRecord != null && objRecord == null)
-            {
-              // there is a drop down associated with this data validation
-              if (drawingData == null)
-              {
-                drawingData = new DrawingData();
-              }
-
-              Drawing2 d2 = new Drawing2(msoRecord, drawingData, 
-                                         workbook.getDrawingGroup());
-              drawings.add(d2);
-              msoRecord = null;
-
-              dataValidation = new DataValidation(dvlr);
-            }
-            else
-            {
-              // no drop down
-              dataValidation = new DataValidation(dvlr);
-            }
+            dataValidation = new DataValidation(dvlr);
           }
           else if (objectIds.contains(new Integer(dvlr.getObjectId())))
           {
@@ -1035,51 +950,6 @@ final class SheetReader
           }
         }
       }
-      else if (type == Type.OBJ)
-      {
-        objRecord = new ObjRecord(r);
-
-        if (!workbookSettings.getDrawingsDisabled())
-        {
-          // sometimes excel writes out continue records instead of drawing
-          // records, so forcibly hack the stashed continue record into
-          // a drawing record
-          if (msoRecord == null && continueRecord != null)
-          {
-            System.out.println("Cannot find drawing record - using continue record");
-            msoRecord = new MsoDrawingRecord(continueRecord.getRecord());
-            continueRecord = null;
-          }
-          handleObjectRecord(objRecord, msoRecord, comments);
-          objectIds.add(new Integer(objRecord.getObjectId()));
-        }
-
-        // Save chart handling until the chart BOF record appears
-        if (objRecord.getType() != ObjRecord.CHART)
-        {
-          objRecord = null;
-          msoRecord = null;
-        }
-      }
-      else if (type == Type.MSODRAWING)
-      {
-        if (!workbookSettings.getDrawingsDisabled())
-        {
-          if (msoRecord != null)
-          {
-            // For form controls, a rogue MSODRAWING record can crop up
-            // after the main one.  Add these into the drawing data
-            drawingData.addRawData(msoRecord.getData());
-          }
-          msoRecord = new MsoDrawingRecord(r);
-
-          if (firstMsoRecord)
-          {
-            msoRecord.setFirst();
-            firstMsoRecord = false;
-          }
-        }
-      }
       else if (type == Type.BUTTONPROPERTYSET)
       {
         buttonPropertySet = new ButtonPropertySetRecord(r);
@@ -1115,45 +985,6 @@ final class SheetReader
         while (r2.getCode() != Type.EOF.value)
         {
           r2 = excelFile.next();
-        }
-
-        if (br.isChart())
-        {
-          if (!workbook.getWorkbookBof().isBiff8())
-          {
-            System.out.println("only biff8 charts are supported");
-          }
-          else
-          {
-            if (drawingData == null)
-            {
-              drawingData = new DrawingData();
-            }
-          
-            if (!workbookSettings.getDrawingsDisabled())
-            {
-              Chart chart = new Chart(msoRecord, objRecord, drawingData,
-                                      startpos, excelFile.getPos(),
-                                      excelFile, workbookSettings);
-              charts.add(chart);
-
-              if (workbook.getDrawingGroup() != null)
-              {
-                workbook.getDrawingGroup().add(chart);
-              }
-            }
-          }
-
-          // Reset the drawing records
-          msoRecord = null;
-          objRecord = null;
-        }
-
-        // If this worksheet is just a chart, then the EOF reached
-        // represents the end of the sheet as well as the end of the chart
-        if (sheetBof.isChart())
-        {
-          cont = false;
         }
       }
       else if (type == Type.EOF)
@@ -1191,13 +1022,6 @@ final class SheetReader
     if (!sharedFormulaAdded && sharedFormula != null)
     {
       addCell(revertSharedFormula(sharedFormula));
-    }
-
-    // If there is a stray msoDrawing record, then flag to the drawing group
-    // that one has been omitted
-    if (msoRecord != null && workbook.getDrawingGroup() != null)
-    {
-      workbook.getDrawingGroup().setDrawingsOmitted(msoRecord, objRecord);
     }
       
     // Check that the comments hash is empty
@@ -1366,26 +1190,6 @@ final class SheetReader
   final AutoFilter getAutoFilter()
   {
     return autoFilter;
-  }
-
-  /**
-   * Accessor
-   *
-   * @return the charts
-   */
-  final ArrayList getCharts()
-  {
-    return charts;
-  }
-
-  /**
-   * Accessor
-   *
-   * @return the drawings
-   */
-  final ArrayList getDrawings()
-  {
-    return drawings;
   }
 
   /**
@@ -1581,276 +1385,6 @@ final class SheetReader
         }
       }
     }
-  }
-
-  /**
-   * Reads in the object record
-   *
-   * @param objRecord the obj record
-   * @param msoRecord the mso drawing record read in earlier
-   * @param comments the hash map of comments
-   */
-  private void handleObjectRecord(ObjRecord objRecord,
-                                  MsoDrawingRecord msoRecord,
-                                  HashMap comments)
-  {
-    if (msoRecord == null)
-    {
-      System.out.println("Object record is not associated with a drawing " +
-                  " record - ignoring");
-      return;
-    }
-    
-    try
-    {
-      // Handle images
-      if (objRecord.getType() == ObjRecord.PICTURE)
-      {
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        Drawing drawing = new Drawing(msoRecord,
-                                      objRecord,
-                                      drawingData,
-                                      workbook.getDrawingGroup(),
-                                      sheet);
-        drawings.add(drawing);
-        return;
-      }
-
-      // Handle comments
-      if (objRecord.getType() == ObjRecord.EXCELNOTE)
-      {
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        Comment comment = new Comment(msoRecord,
-                                      objRecord,
-                                      drawingData,
-                                      workbook.getDrawingGroup(),
-                                      workbookSettings);
-
-        // Sometimes Excel writes out Continue records instead of drawing
-        // records, so forcibly hack all of these into a drawing record
-        Record r2 = excelFile.next();
-        if (r2.getType() == Type.MSODRAWING || r2.getType() == Type.CONTINUE)
-        {
-          MsoDrawingRecord mso = new MsoDrawingRecord(r2);
-          comment.addMso(mso);
-          r2 = excelFile.next();
-        }
-        Assert.verify(r2.getType() == Type.TXO);
-        TextObjectRecord txo = new TextObjectRecord(r2);
-        comment.setTextObject(txo);
-
-        r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.CONTINUE);
-        ContinueRecord text = new ContinueRecord(r2);
-        comment.setText(text);
-
-        r2 = excelFile.next();
-        if (r2.getType() == Type.CONTINUE)
-        {
-          ContinueRecord formatting = new ContinueRecord(r2);
-          comment.setFormatting(formatting);
-        }
-
-        comments.put(new Integer(comment.getObjectId()), comment);
-        return;
-      }
-
-      // Handle combo boxes
-      if (objRecord.getType() == ObjRecord.COMBOBOX)
-      {
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        ComboBox comboBox = new ComboBox(msoRecord,
-                                         objRecord,
-                                         drawingData,
-                                         workbook.getDrawingGroup(),
-                                         workbookSettings);
-        drawings.add(comboBox);
-        return;
-      }
-    
-      // Handle check boxes
-      if (objRecord.getType() == ObjRecord.CHECKBOX)
-      {
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        CheckBox checkBox = new CheckBox(msoRecord,
-                                         objRecord,
-                                         drawingData,
-                                         workbook.getDrawingGroup(),
-                                         workbookSettings);
-
-        Record r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.MSODRAWING || 
-                      r2.getType() == Type.CONTINUE);
-        if (r2.getType() == Type.MSODRAWING || r2.getType() == Type.CONTINUE)
-        {
-          MsoDrawingRecord mso = new MsoDrawingRecord(r2);
-          checkBox.addMso(mso);
-          r2 = excelFile.next();
-        }
-
-        Assert.verify(r2.getType() == Type.TXO);
-        TextObjectRecord txo = new TextObjectRecord(r2);
-        checkBox.setTextObject(txo);
-
-        if (txo.getTextLength() == 0)
-        {
-          return;
-        }
-
-        r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.CONTINUE);
-        ContinueRecord text = new ContinueRecord(r2);
-        checkBox.setText(text);
-
-        r2 = excelFile.next();
-        if (r2.getType() == Type.CONTINUE)
-        {
-          ContinueRecord formatting = new ContinueRecord(r2);
-          checkBox.setFormatting(formatting);
-        }
-
-        drawings.add(checkBox);
-
-        return;
-      }
-
-      // Handle form buttons
-      if (objRecord.getType() == ObjRecord.BUTTON)
-      {
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        Button button = new Button(msoRecord,
-                                   objRecord,
-                                   drawingData,
-                                   workbook.getDrawingGroup(),
-                                   workbookSettings);
-
-        Record r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.MSODRAWING || 
-                      r2.getType() == Type.CONTINUE);
-        if (r2.getType() == Type.MSODRAWING || 
-            r2.getType() == Type.CONTINUE)
-        {
-          MsoDrawingRecord mso = new MsoDrawingRecord(r2);
-          button.addMso(mso);
-          r2 = excelFile.next();
-        }
-
-        Assert.verify(r2.getType() == Type.TXO);
-        TextObjectRecord txo = new TextObjectRecord(r2);
-        button.setTextObject(txo);
-
-        r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.CONTINUE);
-        ContinueRecord text = new ContinueRecord(r2);
-        button.setText(text);
-
-        r2 = excelFile.next();
-        if (r2.getType() == Type.CONTINUE)
-        {
-          ContinueRecord formatting = new ContinueRecord(r2);
-          button.setFormatting(formatting);
-        }
-
-        drawings.add(button);
-
-        return;
-      }
-
-      // Non-supported types which have multiple record types
-      if (objRecord.getType() == ObjRecord.TEXT)
-      {
-        System.out.println(objRecord.getType() + " Object on sheet \"" +
-                    sheet.getName() +
-                    "\" not supported - omitting");
-
-        // Still need to add the drawing data to preserve the hierarchy
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-
-        }
-        drawingData.addData(msoRecord.getData());
-
-        Record r2 = excelFile.next();
-        Assert.verify(r2.getType() == Type.MSODRAWING || 
-                      r2.getType() == Type.CONTINUE);
-        if (r2.getType() == Type.MSODRAWING || 
-            r2.getType() == Type.CONTINUE)
-        {
-          MsoDrawingRecord mso = new MsoDrawingRecord(r2);
-          drawingData.addRawData(mso.getData());
-          r2 = excelFile.next();
-        }
-
-        Assert.verify(r2.getType() == Type.TXO);
-
-        if (workbook.getDrawingGroup() != null) // can be null for Excel 95
-        {
-          workbook.getDrawingGroup().setDrawingsOmitted(msoRecord,
-                                                        objRecord);
-        }
-
-        return;
-      }
-
-      // Handle other types
-      if (objRecord.getType() != ObjRecord.CHART)
-      {
-        System.out.println(objRecord.getType() + " Object on sheet \"" +
-                    sheet.getName() +
-                    "\" not supported - omitting");
-
-        // Still need to add the drawing data to preserve the hierarchy
-        if (drawingData == null)
-        {
-          drawingData = new DrawingData();
-        }
-
-        drawingData.addData(msoRecord.getData());
-
-        if (workbook.getDrawingGroup() != null) // can be null for Excel 95
-        {
-          workbook.getDrawingGroup().setDrawingsOmitted(msoRecord,
-                                                        objRecord);
-        }
-
-        return;
-      }
-    }
-    catch (DrawingDataException e)
-    {
-      System.out.println(e.getMessage() + 
-                  "...disabling drawings for the remainder of the workbook");
-      workbookSettings.setDrawingsDisabled(true);
-    }
-  }
-
-  /**
-   * Gets the drawing data - for use as part of the Escher debugging tool
-   */
-  DrawingData getDrawingData()
-  {
-    return drawingData;
   }
 
   /**

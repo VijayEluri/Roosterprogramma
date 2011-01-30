@@ -45,10 +45,6 @@ public class BOFRecord extends RecordData
    */
   private static final int Worksheet = 0x10;
   /**
-   * The code used for charts
-   */
-  private static final int Chart = 0x20;
-  /**
    * The code used for macro sheets
    */
   private static final int MacroSheet = 0x40;
@@ -128,17 +124,6 @@ public class BOFRecord extends RecordData
   public boolean isMacroSheet()
   {
     return substreamType == MacroSheet;
-  }
-
-  /**
-   * Interrogates the substream to see if it is a chart
-   *
-   * @return TRUE if this substream is the beginning of a worksheet, FALSE
-   *     otherwise
-   */
-  public boolean isChart()
-  {
-    return substreamType == Chart;
   }
 
   /**

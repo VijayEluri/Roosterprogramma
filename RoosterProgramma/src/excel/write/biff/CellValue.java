@@ -34,8 +34,6 @@ import excel.biff.NumFormatRecordsException;
 import excel.biff.Type;
 import excel.biff.WritableRecordData;
 import excel.biff.XFRecord;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Comment;
 import excel.format.CellFormat;
 import excel.write.WritableCell;
 import excel.write.WritableCellFeatures;
@@ -315,16 +313,6 @@ public abstract class CellValue extends WritableRecordData
   void incrementRow()
   {
     row++;
-
-    if (features != null)
-    {
-      Comment c = features.getCommentDrawing();
-      if (c != null)
-      {
-        c.setX(column);
-        c.setY(row);
-      }
-    }
   }
 
   /**
@@ -337,13 +325,6 @@ public abstract class CellValue extends WritableRecordData
 
     if (features != null)
     {
-      Comment c = features.getCommentDrawing();
-      if ( c!= null)
-      {
-        c.setX(column);
-        c.setY(row);
-      }
-
       if (features.hasDropDown())
       {
         System.out.println("need to change value for drop down drawing");
@@ -358,17 +339,6 @@ public abstract class CellValue extends WritableRecordData
   void incrementColumn()
   {
     column++;
-
-    if (features != null)
-    {
-      Comment c = features.getCommentDrawing();
-      if (c != null)
-      {
-        c.setX(column);
-        c.setY(row);
-      }
-    }
-
   }
 
   /**
@@ -378,17 +348,6 @@ public abstract class CellValue extends WritableRecordData
   void decrementColumn()
   {
     column--;
-
-    if (features != null)
-    {
-      Comment c = features.getCommentDrawing();
-      if (c != null)
-      {
-        c.setX(column);
-        c.setY(row);
-      }
-    }
-
   }
 
   /**
@@ -559,17 +518,6 @@ public abstract class CellValue extends WritableRecordData
       return;
     }
 
-    if (features.getComment() != null)
-    {
-      Comment comment = new Comment(features.getComment(), 
-                                    column, row);
-      comment.setWidth(features.getCommentWidth());
-      comment.setHeight(features.getCommentHeight());
-      sheet.addDrawing(comment);      
-      sheet.getWorkbook().addDrawing(comment);
-      features.setCommentDrawing(comment);
-    }
-
     if (features.hasDataValidation())
     {
       try
@@ -590,20 +538,6 @@ public abstract class CellValue extends WritableRecordData
       {
         return;
       }
-      
-      // Get the combo box drawing object for list validations
-      if (sheet.getComboBox() == null)
-      {
-        // Need to add the combo box the first time, since even though
-        // it doesn't need a separate Sp entry, it still needs to increment
-        // the shape id
-        ComboBox cb = new ComboBox();
-        sheet.addDrawing(cb);
-        sheet.getWorkbook().addDrawing(cb);
-        sheet.setComboBox(cb);
-      }
-
-      features.setComboBox(sheet.getComboBox());
     }
   }
 
@@ -622,17 +556,6 @@ public abstract class CellValue extends WritableRecordData
     */
 
     features = null;
-  }
-
-
-  /**
-   * Called by the cell features to remove a comment
-   *
-   * @param c the comment to remove
-   */
-  public final void removeComment(Comment c)
-  {
-    sheet.removeDrawing(c);
   }
 
   /**

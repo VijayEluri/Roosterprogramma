@@ -19,7 +19,6 @@
 
 package excel.write.biff;
 
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
@@ -30,37 +29,21 @@ import excel.common.Assert;
 import excel.BooleanCell;
 import excel.Cell;
 import excel.CellType;
-import excel.CellView;
 import excel.DateCell;
-import excel.HeaderFooter;
-import excel.Hyperlink;
-import excel.Image;
 import excel.LabelCell;
 import excel.NumberCell;
 import excel.Range;
-import excel.Sheet;
-import excel.SheetSettings;
 import excel.WorkbookSettings;
-import excel.biff.AutoFilter;
 import excel.biff.CellReferenceHelper;
-import excel.biff.ConditionalFormat;
 import excel.biff.DataValidation;
 import excel.biff.FormattingRecords;
 import excel.biff.FormulaData;
-import excel.biff.IndexMapping;
 import excel.biff.NumFormatRecordsException;
 import excel.biff.SheetRangeImpl;
 import excel.biff.WorkspaceInformationRecord;
 import excel.biff.XFRecord;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Drawing;
-import excel.biff.drawing.DrawingGroupObject;
 import excel.format.CellFormat;
 import excel.biff.formula.FormulaException;
-import excel.read.biff.SheetImpl;
-import excel.read.biff.NameRecord;
-import excel.read.biff.WorkbookParser;
 import excel.write.Blank;
 import excel.write.Boolean;
 import excel.write.DateTime;
@@ -69,9 +52,7 @@ import excel.write.Label;
 import excel.write.Number;
 import excel.write.WritableCell;
 import excel.write.WritableCellFormat;
-import excel.write.WritableFont;
 import excel.write.WritableHyperlink;
-import excel.write.WritableImage;
 import excel.write.WritableSheet;
 import excel.write.WritableWorkbook;
 import excel.write.WriteException;
@@ -296,26 +277,6 @@ class WritableSheetCopier
          toSheet.getWorkbook(),
          toSheet.getWorkbook(),
          toSheet.getWorkbook().getSettings());
-    }
-
-    // Copy the charts
-    sheetWriter.setCharts(fromSheet.getCharts());
-
-    // Copy the drawings
-    for (Iterator i = fromDrawings.iterator(); i.hasNext(); )
-    {
-      Object o = i.next();
-      if (o instanceof excel.biff.drawing.Drawing)
-      {
-        WritableImage wi = new WritableImage
-          ((excel.biff.drawing.Drawing) o, 
-           toSheet.getWorkbook().getDrawingGroup());
-        toDrawings.add(wi);
-        toImages.add(wi);
-      }
-
-      // Not necessary to copy the comments, as they will be handled by
-      // the deep copy of the individual cells
     }
 
     // Copy the workspace options

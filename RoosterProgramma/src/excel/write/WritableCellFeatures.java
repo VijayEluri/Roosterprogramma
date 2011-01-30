@@ -65,38 +65,6 @@ public class WritableCellFeatures extends CellFeatures
   }
 
   /**
-   * Sets the cell comment
-   *
-   * @param s the comment
-   */
-  public void setComment(String s)
-  {
-    super.setComment(s);
-  }
-
-  /**
-   * Sets the cell comment and sets the size of the text box (in cells)
-   * in which the comment is displayed
-   *
-   * @param s the comment
-   * @param width the width of the comment box in cells
-   * @param height the height of the comment box in cells
-   */
-  public void setComment(String s, double width, double height)
-  {
-    super.setComment(s, width, height);
-  }
-
-  /**
-   * Removes the cell comment, if present
-   */
-  public void removeComment()
-  {
-    super.removeComment();
-  }
-
-
-  /**
    * Removes any data validation, if present
    */
   public void removeDataValidation()

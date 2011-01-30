@@ -46,9 +46,6 @@ import excel.biff.Type;
 import excel.biff.WorkbookMethods;
 import excel.biff.XCTRecord;
 import excel.biff.XFRecord;
-import excel.biff.drawing.DrawingGroup;
-import excel.biff.drawing.MsoDrawingGroupRecord;
-import excel.biff.drawing.Origin;
 import excel.biff.formula.ExternalSheet;
 
 /**
@@ -133,11 +130,6 @@ public class WorkbookParser extends Workbook
   private BOFRecord workbookBof;
 
   /**
-   * The Mso Drawing Group record for this workbook
-   */
-  private MsoDrawingGroupRecord msoDrawingGroup;
-
-  /**
    * The property set record associated with this workbook
    */
   private ButtonPropertySetRecord buttonPropertySet;
@@ -156,11 +148,6 @@ public class WorkbookParser extends Workbook
    * The workbook settings
    */
   private WorkbookSettings settings;
-
-  /**
-   * The drawings contained in this workbook
-   */
-  private DrawingGroup drawingGroup;
 
   /**
    * The country record (containing the language and regional settings)
@@ -415,7 +402,7 @@ public class WorkbookParser extends Workbook
     else if (sr.getType() == SupbookRecord.EXTERNAL)
     {
       // External reference - get the sheet name from the supbook record
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       java.io.File fl = new java.io.File(sr.getFileName());
       sb.append("'");
       sb.append(fl.getAbsolutePath());
@@ -474,7 +461,7 @@ public class WorkbookParser extends Workbook
     else if (sr.getType() == SupbookRecord.EXTERNAL)
     {
       // External reference - get the sheet name from the supbook record
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       java.io.File fl = new java.io.File(sr.getFileName());
       sb.append("'");
       sb.append(fl.getAbsolutePath());
@@ -755,27 +742,6 @@ public class WorkbookParser extends Workbook
       {
         countryRecord = new CountryRecord(r);
       }
-      else if (r.getType() == Type.MSODRAWINGGROUP)
-      {
-        if (!settings.getDrawingsDisabled())
-        {
-          msoDrawingGroup = new MsoDrawingGroupRecord(r);
-
-          if (drawingGroup == null)
-          {
-            drawingGroup = new DrawingGroup(Origin.READ);
-          }
-
-          drawingGroup.add(msoDrawingGroup);
-
-          Record nextrec = excelFile.peek();
-          while (nextrec.getType() == Type.CONTINUE)
-          {
-            drawingGroup.add(excelFile.next());
-            nextrec = excelFile.peek();
-          }
-        }
-      }
       else if (r.getType() == Type.BUTTONPROPERTYSET)
       {
         buttonPropertySet = new ButtonPropertySetRecord(r);
@@ -842,23 +808,6 @@ public class WorkbookParser extends Workbook
       }
 
       if (bof.isWorksheet())
-      {
-        // Read the sheet in
-        SheetImpl s = new SheetImpl(excelFile,
-                                    sharedStrings,
-                                    formattingRecords,
-                                    bof,
-                                    workbookBof,
-                                    nineteenFour,
-                                    this);
-
-        BoundsheetRecord br = (BoundsheetRecord) boundsheets.get
-          (getNumberOfSheets());
-        s.setName(br.getName());
-        s.setHidden(br.isHidden());
-        addSheet(s);
-      }
-      else if (bof.isChart())
       {
         // Read the sheet in
         SheetImpl s = new SheetImpl(excelFile,
@@ -943,17 +892,6 @@ public class WorkbookParser extends Workbook
   public ExternalSheetRecord getExternalSheetRecord()
   {
     return externSheet;
-  }
-
-  /**
-   * Accessor for the MsoDrawingGroup, used by the WritableWorkbook
-   * when creating a copy of this
-   *
-   * @return the Mso Drawing Group record
-   */
-  public MsoDrawingGroupRecord getMsoDrawingGroupRecord()
-  {
-    return msoDrawingGroup;
   }
 
   /**
@@ -1179,16 +1117,6 @@ public class WorkbookParser extends Workbook
     NameRecord nr = (NameRecord) namedRecords.get(name);
 
     return nr != null ? nr.getIndex() : 0;
-  }
-
-  /**
-   * Accessor for the drawing group
-   *
-   * @return  the drawing group
-   */
-  public DrawingGroup getDrawingGroup()
-  {
-    return drawingGroup;
   }
 
   /**

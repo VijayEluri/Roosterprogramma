@@ -28,55 +28,40 @@ import java.util.regex.Pattern;
 
 import excel.common.Assert;
 
-import excel.BooleanCell;
 import excel.Cell;
 import excel.CellFeatures;
 import excel.CellReferenceHelper;
 import excel.CellType;
 import excel.CellView;
-import excel.DateCell;
 import excel.HeaderFooter;
 import excel.Hyperlink;
-import excel.Image;
 import excel.LabelCell;
-import excel.NumberCell;
 import excel.Range;
 import excel.Sheet;
 import excel.SheetSettings;
 import excel.WorkbookSettings;
 import excel.biff.AutoFilter;
-import excel.biff.BuiltInName;
 import excel.biff.CellFinder;
 import excel.biff.ConditionalFormat;
 import excel.biff.DataValidation;
 import excel.biff.DVParser;
 import excel.biff.EmptyCell;
 import excel.biff.FormattingRecords;
-import excel.biff.FormulaData;
 import excel.biff.IndexMapping;
 import excel.biff.NumFormatRecordsException;
 import excel.biff.SheetRangeImpl;
 import excel.biff.WorkspaceInformationRecord;
 import excel.biff.XFRecord;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Drawing;
-import excel.biff.drawing.DrawingGroupObject;
 import excel.format.CellFormat;
 import excel.format.Font;
 import excel.format.PageOrientation;
 import excel.format.PaperSize;
 import excel.write.Blank;
-import excel.write.Boolean;
-import excel.write.DateTime;
 import excel.write.Label;
-import excel.write.Number;
 import excel.write.WritableCell;
 import excel.write.WritableCellFeatures;
 import excel.write.WritableCellFormat;
-import excel.write.WritableFont;
 import excel.write.WritableHyperlink;
-import excel.write.WritableImage;
 import excel.write.WritableSheet;
 import excel.write.WritableWorkbook;
 import excel.write.WriteException;
@@ -170,16 +155,6 @@ class WritableSheetImpl implements WritableSheet
   private ArrayList columnBreaks;
 
   /**
-   * The drawings on this sheet
-   */
-  private ArrayList drawings;
-
-  /**
-   * The images on this sheet.  This is a subset of the drawings list
-   */
-  private ArrayList images;
-
-  /**
    * The conditional formats on this sheet
    */
   private ArrayList conditionalFormats;
@@ -194,17 +169,6 @@ class WritableSheetImpl implements WritableSheet
    * to them
    */
   private ArrayList validatedCells;
-
-  /**
-   * The combo box object used for list validations on this sheet
-   */
-  private ComboBox comboBox;
-
-  /**
-   * Drawings modified flag.  Set to true if the drawings list has
-   * been modified
-   */
-  private boolean drawingsModified;
 
   /**
    * The maximum row outline level
@@ -273,6 +237,7 @@ class WritableSheetImpl implements WritableSheet
      * @param o the object to compare
      * @return TRUE if equal, FALSE otherwise
      */
+    @Override
     public boolean equals(Object o)
     {
       return o == this;
@@ -300,6 +265,12 @@ class WritableSheetImpl implements WritableSheet
 
       return ci1.getColumn() - ci2.getColumn();
     }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            return hash;
+        }
   }
 
   /**
@@ -330,15 +301,12 @@ class WritableSheetImpl implements WritableSheet
     formatRecords      = fr;
     sharedStrings      = ss;
     workbookSettings   = ws;
-    drawingsModified   = false;
     columnFormats      = new TreeSet(new ColumnInfoComparator());
     autosizedColumns   = new TreeSet();
     hyperlinks         = new ArrayList();
     mergedCells        = new MergedCells(this);
     rowBreaks          = new ArrayList();
     columnBreaks       = new ArrayList();
-    drawings           = new ArrayList();
-    images             = new ArrayList();
     conditionalFormats = new ArrayList();
     validatedCells     = new ArrayList();
     settings           = new SheetSettings(this);
@@ -1088,18 +1056,6 @@ class WritableSheetImpl implements WritableSheet
       workbook.rowRemoved(this, row);
     }
 
-    // Adjust any drawings
-    /*
-    if (drawings != null)
-    {
-      for (Iterator drawingIt = drawings.iterator() ; drawingIt.hasNext() ; )
-      {
-        DrawingGroupObject dgo = (DrawingGroupObject) drawingIt.next();
-        dgo.removeRow(row);
-      }
-    }
-    */
-
     // Adjust the maximum row record
     numRows--;
   }
@@ -1521,12 +1477,6 @@ class WritableSheetImpl implements WritableSheet
    */
   public void write() throws IOException
   {
-    boolean dmod = drawingsModified;
-    if (workbook.getDrawingGroup() != null)
-    {
-      dmod |= workbook.getDrawingGroup().hasDrawingsOmitted();
-    }
-
     if (autosizedColumns.size() > 0)
     {
       autosizeColumns();
@@ -1543,7 +1493,6 @@ class WritableSheetImpl implements WritableSheet
     sheetWriter.setDimensions(getRows(), getColumns());
     sheetWriter.setSettings(settings);
     sheetWriter.setPLS(plsRecord);
-    sheetWriter.setDrawings(drawings, dmod);
     sheetWriter.setButtonPropertySet(buttonPropertySet);
     sheetWriter.setDataValidation(dataValidation, validatedCells);
     sheetWriter.setConditionalFormats(conditionalFormats);
@@ -1570,15 +1519,12 @@ class WritableSheetImpl implements WritableSheet
     si.setRowBreaks(rowBreaks);
     si.setColumnBreaks(columnBreaks);
     si.setSheetWriter(sheetWriter);
-    si.setDrawings(drawings);
-    si.setImages(images);
     si.setConditionalFormats(conditionalFormats);
     si.setValidatedCells(validatedCells);
 
     si.copySheet();
 
     dataValidation = si.getDataValidation();
-    comboBox = si.getComboBox();
     plsRecord = si.getPLSRecord();
     chartOnly = si.isChartOnly();
     buttonPropertySet = si.getButtonPropertySet();
@@ -1606,7 +1552,6 @@ class WritableSheetImpl implements WritableSheet
     sc.setColumnBreaks(si.columnBreaks, columnBreaks);
     sc.setDataValidation(si.dataValidation);
     sc.setSheetWriter(sheetWriter);
-    sc.setDrawings(si.drawings, drawings, images);
     sc.setWorkspaceOptions(si.getWorkspaceOptions());
     sc.setPLSRecord(si.plsRecord);
     sc.setButtonPropertySetRecord(si.buttonPropertySet);
@@ -2152,28 +2097,6 @@ class WritableSheetImpl implements WritableSheet
   }
 
   /**
-   * Accessor for the charts.  Used when copying
-   *
-   * @return the charts on this sheet
-   */
-  Chart[] getCharts()
-  {
-    return sheetWriter.getCharts();
-  }
-
-  /**
-   * Accessor for the drawings.  Used when copying
-   *
-   * @return the drawings on this sheet
-   */
-  private DrawingGroupObject[] getDrawings()
-  {
-    DrawingGroupObject[] dr = new DrawingGroupObject[drawings.size()];
-    dr = (DrawingGroupObject[]) drawings.toArray(dr);
-    return dr;
-  }
-
-  /**
    * Check all the merged cells for borders.  Although in an OO sense the
    * logic should belong in this class, in order to reduce the bloated 
    * nature of the source code for this object this logic has been delegated
@@ -2228,13 +2151,6 @@ class WritableSheetImpl implements WritableSheet
         rows[i].rationalize(xfMapping);
       }
     }
-
-    // Rationalize any data that appears on the charts
-    Chart[] charts = getCharts();
-    for (int c = 0; c < charts.length; c++)
-    {
-      charts[c].rationalize(xfMapping, fontMapping, formatMapping);
-    }    
   }
 
   /**
@@ -2363,104 +2279,6 @@ class WritableSheetImpl implements WritableSheet
   }
 
   /**
-   * Adds an image to this sheet
-   *
-   * @param image the image to add
-   */
-  public void addImage(WritableImage image)
-  {
-    boolean supported = false;
-    java.io.File imageFile = image.getImageFile();
-    String fileType = "?";
-
-    if (imageFile != null)
-    {
-      String fileName = imageFile.getName();
-      int fileTypeIndex = fileName.lastIndexOf('.');
-      fileType = fileTypeIndex != -1 ? 
-        fileName.substring(fileTypeIndex+1) : "";
-      
-      for (int i = 0 ; i < imageTypes.length && !supported ; i++)
-      {
-        if (fileType.equalsIgnoreCase(imageTypes[i]))
-        {
-          supported = true;
-        }
-      }
-    }
-    else
-    {
-      supported = true;
-    }
-
-    if (supported)
-    {
-      workbook.addDrawing(image);
-      drawings.add(image);
-      images.add(image);
-    }
-    else
-    {
-      StringBuffer message = new StringBuffer("Image type ");
-      message.append(fileType);
-      message.append(" not supported.  Supported types are ");
-      message.append(imageTypes[0]);
-      for (int i = 1 ; i < imageTypes.length ; i++)
-      {
-        message.append(", ");
-        message.append(imageTypes[i]);
-      }
-      System.out.println(message.toString());
-    }
-  }
-
-  /**
-   * Gets the number of images on this sheet
-   *
-   * @return the number of images on this sheet
-   */
-  public int getNumberOfImages()
-  {
-    return images.size();
-  }
-
-  /**
-   * Accessor for a particular image on this sheet
-   *
-   * @param i the 0-based image index number
-   * @return the image with the specified index number
-   */
-  public WritableImage getImage(int i)
-  {
-    return (WritableImage) images.get(i);
-  }
-
-  /**
-   * Accessor for a particular image on this sheet
-   *
-   * @param i the 0-based image index number
-   * @return the image with the specified index number
-   */
-  public Image getDrawing(int i)
-  {
-    return (Image) images.get(i);
-  }
-
-  /**
-   * Removes the specified image from this sheet.  The image passed in
-   * must be the same instance as that retrieved from a getImage call
-   *
-   * @param wi the image to remove
-   */
-  public void removeImage(WritableImage wi)
-  {
-    drawings.remove(wi);
-    images.remove(wi);
-    drawingsModified = true;
-    workbook.removeDrawing(wi);
-  }
-
-  /**
    * Validates the sheet name
    */
   private String validateName(String n)
@@ -2480,7 +2298,7 @@ class WritableSheetImpl implements WritableSheet
     for (int i = 0 ; i < illegalSheetNameCharacters.length ; i++)
     {
       String newname = n.replace(illegalSheetNameCharacters[i], '@');
-      if (n != newname)
+      if (!n.equals(newname))
       {
         System.out.println(illegalSheetNameCharacters[i] + 
         " is not a valid character within a sheet name - replacing");
@@ -2489,31 +2307,6 @@ class WritableSheetImpl implements WritableSheet
     }
 
     return n;
-  }
-
-  /**
-   * Adds a drawing to the list - typically used for comments
-   *
-   * @param the drawing to add
-   */
-  void addDrawing(DrawingGroupObject o)
-  {
-    drawings.add(o);
-    Assert.verify(!(o instanceof Drawing));
-  }
-
-  /**
-   * Removes a drawing to the list - typically used for comments
-   *
-   * @param the drawing to add
-   */
-  void removeDrawing(DrawingGroupObject o)
-  {
-    int origSize = drawings.size();
-    drawings.remove(o);
-    int newSize = drawings.size();
-    drawingsModified = true;
-    Assert.verify(newSize == origSize -1);
   }
 
   /**
@@ -2581,27 +2374,6 @@ class WritableSheetImpl implements WritableSheet
   void addValidationCell(CellValue cv)
   {
     validatedCells.add(cv);
-  }
-
-  /**
-   * Accessor for the combo box object used for list data validations on this
-   * sheet
-   *
-   * @return the combo box
-   */
-  ComboBox getComboBox()
-  {
-    return comboBox;
-  }
-
-  /**
-   * Sets the combo box object used for list validations on this sheet
-   *
-   * @param cb the combo box
-   */
-  void setComboBox(ComboBox cb)
-  {
-    comboBox = cb;
   }
 
   /**
@@ -2686,14 +2458,11 @@ class WritableSheetImpl implements WritableSheet
     si.setRowBreaks(rowBreaks);
     si.setColumnBreaks(columnBreaks);
     si.setSheetWriter(sheetWriter);
-    si.setDrawings(drawings);
-    si.setImages(images);
     si.setValidatedCells(validatedCells);
 
     si.importSheet();
 
     dataValidation = si.getDataValidation();
-    comboBox = si.getComboBox();
     plsRecord = si.getPLSRecord();
     chartOnly = si.isChartOnly();
     buttonPropertySet = si.getButtonPropertySet();

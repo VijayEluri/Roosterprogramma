@@ -23,23 +23,18 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
-import java.util.Iterator;
 
 import excel.common.Assert;
 
 import excel.BooleanCell;
 import excel.Cell;
 import excel.CellType;
-import excel.CellView;
 import excel.DateCell;
-import excel.HeaderFooter;
 import excel.Hyperlink;
-import excel.Image;
 import excel.LabelCell;
 import excel.NumberCell;
 import excel.Range;
 import excel.Sheet;
-import excel.SheetSettings;
 import excel.WorkbookSettings;
 import excel.biff.AutoFilter;
 import excel.biff.CellReferenceHelper;
@@ -47,15 +42,9 @@ import excel.biff.ConditionalFormat;
 import excel.biff.DataValidation;
 import excel.biff.FormattingRecords;
 import excel.biff.FormulaData;
-import excel.biff.IndexMapping;
 import excel.biff.NumFormatRecordsException;
 import excel.biff.SheetRangeImpl;
 import excel.biff.XFRecord;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.CheckBox;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Drawing;
-import excel.biff.drawing.DrawingGroupObject;
 import excel.format.CellFormat;
 import excel.biff.formula.FormulaException;
 import excel.read.biff.SheetImpl;
@@ -69,9 +58,7 @@ import excel.write.Label;
 import excel.write.Number;
 import excel.write.WritableCell;
 import excel.write.WritableCellFormat;
-import excel.write.WritableFont;
 import excel.write.WritableHyperlink;
-import excel.write.WritableImage;
 import excel.write.WritableSheet;
 import excel.write.WritableWorkbook;
 import excel.write.WriteException;
@@ -101,7 +88,6 @@ class SheetCopier
   private ArrayList validatedCells;
   private AutoFilter autoFilter;
   private DataValidation dataValidation;
-  private ComboBox comboBox;
   private PLSRecord plsRecord;
   private boolean chartOnly;
   private ButtonPropertySetRecord buttonPropertySet;
@@ -185,11 +171,6 @@ class SheetCopier
   DataValidation getDataValidation()
   {
     return dataValidation;
-  }
-
-  ComboBox getComboBox()
-  {
-    return comboBox;
   }
 
   PLSRecord getPLSRecord()
@@ -298,64 +279,6 @@ class SheetCopier
       }
     }
 
-    // Copy the charts
-    sheetWriter.setCharts(fromSheet.getCharts());
-
-    // Copy the drawings
-    DrawingGroupObject[] dr = fromSheet.getDrawings();
-    for (int i = 0 ; i < dr.length ; i++)
-    {
-      if (dr[i] instanceof excel.biff.drawing.Drawing)
-      {
-        WritableImage wi = new WritableImage
-          (dr[i], toSheet.getWorkbook().getDrawingGroup());
-        drawings.add(wi);
-        images.add(wi);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.Comment)
-      {
-        excel.biff.drawing.Comment c = 
-          new excel.biff.drawing.Comment(dr[i], 
-                                       toSheet.getWorkbook().getDrawingGroup(),
-                                       workbookSettings);
-        drawings.add(c);
-        
-        // Set up the reference on the cell value
-        CellValue cv = (CellValue) toSheet.getWritableCell(c.getColumn(), 
-                                                           c.getRow());
-        Assert.verify(cv.getCellFeatures() != null);
-        cv.getWritableCellFeatures().setCommentDrawing(c);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.Button)
-      {
-        excel.biff.drawing.Button b = 
-          new excel.biff.drawing.Button
-          (dr[i], 
-           toSheet.getWorkbook().getDrawingGroup(),
-           workbookSettings);
-        drawings.add(b);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.ComboBox)
-      {
-        excel.biff.drawing.ComboBox cb = 
-          new excel.biff.drawing.ComboBox
-          (dr[i], 
-           toSheet.getWorkbook().getDrawingGroup(), 
-           workbookSettings);
-        drawings.add(cb);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.CheckBox)
-      {
-        excel.biff.drawing.CheckBox cb = 
-          new excel.biff.drawing.CheckBox
-          (dr[i], 
-           toSheet.getWorkbook().getDrawingGroup(), 
-           workbookSettings);
-        drawings.add(cb);
-      }
-
-    }
-
     // Copy the data validations
     DataValidation rdv = fromSheet.getDataValidation();
     if (rdv != null)
@@ -364,22 +287,13 @@ class SheetCopier
                                           toSheet.getWorkbook(), 
                                           toSheet.getWorkbook(),
                                           workbookSettings);
-      int objid = dataValidation.getComboBoxObjectId();
-
-      if (objid != 0)
-      {
-        comboBox = (ComboBox) drawings.get(objid);
-      }
     }
 
     // Copy the conditional formats
     ConditionalFormat[] cf = fromSheet.getConditionalFormats();
     if (cf.length > 0)
     {
-      for (int i = 0; i < cf.length ; i++)
-      {
-        conditionalFormats.add(cf[i]);
-      }
+            conditionalFormats.addAll(Arrays.asList(cf));
     }
 
     // Get the autofilter
@@ -387,13 +301,6 @@ class SheetCopier
 
     // Copy the workspace options
     sheetWriter.setWorkspaceOptions(fromSheet.getWorkspaceOptions());
-
-    // Set a flag to indicate if it contains a chart only
-    if (fromSheet.getSheetBof().isChart())
-    {
-      chartOnly = true;
-      sheetWriter.setChartOnly();
-    }
 
     // Copy the environment specific print record
     if (fromSheet.getPLS() != null)
@@ -643,103 +550,6 @@ class SheetCopier
       }
     }
 
-    // Copy the charts
-    Chart[] fromCharts = fromSheet.getCharts();
-    if (fromCharts != null && fromCharts.length > 0)
-    {
-      System.out.println("Importing of charts is not supported");
-      /*
-      sheetWriter.setCharts(fromSheet.getCharts());
-      IndexMapping xfMapping = new IndexMapping(200);
-      for (Iterator i = xfRecords.keySet().iterator(); i.hasNext();)
-      {
-        Integer key = (Integer) i.next();
-        XFRecord xfmapping = (XFRecord) xfRecords.get(key);
-        xfMapping.setMapping(key.intValue(), xfmapping.getXFIndex());
-      }
-
-      IndexMapping fontMapping = new IndexMapping(200);
-      for (Iterator i = fonts.keySet().iterator(); i.hasNext();)
-      {
-        Integer key = (Integer) i.next();
-        Integer fontmap = (Integer) fonts.get(key);
-        fontMapping.setMapping(key.intValue(), fontmap.intValue());
-      }
-
-      IndexMapping formatMapping = new IndexMapping(200);
-      for (Iterator i = formats.keySet().iterator(); i.hasNext();)
-      {
-        Integer key = (Integer) i.next();
-        Integer formatmap = (Integer) formats.get(key);
-        formatMapping.setMapping(key.intValue(), formatmap.intValue());
-      }
-
-      // Now reuse the rationalization feature on each chart  to
-      // handle the new fonts
-      for (int i = 0; i < fromCharts.length ; i++)
-      {
-        fromCharts[i].rationalize(xfMapping, fontMapping, formatMapping);
-      }
-      */
-    }
-
-    // Copy the drawings
-    DrawingGroupObject[] dr = fromSheet.getDrawings();
-
-    // Make sure the destination workbook has a drawing group
-    // created in it
-    if (dr.length > 0 && 
-        toSheet.getWorkbook().getDrawingGroup() == null)
-    {
-      toSheet.getWorkbook().createDrawingGroup();
-    }
-
-    for (int i = 0 ; i < dr.length ; i++)
-    {
-      if (dr[i] instanceof excel.biff.drawing.Drawing)
-      {
-        WritableImage wi = new WritableImage
-          (dr[i].getX(), dr[i].getY(), 
-           dr[i].getWidth(), dr[i].getHeight(),
-           dr[i].getImageData());
-        toSheet.getWorkbook().addDrawing(wi);
-        drawings.add(wi);
-        images.add(wi);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.Comment)
-      {
-        excel.biff.drawing.Comment c = 
-          new excel.biff.drawing.Comment(dr[i], 
-                                       toSheet.getWorkbook().getDrawingGroup(),
-                                       workbookSettings);
-        drawings.add(c);
-        
-        // Set up the reference on the cell value
-        CellValue cv = (CellValue) toSheet.getWritableCell(c.getColumn(), 
-                                                           c.getRow());
-        Assert.verify(cv.getCellFeatures() != null);
-        cv.getWritableCellFeatures().setCommentDrawing(c);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.Button)
-      {
-        excel.biff.drawing.Button b = 
-          new excel.biff.drawing.Button
-          (dr[i], 
-           toSheet.getWorkbook().getDrawingGroup(),
-           workbookSettings);
-        drawings.add(b);
-      }
-      else if (dr[i] instanceof excel.biff.drawing.ComboBox)
-      {
-        excel.biff.drawing.ComboBox cb = 
-          new excel.biff.drawing.ComboBox
-          (dr[i], 
-           toSheet.getWorkbook().getDrawingGroup(), 
-           workbookSettings);
-        drawings.add(cb);
-      }
-    }
-
     // Copy the data validations
     DataValidation rdv = fromSheet.getDataValidation();
     if (rdv != null)
@@ -748,22 +558,10 @@ class SheetCopier
                                           toSheet.getWorkbook(), 
                                           toSheet.getWorkbook(),
                                           workbookSettings);
-      int objid = dataValidation.getComboBoxObjectId();
-      if (objid != 0)
-      {
-        comboBox = (ComboBox) drawings.get(objid);
-      }
     }
 
     // Copy the workspace options
     sheetWriter.setWorkspaceOptions(fromSheet.getWorkspaceOptions());
-
-    // Set a flag to indicate if it contains a chart only
-    if (fromSheet.getSheetBof().isChart())
-    {
-      chartOnly = true;
-      sheetWriter.setChartOnly();
-    }
 
     // Copy the environment specific print record
     if (fromSheet.getPLS() != null)

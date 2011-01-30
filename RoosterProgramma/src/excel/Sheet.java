@@ -241,21 +241,6 @@ public interface Sheet
   public CellView getRowView(int row);
 
   /**
-   * Accessor for the number of images on the sheet
-   *
-   * @return the number of images on this sheet
-   */
-  public int getNumberOfImages();
-
-  /**
-   * Accessor for the image
-   *
-   * @param i the 0 based image number
-   * @return  the image at the specified position
-   */
-  public Image getDrawing(int i);
-
-  /**
    * Accessor for the page breaks on this sheet
    *
    * @return the page breaks on this sheet

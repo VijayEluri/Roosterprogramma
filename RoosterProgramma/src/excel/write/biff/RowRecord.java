@@ -25,7 +25,6 @@ import java.util.Iterator;
 
 import excel.CellType;
 import excel.SheetSettings;
-import excel.WorkbookSettings;
 import excel.biff.CellReferenceHelper;
 import excel.biff.IndexMapping;
 import excel.biff.IntegerHelper;
@@ -242,8 +241,6 @@ class RowRecord extends WritableRecordData
       WritableCellFeatures wcf = cells[col].getWritableCellFeatures();
       if (wcf != null)
       {
-        wcf.removeComment();
-
         // if the cell is part of a shared data validation,then don't remove
         // the validation
         if (wcf.getDVParser() != null &&

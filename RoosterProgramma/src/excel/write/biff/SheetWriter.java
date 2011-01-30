@@ -27,21 +27,14 @@ import java.util.TreeSet;
 import excel.common.Assert;
 
 import excel.Cell;
-import excel.CellFeatures;
-import excel.CellReferenceHelper;
 import excel.Range;
 import excel.SheetSettings;
 import excel.WorkbookSettings;
 import excel.biff.AutoFilter;
 import excel.biff.ConditionalFormat;
 import excel.biff.DataValidation;
-import excel.biff.DataValiditySettingsRecord;
-import excel.biff.DVParser;
 import excel.biff.WorkspaceInformationRecord;
 import excel.biff.XFRecord;
-import excel.biff.drawing.Chart;
-import excel.biff.drawing.SheetDrawingWriter;
-import excel.biff.formula.FormulaException;
 import excel.format.Border;
 import excel.format.BorderLineStyle;
 import excel.format.Colour;
@@ -149,11 +142,6 @@ final class SheetWriter
   private TreeSet columnFormats;
 
   /**
-   * The list of drawings
-   */
-  private SheetDrawingWriter drawingWriter;
-
-  /**
    * Flag indicates that this sheet contains just a chart, and nothing
    * else
    */
@@ -190,7 +178,6 @@ final class SheetWriter
     workspaceOptions = new WorkspaceInformationRecord();
     workbookSettings = ws;
     chartOnly = false;
-    drawingWriter = new SheetDrawingWriter(ws);
   }
 
   /**
@@ -204,13 +191,6 @@ final class SheetWriter
   public void write() throws IOException
   {
     Assert.verify(rows != null);
-
-    // This worksheet consists of just one chart, so write it and return
-    if (chartOnly)
-    {
-      drawingWriter.write(outputFile);
-      return;
-    }
 
     BOFRecord bof = new BOFRecord(BOFRecord.sheet);
     outputFile.write(bof);
@@ -484,12 +464,6 @@ final class SheetWriter
       outputFile.write(dbcell);
     }
     
-    // Do the drawings and charts if enabled
-    if (!workbookSettings.getDrawingsDisabled())
-    {
-      drawingWriter.write(outputFile);
-    }
-
     Window2Record w2r = new Window2Record(settings);
     outputFile.write(w2r);
 
@@ -567,12 +541,6 @@ final class SheetWriter
     if (buttonPropertySet != null)
     {
       outputFile.write(buttonPropertySet);
-    }
-
-    // Write out the data validations
-    if (dataValidation != null || validatedCells.size() > 0)
-    {
-      writeDataValidation();
     }
 
     // Write out the conditional formats
@@ -683,38 +651,6 @@ final class SheetWriter
     {
       workspaceOptions = wo;
     }
-  }
-
-
-  /**
-   * Sets the charts for this sheet
-   *
-   * @param ch the charts
-   */
-  void setCharts(Chart[] ch)
-  {
-    drawingWriter.setCharts(ch);
-  }
-
-  /**
-   * Sets the drawings on this sheet
-   *
-   * @param dr the list of drawings
-   * @param mod a modified flag
-   */
-  void setDrawings(ArrayList dr, boolean mod)
-  {
-    drawingWriter.setDrawings(dr, mod);
-  }
-
-  /**
-   * Accessor for the charts on this sheet
-   *
-   * @return the charts
-   */
-  Chart[] getCharts()
-  {
-    return  drawingWriter.getCharts();
   }
 
   /**
@@ -1092,66 +1028,6 @@ final class SheetWriter
   void setAutoFilter(AutoFilter af)
   {
     autoFilter = af;
-  }
-
-  /**
-   * Writes out the data validations
-   */
-  private void writeDataValidation() throws IOException
-  {
-    if (dataValidation != null && validatedCells.size() == 0)
-    {
-      // the only data validations are those read in - this should
-      // never be the case now that shared data validations add
-      // to the validatedCells list
-      dataValidation.write(outputFile); 
-      return;
-    }
-
-    if (dataValidation == null && validatedCells.size() > 0)
-    {
-      // the only data validations are those which have been added by the
-      // write API.  Need to sort out the combo box id
-      int comboBoxId = sheet.getComboBox() != null ? 
-        sheet.getComboBox().getObjectId() : DataValidation.DEFAULT_OBJECT_ID;
-      dataValidation = new DataValidation(comboBoxId,
-                                          sheet.getWorkbook(),
-                                          sheet.getWorkbook(),
-                                          workbookSettings);
-    }
-
-    for (Iterator i = validatedCells.iterator(); i.hasNext(); )
-    {
-      CellValue cv = (CellValue) i.next();
-      CellFeatures cf = cv.getCellFeatures();
-
-      // Do not do anything if the DVParser has been copied, as it
-      // will already by on the DataValidation record as a result
-      // of the SheetCopier process
-      if (!cf.getDVParser().copied())
-      {
-        if (!cf.getDVParser().extendedCellsValidation())
-        {
-          // DVParser is specific for a single cell validation - just add it
-          DataValiditySettingsRecord dvsr = 
-            new DataValiditySettingsRecord(cf.getDVParser());
-          dataValidation.add(dvsr);
-        }
-        else
-        {
-          // Only add the DVParser once for shared validations
-          // only add it if it is the top left cell 
-          if (cv.getColumn() == cf.getDVParser().getFirstColumn() &&
-              cv.getRow()    == cf.getDVParser().getFirstRow())
-          {
-            DataValiditySettingsRecord dvsr = 
-              new DataValiditySettingsRecord(cf.getDVParser());
-            dataValidation.add(dvsr);
-          }
-        }
-      }
-    }
-    dataValidation.write(outputFile);
   }
   /*
 

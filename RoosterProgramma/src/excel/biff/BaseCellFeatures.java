@@ -25,8 +25,6 @@ import excel.common.Assert;
 
 import excel.CellReferenceHelper;
 import excel.Range;
-import excel.biff.drawing.ComboBox;
-import excel.biff.drawing.Comment;
 import excel.write.biff.CellValue;
 
 /**
@@ -49,16 +47,6 @@ public class BaseCellFeatures
    */
   private double commentHeight;
   
-  /**
-   * A handle to the drawing object
-   */
-  private Comment commentDrawing;
-
-  /**
-   * A handle to the combo box object
-   */
-  private ComboBox comboBox;
-
   /**
    * The data validation settings
    */
@@ -214,56 +202,6 @@ public class BaseCellFeatures
   }
 
   /**
-   * Sets the cell comment
-   *
-   * @param s the comment
-   */
-  public void setComment(String s)
-  {
-    setComment(s, defaultCommentWidth, defaultCommentHeight);
-  }
-
-  /**
-   * Sets the cell comment
-   *
-   * @param s the comment
-   * @param height the height of the comment box in cells
-   * @param width the width of the comment box in cells
-   */
-  public void setComment(String s, double width, double height)
-  {
-    comment = s;
-    commentWidth = width;
-    commentHeight = height;
-
-    if (commentDrawing != null)
-    {
-      commentDrawing.setCommentText(s);
-      commentDrawing.setWidth(width);
-      commentDrawing.setWidth(height);
-      // commentDrawing is set up when trying to modify a copied cell
-    }
-  }
-
-  /**
-   * Removes the cell comment, if present
-   */
-  public void removeComment()
-  {
-    // Set the comment string to be empty
-    comment = null;
-
-    // Remove the drawing from the drawing group
-    if (commentDrawing != null)
-    {
-      // do not call DrawingGroup.remove() because comments are not present
-      // on the Workbook DrawingGroup record
-      writableCell.removeComment(commentDrawing);
-      commentDrawing = null;
-    }
-  }
-
-  /**
    * Public function which removes any data validation, if present
    */
   public void removeDataValidation()
@@ -308,22 +246,6 @@ public class BaseCellFeatures
     // Remove the validation from the WritableSheet object if present
     writableCell.removeDataValidation();
     clearValidationSettings();
-  }
-
-  /**
-   * Sets the comment drawing object
-   */
-  public final void setCommentDrawing(Comment c)
-  {
-    commentDrawing = c;
-  }
-
-  /**
-   * Accessor for the comment drawing
-   */
-  public final Comment getCommentDrawing()
-  {
-    return commentDrawing;
   }
 
   /**
@@ -454,7 +376,6 @@ public class BaseCellFeatures
     validationSettings = null;
     dvParser = null;
     dropDown = false;
-    comboBox = null;
     dataValidation = false;
   }
 
@@ -466,16 +387,6 @@ public class BaseCellFeatures
   public boolean hasDropDown()
   {
     return dropDown;
-  }
-
-  /**
-   * Sets the combo box drawing object for list validations
-   *
-   * @param cb the combo box
-   */
-  public void setComboBox(ComboBox cb)
-  {
-    comboBox = cb;
   }
 
   /**
@@ -518,7 +429,6 @@ public class BaseCellFeatures
     validationSettings = null;
     dataValidation = true;
     dropDown = source.dropDown;
-    comboBox = source.comboBox;
   }
 
   /**

@@ -375,37 +375,6 @@ public interface WritableSheet extends Sheet
   public void addColumnPageBreak(int col);
 
   /**
-   * Adds an image to the sheet
-   *
-   * @param image the image to add
-   */
-  public void addImage(WritableImage image);
-
-  /**
-   * Accessor for the number of images on the sheet
-   *
-   * @return the number of images on this sheet
-   */
-  public int getNumberOfImages();
-
-  /**
-   * Accessor for the image
-   *
-   * @param i the 0 based image number
-   * @return  the image at the specified position
-   */
-  public WritableImage getImage(int i);
-
-  /**
-   * Removes the specified image from the sheet.  The image passed in
-   * must be the same instance as that previously retrieved using the
-   * getImage() method
-   *
-   * @param wi the image to remove
-   */
-  public void removeImage(WritableImage wi);
-
-  /**
    * Extend the data validation contained in the specified cell across and 
    * downwards.
    * NOTE:  The source cell (top left) must have been added to the sheet prior
