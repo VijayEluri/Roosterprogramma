@@ -186,6 +186,24 @@ public class Employee {
         return workHour;
     }
 
+    public void updateWorkHours() {
+        List<WorkHours> hours = RoosterProgramma.getQueryManager().getWorkHours(this);
+        for (WorkHours hour : workHours)
+        {
+            for (WorkHours oldHour : hours)
+            {
+                if (oldHour.getDate().equals(hour.getDate()))
+                {
+                    if (!oldHour.getShouldWork().equals(hour.getShouldWork()))
+                    {
+                        RoosterProgramma.getQueryManager().updateWorkHours(hour);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
     /**
      * @return the contractHours
      */

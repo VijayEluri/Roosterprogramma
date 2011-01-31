@@ -185,10 +185,6 @@ public class WorkHours {
         this.project = project;
     }
 
-    public void update() {
-        RoosterProgramma.getQueryManager().updateWorkHours(this);
-    }
-
     /**
      * @return the employee
      */

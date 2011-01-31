@@ -246,10 +246,10 @@ public class Rooster extends javax.swing.JPanel {
                     if (!hours.getShouldWork().equals(shouldWork))
                     {
                         hours.setShouldWork(shouldWork);
-                        hours.update();
                     }
                 }
             }
+            employee.updateWorkHours();
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 

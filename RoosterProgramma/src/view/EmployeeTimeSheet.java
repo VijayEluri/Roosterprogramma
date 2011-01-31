@@ -316,34 +316,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         for (int i = 0; i < model.getRowCount()-1; i++)
         {
             WorkHours hours = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
-            boolean save = true;
             for (int j = 0; j < model.getColumnCount(); j++)
             {
-                /* Dit moet dus per 7 dagen
-                if (model.getColumnName(j).equals("Totaal") && employee.isClerk())
-                {
-                    Double totaal = Double.parseDouble(model.getValueAt(i, j).toString());
-                    if (totaal != hours.getShouldWork())
-                    {
-                        if (totaal > hours.getShouldWork())
-                        {
-                            save = RoosterProgramma.getInstance().promptWarning(
-                                  "De totaalkolom van de " + i+1 + "e (" + model.getValueAt(i, j).toString()
-                                + ")\nis niet gelijk aan het aantal uren dat " + employee.getFirstName() + " " + employee.getFamilyName() + " zou moeten werken (" + hours.getShouldWork()
-                                + ")\n Wilt u toch opslaan?"
-                            );
-                        }
-                        else
-                        {
-                            RoosterProgramma.getInstance().showError(
-                                "De totaalkolom van de " + i+1 + "e (" + model.getValueAt(i, j).toString()
-                                + ")\nis niet gelijk aan het aantal uren dat " + employee.getFirstName() + " " + employee.getFamilyName() + " zou moeten werken (" + hours.getShouldWork()
-                                + ")!"
-                            );
-                        }
-                    }
-                }
-                else */if (model.getColumnName(j).equals("Gewerkt"))
+                if (model.getColumnName(j).equals("Gewerkt"))
                 {
                     hours.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
@@ -375,22 +350,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 {
                     hours.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
-
-                if (!save)
-                {
-                    break;
-                }
-            }
-
-            if (save)
-            {
-                hours.update();
-            }
-            else
-            {
-                break;
             }
         }
+        employee.updateWorkHours();
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
