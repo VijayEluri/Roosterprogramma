@@ -8,29 +8,40 @@ import roosterprogramma.RoosterProgramma;
  * @author UDP
  */
 public class Dbmanager {
+
     public static final String JDBC_EXCEPTION = "JDBC Exception: ";
     public static final String SQL_EXCEPTION = "SQL Exception: ";
-    private static final String port = "1433";
-    private static final String instance = "ZAANSMUSEUM";
-    private static final String address = "zm-server11.zaansmuseum.local";
+    private static final String sqlexpress_port = "1433", sqlexpress_instance = "ZAANSMUSEUM", sqlexpress_address = "zm-server11.zaansmuseum.local", sqlexpress_user = "", sqlexpress_pass = "";
+    private static final String mysql_port = "3306", mysql_address = "127.0.0.1", mysql_user = "root", mysql_pass = "mangos";
     private static final String databasename = "roosterprogramma";
     public Connection connection;
+    private static final boolean mysql = true;
 
     /**
      * Open database connection
      */
     public void openConnection() {
         try {
-            Class.forName("com.mysql.jdbc.SQLServerDriver");
-
-            String connectionUrl = "jdbc:sqlserver://" + address +
-                    ":" + port +
-                    ";instance=" + instance +
-                    ";databaseName=" + databasename +
-                    ";integratedSecurity=true";
+            String url = "";
+            if (mysql) {
+                Class.forName("com.mysql.jdbc.Driver");
+                url = "jdbc:mysql://" + mysql_address
+                        + ":" + mysql_port
+                        + "/" + databasename
+                        + "?user=" + mysql_user
+                        + "&password=" + mysql_pass;
+            } else {
+                Class.forName("com.sqlserver.jdbc.SQLServerDriver");
+                url = "jdbc:sqlserver://" + sqlexpress_address
+                        + ":" + sqlexpress_port
+                        + ";instance=" + sqlexpress_instance
+                        + ";databaseName=" + databasename
+                        + ";userName=" + sqlexpress_user
+                        + ";password=" + sqlexpress_pass;
+            }
 
             /** Open connection */
-            connection = DriverManager.getConnection(connectionUrl);
+            connection = DriverManager.getConnection(url);
         } catch (ClassNotFoundException e) {
             System.err.println(JDBC_EXCEPTION + e);
             RoosterProgramma.getInstance().shutdown();
@@ -79,7 +90,7 @@ public class Dbmanager {
         }
         return result;
     }
-    
+
     /**
      * Executes a query with result.
      * @param query 
