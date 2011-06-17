@@ -10,7 +10,10 @@ import roosterprogramma.RoosterProgramma;
 public class Dbmanager {
     public static final String JDBC_EXCEPTION = "JDBC Exception: ";
     public static final String SQL_EXCEPTION = "SQL Exception: ";
-
+    private static final String port = "1433";
+    private static final String instance = "ZAANSMUSEUM";
+    private static final String address = "zm-server11.zaansmuseum.local";
+    private static final String databasename = "roosterprogramma";
     public Connection connection;
 
     /**
@@ -18,13 +21,16 @@ public class Dbmanager {
      */
     public void openConnection() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.SQLServerDriver");
 
-            String url = "jdbc:mysql://localhost/roosterprogramma";
-            String user = "root", pass = "mangos";
+            String connectionUrl = "jdbc:sqlserver://" + address +
+                    ":" + port +
+                    ";instance=" + instance +
+                    ";databaseName=" + databasename +
+                    ";integratedSecurity=true";
 
             /** Open connection */
-            connection = DriverManager.getConnection(url, user, pass);
+            connection = DriverManager.getConnection(connectionUrl);
         } catch (ClassNotFoundException e) {
             System.err.println(JDBC_EXCEPTION + e);
             RoosterProgramma.getInstance().shutdown();
