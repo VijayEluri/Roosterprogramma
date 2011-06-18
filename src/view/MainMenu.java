@@ -22,7 +22,7 @@ public class MainMenu extends javax.swing.JPanel {
     /** Creates new form MainMenu */
     public MainMenu() {
         initComponents();
-        adminCheck();
+        //adminCheck();
     }
 
     private void adminCheck() {
@@ -125,7 +125,7 @@ public class MainMenu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnOverviewActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-        RoosterProgramma.getInstance().showPanel(new Login(4));
+        RoosterProgramma.getInstance().showPanel(new Login());
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     private void btnRoostersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoostersActionPerformed

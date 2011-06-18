@@ -97,9 +97,7 @@ public class RoosterProgramma {
 
         mainWindow.getContentPane().setLayout(new BorderLayout());
 
-        //UpdateChecker check = new UpdateChecker();
-        //showPanel(new Login(check.checkForUpdate()));
-        showPanel(new Login(4));
+        showPanel(new Login());
 
         mainWindow.setVisible(true);
     }

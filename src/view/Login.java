@@ -11,7 +11,6 @@
 package view;
 
 import connectivity.ShaEncrypt;
-import java.awt.Color;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 
@@ -24,33 +23,9 @@ public class Login extends javax.swing.JPanel {
     private Employee employee;
 
     /** Creates new form Login2 */
-    public Login(int state) {
+    public Login() {
         initComponents();
-        setUpdateLabel(state);
         disablePassword();
-    }
-
-    private void setUpdateLabel(int state) {
-        switch (state) {
-            case 0: {
-                lblUpdate.setText("U gebruikt de laatste versie van deze applicatie.");
-                lblUpdate.setForeground(Color.green);
-                break;
-            }
-            case 1: {
-                lblUpdate.setText("U gebruikt niet de laatste versie van deze applicatie");
-                lblUpdate.setForeground(Color.red);
-                break;
-            }
-            case 2: {
-                lblUpdate.setText("U heeft geen internetverbinding, versiecontrole is uit.");
-                lblUpdate.setForeground(Color.orange);
-                break;
-            }
-            default: {
-                break;
-            }
-        }
     }
 
     private void enablePassword() {
@@ -70,7 +45,7 @@ public class Login extends javax.swing.JPanel {
             int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
             employee = RoosterProgramma.getQueryManager().getEmployee(employeeNumber);
             if (!employee.getFirstName().isEmpty()) {
-                if (employee.getPassword() == null) {
+                if ("TEST".equals(employee.getPassword())) {
                     String password = RoosterProgramma.getInstance().promptInput(
                             "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
                             + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"

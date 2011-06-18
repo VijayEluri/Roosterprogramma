@@ -28,7 +28,7 @@ public class QueryManager {
     public Employee getEmployee(int id) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM `medewerkers` WHERE `personeelsnummer` = '" + id + "';";
+            String sql = "SELECT * FROM medewerkers WHERE personeelsnummer = '" + id + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
@@ -54,11 +54,11 @@ public class QueryManager {
     public Employee getEmployee(String firstName, String insertion, String familyName) {
         Employee employee = new Employee();
         try {
-            String sql = "SELECT * FROM `medewerkers` WHERE `voornaam` = '" + firstName + "' AND ";
+            String sql = "SELECT * FROM medewerkers WHERE voornaam = '" + firstName + "' AND ";
             if (!insertion.isEmpty()) {
-                sql += "`tussenvoegsel` = '" + insertion + "' AND ";
+                sql += "tussenvoegsel = '" + insertion + "' AND ";
             }
-            sql += "`achternaam` = '" + familyName + "';";
+            sql += "achternaam = '" + familyName + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
@@ -84,7 +84,7 @@ public class QueryManager {
     public List<Employee> getEmployees() {
         List<Employee> employees = new ArrayList<Employee>();
         try {
-            String sql = "SELECT * FROM `medewerkers`;";
+            String sql = "SELECT * FROM medewerkers;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 employees.add(
@@ -113,52 +113,51 @@ public class QueryManager {
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         int baliemedewerker = employee.isClerk() ? 1 : 0;
-        String sql = "INSERT INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht, baliemedewerker)"
+        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht, baliemedewerker)"
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
                 + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "')";
         dbmanager.insertQuery(sql);
-
-        sql = "ALTER TABLE `werktijden` ADD COLUMN `" + employee.getFullName() + "` VARCHAR(255) DEFAULT '0;0;0;0;0;0;0;0';"; // Moet dynamisch qua velden met ;
-        dbmanager.insertQuery(sql);
     }
 
     public void changeEmployee(Employee employee) {
-        Employee oldEmployee = getEmployee(employee.getEmployeeNumber());
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         int baliemedewerker = employee.isClerk() ? 1 : 0;
-        String sql = "REPLACE INTO `medewerkers` (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht, baliemedewerker)"
-                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
-                + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
-                + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "');";
-        dbmanager.insertQuery(sql);
-
-        sql = "ALTER TABLE `werktijden` CHANGE `" + oldEmployee.getFullName() + "` `" + employee.getFullName() + "` varchar(255) character set latin1 collate latin1_swedish_ci default '0;0;0;0;0;0;0;0;0' NOT NULL;"; // Moet dynamisch qua velden met ;
-        dbmanager.insertQuery(sql);
+        int museumdocent = employee.isMuseumEducator() ? 1 : 0;
+        String sql = "UPDATE medewerkers SET "
+                + "voornaam = '" + employee.getFirstName().replace("'", "\'") + "', "
+                + "tussenvoegsel = '" + employee.getInsertion().replace("'", "\'") + "', "
+                + "achternaam = '" + employee.getFamilyName().replace("'", "\'") + "', "
+                + "wachtwoord = '" + employee.getPassword().replace("'", "\'") + "', "
+                + "fulltime = '" + fulltime + "', "
+                + "parttime = '" + parttime + "', "
+                + "contracturen = '" + employee.getContractHours() + "', "
+                + "oproepkracht = '" + oproepkracht + "', "
+                + "baliemedewerker = '" + baliemedewerker + "', "
+                + "museumdocent = '" + museumdocent + "' "
+                + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
+        dbmanager.executeQuery(sql);
     }
 
     public void deleteEmployee(Employee employee) {
-        String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + employee.getEmployeeNumber() + "';";
-        dbmanager.insertQuery(sql);
-
-        sql = "ALTER TABLE `werktijden` DROP COLUMN `" + employee.getFullName() + "`;";
+        String sql = "DELETE FROM medewerkers WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         dbmanager.insertQuery(sql);
     }
 
     public List<Employee> searchEmployee(String voornaam, String achternaam) {
         List<Employee> employees = new ArrayList<Employee>();
         try {
-            String sql = "SELECT * FROM `medewerkers` WHERE ";
+            String sql = "SELECT * FROM medewerkers WHERE ";
             if (voornaam.length() > 0) {
-                sql += "(SELECT `voornaam` REGEXP '^" + voornaam + ".*') = 1";
+                sql += "(SELECT voornaam REGEXP '^" + voornaam + ".*') = 1";
             }
             if (voornaam.length() > 0 && achternaam.length() > 0) {
                 sql += " AND ";
             }
             if (achternaam.length() > 0) {
-                sql += "(SELECT `achternaam` REGEXP '^" + achternaam + ".*') = 1";
+                sql += "(SELECT achternaam REGEXP '^" + achternaam + ".*') = 1";
             }
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
@@ -186,7 +185,7 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT `" + employee.getEmployeeNumber() + "`, `datum` FROM `werktijden`;";
+            String sql = "SELECT " + employee.getEmployeeNumber() + ", datum FROM werktijden;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
@@ -201,7 +200,7 @@ public class QueryManager {
     public boolean workHourExists(Employee employee, String date) {
         boolean exists = false;
         try {
-            String sql = "SELECT `" + employee.getEmployeeNumber() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
+            String sql = "SELECT " + employee.getEmployeeNumber() + " FROM werktijden WHERE datum = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 exists = true;
@@ -215,17 +214,22 @@ public class QueryManager {
     public void updateWorkHours(WorkHours hours) {
         String sql = "";
         if (workHourExists(hours.getEmployee(), hours.getDate())) {
-            sql = "UPDATE `werktijden` SET;";
+            sql = "UPDATE werktijden SET;";
         } else {
-            sql = "INSERT INTO `werktijden` () VALUES ();";
+            sql = "INSERT INTO werktijden VALUES ('"
+                    + hours.getEmployee().getEmployeeNumber()
+                    + "', '" + hours.getDate()
+                    + "', '" + hours.getShouldWork()
+                    + "', '" + hours.getWorked()
+                    + "', '" + hours.getCompensation150()
+                    + "', '" + hours.getCompensation200()
+                    + "', '" + hours.getVacation()
+                    + "', '" + hours.getADV()
+                    + "', '" + hours.getIllness()
+                    + "', '" + hours.getLeave()
+                    + "', '" + hours.getProject()
+                    + "');";
         }
         dbmanager.insertQuery(sql);
-    }
-
-    public void doQuery(String query, String sqlFile) {
-        dbmanager.insertQuery(query);
-
-        query = "INSERT INTO `sqlfiles` VALUES ('" + sqlFile + "');";
-        dbmanager.insertQuery(query);
     }
 }

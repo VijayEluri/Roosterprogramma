@@ -4,8 +4,6 @@
  */
 package model;
 
-import roosterprogramma.RoosterProgramma;
-
 /**
  *
  * @author Dark
@@ -13,7 +11,7 @@ import roosterprogramma.RoosterProgramma;
 public class WorkHours {
 
     private String date;
-    private String shouldWork;
+    private double shouldWork;
     private double worked;
     private double compensation150;
     private double compensation200;
@@ -33,7 +31,7 @@ public class WorkHours {
         this.date = date;
         if (!werkuren.isEmpty()) {
             String[] fields = werkuren.split(";");
-            shouldWork = fields[0];
+            shouldWork = Double.parseDouble(fields[0]);
             worked = Double.parseDouble(fields[1]);
             compensation150 = Double.parseDouble(fields[2]);
             compensation200 = Double.parseDouble(fields[3]);
@@ -43,7 +41,7 @@ public class WorkHours {
             leave = Double.parseDouble(fields[7]);
             project = Double.parseDouble(fields[8]);
         } else {
-            shouldWork = "";
+            shouldWork = 0;
             worked = 0;
             compensation150 = 0;
             compensation200 = 0;
@@ -198,14 +196,14 @@ public class WorkHours {
     /**
      * @return the shouldwork
      */
-    public String getShouldWork() {
+    public Double getShouldWork() {
         return shouldWork;
     }
 
     /**
      * @param shouldWork the shouldwork to set
      */
-    public void setShouldWork(String shouldWork) {
+    public void setShouldWork(Double shouldWork) {
         this.shouldWork = shouldWork;
     }
 }
