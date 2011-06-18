@@ -8,7 +8,6 @@
  *
  * Created on 8-jan-2011, 14:25:01
  */
-
 package view;
 
 import javax.swing.table.DefaultTableModel;
@@ -33,18 +32,19 @@ public class EmployeeOverview extends javax.swing.JPanel {
     // ToDo : FillTable functie kan gegeneraliseerd worden waardoor SearchTable hem kan aanroepen...heb je niet meer 3x dezelfde code
     private void fillTable() {
         model = (DefaultTableModel) tblEmployee.getModel();
-        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
-        {
+        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
             insertEmployeeIntoTable(employee);
         }
     }
 
     private void insertEmployeeIntoTable(Employee employee) {
         String contracttype = "Fulltime";
-        if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk())
+        if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk()) {
             contracttype = "Oproepkracht";
-        if (employee.isPartTime())
+        }
+        if (employee.isPartTime()) {
             contracttype = "Parttime";
+        }
         Object[] fields = new Object[5];
         fields[0] = employee.getEmployeeNumber();
         fields[1] = employee.getFirstName();
@@ -55,34 +55,25 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }
 
     private void searchTable() {
-        while(model.getRowCount() != 0)
-        {
+        while (model.getRowCount() != 0) {
             model.removeRow(0);
         }
-        if (!tfEmployeeNr.getText().isEmpty())
-        {
+        if (!tfEmployeeNr.getText().isEmpty()) {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
-            if(!employee.getFirstName().isEmpty())
-            {
+            if (!employee.getFirstName().isEmpty()) {
                 insertEmployeeIntoTable(employee);
             }
-        }
-        else
-        {
-            if(!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty())
-            {
-                for(Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText()))
-                {
+        } else {
+            if (!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty()) {
+                for (Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText())) {
                     insertEmployeeIntoTable(employee);
                 }
-            }
-            else
-            {
+            } else {
                 fillTable();
             }
         }
     }
-    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -253,22 +244,18 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (RoosterProgramma.getInstance().promptQuestion("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?", true, "Ja", "Nee"))
-        {
+        if (RoosterProgramma.getInstance().promptQuestion("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?", true, "Ja", "Nee")) {
             selectedEmployee.delete();
             RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
-        if (evt.getClickCount() < 2)
-        {
+        if (evt.getClickCount() < 2) {
             btnDelete.setEnabled(true);
             btnChange.setEnabled(true);
             selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
-        }
-        else
-        {
+        } else {
             RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
@@ -288,7 +275,6 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private void tfFirstNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfFirstNameKeyReleased
         searchTable();
 }//GEN-LAST:event_tfFirstNameKeyReleased
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBack;

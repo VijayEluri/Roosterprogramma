@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package roosterprogramma;
 
 /**
@@ -10,56 +9,51 @@ package roosterprogramma;
  * @author Dark
  */
 public class Translater {
-    public Translater () {
+
+    public Translater() {
     }
 
     public String Translate(String strToTranslate) {
         String translated = "";
-        // Days of week
-        if (strToTranslate.equals("Monday"))
+        if (strToTranslate.equals("Monday")) {
             translated = "Maandag";
-        if (strToTranslate.equals("Tuesday"))
+        } else if (strToTranslate.equals("Tuesday")) {
             translated = "Dinsdag";
-        if (strToTranslate.equals("Wednesday"))
+        } else if (strToTranslate.equals("Wednesday")) {
             translated = "Woensdag";
-        if (strToTranslate.equals("Thursday"))
+        } else if (strToTranslate.equals("Thursday")) {
             translated = "Donderdag";
-        if (strToTranslate.equals("Friday"))
+        } else if (strToTranslate.equals("Friday")) {
             translated = "Vrijdag";
-        if (strToTranslate.equals("Saturday"))
+        } else if (strToTranslate.equals("Saturday")) {
             translated = "Zaterdag";
-        if (strToTranslate.equals("Sunday"))
+        } else if (strToTranslate.equals("Sunday")) {
             translated = "Zondag";
-        // End of Days of week
-        // Months
-        if (strToTranslate.equals("January"))
+        } else if (strToTranslate.equals("January")) {
             translated = "Januari";
-        if (strToTranslate.equals("February"))
+        } else if (strToTranslate.equals("February")) {
             translated = "Februari";
-        if (strToTranslate.equals("March"))
+        } else if (strToTranslate.equals("March")) {
             translated = "Maart";
-        if (strToTranslate.equals("April"))         // Zelfde
+        } else if (strToTranslate.equals("April")) {
             translated = "April";
-        if (strToTranslate.equals("May"))
+        } else if (strToTranslate.equals("May")) {
             translated = "Mei";
-        if (strToTranslate.equals("June"))
+        } else if (strToTranslate.equals("June")) {
             translated = "Juni";
-        if (strToTranslate.equals("July"))
+        } else if (strToTranslate.equals("July")) {
             translated = "Juli";
-        if (strToTranslate.equals("August"))
+        } else if (strToTranslate.equals("August")) {
             translated = "Augustus";
-        if (strToTranslate.equals("September"))     // Zelfde
+        } else if (strToTranslate.equals("September")) {
             translated = "September";
-        if (strToTranslate.equals("October"))
+        } else if (strToTranslate.equals("October")) {
             translated = "Oktober";
-        if (strToTranslate.equals("November"))      // Zelfde
+        } else if (strToTranslate.equals("November")) {
             translated = "November";
-        if (strToTranslate.equals("December"))      // Zelfde
+        } else if (strToTranslate.equals("December")) {
             translated = "December";
-        // End of Months
-
-        if (translated.isEmpty())
-        {
+        } else {
             System.out.println("Error:  " + strToTranslate + " returns an empty translation!");
             translated = strToTranslate;
         }

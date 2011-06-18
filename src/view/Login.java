@@ -8,7 +8,6 @@
  *
  * Created on 20-jan-2011, 11:12:42
  */
-
 package view;
 
 import connectivity.ShaEncrypt;
@@ -32,28 +31,23 @@ public class Login extends javax.swing.JPanel {
     }
 
     private void setUpdateLabel(int state) {
-        switch (state)
-        {
-            case 0:
-            {
+        switch (state) {
+            case 0: {
                 lblUpdate.setText("U gebruikt de laatste versie van deze applicatie.");
                 lblUpdate.setForeground(Color.green);
                 break;
             }
-            case 1:
-            {
+            case 1: {
                 lblUpdate.setText("U gebruikt niet de laatste versie van deze applicatie");
                 lblUpdate.setForeground(Color.red);
                 break;
             }
-            case 2:
-            {
+            case 2: {
                 lblUpdate.setText("U heeft geen internetverbinding, versiecontrole is uit.");
                 lblUpdate.setForeground(Color.orange);
                 break;
             }
-            default:
-            {
+            default: {
                 break;
             }
         }
@@ -72,43 +66,32 @@ public class Login extends javax.swing.JPanel {
     }
 
     private void handleNumber() {
-        if (RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText()))
-        {
+        if (RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())) {
             int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
             employee = RoosterProgramma.getQueryManager().getEmployee(employeeNumber);
-            if (!employee.getFirstName().isEmpty())
-            {
-                if (employee.getPassword() == null)
-                {
+            if (!employee.getFirstName().isEmpty()) {
+                if (employee.getPassword() == null) {
                     String password = RoosterProgramma.getInstance().promptInput(
-                        "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
-                        + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
-                        + "Voer hieronder het gewenste wachtwoord in.\n"
-                    );
-                    if (!RoosterProgramma.getInstance().isEmpty(password))
-                    {
+                            "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
+                            + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
+                            + "Voer hieronder het gewenste wachtwoord in.\n");
+                    if (!RoosterProgramma.getInstance().isEmpty(password)) {
                         password = ShaEncrypt.SHA1(password);
                         employee.setPassword(password);
                         employee.update();
                         RoosterProgramma.getInstance().showPanel(new MainMenu());
                     }
-                }
-                else
-                {
+                } else {
                     enablePassword();
                     lblIncorrectField.setText("");
                     tfPassword.requestFocusInWindow();
                 }
-            }
-            else
-            {
+            } else {
                 disablePassword();
                 lblIncorrectField.setText("Er bestaat geen medewerker met dat personeelsnummer.");
                 tfPassword.setText("");
             }
-        }
-        else
-        {
+        } else {
             disablePassword();
             lblIncorrectField.setText("Dat is dus geen nummer...");
             tfPassword.setText("");
@@ -117,13 +100,10 @@ public class Login extends javax.swing.JPanel {
 
     private void handlePassword() {
         String Sha1Pass = ShaEncrypt.SHA1(RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()));
-        if (Sha1Pass.equals(employee.getPassword()))
-        {
+        if (Sha1Pass.equals(employee.getPassword())) {
             RoosterProgramma.getInstance().setEmployee(employee);
             RoosterProgramma.getInstance().showPanel(new MainMenu());
-        }
-        else
-        {
+        } else {
             lblIncorrectField.setText("Wachtwoord onjuist");
             tfPassword.setText("");
         }
@@ -257,15 +237,13 @@ public class Login extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfEmployeeNumberKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmployeeNumberKeyTyped
-        if (evt.getKeyChar() == '\n')
-        {
+        if (evt.getKeyChar() == '\n') {
             handleNumber();
         }
     }//GEN-LAST:event_tfEmployeeNumberKeyTyped
 
     private void tfPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPasswordKeyTyped
-        if (evt.getKeyChar() == '\n')
-        {
+        if (evt.getKeyChar() == '\n') {
             handlePassword();
         }
     }//GEN-LAST:event_tfPasswordKeyTyped
@@ -277,8 +255,6 @@ public class Login extends javax.swing.JPanel {
     private void btnPasswordOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasswordOKActionPerformed
         handlePassword();
     }//GEN-LAST:event_btnPasswordOKActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNumberOK;
     private javax.swing.JButton btnPasswordOK;

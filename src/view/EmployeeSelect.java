@@ -8,7 +8,6 @@
  *
  * Created on 8-jan-2011, 14:25:01
  */
-
 package view;
 
 import java.io.File;
@@ -37,8 +36,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
     // ToDo : FillTable functie kan gegeneraliseerd worden waardoor SearchTable hem kan aanroepen...heb je niet meer 3x dezelfde code
     private void fillTable() {
         model = (DefaultTableModel) tblEmployee.getModel();
-        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees())
-        {
+        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
             insertEmployeeIntoTable(employee);
         }
     }
@@ -53,29 +51,20 @@ public class EmployeeSelect extends javax.swing.JPanel {
     }
 
     private void searchTable() {
-        while(model.getRowCount() != 0)
-        {
+        while (model.getRowCount() != 0) {
             model.removeRow(0);
         }
-        if (!tfEmployeeNr.getText().isEmpty())
-        {
+        if (!tfEmployeeNr.getText().isEmpty()) {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
-            if(!employee.getFirstName().isEmpty())
-            {
+            if (!employee.getFirstName().isEmpty()) {
                 insertEmployeeIntoTable(employee);
             }
-        }
-        else
-        {
-            if(!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty())
-            {
-                for(Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText()))
-                {
+        } else {
+            if (!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty()) {
+                for (Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText())) {
                     insertEmployeeIntoTable(employee);
                 }
-            }
-            else
-            {
+            } else {
                 fillTable();
             }
         }
@@ -239,13 +228,10 @@ public class EmployeeSelect extends javax.swing.JPanel {
     }//GEN-LAST:event_OKActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
-        if (evt.getClickCount() < 2)
-        {
+        if (evt.getClickCount() < 2) {
             OK.setEnabled(true);
             selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
-        }
-        else
-        {
+        } else {
             showInfo();
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
@@ -264,17 +250,15 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
         String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
-        if (!input.isEmpty())
-        {
+        if (!input.isEmpty()) {
             ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"), false);
         }
     }//GEN-LAST:event_btnExportExcelActionPerformed
 
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
+        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OK;
     private javax.swing.JButton btnBack;

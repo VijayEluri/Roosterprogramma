@@ -32,19 +32,18 @@ public class QueryManager {
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
-                    result.getInt("personeelsnummer"),
-                    result.getString("voornaam"),
-                    result.getString("tussenvoegsel"),
-                    result.getString("achternaam"),
-                    result.getString("wachtwoord"),
-                    result.getBoolean("fulltime"),
-                    result.getBoolean("parttime"),
-                    result.getBoolean("oproepkracht"),
-                    result.getBoolean("baliemedewerker"),
-                    result.getBoolean("museumdocent"),
-                    result.getDouble("contracturen"),
-                    result.getBoolean("admin")
-                );
+                        result.getInt("personeelsnummer"),
+                        result.getString("voornaam"),
+                        result.getString("tussenvoegsel"),
+                        result.getString("achternaam"),
+                        result.getString("wachtwoord"),
+                        result.getBoolean("fulltime"),
+                        result.getBoolean("parttime"),
+                        result.getBoolean("oproepkracht"),
+                        result.getBoolean("baliemedewerker"),
+                        result.getBoolean("museumdocent"),
+                        result.getDouble("contracturen"),
+                        result.getBoolean("admin"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,25 +55,25 @@ public class QueryManager {
         Employee employee = new Employee();
         try {
             String sql = "SELECT * FROM `medewerkers` WHERE `voornaam` = '" + firstName + "' AND ";
-            if (!insertion.isEmpty())
+            if (!insertion.isEmpty()) {
                 sql += "`tussenvoegsel` = '" + insertion + "' AND ";
+            }
             sql += "`achternaam` = '" + familyName + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 employee = new Employee(
-                    result.getInt("personeelsnummer"),
-                    result.getString("voornaam"),
-                    result.getString("tussenvoegsel"),
-                    result.getString("achternaam"),
-                    result.getString("wachtwoord"),
-                    result.getBoolean("fulltime"),
-                    result.getBoolean("parttime"),
-                    result.getBoolean("oproepkracht"),
-                    result.getBoolean("baliemedewerker"),
-                    result.getBoolean("museumdocent"),
-                    result.getDouble("contracturen"),
-                    result.getBoolean("admin")
-                );
+                        result.getInt("personeelsnummer"),
+                        result.getString("voornaam"),
+                        result.getString("tussenvoegsel"),
+                        result.getString("achternaam"),
+                        result.getString("wachtwoord"),
+                        result.getBoolean("fulltime"),
+                        result.getBoolean("parttime"),
+                        result.getBoolean("oproepkracht"),
+                        result.getBoolean("baliemedewerker"),
+                        result.getBoolean("museumdocent"),
+                        result.getDouble("contracturen"),
+                        result.getBoolean("admin"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +88,7 @@ public class QueryManager {
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 employees.add(
-                    new Employee(
+                        new Employee(
                         result.getInt("personeelsnummer"),
                         result.getString("voornaam"),
                         result.getString("tussenvoegsel"),
@@ -101,9 +100,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
-                        result.getBoolean("admin")
-                    )
-                );
+                        result.getBoolean("admin")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,7 +138,7 @@ public class QueryManager {
         sql = "ALTER TABLE `werktijden` CHANGE `" + oldEmployee.getFullName() + "` `" + employee.getFullName() + "` varchar(255) character set latin1 collate latin1_swedish_ci default '0;0;0;0;0;0;0;0;0' NOT NULL;"; // Moet dynamisch qua velden met ;
         dbmanager.insertQuery(sql);
     }
-    
+
     public void deleteEmployee(Employee employee) {
         String sql = "DELETE FROM `medewerkers` WHERE `personeelsnummer` = '" + employee.getEmployeeNumber() + "';";
         dbmanager.insertQuery(sql);
@@ -154,22 +151,19 @@ public class QueryManager {
         List<Employee> employees = new ArrayList<Employee>();
         try {
             String sql = "SELECT * FROM `medewerkers` WHERE ";
-            if(voornaam.length() > 0)
-            {
-                sql += "(SELECT `voornaam` REGEXP '^"+ voornaam + ".*') = 1";
+            if (voornaam.length() > 0) {
+                sql += "(SELECT `voornaam` REGEXP '^" + voornaam + ".*') = 1";
             }
-            if(voornaam.length() > 0 && achternaam.length() > 0)
-            {
+            if (voornaam.length() > 0 && achternaam.length() > 0) {
                 sql += " AND ";
             }
-            if(achternaam.length() > 0)
-            {
-                sql += "(SELECT `achternaam` REGEXP '^"+ achternaam + ".*') = 1";
+            if (achternaam.length() > 0) {
+                sql += "(SELECT `achternaam` REGEXP '^" + achternaam + ".*') = 1";
             }
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 employees.add(
-                    new Employee(
+                        new Employee(
                         result.getInt("personeelsnummer"),
                         result.getString("voornaam"),
                         result.getString("tussenvoegsel"),
@@ -181,9 +175,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
-                        result.getBoolean("admin")
-                    )
-                );
+                        result.getBoolean("admin")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -194,12 +186,11 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT `" + employee.getFullName() + "`, `datum` FROM `werktijden`;";
+            String sql = "SELECT `" + employee.getEmployeeNumber() + "`, `datum` FROM `werktijden`;";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                    employee, result.getString("datum"), result.getString(employee.getFullName())
-                ));
+                        employee, result.getString("datum"), result.getString(employee.getFullName())));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,7 +201,7 @@ public class QueryManager {
     public boolean workHourExists(Employee employee, String date) {
         boolean exists = false;
         try {
-            String sql = "SELECT `" + employee.getFullName() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
+            String sql = "SELECT `" + employee.getEmployeeNumber() + "` FROM `werktijden` WHERE `datum` = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 exists = true;
@@ -222,39 +213,13 @@ public class QueryManager {
     }
 
     public void updateWorkHours(WorkHours hours) {
-        String data = hours.getShouldWork() + ";"
-                + hours.getWorked() + ";"
-                + hours.getCompensation150() + ";"
-                + hours.getCompensation200() + ";"
-                + hours.getVacation() + ";"
-                + hours.getADV() + ";"
-                + hours.getIllness() + ";"
-                + hours.getLeave() + ";"
-                + hours.getProject();
         String sql = "";
-        if (workHourExists(hours.getEmployee(), hours.getDate()))
-        {
-            sql = "UPDATE `werktijden` SET `" + hours.getEmployee().getFullName() + "` = '" + data + "' WHERE `datum` = '" + hours.getDate() + "';";
-        }
-        else
-        {
-            sql = "INSERT INTO `werktijden` (datum, `" + hours.getEmployee().getFullName() + "`) VALUES ('" + hours.getDate() + "', '" + data + "');";
+        if (workHourExists(hours.getEmployee(), hours.getDate())) {
+            sql = "UPDATE `werktijden` SET;";
+        } else {
+            sql = "INSERT INTO `werktijden` () VALUES ();";
         }
         dbmanager.insertQuery(sql);
-    }
-
-    public List<String> getImportedFiles() {
-        List<String> importedFiles = new ArrayList<String>();
-        try {
-            String sql = "SELECT * FROM `sqlfiles`;";
-            ResultSet result = dbmanager.doQuery(sql);
-            while (result.next()) {
-                importedFiles.add(result.getString("bestandsnaam"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return importedFiles;
     }
 
     public void doQuery(String query, String sqlFile) {

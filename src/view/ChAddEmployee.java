@@ -3,7 +3,6 @@
  *
  * Created on 19-jan-2011, 23:20:39
  */
-
 package view;
 
 import connectivity.ShaEncrypt;
@@ -44,8 +43,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         tfFirstName.setText(employee.getFirstName());
         tfInsertion.setText(employee.getInsertion());
         tfFamilyName.setText(employee.getFamilyName());
-        if (employee.isClerk())
-        {
+        if (employee.isClerk()) {
             cbClerk.setSelected(true);
             pnlMuseumEducator.setVisible(false);
             pnlClerk.setVisible(true);
@@ -53,9 +51,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             pnlCallWorker.setVisible(false);
             pnlDays.setVisible(true);
             tfClerk.setText(Double.toString(employee.getContractHours()));
-        }
-        else if(employee.isPartTime())
-        {
+        } else if (employee.isPartTime()) {
             cbPartTime.setSelected(true);
             pnlMuseumEducator.setVisible(false);
             pnlClerk.setVisible(false);
@@ -63,9 +59,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             pnlCallWorker.setVisible(false);
             pnlDays.setVisible(false);
             tfPartTime.setText(Double.toString(employee.getContractHours()));
-        }
-        else if(employee.isCallWorker())
-        {
+        } else if (employee.isCallWorker()) {
             cbCallWorker.setSelected(true);
             pnlMuseumEducator.setVisible(false);
             pnlClerk.setVisible(false);
@@ -73,9 +67,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             pnlPartTime.setVisible(false);
             pnlDays.setVisible(false);
             tfCallWorker.setText(Double.toString(employee.getContractHours()));
-        }
-        else if (employee.isMuseumEducator())
-        {
+        } else if (employee.isMuseumEducator()) {
             cbMuseumEducator.setSelected(true);
             pnlMuseumEducator.setVisible(true);
             pnlClerk.setVisible(false);
@@ -83,9 +75,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             pnlPartTime.setVisible(false);
             pnlDays.setVisible(false);
             tfMuseumEducator.setText(Double.toString(employee.getContractHours()));
-        }
-        else
-        {
+        } else {
             cbFullTime.setSelected(true);
             pnlMuseumEducator.setVisible(false);
             pnlClerk.setVisible(false);
@@ -586,8 +576,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         // ToDo: Cleanup, dit kan mooier XD
 
-        if (isAdd)
-        {
+        if (isAdd) {
             Employee newEmployee = new Employee();
             newEmployee.setEmployeeNumber(employeeNumber);
             newEmployee.setFirstName(firstName);
@@ -598,30 +587,19 @@ public class ChAddEmployee extends javax.swing.JPanel {
             newEmployee.setPartTime(partTime);
             newEmployee.setCallWorker(callWorker);
             newEmployee.setClerk(clerk);
-            if (newEmployee.isCallWorker())
-            {
+            if (newEmployee.isCallWorker()) {
                 newEmployee.setContractHours(Double.parseDouble(tfCallWorker.getText()));
-            }
-            else if (newEmployee.isPartTime())
-            {
+            } else if (newEmployee.isPartTime()) {
                 newEmployee.setContractHours(Double.parseDouble(tfPartTime.getText()));
-            }
-            else if (newEmployee.isFullTime())
-            {
+            } else if (newEmployee.isFullTime()) {
                 newEmployee.setContractHours(40);
-            }
-            else if (newEmployee.isClerk())
-            {
+            } else if (newEmployee.isClerk()) {
                 newEmployee.setContractHours(Double.parseDouble(tfClerk.getText()));
-            }
-            else if (newEmployee.isMuseumEducator())
-            {
+            } else if (newEmployee.isMuseumEducator()) {
                 newEmployee.setContractHours(Double.parseDouble(tfMuseumEducator.getText()));
             }
             RoosterProgramma.getQueryManager().addEmployee(newEmployee);
-        }
-        else
-        {
+        } else {
             employee.setFirstName(firstName);
             employee.setInsertion(insertion);
             employee.setFamilyName(familyName);
@@ -630,30 +608,21 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setPartTime(partTime);
             employee.setCallWorker(callWorker);
             employee.setClerk(clerk);
-            if (employee.isCallWorker())
-            {
+            if (employee.isCallWorker()) {
                 employee.setContractHours(Double.parseDouble(tfCallWorker.getText()));
-            }
-            else if (employee.isPartTime())
-            {
+            } else if (employee.isPartTime()) {
                 employee.setContractHours(Double.parseDouble(tfPartTime.getText()));
-            }
-            else if (employee.isFullTime())
-            {
+            } else if (employee.isFullTime()) {
                 employee.setContractHours(40);
-            }
-            else if (employee.isClerk())
-            {
+            } else if (employee.isClerk()) {
                 employee.setContractHours(Double.parseDouble(tfClerk.getText()));
-            }
-            else if (employee.isMuseumEducator())
-            {
+            } else if (employee.isMuseumEducator()) {
                 employee.setContractHours(Double.parseDouble(tfMuseumEducator.getText()));
             }
             employee.update();
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
-        
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void tfEmployeeNumberKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmployeeNumberKeyReleased
@@ -678,24 +647,18 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbPartTimeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbPartTimeStateChanged
         checkEnabled();
-        if (cbPartTime.isSelected())
-        {
+        if (cbPartTime.isSelected()) {
             pnlPartTime.setVisible(true);
-        }
-        else
-        {
+        } else {
             pnlPartTime.setVisible(false);
         }
     }//GEN-LAST:event_cbPartTimeStateChanged
 
     private void cbCallWorkerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbCallWorkerStateChanged
         checkEnabled();
-        if (cbCallWorker.isSelected())
-        {
+        if (cbCallWorker.isSelected()) {
             pnlCallWorker.setVisible(true);
-        }
-        else
-        {
+        } else {
             pnlCallWorker.setVisible(false);
         }
     }//GEN-LAST:event_cbCallWorkerStateChanged
@@ -710,13 +673,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbClerkStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbClerkStateChanged
         checkEnabled();
-        if (cbClerk.isSelected())
-        {
+        if (cbClerk.isSelected()) {
             pnlClerk.setVisible(true);
             pnlDays.setVisible(true);
-        }
-        else
-        {
+        } else {
             pnlClerk.setVisible(false);
             pnlDays.setVisible(false);
         }
@@ -728,12 +688,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbMuseumEducatorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbMuseumEducatorStateChanged
         checkEnabled();
-        if (cbMuseumEducator.isSelected())
-        {
+        if (cbMuseumEducator.isSelected()) {
             pnlMuseumEducator.setVisible(true);
-        }
-        else
-        {
+        } else {
             pnlMuseumEducator.setVisible(false);
         }
     }//GEN-LAST:event_cbMuseumEducatorStateChanged
@@ -743,22 +700,19 @@ public class ChAddEmployee extends javax.swing.JPanel {
     }//GEN-LAST:event_tfMuseumEducatorKeyReleased
 
     private void checkEnabled() {
-        if (!tfEmployeeNumber.getText().isEmpty() &&
-            RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText()) &&
-            !tfFirstName.getText().isEmpty() &&
-            !tfFamilyName.getText().isEmpty() &&
-            !Exist() &&
-            !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() &&
-            (cbFullTime.isSelected() ||
-            (cbPartTime.isSelected() && !tfPartTime.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfPartTime.getText())) ||
-            (cbCallWorker.isSelected() && !tfCallWorker.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfCallWorker.getText())) ||
-            (cbMuseumEducator.isSelected() && !tfMuseumEducator.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfMuseumEducator.getText())) ||
-            (cbClerk.isSelected() && !tfClerk.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfClerk.getText()))))
-        {
+        if (!tfEmployeeNumber.getText().isEmpty()
+                && RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())
+                && !tfFirstName.getText().isEmpty()
+                && !tfFamilyName.getText().isEmpty()
+                && !Exist()
+                && !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty()
+                && (cbFullTime.isSelected()
+                || (cbPartTime.isSelected() && !tfPartTime.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfPartTime.getText()))
+                || (cbCallWorker.isSelected() && !tfCallWorker.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfCallWorker.getText()))
+                || (cbMuseumEducator.isSelected() && !tfMuseumEducator.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfMuseumEducator.getText()))
+                || (cbClerk.isSelected() && !tfClerk.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfClerk.getText())))) {
             btnSave.setEnabled(true);
-        }
-        else
-        {
+        } else {
             btnSave.setEnabled(false);
         }
     }
@@ -768,35 +722,27 @@ public class ChAddEmployee extends javax.swing.JPanel {
         String familyName = tfFamilyName.getText().toLowerCase();
         String firstName = tfFirstName.getText().toLowerCase();
         boolean exists = false;
-        for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees())
-        {
-            if (existingEmployee.getEmployeeNumber() == employeeNumber &&
-                    (isAdd || employee.getEmployeeNumber() != employeeNumber))
-            {   // If number is in use
+        for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees()) {
+            if (existingEmployee.getEmployeeNumber() == employeeNumber
+                    && (isAdd || employee.getEmployeeNumber() != employeeNumber)) {   // If number is in use
                 lblNameInUse.setVisible(false);
                 exists = true;
                 lblNumberInUse.setVisible(true);
-            }
-            else if(existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName) &&
-                    (isAdd || (!employee.getFirstName().toLowerCase().equals(firstName) || !employee.getFamilyName().toLowerCase().equals(familyName))))
-            {   // If name is in use
+            } else if (existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName)
+                    && (isAdd || (!employee.getFirstName().toLowerCase().equals(firstName) || !employee.getFamilyName().toLowerCase().equals(familyName)))) {   // If name is in use
                 lblNumberInUse.setVisible(false);
                 exists = true;
                 lblNameInUse.setVisible(true);
-            }
-            else
-            {
+            } else {
                 lblNameInUse.setVisible(false);
                 lblNumberInUse.setVisible(false);
             }
-            if (exists)
-            {
+            if (exists) {
                 return true;
             }
         }
         return false;
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Sunday;
     private javax.swing.JButton btnCancel;
@@ -853,5 +799,4 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private javax.swing.JTextField tfPartTime;
     private javax.swing.JPasswordField tfPassword;
     // End of variables declaration//GEN-END:variables
-
 }

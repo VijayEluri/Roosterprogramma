@@ -8,7 +8,6 @@
  *
  * Created on 20-jan-2011, 15:40:02
  */
-
 package view;
 
 import java.util.Calendar;
@@ -131,7 +130,7 @@ public class MainMenu extends javax.swing.JPanel {
 
     private void btnRoostersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoostersActionPerformed
         Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(new Rooster(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH)+1));
+        RoosterProgramma.getInstance().showPanel(new Rooster(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
     }//GEN-LAST:event_btnRoostersActionPerformed
 
     private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed
@@ -140,13 +139,10 @@ public class MainMenu extends javax.swing.JPanel {
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
         boolean forward = RoosterProgramma.getInstance().promptQuestion("Weet u zeker dat u de instellingen wilt aanpassen?\nDit kan ongewenste gevolgen hebben als u niet weet wat u doet!", true, "Ja, ik weet het zeker", "Nee, ik wil terug naar het hoofdmenu");
-        if (forward)
-        {
+        if (forward) {
             RoosterProgramma.getInstance().showPanel(new SettingsMenu());
         }
     }//GEN-LAST:event_btnSettingsActionPerformed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel boxPanel;
     private javax.swing.JButton btnLogout;
@@ -156,5 +152,4 @@ public class MainMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnSettings;
     private javax.swing.JPanel flowPanel;
     // End of variables declaration//GEN-END:variables
-
 }

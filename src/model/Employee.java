@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class Employee {
         this(0, "", "", "", "", true, false, false, false, false, 0.0, false);
     }
 
-    public Employee(int personeelsNummer, String voornaam, String tussenvoegsel,  String achternaam, String wachtwoord,
+    public Employee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
             boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker, boolean museumdocent, double contracturen, boolean admin) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
@@ -104,8 +103,7 @@ public class Employee {
 
     public String getFullName() {
         String name = firstName + " ";
-        if (!RoosterProgramma.getInstance().isEmpty(insertion))
-        {
+        if (!RoosterProgramma.getInstance().isEmpty(insertion)) {
             name += insertion + " ";
         }
         name += familyName;
@@ -172,14 +170,11 @@ public class Employee {
         WorkHours workHour = new WorkHours();
         workHour.setEmployee(this);
         workHour.setDate(date);
-        if (workHours.isEmpty())
-        {
+        if (workHours.isEmpty()) {
             workHours = RoosterProgramma.getQueryManager().getWorkHours(this);
         }
-        for (WorkHours hour : workHours)
-        {
-            if (hour.getDate().equals(date))
-            {
+        for (WorkHours hour : workHours) {
+            if (hour.getDate().equals(date)) {
                 workHour = hour;
             }
         }
@@ -188,14 +183,10 @@ public class Employee {
 
     public void updateWorkHours() {
         List<WorkHours> hours = RoosterProgramma.getQueryManager().getWorkHours(this);
-        for (WorkHours hour : workHours)
-        {
-            for (WorkHours oldHour : hours)
-            {
-                if (oldHour.getDate().equals(hour.getDate()))
-                {
-                    if (!oldHour.getShouldWork().equals(hour.getShouldWork()))
-                    {
+        for (WorkHours hour : workHours) {
+            for (WorkHours oldHour : hours) {
+                if (oldHour.getDate().equals(hour.getDate())) {
+                    if (!oldHour.getShouldWork().equals(hour.getShouldWork())) {
                         RoosterProgramma.getQueryManager().updateWorkHours(hour);
                     }
                     break;

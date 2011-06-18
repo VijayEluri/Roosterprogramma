@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import roosterprogramma.RoosterProgramma;
@@ -32,8 +31,7 @@ public class WorkHours {
     public WorkHours(Employee employee, String date, String werkuren) {
         this.employee = employee;
         this.date = date;
-        if (!werkuren.isEmpty())
-        {
+        if (!werkuren.isEmpty()) {
             String[] fields = werkuren.split(";");
             shouldWork = fields[0];
             worked = Double.parseDouble(fields[1]);
@@ -44,9 +42,7 @@ public class WorkHours {
             illness = Double.parseDouble(fields[6]);
             leave = Double.parseDouble(fields[7]);
             project = Double.parseDouble(fields[8]);
-        }
-        else
-        {
+        } else {
             shouldWork = "";
             worked = 0;
             compensation150 = 0;
