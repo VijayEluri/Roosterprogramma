@@ -1,1 +1,0 @@
-ALTER TABLE `roosterprogramma`.`medewerkers` ADD COLUMN `contracturen` DOUBLE DEFAULT '0' NOT NULL AFTER `oproepkracht`;
