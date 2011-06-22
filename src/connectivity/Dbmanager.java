@@ -11,7 +11,7 @@ public class Dbmanager {
 
     public static final String JDBC_EXCEPTION = "JDBC Exception: ";
     public static final String SQL_EXCEPTION = "SQL Exception: ";
-    private static final String sqlexpress_instance = "ZAANSMUSEUM", sqlexpress_address = "zm-server11", sqlexpress_user = "sa";
+    private static final String sqlexpress_instance = "ZAANSMUSEUM", sqlexpress_address = "zm-server11", sqlexpress_user = "sa", sqlexpress_pass = "";
     private static final String mysql_port = "3306", mysql_address = "127.0.0.1", mysql_user = "root", mysql_pass = "mangos";
     private static final String databasename = "Roosterprogramma";
     public Connection connection;
