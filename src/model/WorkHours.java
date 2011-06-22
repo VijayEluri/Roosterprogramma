@@ -23,34 +23,23 @@ public class WorkHours {
     private Employee employee;
 
     public WorkHours() {
-        this(new Employee(), "", "");
+        this(new Employee(), "", 0, 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public WorkHours(Employee employee, String date, String werkuren) {
+    public WorkHours(Employee employee, String date, double shouldWork, double worked,
+            double compensation150, double compensation200, double vacation, double ADV,
+            double illness, double leave, double project) {
         this.employee = employee;
         this.date = date;
-        if (!werkuren.isEmpty()) {
-            String[] fields = werkuren.split(";");
-            shouldWork = Double.parseDouble(fields[0]);
-            worked = Double.parseDouble(fields[1]);
-            compensation150 = Double.parseDouble(fields[2]);
-            compensation200 = Double.parseDouble(fields[3]);
-            vacation = Double.parseDouble(fields[4]);
-            ADV = Double.parseDouble(fields[5]);
-            illness = Double.parseDouble(fields[6]);
-            leave = Double.parseDouble(fields[7]);
-            project = Double.parseDouble(fields[8]);
-        } else {
-            shouldWork = 0;
-            worked = 0;
-            compensation150 = 0;
-            compensation200 = 0;
-            vacation = 0;
-            ADV = 0;
-            illness = 0;
-            leave = 0;
-            project = 0;
-        }
+        this.shouldWork = shouldWork;
+        this.worked = worked;
+        this.compensation150 = compensation150;
+        this.compensation200 = compensation200;
+        this.vacation = vacation;
+        this.ADV = ADV;
+        this.illness = illness;
+        this.leave = leave;
+        this.project = project;
     }
 
     /**
