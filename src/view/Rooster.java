@@ -99,16 +99,22 @@ public class Rooster extends javax.swing.JPanel {
     private void initComponents() {
 
         pnlTable = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         tblSchedule = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        btnNextMonth = new javax.swing.JButton();
         btnPreviousMonth = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
         btnGo = new javax.swing.JButton();
         btnExcelExport = new javax.swing.JButton();
+        btnNextMonth = new javax.swing.JButton();
+
+        pnlTable.setPreferredSize(new java.awt.Dimension(1700, 402));
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(1700, 22));
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -119,7 +125,23 @@ public class Rooster extends javax.swing.JPanel {
             }
         ));
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        pnlTable.setViewportView(tblSchedule);
+        tblSchedule.setMaximumSize(new java.awt.Dimension(1700, 1700));
+        jScrollPane1.setViewportView(tblSchedule);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1700, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
+        );
+
+        pnlTable.setViewportView(jPanel2);
 
         btnSave.setText("Opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -132,13 +154,6 @@ public class Rooster extends javax.swing.JPanel {
         btnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackActionPerformed(evt);
-            }
-        });
-
-        btnNextMonth.setText("Volgende Maand");
-        btnNextMonth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextMonthActionPerformed(evt);
             }
         });
 
@@ -165,6 +180,13 @@ public class Rooster extends javax.swing.JPanel {
         btnExcelExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcelExportActionPerformed(evt);
+            }
+        });
+
+        btnNextMonth.setText("Volgende Maand");
+        btnNextMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextMonthActionPerformed(evt);
             }
         });
 
@@ -282,6 +304,8 @@ public class Rooster extends javax.swing.JPanel {
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane pnlTable;
     private javax.swing.JTable tblSchedule;
     // End of variables declaration//GEN-END:variables
