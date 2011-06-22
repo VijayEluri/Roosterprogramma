@@ -138,7 +138,7 @@ public class QueryManager {
                 + "baliemedewerker = '" + baliemedewerker + "', "
                 + "museumdocent = '" + museumdocent + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
-        dbmanager.executeQuery(sql);
+        dbmanager.insertQuery(sql);
     }
 
     public void deleteEmployee(Employee employee) {
@@ -185,11 +185,14 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT " + employee.getEmployeeNumber() + ", datum FROM werktijden;";
+            String sql = "SELECT * FROM werktijden WHERE `personeelsnummer` = " + employee.getEmployeeNumber() + ";";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                        employee, result.getString("datum"), result.getString(employee.getFullName())));
+                        employee, result.getString("datum"), result.getDouble("ingeroosterd"),
+                        result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
+                        result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
+                        result.getDouble("verlof"), result.getDouble("project")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -214,7 +217,17 @@ public class QueryManager {
     public void updateWorkHours(WorkHours hours) {
         String sql = "";
         if (workHourExists(hours.getEmployee(), hours.getDate())) {
-            sql = "UPDATE werktijden SET;";
+            sql = "UPDATE werktijden SET "
+                    + "ingeroosterd = " + hours.getShouldWork() + ","
+                    + "gewerkt = " + hours.getWorked() + ","
+                    + "compensatie150 = " + hours.getCompensation150() + ","
+                    + "compensatie200 = " + hours.getCompensation200() + ","
+                    + "vakantie = " + hours.getVacation() + ","
+                    + "adv = " + hours.getADV() + ","
+                    + "ziekte = " + hours.getIllness() + ","
+                    + "verlof = " + hours.getLeave() + ","
+                    + "project = " + hours.getProject()
+                    + ";";
         } else {
             sql = "INSERT INTO werktijden VALUES ('"
                     + hours.getEmployee().getEmployeeNumber()

@@ -54,7 +54,11 @@ public class Login extends javax.swing.JPanel {
                         password = ShaEncrypt.SHA1(password);
                         employee.setPassword(password);
                         employee.update();
-                        RoosterProgramma.getInstance().showPanel(new MainMenu());
+                        if (RoosterProgramma.getQueryManager().getEmployee(employeeNumber).getPassword().equals(password)) {
+                            RoosterProgramma.getInstance().showPanel(new MainMenu());
+                        } else {
+                            lblIncorrectField.setText("Er is een fout opgetreden bij het updaten van het wachtwoord in de database.");
+                        }
                     }
                 } else {
                     enablePassword();
