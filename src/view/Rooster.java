@@ -64,14 +64,16 @@ public class Rooster extends javax.swing.JPanel {
             model.addColumn(i + " - " + day.substring(0, 2));
         }
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
-            Object[] fields = new Object[daysOfMonth + 2];
-            fields[0] = employee.getFullName();
-            fields[1] = employee.getContractHours();
-            for (int i = 1; i <= daysOfMonth; i++) {
-                calendar.set(Calendar.DAY_OF_MONTH, i);
-                handleField(calendar, employee, fields);
+            if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
+                Object[] fields = new Object[daysOfMonth + 2];
+                fields[0] = employee.getFullName();
+                fields[1] = employee.getContractHours();
+                for (int i = 1; i <= daysOfMonth; i++) {
+                    calendar.set(Calendar.DAY_OF_MONTH, i);
+                    handleField(calendar, employee, fields);
+                }
+                model.addRow(fields);
             }
-            model.addRow(fields);
         }
     }
 
