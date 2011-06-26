@@ -27,6 +27,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         pnlCallWorker.setVisible(false);
         pnlClerk.setVisible(false);
         pnlMuseumEducator.setVisible(false);
+        pnlDays.setVisible(false);
     }
 
     public ChAddEmployee(Employee employee) {
@@ -638,11 +639,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbCallWorkerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbCallWorkerStateChanged
         checkEnabled();
-        if (cbCallWorker.isSelected()) {
-            pnlCallWorker.setVisible(true);
-        } else {
-            pnlCallWorker.setVisible(false);
-        }
+        pnlCallWorker.setVisible(cbCallWorker.isSelected());
+        setPanelDays();
     }//GEN-LAST:event_cbCallWorkerStateChanged
 
     private void tfPartTimeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPartTimeKeyReleased
@@ -655,13 +653,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbClerkStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbClerkStateChanged
         checkEnabled();
-        if (cbClerk.isSelected()) {
-            pnlClerk.setVisible(true);
-            pnlDays.setVisible(true);
-        } else {
-            pnlClerk.setVisible(false);
-            pnlDays.setVisible(false);
-        }
+        pnlClerk.setVisible(cbClerk.isSelected());
+        setPanelDays();
     }//GEN-LAST:event_cbClerkStateChanged
 
     private void tfClerkKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfClerkKeyReleased
@@ -670,11 +663,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
     private void cbMuseumEducatorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_cbMuseumEducatorStateChanged
         checkEnabled();
-        if (cbMuseumEducator.isSelected()) {
-            pnlMuseumEducator.setVisible(true);
-        } else {
-            pnlMuseumEducator.setVisible(false);
-        }
+        pnlMuseumEducator.setVisible(cbMuseumEducator.isSelected());
+        setPanelDays();
     }//GEN-LAST:event_cbMuseumEducatorStateChanged
 
     private void tfMuseumEducatorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfMuseumEducatorKeyReleased
@@ -724,6 +714,14 @@ public class ChAddEmployee extends javax.swing.JPanel {
             }
         }
         return false;
+    }
+    
+    private void setPanelDays() {
+        if (cbClerk.isSelected() || cbCallWorker.isSelected() || cbMuseumEducator.isSelected()) {
+            pnlDays.setVisible(true);
+        } else {
+            pnlDays.setVisible(false);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Sunday;
