@@ -573,31 +573,22 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean partTime = cbPartTime.isSelected();
         boolean callWorker = cbCallWorker.isSelected();
         boolean clerk = cbClerk.isSelected();
-
-        // ToDo: Cleanup, dit kan mooier XD
+        boolean museumEducator = cbMuseumEducator.isSelected();
+        Double contractHours = 0.0;
+        if (fullTime) {
+            contractHours = Double.parseDouble(tfCallWorker.getText());
+        } else if (partTime) {
+            contractHours = Double.parseDouble(tfPartTime.getText());
+        } else if (fullTime) {
+            contractHours = 40.0;
+        } else if (clerk) {
+            contractHours = Double.parseDouble(tfClerk.getText());
+        } else if (museumEducator) {
+            contractHours = Double.parseDouble(tfMuseumEducator.getText());
+        }
 
         if (isAdd) {
-            Employee newEmployee = new Employee();
-            newEmployee.setEmployeeNumber(employeeNumber);
-            newEmployee.setFirstName(firstName);
-            newEmployee.setInsertion(insertion);
-            newEmployee.setFamilyName(familyName);
-            newEmployee.setPassword(ShaEncrypt.SHA1(password));
-            newEmployee.setFullTime(fullTime);
-            newEmployee.setPartTime(partTime);
-            newEmployee.setCallWorker(callWorker);
-            newEmployee.setClerk(clerk);
-            if (newEmployee.isCallWorker()) {
-                newEmployee.setContractHours(Double.parseDouble(tfCallWorker.getText()));
-            } else if (newEmployee.isPartTime()) {
-                newEmployee.setContractHours(Double.parseDouble(tfPartTime.getText()));
-            } else if (newEmployee.isFullTime()) {
-                newEmployee.setContractHours(40);
-            } else if (newEmployee.isClerk()) {
-                newEmployee.setContractHours(Double.parseDouble(tfClerk.getText()));
-            } else if (newEmployee.isMuseumEducator()) {
-                newEmployee.setContractHours(Double.parseDouble(tfMuseumEducator.getText()));
-            }
+            Employee newEmployee = new Employee(employeeNumber, firstName, insertion, familyName, ShaEncrypt.SHA1(password), fullTime, partTime, callWorker, clerk, museumEducator, contractHours, false);
             RoosterProgramma.getQueryManager().addEmployee(newEmployee);
         } else {
             employee.setFirstName(firstName);
@@ -608,17 +599,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setPartTime(partTime);
             employee.setCallWorker(callWorker);
             employee.setClerk(clerk);
-            if (employee.isCallWorker()) {
-                employee.setContractHours(Double.parseDouble(tfCallWorker.getText()));
-            } else if (employee.isPartTime()) {
-                employee.setContractHours(Double.parseDouble(tfPartTime.getText()));
-            } else if (employee.isFullTime()) {
-                employee.setContractHours(40);
-            } else if (employee.isClerk()) {
-                employee.setContractHours(Double.parseDouble(tfClerk.getText()));
-            } else if (employee.isMuseumEducator()) {
-                employee.setContractHours(Double.parseDouble(tfMuseumEducator.getText()));
-            }
+            employee.setMuseumEducator(museumEducator);
+            employee.setContractHours(contractHours);
             employee.update();
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());

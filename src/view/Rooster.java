@@ -56,7 +56,7 @@ public class Rooster extends javax.swing.JPanel {
     private void process() {
         model = (DefaultTableModel) tblSchedule.getModel();
         model.addColumn("Naam");
-        model.addColumn("ContractUren");
+        model.addColumn("Contracturen");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i);
