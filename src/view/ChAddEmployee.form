@@ -25,54 +25,62 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlExtra" alignment="0" max="32767" attributes="0"/>
-                  <Component id="lblInsertion" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblMuseumEducator" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblClerk" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="cbMuseumEducator" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="cbClerk" alignment="1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <Component id="lblOther" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                      <Component id="cbOther" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnlExtra" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lblInsertion" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMuseumEducator" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblClerk" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblEmployeeNumber" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="tfFirstName" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="tfEmployeeNumber" alignment="0" pref="237" max="32767" attributes="1"/>
-                                  <Component id="tfInsertion" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="tfFamilyName" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="tfPassword" alignment="0" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="cbMuseumEducator" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="cbClerk" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <Component id="lblFamilyName" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblWachtwoord" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblOther" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="cbOther" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="lblEmployeeNumber" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblFirstName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="tfFirstName" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="tfEmployeeNumber" alignment="0" pref="237" max="32767" attributes="1"/>
+                                          <Component id="tfInsertion" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="tfFamilyName" alignment="0" max="32767" attributes="1"/>
+                                          <Component id="tfPassword" alignment="0" max="32767" attributes="1"/>
+                                      </Group>
+                                  </Group>
+                                  <Component id="lblFamilyName" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblWachtwoord" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblNumberInUse" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNameInUse" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="lblNumberInUse" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblNameInUse" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="-2" pref="506" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="957" max="-2" attributes="0"/>
+                      <EmptySpace pref="957" max="32767" attributes="0"/>
                       <Component id="btnSave" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
