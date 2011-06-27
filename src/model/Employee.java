@@ -169,7 +169,7 @@ public class Employee {
         return admin;
     }
 
-    public WorkHours getWorkHours(String date) {
+    public WorkHours getWorkHour(String date) {
         WorkHours workHour = new WorkHours();
         workHour.setEmployee(this);
         workHour.setDate(date);
@@ -182,20 +182,6 @@ public class Employee {
             }
         }
         return workHour;
-    }
-
-    public void updateWorkHours() {
-        List<WorkHours> hours = RoosterProgramma.getQueryManager().getWorkHours(this);
-        for (WorkHours hour : workHours) {
-            for (WorkHours oldHour : hours) {
-                if (oldHour.getDate().equals(hour.getDate())) {
-                    if (!oldHour.getShouldWork().equals(hour.getShouldWork())) {
-                        RoosterProgramma.getQueryManager().updateWorkHours(hour);
-                    }
-                    break;
-                }
-            }
-        }
     }
 
     /**

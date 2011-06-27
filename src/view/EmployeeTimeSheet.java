@@ -83,7 +83,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            WorkHours hour = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + getDay());
+            WorkHours hour = employee.getWorkHour(getYear() + "-" + getMonth() + "-" + getDay());
             Object[] fields;
             if (employee.isClerk()) {
                 fields = new Object[11];
@@ -305,28 +305,29 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         for (int i = 0; i < model.getRowCount() - 1; i++) {
-            WorkHours hours = employee.getWorkHours(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
+            WorkHours hour = employee.getWorkHour(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
             for (int j = 0; j < model.getColumnCount(); j++) {
                 if (model.getColumnName(j).equals("Gewerkt")) {
-                    hours.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Compensatie 150")) {
-                    hours.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Compensatie 200")) {
-                    hours.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Vakantie")) {
-                    hours.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("ADV")) {
-                    hours.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Ziek")) {
-                    hours.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Speciaal Verlof")) {
-                    hours.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Project")) {
-                    hours.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
             }
+            hour.update();
         }
-        employee.updateWorkHours();
+        
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed

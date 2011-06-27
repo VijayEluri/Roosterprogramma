@@ -4,6 +4,8 @@
  */
 package model;
 
+import roosterprogramma.RoosterProgramma;
+
 /**
  *
  * @author Dark
@@ -194,5 +196,9 @@ public class WorkHours {
      */
     public void setShouldWork(Double shouldWork) {
         this.shouldWork = shouldWork;
+    }
+    
+    public void update() {
+        RoosterProgramma.getQueryManager().updateWorkHours(this);
     }
 }

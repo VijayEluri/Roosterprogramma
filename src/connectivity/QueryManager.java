@@ -185,7 +185,7 @@ public class QueryManager {
     public List<WorkHours> getWorkHours(Employee employee) {
         List<WorkHours> hours = new ArrayList<WorkHours>();
         try {
-            String sql = "SELECT * FROM werktijden WHERE `personeelsnummer` = " + employee.getEmployeeNumber() + ";";
+            String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
@@ -203,7 +203,7 @@ public class QueryManager {
     public boolean workHourExists(Employee employee, String date) {
         boolean exists = false;
         try {
-            String sql = "SELECT " + employee.getEmployeeNumber() + " FROM werktijden WHERE datum = '" + date + "';";
+            String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "' AND datum = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 exists = true;
@@ -214,33 +214,35 @@ public class QueryManager {
         return exists;
     }
 
-    public void updateWorkHours(WorkHours hours) {
+    public void updateWorkHours(WorkHours hour) {
         String sql = "";
-        if (workHourExists(hours.getEmployee(), hours.getDate())) {
+        if (workHourExists(hour.getEmployee(), hour.getDate())) {
             sql = "UPDATE werktijden SET "
-                    + "ingeroosterd = " + hours.getShouldWork() + ","
-                    + "gewerkt = " + hours.getWorked() + ","
-                    + "compensatie150 = " + hours.getCompensation150() + ","
-                    + "compensatie200 = " + hours.getCompensation200() + ","
-                    + "vakantie = " + hours.getVacation() + ","
-                    + "adv = " + hours.getADV() + ","
-                    + "ziekte = " + hours.getIllness() + ","
-                    + "verlof = " + hours.getLeave() + ","
-                    + "project = " + hours.getProject()
+                    + "ingeroosterd = " + hour.getShouldWork() + ", "
+                    + "gewerkt = " + hour.getWorked() + ", "
+                    + "compensatie150 = " + hour.getCompensation150() + ", "
+                    + "compensatie200 = " + hour.getCompensation200() + ", "
+                    + "vakantie = " + hour.getVacation() + ", "
+                    + "adv = " + hour.getADV() + ", "
+                    + "ziekte = " + hour.getIllness() + ", "
+                    + "verlof = " + hour.getLeave() + ", "
+                    + "project = " + hour.getProject() + " "
+                    + "WHERE personeelsnummer = " + hour.getEmployee().getEmployeeNumber() + " "
+                    + "AND datum = " + hour.getDate()
                     + ";";
         } else {
             sql = "INSERT INTO werktijden VALUES ('"
-                    + hours.getEmployee().getEmployeeNumber()
-                    + "', '" + hours.getDate()
-                    + "', '" + hours.getShouldWork()
-                    + "', '" + hours.getWorked()
-                    + "', '" + hours.getCompensation150()
-                    + "', '" + hours.getCompensation200()
-                    + "', '" + hours.getVacation()
-                    + "', '" + hours.getADV()
-                    + "', '" + hours.getIllness()
-                    + "', '" + hours.getLeave()
-                    + "', '" + hours.getProject()
+                    + hour.getEmployee().getEmployeeNumber()
+                    + "', '" + hour.getDate()
+                    + "', '" + hour.getShouldWork()
+                    + "', '" + hour.getWorked()
+                    + "', '" + hour.getCompensation150()
+                    + "', '" + hour.getCompensation200()
+                    + "', '" + hour.getVacation()
+                    + "', '" + hour.getADV()
+                    + "', '" + hour.getIllness()
+                    + "', '" + hour.getLeave()
+                    + "', '" + hour.getProject()
                     + "');";
         }
         dbmanager.insertQuery(sql);

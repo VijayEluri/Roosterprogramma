@@ -78,7 +78,7 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void handleField(Calendar calendar, Employee employee, Object[] fields) {
-        WorkHours hour = employee.getWorkHours(getDate(calendar));
+        WorkHours hour = employee.getWorkHour(getDate(calendar));
         fields[calendar.get(Calendar.DAY_OF_MONTH) + 1] = hour.getShouldWork();
     }
 
@@ -243,24 +243,22 @@ public class Rooster extends javax.swing.JPanel {
             String firstName = pieces[0];
             String insertion = "";
             for (int k = 1; k < pieces.length - 1; k++) {
-                insertion += pieces[k] + " ";
-            }
-            if (!insertion.isEmpty()) {
-                insertion.substring(0, insertion.length() - 1);
+                if (!pieces[k].equals(" ") && !pieces[k].equals("")) {
+                    insertion += pieces[k] + " ";
+                    System.out.println(pieces[k]);
+                }
             }
             String familyName = pieces[pieces.length - 1];
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
             for (int j = 2; j < model.getColumnCount(); j++) {
                 String strShouldWork = model.getValueAt(i, j).toString();
-                if (!strShouldWork.isEmpty()) {
-                    WorkHours hours = employee.getWorkHours(year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0]);
-                    double shouldWork = Double.parseDouble(strShouldWork);
-                    if (hours.getShouldWork() != shouldWork) {
-                        hours.setShouldWork(shouldWork);
-                    }
+                WorkHours hour = employee.getWorkHour(year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0]);
+                double shouldWork = Double.parseDouble(strShouldWork.replace(",", "."));
+                if (hour.getShouldWork() != shouldWork) {
+                    hour.setShouldWork(shouldWork);
+                    hour.update();
                 }
             }
-            employee.updateWorkHours();
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
