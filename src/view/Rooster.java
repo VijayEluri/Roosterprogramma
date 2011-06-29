@@ -13,6 +13,7 @@ package view;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
@@ -54,6 +55,7 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void process() {
+        tblSchedule.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         model = (DefaultTableModel) tblSchedule.getModel();
         model.addColumn("Naam");
         model.addColumn("Contracturen");
@@ -75,6 +77,10 @@ public class Rooster extends javax.swing.JPanel {
                 model.addRow(fields);
             }
         }
+        for (int i = 1; i <= daysOfMonth; i++) {
+            tblSchedule.getColumnModel().getColumn(i+1).setPreferredWidth(50);
+        }
+        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(120);
     }
 
     private void handleField(Calendar calendar, Employee employee, Object[] fields) {
@@ -100,50 +106,17 @@ public class Rooster extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pnlTable = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSchedule = new javax.swing.JTable();
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnPreviousMonth = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        pnlControls = new javax.swing.JPanel();
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
         btnGo = new javax.swing.JButton();
         btnExcelExport = new javax.swing.JButton();
         btnNextMonth = new javax.swing.JButton();
-
-        pnlTable.setPreferredSize(new java.awt.Dimension(1700, 402));
-
-        jPanel2.setPreferredSize(new java.awt.Dimension(1700, 22));
-
-        tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblSchedule.setMaximumSize(new java.awt.Dimension(1700, 1700));
-        jScrollPane1.setViewportView(tblSchedule);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 586, Short.MAX_VALUE)
-        );
-
-        pnlTable.setViewportView(jPanel2);
+        jspSchedule = new javax.swing.JScrollPane();
+        tblSchedule = new javax.swing.JTable();
 
         btnSave.setText("Opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -166,9 +139,9 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
-        jPanel1.add(cmbYear);
+        pnlControls.add(cmbYear);
 
-        jPanel1.add(cmbMonth);
+        pnlControls.add(cmbMonth);
 
         btnGo.setText("Ga");
         btnGo.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +149,7 @@ public class Rooster extends javax.swing.JPanel {
                 btnGoActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGo);
+        pnlControls.add(btnGo);
 
         btnExcelExport.setText("Exporteer naar excel");
         btnExcelExport.addActionListener(new java.awt.event.ActionListener() {
@@ -192,24 +165,36 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
+        tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblSchedule.setMaximumSize(new java.awt.Dimension(2500, 1700));
+        jspSchedule.setViewportView(tblSchedule);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnlTable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 842, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1700, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 559, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1417, Short.MAX_VALUE)
                         .addComponent(btnExcelExport)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnPreviousMonth)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                        .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1456, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnNextMonth)))
                 .addContainerGap())
@@ -218,10 +203,10 @@ public class Rooster extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnlTable, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNextMonth)
                     .addComponent(btnPreviousMonth))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -303,10 +288,8 @@ public class Rooster extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane pnlTable;
+    private javax.swing.JScrollPane jspSchedule;
+    private javax.swing.JPanel pnlControls;
     private javax.swing.JTable tblSchedule;
     // End of variables declaration//GEN-END:variables
 }

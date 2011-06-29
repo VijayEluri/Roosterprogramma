@@ -15,21 +15,29 @@ import roosterprogramma.RoosterProgramma;
  */
 public class ChAddEmployee extends javax.swing.JPanel {
 
-    private Employee employee;
+    private Employee employee = new Employee();
     private boolean isAdd = true;
 
     /** Creates new form AddMedewerker */
     public ChAddEmployee() {
         initComponents();
-        lblNameInUse.setVisible(false);
-        lblNumberInUse.setVisible(false);
+        clearUI();
+        btnSave.setEnabled(false);
     }
 
     public ChAddEmployee(Employee employee) {
         this.employee = employee;
         this.isAdd = false;
         initComponents();
+        clearUI();
         fillFields();
+        checkEnabled();
+    }
+    
+    private void clearUI() {
+        pnlHours.setVisible(false);
+        pnlDays.setVisible(false);
+        pnlVacationPercentage.setVisible(false);
         lblNameInUse.setVisible(false);
         lblNumberInUse.setVisible(false);
     }
@@ -108,6 +116,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
         cbSaturday = new javax.swing.JCheckBox();
         cbSunday = new javax.swing.JCheckBox();
         lblSunday = new javax.swing.JLabel();
+        pnlVacationPercentage = new javax.swing.JPanel();
+        lblVacationPercentage = new javax.swing.JLabel();
+        tfVacationPercentage = new javax.swing.JFormattedTextField();
         cbMuseumEducator = new javax.swing.JCheckBox();
         lblMuseumEducator = new javax.swing.JLabel();
         lblInsertion = new javax.swing.JLabel();
@@ -204,6 +215,12 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblHours.setText("Minimum aantal uren per week:");
 
+        tfHours.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfHoursKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlHoursLayout = new javax.swing.GroupLayout(pnlHours);
         pnlHours.setLayout(pnlHoursLayout);
         pnlHoursLayout.setHorizontalGroup(
@@ -222,10 +239,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(pnlHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblHours)
                     .addComponent(tfHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addContainerGap(456, Short.MAX_VALUE))
         );
 
-        lblInstruction.setText("Niet in te roosteren dagen");
+        lblInstruction.setText("Niet in te roosteren dagen:");
 
         lblMonday.setText("Maandag");
 
@@ -267,7 +284,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                             .addComponent(cbTuesday)
                             .addComponent(cbWednesday)
                             .addComponent(cbThursday))))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlDaysLayout.setVerticalGroup(
             pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -302,7 +319,37 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSunday)
                     .addComponent(cbSunday))
-                .addContainerGap(121, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
+        );
+
+        lblVacationPercentage.setText("Vakantiepercentage:");
+
+        tfVacationPercentage.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        tfVacationPercentage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfVacationPercentageKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlVacationPercentageLayout = new javax.swing.GroupLayout(pnlVacationPercentage);
+        pnlVacationPercentage.setLayout(pnlVacationPercentageLayout);
+        pnlVacationPercentageLayout.setHorizontalGroup(
+            pnlVacationPercentageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVacationPercentageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblVacationPercentage)
+                .addGap(18, 18, 18)
+                .addComponent(tfVacationPercentage, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnlVacationPercentageLayout.setVerticalGroup(
+            pnlVacationPercentageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVacationPercentageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlVacationPercentageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVacationPercentage)
+                    .addComponent(tfVacationPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(445, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnlExtraLayout = new javax.swing.GroupLayout(pnlExtra);
@@ -328,7 +375,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addComponent(pnlHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlDays, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(365, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlVacationPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(284, Short.MAX_VALUE))
         );
         pnlExtraLayout.setVerticalGroup(
             pnlExtraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,8 +395,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(pnlExtraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbCallWorker)
                     .addComponent(lblCallWorker))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addContainerGap(377, Short.MAX_VALUE))
             .addComponent(pnlDays, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlExtraLayout.createSequentialGroup()
+                .addComponent(pnlVacationPercentage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         buttonGroup.add(cbMuseumEducator);
@@ -361,9 +413,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblInsertion.setText("Tussenvoegsel:");
 
-        lblOther.setText("Anders");
+        lblOther.setText("Anders:");
 
         buttonGroup.add(cbOther);
+        cbOther.setSelected(true);
         cbOther.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbOtherStateChanged(evt);
@@ -416,7 +469,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                         .addGap(506, 506, 506))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 957, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 972, Short.MAX_VALUE)
                         .addComponent(btnSave)
                         .addContainerGap())))
         );
@@ -482,13 +535,17 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean callWorker = cbCallWorker.isSelected();
         boolean clerk = cbClerk.isSelected();
         boolean museumEducator = cbMuseumEducator.isSelected();
-        Double contractHours = 40.0;
+        Double vacationPercentage = 0.0;
+        Double contractHours = 40.0;    // ToDo : Vervangen met fulltime ? 40.0 : Double.parseDouble(tfHours.getText());
         if (!fullTime) {
             contractHours = Double.parseDouble(tfHours.getText());
         }
+        if (callWorker) {
+            vacationPercentage = Double.parseDouble(tfVacationPercentage.getText());
+        }
 
         if (isAdd) {
-            Employee newEmployee = new Employee(employeeNumber, firstName, insertion, familyName, ShaEncrypt.SHA1(password), fullTime, partTime, callWorker, clerk, museumEducator, contractHours, false);
+            Employee newEmployee = new Employee(employeeNumber, firstName, insertion, familyName, ShaEncrypt.SHA1(password), fullTime, partTime, callWorker, clerk, museumEducator, contractHours, vacationPercentage, false);
             RoosterProgramma.getQueryManager().addEmployee(newEmployee);
         } else {
             employee.setFirstName(firstName);
@@ -501,6 +558,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setClerk(clerk);
             employee.setMuseumEducator(museumEducator);
             employee.setContractHours(contractHours);
+            employee.setVacationPercentage(vacationPercentage);
             employee.update();
         }
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
@@ -553,54 +611,76 @@ public class ChAddEmployee extends javax.swing.JPanel {
         handlePanels();
     }//GEN-LAST:event_cbOtherStateChanged
 
+    private void tfHoursKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfHoursKeyReleased
+        checkEnabled();
+    }//GEN-LAST:event_tfHoursKeyReleased
+
+    private void tfVacationPercentageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfVacationPercentageKeyReleased
+        if (evt.getKeyChar() == '.') {
+            tfVacationPercentage.setText(tfVacationPercentage.getText().replace(".", ","));
+        }
+        checkEnabled();
+    }//GEN-LAST:event_tfVacationPercentageKeyReleased
+
     private void checkEnabled() {
-        if (!tfEmployeeNumber.getText().isEmpty()
-                && RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())
-                && !tfFirstName.getText().isEmpty()
-                && !tfFamilyName.getText().isEmpty()
-                && !Exist()
-                && !RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty()
+        if (!numberInUse()
+                && !nameInUse()
+                && (!RoosterProgramma.getInstance().decodePassword(tfPassword.getPassword()).isEmpty() || !isAdd)
+                && (cbMuseumEducator.isSelected() || cbClerk.isSelected() || cbOther.isSelected())
                 && (cbFullTime.isSelected()
-                || (cbPartTime.isSelected() && !tfHours.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfHours.getText()))
-                || (cbCallWorker.isSelected() && !tfHours.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfHours.getText()))
-                || (cbMuseumEducator.isSelected() && !tfHours.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfHours.getText()))
-                || (cbClerk.isSelected() && !tfHours.getText().isEmpty() && RoosterProgramma.getInstance().isNumeric(tfHours.getText())))) {
+                || ((cbPartTime.isSelected()
+                || (cbCallWorker.isSelected()
+                && !tfVacationPercentage.getText().isEmpty()))
+                && !tfHours.getText().isEmpty()
+                && Integer.parseInt(tfHours.getText()) <= 40))) {
             btnSave.setEnabled(true);
         } else {
             btnSave.setEnabled(false);
         }
     }
 
-    private boolean Exist() {
-        int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
-        String familyName = tfFamilyName.getText().toLowerCase();
-        String firstName = tfFirstName.getText().toLowerCase();
-        boolean exists = false;
-        for (Employee existingEmployee : RoosterProgramma.getQueryManager().getEmployees()) {
-            if (existingEmployee.getEmployeeNumber() == employeeNumber
-                    && (isAdd || employee.getEmployeeNumber() != employeeNumber)) {   // If number is in use
-                lblNameInUse.setVisible(false);
-                exists = true;
-                lblNumberInUse.setVisible(true);
-            } else if (existingEmployee.getFamilyName().toLowerCase().equals(familyName) && existingEmployee.getFirstName().toLowerCase().equals(firstName)
-                    && (isAdd || (!employee.getFirstName().toLowerCase().equals(firstName) || !employee.getFamilyName().toLowerCase().equals(familyName)))) {   // If name is in use
-                lblNumberInUse.setVisible(false);
-                exists = true;
-                lblNameInUse.setVisible(true);
-            } else {
-                lblNameInUse.setVisible(false);
-                lblNumberInUse.setVisible(false);
-            }
-            if (exists) {
-                return exists;
-            }
+    private boolean nameInUse() {
+        if (tfFirstName.getText().isEmpty() || tfFamilyName.getText().isEmpty()) {
+            lblNameInUse.setVisible(false);
+            return true;
         }
-        return false;
+        String firstName = tfFirstName.getText().toLowerCase();
+        String familyName = tfFamilyName.getText().toLowerCase();
+        Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(firstName, "", familyName);
+        if (existingEmployee.getFirstName().toLowerCase().equals(firstName)
+                && existingEmployee.getFamilyName().toLowerCase().equals(familyName)
+                && (isAdd
+                || existingEmployee.getEmployeeNumber() != employee.getEmployeeNumber())) {
+            lblNameInUse.setVisible(true);
+            return true;
+        } else {
+            lblNameInUse.setVisible(false);
+            return false;
+        }
+    }
+    
+    private boolean numberInUse() {
+        if (tfEmployeeNumber.getText().isEmpty() || !RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())) {
+            lblNumberInUse.setVisible(false);
+            return true;
+        }
+        Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNumber.getText()));
+        if (existingEmployee.getEmployeeNumber() == Integer.parseInt(tfEmployeeNumber.getText())
+                && (isAdd
+                || (!existingEmployee.getFirstName().toLowerCase().equals(employee.getFirstName().toLowerCase())
+                || !existingEmployee.getFamilyName().toLowerCase().equals(employee.getFamilyName().toLowerCase())))) {
+            lblNumberInUse.setVisible(true);
+            return true;
+        } else {
+            lblNumberInUse.setVisible(false);
+            return false;
+        }
     }
 
     private void handlePanels() {
         pnlDays.setVisible(cbClerk.isSelected() || cbCallWorker.isSelected() || cbMuseumEducator.isSelected());
         pnlHours.setVisible(cbCallWorker.isSelected() || cbPartTime.isSelected());
+        pnlVacationPercentage.setVisible(cbCallWorker.isSelected());
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -640,16 +720,19 @@ public class ChAddEmployee extends javax.swing.JPanel {
     private javax.swing.JLabel lblSunday;
     private javax.swing.JLabel lblThursday;
     private javax.swing.JLabel lblTuesday;
+    private javax.swing.JLabel lblVacationPercentage;
     private javax.swing.JLabel lblWachtwoord;
     private javax.swing.JLabel lblWednesday;
     private javax.swing.JPanel pnlDays;
     private javax.swing.JPanel pnlExtra;
     private javax.swing.JPanel pnlHours;
+    private javax.swing.JPanel pnlVacationPercentage;
     private javax.swing.JTextField tfEmployeeNumber;
     private javax.swing.JTextField tfFamilyName;
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JFormattedTextField tfHours;
     private javax.swing.JTextField tfInsertion;
     private javax.swing.JPasswordField tfPassword;
+    private javax.swing.JFormattedTextField tfVacationPercentage;
     // End of variables declaration//GEN-END:variables
 }

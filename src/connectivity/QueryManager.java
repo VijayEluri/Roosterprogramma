@@ -43,6 +43,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
+                        result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin"));
             }
         } catch (SQLException ex) {
@@ -73,6 +74,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
+                        result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin"));
             }
         } catch (SQLException ex) {
@@ -100,6 +102,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
+                        result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin")));
             }
         } catch (SQLException ex) {
@@ -113,10 +116,12 @@ public class QueryManager {
         int parttime = employee.isPartTime() ? 1 : 0;
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         int baliemedewerker = employee.isClerk() ? 1 : 0;
-        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, contracturen, oproepkracht, baliemedewerker)"
+        int museumdocent = employee.isMuseumEducator() ? 1 : 0;
+        int admin = employee.isAdmin() ? 1 : 0;
+        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht, baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin)"
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getFamilyName().replace("'", "\'") + "', '" + employee.getPassword().replace("'", "\'") + "', '" + fulltime + "', '"
-                + parttime + "', '" + employee.getContractHours() + "', '" + oproepkracht + "', '" + baliemedewerker + "')";
+                + parttime + "', '" + oproepkracht + "', '" + baliemedewerker + "', '" + museumdocent + "', '" + employee.getContractHours() + "', '" + employee.getVacationPercentage() + "', '" + admin + "')";
         dbmanager.insertQuery(sql);
     }
 
@@ -126,6 +131,7 @@ public class QueryManager {
         int oproepkracht = employee.isCallWorker() ? 1 : 0;
         int baliemedewerker = employee.isClerk() ? 1 : 0;
         int museumdocent = employee.isMuseumEducator() ? 1 : 0;
+        int admin = employee.isAdmin() ? 1 : 0;
         String sql = "UPDATE medewerkers SET "
                 + "voornaam = '" + employee.getFirstName().replace("'", "\'") + "', "
                 + "tussenvoegsel = '" + employee.getInsertion().replace("'", "\'") + "', "
@@ -133,10 +139,12 @@ public class QueryManager {
                 + "wachtwoord = '" + employee.getPassword().replace("'", "\'") + "', "
                 + "fulltime = '" + fulltime + "', "
                 + "parttime = '" + parttime + "', "
-                + "contracturen = '" + employee.getContractHours() + "', "
                 + "oproepkracht = '" + oproepkracht + "', "
                 + "baliemedewerker = '" + baliemedewerker + "', "
-                + "museumdocent = '" + museumdocent + "' "
+                + "museumdocent = '" + museumdocent + "', "
+                + "contracturen = '" + employee.getContractHours() + "', "
+                + "vakantiepercentage = '" + employee.getVacationPercentage() + "', "
+                + "admin = '" + admin + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         dbmanager.insertQuery(sql);
     }
@@ -174,6 +182,7 @@ public class QueryManager {
                         result.getBoolean("baliemedewerker"),
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
+                        result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin")));
             }
         } catch (SQLException ex) {

@@ -26,15 +26,17 @@ public class Employee {
     private boolean museumEducator;
     private double contractHours;
     private boolean admin;
+    private double vacationPercentage;
     private List<WorkHours> workHours = new ArrayList<WorkHours>();
 
     public Employee() {
-        this(0, "", "", "", "", true, false, false, false, false, 0.0, false);
+        this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false);
     }
 
     public Employee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
-            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker, boolean museumdocent, double contracturen, boolean admin) {
-        if (tussenvoegsel == null) {
+            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
+            boolean museumdocent, double contracturen, double vacationPercentage, boolean admin) {
+        if (tussenvoegsel == null) {    // ToDo : Gebeurt dit ooit ?
             tussenvoegsel = "";
         }
         this.employeeNumber = personeelsNummer;
@@ -48,6 +50,7 @@ public class Employee {
         this.clerk = baliemedewerker;
         this.museumEducator = museumdocent;
         this.contractHours = contracturen;
+        this.vacationPercentage = vacationPercentage;
         this.admin = admin;
     }
 
@@ -242,5 +245,19 @@ public class Employee {
      */
     public void setInsertion(String insertion) {
         this.insertion = insertion;
+    }
+
+    /**
+     * @return the vacationPercentage
+     */
+    public double getVacationPercentage() {
+        return vacationPercentage;
+    }
+
+    /**
+     * @param vacationPercentage the vacationPercentage to set
+     */
+    public void setVacationPercentage(double vacationPercentage) {
+        this.vacationPercentage = vacationPercentage;
     }
 }

@@ -22,12 +22,13 @@ public class MainMenu extends javax.swing.JPanel {
     /** Creates new form MainMenu */
     public MainMenu() {
         initComponents();
-        //adminCheck();
+        adminCheck();
     }
 
     private void adminCheck() {
         btnManage.setEnabled(RoosterProgramma.getEmployee().isAdmin());
         btnOverview.setEnabled(RoosterProgramma.getEmployee().isAdmin());
+        btnSettings.setEnabled(RoosterProgramma.getEmployee().isAdmin());
     }
 
     /** This method is called from within the constructor to
