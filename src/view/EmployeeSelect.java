@@ -11,7 +11,6 @@
 package view;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;

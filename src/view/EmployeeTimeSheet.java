@@ -10,6 +10,7 @@
  */
 package view;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
@@ -136,6 +137,14 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             }
             model.setValueAt(totalHours, model.getRowCount() - 1, k);
         }
+        if (employee.isCallWorker()) {
+            double gewerkt = model.getValueAt(model.getRowCount()-1, 2).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(model.getRowCount()-1, 2).toString());
+            double ziekte = model.getValueAt(model.getRowCount()-1, 7).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(model.getRowCount()-1, 7).toString());
+            String vakantieUren = Double.toString(Double.valueOf((new DecimalFormat("#.##")).format((gewerkt + ziekte) * (employee.getVacationPercentage()/100)).replace(",", ".")));
+            lblVacationHours.setText(vakantieUren);
+        } else {
+            pnlVacationHours.setVisible(false);
+        }
     }
 
     /** This method is called from within the constructor to
@@ -149,9 +158,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jspEmployeeInformation = new javax.swing.JScrollPane();
         tblEmployeeInformation = new javax.swing.JTable();
-        jScrollPane3 = new javax.swing.JScrollPane();
+        jspTimeSheet = new javax.swing.JScrollPane();
         tblTimeSheet = new javax.swing.JTable();
         lblMonth = new javax.swing.JLabel();
         btnPreviousMonth = new javax.swing.JButton();
@@ -160,6 +169,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
         btnGo = new javax.swing.JButton();
+        pnlVacationHours = new javax.swing.JPanel();
+        lblExpVacationHours = new javax.swing.JLabel();
+        lblVacationHours = new javax.swing.JLabel();
 
         btnSave.setText("Wijzigingen opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -198,7 +210,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblEmployeeInformation);
+        jspEmployeeInformation.setViewportView(tblEmployeeInformation);
 
         tblTimeSheet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -214,7 +226,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 tblTimeSheetFocusGained(evt);
             }
         });
-        jScrollPane3.setViewportView(tblTimeSheet);
+        jspTimeSheet.setViewportView(tblTimeSheet);
 
         btnPreviousMonth.setText("Vorige maand");
         btnPreviousMonth.addActionListener(new java.awt.event.ActionListener() {
@@ -242,6 +254,27 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         });
         pnlDateSelect.add(btnGo);
 
+        lblExpVacationHours.setText("Opgebouwde vakantieuren:");
+
+        lblVacationHours.setText("<uren>");
+
+        javax.swing.GroupLayout pnlVacationHoursLayout = new javax.swing.GroupLayout(pnlVacationHours);
+        pnlVacationHours.setLayout(pnlVacationHoursLayout);
+        pnlVacationHoursLayout.setHorizontalGroup(
+            pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVacationHoursLayout.createSequentialGroup()
+                .addComponent(lblExpVacationHours)
+                .addGap(18, 18, 18)
+                .addComponent(lblVacationHours)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlVacationHoursLayout.setVerticalGroup(
+            pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lblExpVacationHours)
+                .addComponent(lblVacationHours))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -249,48 +282,51 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jspTimeSheet, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 1303, Short.MAX_VALUE))
+                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnBack)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1117, Short.MAX_VALUE)
-                                .addComponent(btnSave))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMonth)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPreviousMonth)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1095, Short.MAX_VALUE)
-                                .addComponent(btnNextMonth))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1307, Short.MAX_VALUE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblMonth)
+                                    .addComponent(btnPreviousMonth))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 769, Short.MAX_VALUE)
+                                .addComponent(btnNextMonth))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(pnlVacationHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 569, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 381, Short.MAX_VALUE)
-                        .addComponent(lblMonth)
-                        .addGap(41, 41, 41))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnPreviousMonth)
-                            .addComponent(btnNextMonth))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
+                .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnlDateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave)
-                    .addComponent(btnBack))
+                    .addComponent(btnNextMonth)
+                    .addComponent(btnPreviousMonth))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMonth)
+                    .addComponent(jspTimeSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlVacationHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -374,10 +410,13 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jspEmployeeInformation;
+    private javax.swing.JScrollPane jspTimeSheet;
+    private javax.swing.JLabel lblExpVacationHours;
     private javax.swing.JLabel lblMonth;
+    private javax.swing.JLabel lblVacationHours;
     private javax.swing.JPanel pnlDateSelect;
+    private javax.swing.JPanel pnlVacationHours;
     private javax.swing.JTable tblEmployeeInformation;
     private javax.swing.JTable tblTimeSheet;
     // End of variables declaration//GEN-END:variables
