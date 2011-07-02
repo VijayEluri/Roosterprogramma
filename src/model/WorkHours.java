@@ -13,7 +13,7 @@ import roosterprogramma.RoosterProgramma;
 public class WorkHours {
 
     private String date;
-    private double shouldWork;
+    private String shouldWork;
     private double worked;
     private double compensation150;
     private double compensation200;
@@ -25,10 +25,10 @@ public class WorkHours {
     private Employee employee;
 
     public WorkHours() {
-        this(new Employee(), "", 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        this(new Employee(), "", "", 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public WorkHours(Employee employee, String date, double shouldWork, double worked,
+    public WorkHours(Employee employee, String date, String shouldWork, double worked,
             double compensation150, double compensation200, double vacation, double ADV,
             double illness, double leave, double project) {
         this.employee = employee;
@@ -187,14 +187,14 @@ public class WorkHours {
     /**
      * @return the shouldwork
      */
-    public Double getShouldWork() {
+    public String getShouldWork() {
         return shouldWork;
     }
 
     /**
      * @param shouldWork the shouldwork to set
      */
-    public void setShouldWork(Double shouldWork) {
+    public void setShouldWork(String shouldWork) {
         this.shouldWork = shouldWork;
     }
     

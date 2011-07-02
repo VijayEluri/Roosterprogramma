@@ -198,7 +198,7 @@ public class QueryManager {
             ResultSet result = dbmanager.doQuery(sql);
             while (result.next()) {
                 hours.add(new WorkHours(
-                        employee, result.getString("datum"), result.getDouble("ingeroosterd"),
+                        employee, result.getString("datum"), result.getString("ingeroosterd"),
                         result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
                         result.getDouble("verlof"), result.getDouble("project")));

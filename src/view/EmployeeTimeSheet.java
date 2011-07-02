@@ -122,7 +122,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         calculateTotal();
     }
 
-    private void calculateTotal() {
+    private void calculateTotal() { // ToDo: Stuk, moet de X'en uitrekenen en de Z'tjes en V'tjes verwerken
+        /*
         for (int i = 0; i < model.getRowCount(); i++) {
             double totalHours = 0;
             for (int j = 1; j < model.getColumnCount() - 1; j++) {
@@ -145,6 +146,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         } else {
             pnlVacationHours.setVisible(false);
         }
+        */
     }
 
     /** This method is called from within the constructor to

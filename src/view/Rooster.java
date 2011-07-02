@@ -230,18 +230,21 @@ public class Rooster extends javax.swing.JPanel {
             for (int k = 1; k < pieces.length - 1; k++) {
                 if (!pieces[k].equals(" ") && !pieces[k].equals("")) {
                     insertion += pieces[k] + " ";
-                    System.out.println(pieces[k]);
                 }
             }
             String familyName = pieces[pieces.length - 1];
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
             for (int j = 2; j < model.getColumnCount(); j++) {
-                String strShouldWork = model.getValueAt(i, j).toString();
-                WorkHours hour = employee.getWorkHour(year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0]);
-                double shouldWork = Double.parseDouble(strShouldWork.replace(",", "."));
-                if (hour.getShouldWork() != shouldWork) {
-                    hour.setShouldWork(shouldWork);
-                    hour.update();
+                String date = year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
+                String shouldWork = model.getValueAt(i, j).toString();
+                if (isValidWorkHour(shouldWork)) {
+                    WorkHours hour = employee.getWorkHour(date);
+                    if (!hour.getShouldWork().equals(shouldWork)) {
+                        hour.setShouldWork(shouldWork);
+                        hour.update();
+                    }
+                } else {
+                    RoosterProgramma.getInstance().showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrect entry!", true);
                 }
             }
         }
@@ -268,6 +271,18 @@ public class Rooster extends javax.swing.JPanel {
             ExcelExporter.Export(tblSchedule, new File(input.contains(".xls") ? input : input + ".xls"), inverted);
         }
     }//GEN-LAST:event_btnExcelExportActionPerformed
+
+    private boolean isValidWorkHour(String shouldWork) {
+        return (
+            shouldWork.equalsIgnoreCase("z")
+            || shouldWork.equalsIgnoreCase("x1")
+            || shouldWork.equalsIgnoreCase("x2")
+            || shouldWork.equalsIgnoreCase("x3")
+            || shouldWork.equalsIgnoreCase("v")                
+            || RoosterProgramma.getInstance().isNumeric(shouldWork)
+            || shouldWork.isEmpty()
+        );
+    }
 
     private void handleTime(int year, int month) {
         if (month == 0) {
