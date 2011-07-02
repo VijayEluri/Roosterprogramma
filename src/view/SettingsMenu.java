@@ -8,12 +8,12 @@
  *
  * Created on 30-jan-2011, 19:00:36
  */
-
 package view;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextField;
+import model.Settings;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -23,6 +23,7 @@ import roosterprogramma.RoosterProgramma;
 public class SettingsMenu extends javax.swing.JPanel {
 
     private List<JTextField> fields = new ArrayList<JTextField>();
+    private Settings settings = RoosterProgramma.getQueryManager().getSettings();
 
     /** Creates new form SettingsMenu */
     public SettingsMenu() {
@@ -31,13 +32,12 @@ public class SettingsMenu extends javax.swing.JPanel {
     }
 
     private void fillFields() {
-        // ToDo : Vullen met database info
-        tfX1.setText("");
-        tfX1till.setText("");
-        tfX2.setText("");
-        tfX2till.setText("");
-        tfX3.setText("");
-        tfX3till.setText("");
+        tfX1.setText(settings.getX1Start());
+        tfX1till.setText(settings.getX1End());
+        tfX2.setText(settings.getX2Start());
+        tfX2till.setText(settings.getX2End());
+        tfX3.setText(settings.getX3Start());
+        tfX3till.setText(settings.getX3End());
     }
 
     /** This method is called from within the constructor to
@@ -53,19 +53,19 @@ public class SettingsMenu extends javax.swing.JPanel {
         pnlBoxLayout = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfX1 = new javax.swing.JFormattedTextField();
+        tfX1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        tfX1till = new javax.swing.JFormattedTextField();
+        tfX1till = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        tfX2 = new javax.swing.JFormattedTextField();
+        tfX2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        tfX2till = new javax.swing.JFormattedTextField();
+        tfX2till = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        tfX3 = new javax.swing.JFormattedTextField();
+        tfX3 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        tfX3till = new javax.swing.JFormattedTextField();
+        tfX3till = new javax.swing.JTextField();
         lblSettings = new javax.swing.JLabel();
         btnSave = new javax.swing.JButton();
         btnPrevious = new javax.swing.JButton();
@@ -77,14 +77,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel1.setText("X1 : ");
         jPanel1.add(jLabel1);
 
-        tfX1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX1.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX1KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX1KeyReleased(evt);
             }
         });
         jPanel1.add(tfX1);
@@ -92,14 +88,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel4.setText(" Tot ");
         jPanel1.add(jLabel4);
 
-        tfX1till.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX1till.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX1till.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX1tillKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX1tillKeyReleased(evt);
             }
         });
         jPanel1.add(tfX1till);
@@ -111,14 +103,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel2.setText("X2 : ");
         jPanel2.add(jLabel2);
 
-        tfX2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX2.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX2KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX2KeyReleased(evt);
             }
         });
         jPanel2.add(tfX2);
@@ -126,14 +114,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel5.setText(" Tot ");
         jPanel2.add(jLabel5);
 
-        tfX2till.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX2till.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX2till.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX2tillKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX2tillKeyReleased(evt);
             }
         });
         jPanel2.add(tfX2till);
@@ -145,14 +129,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel3.setText("X3 : ");
         jPanel3.add(jLabel3);
 
-        tfX3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX3.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX3KeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX3KeyReleased(evt);
             }
         });
         jPanel3.add(tfX3);
@@ -160,14 +140,10 @@ public class SettingsMenu extends javax.swing.JPanel {
         jLabel6.setText(" Tot ");
         jPanel3.add(jLabel6);
 
-        tfX3till.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
         tfX3till.setPreferredSize(new java.awt.Dimension(50, 20));
         tfX3till.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 tfX3tillKeyPressed(evt);
-            }
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfX3tillKeyReleased(evt);
             }
         });
         jPanel3.add(tfX3till);
@@ -176,7 +152,7 @@ public class SettingsMenu extends javax.swing.JPanel {
 
         pnlFlowLayout.add(pnlBoxLayout);
 
-        lblSettings.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblSettings.setFont(new java.awt.Font("Tahoma", 0, 24));
         lblSettings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSettings.setText("Instellingen");
 
@@ -224,112 +200,82 @@ public class SettingsMenu extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfX1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1KeyReleased
-        handleTextField(tfX1);
-        checkEnabled();
-    }//GEN-LAST:event_tfX1KeyReleased
-
-    private void tfX2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2KeyReleased
-        handleTextField(tfX2);
-        checkEnabled();
-    }//GEN-LAST:event_tfX2KeyReleased
-
-    private void tfX3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3KeyReleased
-        handleTextField(tfX3);
-        checkEnabled();
-    }//GEN-LAST:event_tfX3KeyReleased
-
-    private void tfX1tillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1tillKeyReleased
-        handleTextField(tfX1till);
-        checkEnabled();
-    }//GEN-LAST:event_tfX1tillKeyReleased
-
-    private void tfX2tillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2tillKeyReleased
-        handleTextField(tfX2till);
-        checkEnabled();
-    }//GEN-LAST:event_tfX2tillKeyReleased
-
-    private void tfX3tillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3tillKeyReleased
-        handleTextField(tfX3till);
-        checkEnabled();
-    }//GEN-LAST:event_tfX3tillKeyReleased
-
-    private void tfX1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1KeyPressed
-        handleTextField(tfX1);
-    }//GEN-LAST:event_tfX1KeyPressed
-
-    private void tfX2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2KeyPressed
-        handleTextField(tfX2);
-    }//GEN-LAST:event_tfX2KeyPressed
-
-    private void tfX3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3KeyPressed
-        handleTextField(tfX3);
-    }//GEN-LAST:event_tfX3KeyPressed
-
-    private void tfX1tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1tillKeyPressed
-        handleTextField(tfX1till);
-    }//GEN-LAST:event_tfX1tillKeyPressed
-
-    private void tfX2tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2tillKeyPressed
-        handleTextField(tfX2till);
-    }//GEN-LAST:event_tfX2tillKeyPressed
-
-    private void tfX3tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3tillKeyPressed
-        handleTextField(tfX3till);
-    }//GEN-LAST:event_tfX3tillKeyPressed
-
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         RoosterProgramma.getInstance().showPanel(new MainMenu());
     }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // ToDo : In de database stoppen (eerst dus een Query maken)
+        settings.setSettings(
+            tfX1.getText().replace(":", "") + "-" + tfX1till.getText().replace(":", ""),
+            tfX2.getText().replace(":", "") + "-" + tfX2till.getText().replace(":", ""),
+            tfX3.getText().replace(":", "") + "-" + tfX3till.getText().replace(":", "")
+        );
+        settings.save();
     }//GEN-LAST:event_btnSaveActionPerformed
 
+    private void tfX1tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1tillKeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX1tillKeyPressed
+
+    private void tfX2tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2tillKeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX2tillKeyPressed
+
+    private void tfX3tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3tillKeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX3tillKeyPressed
+
+    private void tfX3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3KeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX3KeyPressed
+
+    private void tfX2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2KeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX2KeyPressed
+
+    private void tfX1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1KeyPressed
+        handleTextField((JTextField)evt.getSource());
+        checkEnabled();
+    }//GEN-LAST:event_tfX1KeyPressed
+
     private void handleTextField(JTextField field) {
-        if (field.getText().length() == 2)
-        {
+        if (field.getText().length() == 2) {
             field.setText(field.getText() + ":");
-        }
-        else if (field.getText().length() > 5)
-        {
+        } else if (field.getText().length() > 5) {
             field.setText(field.getText().substring(0, 5));
         }
     }
 
     private void checkEnabled() {
         int correct = 0;
-        for(JTextField field : fields)
-        {
-            if(isCorrect(field))
-            {
+        for (JTextField field : fields) {
+            if (isCorrect(field)) {
                 correct += 1;
             }
         }
 
-        if (correct == fields.size())
-        {
+        if (correct == fields.size()) {
             btnSave.setEnabled(true);
-        }
-        else
-        {
+        } else {
             btnSave.setEnabled(false);
         }
     }
 
     private boolean isCorrect(JTextField field) {
         boolean correct = false;
-        if (field.getText().length() == 5)
-        {
+        if (field.getText().length() == 5) {
             String[] pieces = field.getText().split(":");
-            if (RoosterProgramma.getInstance().isNumeric(pieces[0]) && RoosterProgramma.getInstance().isNumeric(pieces[1]))
-            {
+            if (RoosterProgramma.getInstance().isNumeric(pieces[0]) && RoosterProgramma.getInstance().isNumeric(pieces[1])) {
                 correct = true;
             }
         }
         return correct;
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPrevious;
     private javax.swing.JButton btnSave;
@@ -345,12 +291,11 @@ public class SettingsMenu extends javax.swing.JPanel {
     private javax.swing.JLabel lblSettings;
     private javax.swing.JPanel pnlBoxLayout;
     private javax.swing.JPanel pnlFlowLayout;
-    private javax.swing.JFormattedTextField tfX1;
-    private javax.swing.JFormattedTextField tfX1till;
-    private javax.swing.JFormattedTextField tfX2;
-    private javax.swing.JFormattedTextField tfX2till;
-    private javax.swing.JFormattedTextField tfX3;
-    private javax.swing.JFormattedTextField tfX3till;
+    private javax.swing.JTextField tfX1;
+    private javax.swing.JTextField tfX1till;
+    private javax.swing.JTextField tfX2;
+    private javax.swing.JTextField tfX2till;
+    private javax.swing.JTextField tfX3;
+    private javax.swing.JTextField tfX3till;
     // End of variables declaration//GEN-END:variables
-
 }

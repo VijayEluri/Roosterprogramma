@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Employee;
+import model.Settings;
 import model.WorkHours;
 
 /**
@@ -254,6 +255,33 @@ public class QueryManager {
                     + "', '" + hour.getProject()
                     + "');";
         }
+        dbmanager.insertQuery(sql);
+    }
+    
+    public Settings getSettings() {
+        Settings settings = new Settings();
+        try {
+            String sql = "SELECT * FROM settings;";
+            ResultSet result = dbmanager.doQuery(sql);
+            if (result.next()) {
+                settings.setSettings(
+                    result.getString("x1"),
+                    result.getString("x2"),
+                    result.getString("x3")
+                );
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return settings;
+    }
+    
+    public void saveSettings(Settings settings) {
+        String sql = "UPDATE settings SET "
+                + "x1 = '" + settings.getX1() + "', "
+                + "x2 = '" + settings.getX2() + "', "
+                + "x3 = '" + settings.getX3() + "';";
+        System.out.println(sql);
         dbmanager.insertQuery(sql);
     }
 }
