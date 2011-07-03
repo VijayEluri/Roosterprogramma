@@ -67,14 +67,15 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private void fillVerantwoordingTable() {
         Translater translater = new Translater();
+        int modifier = 0;
         model = (DefaultTableModel) tblTimeSheet.getModel();
-        model.addColumn("Dag vd Maand");
-        if (employee.isClerk()) {
+        model.addColumn("Dag van de Maand");
+        if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
             model.addColumn("Ingeroosterde Uren");
+        } else {
+            modifier = 1;
         }
         model.addColumn("Gewerkt");
-        model.addColumn("Compensatie 150");
-        model.addColumn("Compensatie 200");
         model.addColumn("Vakantie");
         model.addColumn("ADV");
         model.addColumn("Ziek");
@@ -86,39 +87,31 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             calendar.set(Calendar.DAY_OF_MONTH, i);
             WorkHours hour = employee.getWorkHour(getYear() + "-" + getMonth() + "-" + getDay());
             Object[] fields;
-            if (employee.isClerk()) {
+            if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
                 fields = new Object[11];
             } else {
                 fields = new Object[10];
             }
             fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
             fields[1] = hour.getShouldWork();
-            if (employee.isClerk()) {
-                fields[2] = hour.getWorked();
+            if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
+                fields[2] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
             }
-            fields[employee.isClerk() ? 3 : 2] = hour.getCompensation150();
-            fields[employee.isClerk() ? 4 : 3] = hour.getCompensation200();
-            fields[employee.isClerk() ? 5 : 4] = hour.getVacation();
-            fields[employee.isClerk() ? 6 : 5] = hour.getADV();
-            fields[employee.isClerk() ? 7 : 6] = hour.getIllness();
-            fields[employee.isClerk() ? 8 : 7] = hour.getLeave();
-            fields[employee.isClerk() ? 9 : 8] = hour.getProject();
-            fields[employee.isClerk() ? 10 : 9] = 0;
+            fields[3 - modifier] = (hour.getVacation() == 0.0 ? "" : hour.getVacation());
+            fields[4 - modifier] = (hour.getADV() == 0.0 ? "" : hour.getADV());
+            fields[5 - modifier] = (hour.getIllness() == 0.0 ? "" : hour.getIllness());
+            fields[6 - modifier] = (hour.getLeave() == 0.0 ? "" : hour.getLeave());
+            fields[7 - modifier] = (hour.getProject() == 0.0 ? "" : hour.getProject());
+            fields[8 - modifier] = 0;
             model.addRow(fields);
         }
-        model.addRow(new Object[]{
-                    "Totaal",
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-                });
+        Object[] fields;
+        if (modifier != 0) {
+            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
+        } else {
+            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0};
+        }
+        model.addRow(fields);
         calculateTotal();
     }
 
@@ -404,6 +397,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private String getDay() {
         return calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnGo;
