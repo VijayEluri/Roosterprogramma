@@ -13,6 +13,7 @@ package view;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
@@ -41,6 +42,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         fillInfoTable();
         fillVerantwoordingTable();
         fillBoxes();
+        calculateTotal();
     }
 
     private void fillBoxes() {
@@ -67,11 +69,13 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private void fillVerantwoordingTable() {
         Translater translater = new Translater();
+        tblTimeSheet.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         int modifier = 0;
         model = (DefaultTableModel) tblTimeSheet.getModel();
+        DefaultTableModel modelCompensation = (DefaultTableModel) tblCompensation.getModel();
         model.addColumn("Dag van de Maand");
         if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
-            model.addColumn("Ingeroosterde Uren");
+            model.addColumn("Ingeroosterd");
         } else {
             modifier = 1;
         }
@@ -79,9 +83,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         model.addColumn("Vakantie");
         model.addColumn("ADV");
         model.addColumn("Ziek");
-        model.addColumn("Speciaal Verlof");
+        model.addColumn("Spec. Verlof");
         model.addColumn("Project");
         model.addColumn("Totaal");
+        model.addColumn("Opmerking");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i);
@@ -104,15 +109,20 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             fields[7 - modifier] = (hour.getProject() == 0.0 ? "" : hour.getProject());
             fields[8 - modifier] = 0;
             model.addRow(fields);
+            
+            modelCompensation.addRow(new Object[] {
+                (hour.getCompensation150() == 0.0 ? "" : hour.getCompensation150()),
+                (hour.getCompensation200() == 0.0 ? "" : hour.getCompensation200())
+            });
         }
-        Object[] fields;
-        if (modifier != 0) {
-            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
-        } else {
-            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0};
-        }
+        Object[] fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0};
         model.addRow(fields);
-        calculateTotal();
+        for (int i = 1; i <= (8 - modifier); i++) {
+            tblTimeSheet.getColumnModel().getColumn(i).setPreferredWidth(75);
+        }
+        tblTimeSheet.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tblTimeSheet.getColumnModel().getColumn(9-modifier).setPreferredWidth(500);
+        modelCompensation.addRow(new Object[]{0, 0});
     }
 
     private void calculateTotal() { // ToDo: Stuk, moet de X'en uitrekenen en de Z'tjes en V'tjes verwerken
@@ -167,6 +177,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         pnlVacationHours = new javax.swing.JPanel();
         lblExpVacationHours = new javax.swing.JLabel();
         lblVacationHours = new javax.swing.JLabel();
+        jspCompensation = new javax.swing.JScrollPane();
+        tblCompensation = new javax.swing.JTable();
 
         btnSave.setText("Wijzigingen opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -270,6 +282,31 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 .addComponent(lblVacationHours))
         );
 
+        tblCompensation.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Compensatie 150", "Compensatie 200"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jspCompensation.setViewportView(tblCompensation);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -277,28 +314,30 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jspTimeSheet, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(14, 14, 14)
-                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE))
+                        .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 1018, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+                            .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 1022, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblMonth)
                                     .addComponent(btnPreviousMonth))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 769, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 814, Short.MAX_VALUE)
                                 .addComponent(btnNextMonth))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(pnlVacationHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 569, Short.MAX_VALUE)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 614, Short.MAX_VALUE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jspTimeSheet, javax.swing.GroupLayout.DEFAULT_SIZE, 815, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jspCompensation, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -314,8 +353,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     .addComponent(btnPreviousMonth))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jspCompensation, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
                     .addComponent(lblMonth)
-                    .addComponent(jspTimeSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 556, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jspTimeSheet, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -406,6 +446,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
+    private javax.swing.JScrollPane jspCompensation;
     private javax.swing.JScrollPane jspEmployeeInformation;
     private javax.swing.JScrollPane jspTimeSheet;
     private javax.swing.JLabel lblExpVacationHours;
@@ -413,6 +454,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private javax.swing.JLabel lblVacationHours;
     private javax.swing.JPanel pnlDateSelect;
     private javax.swing.JPanel pnlVacationHours;
+    private javax.swing.JTable tblCompensation;
     private javax.swing.JTable tblEmployeeInformation;
     private javax.swing.JTable tblTimeSheet;
     // End of variables declaration//GEN-END:variables
