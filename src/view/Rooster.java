@@ -68,7 +68,7 @@ public class Rooster extends javax.swing.JPanel {
         for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
             if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
                 Object[] fields = new Object[daysOfMonth + 2];
-                fields[0] = employee.getFullName();
+                fields[0] = employee.getEmployeeNumber() + " - " + employee.getFullName();
                 fields[1] = employee.getContractHours();
                 for (int i = 1; i <= daysOfMonth; i++) {
                     calendar.set(Calendar.DAY_OF_MONTH, i);
@@ -80,11 +80,11 @@ public class Rooster extends javax.swing.JPanel {
         for (int i = 1; i <= daysOfMonth; i++) {
             tblSchedule.getColumnModel().getColumn(i+1).setPreferredWidth(50);
         }
-        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(150);
     }
 
     private void handleField(Calendar calendar, Employee employee, Object[] fields) {
-        WorkHours hour = employee.getWorkHour(getDate(calendar));
+        WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getDate(calendar));
         fields[calendar.get(Calendar.DAY_OF_MONTH) + 1] = hour.getShouldWork();
     }
 
@@ -224,27 +224,21 @@ public class Rooster extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         for (int i = 0; i < model.getRowCount(); i++) {
-            String[] pieces = model.getValueAt(i, 0).toString().split(" ");
-            String firstName = pieces[0];
-            String insertion = "";
-            for (int k = 1; k < pieces.length - 1; k++) {
-                if (!pieces[k].equals(" ") && !pieces[k].equals("")) {
-                    insertion += pieces[k] + " ";
-                }
-            }
-            String familyName = pieces[pieces.length - 1];
-            Employee employee = RoosterProgramma.getQueryManager().getEmployee(firstName, insertion, familyName);
+            String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
+            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(pieces[0]));
             for (int j = 2; j < model.getColumnCount(); j++) {
                 String date = year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
                 String shouldWork = model.getValueAt(i, j).toString();
                 if (isValidWorkHour(shouldWork)) {
-                    WorkHours hour = employee.getWorkHour(date);
+                    WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
                     if (!hour.getShouldWork().equals(shouldWork)) {
                         hour.setShouldWork(shouldWork);
-                        hour.update();
+                        RoosterProgramma.getQueryManager().updateWorkHours(hour);
                     }
                 } else {
-                    RoosterProgramma.getInstance().showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true);
+                    if (!shouldWork.equals("")) {
+                        RoosterProgramma.getInstance().showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true);
+                    }
                 }
             }
         }
@@ -281,7 +275,6 @@ public class Rooster extends javax.swing.JPanel {
             || shouldWork.equalsIgnoreCase("x3")
             || shouldWork.equalsIgnoreCase("v")                
             || RoosterProgramma.getInstance().isNumeric(shouldWork)
-            || shouldWork.isEmpty()
         );
     }
 

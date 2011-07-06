@@ -99,7 +99,7 @@ public class Dbmanager {
         ResultSet result = null;
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             result = statement.getGeneratedKeys();
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);

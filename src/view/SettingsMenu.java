@@ -23,12 +23,13 @@ import roosterprogramma.RoosterProgramma;
 public class SettingsMenu extends javax.swing.JPanel {
 
     private List<JTextField> fields = new ArrayList<JTextField>();
-    private Settings settings = RoosterProgramma.getQueryManager().getSettings();
+    private Settings settings;
 
     /** Creates new form SettingsMenu */
     public SettingsMenu() {
         initComponents();
         fillFields();
+        settings = RoosterProgramma.getInstance().getSettings();
     }
 
     private void fillFields() {
@@ -211,6 +212,7 @@ public class SettingsMenu extends javax.swing.JPanel {
             tfX3.getText().replace(":", "") + "-" + tfX3till.getText().replace(":", "")
         );
         settings.save();
+        RoosterProgramma.getInstance().setSettings(settings);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void tfX1tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1tillKeyPressed

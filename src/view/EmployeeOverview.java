@@ -48,7 +48,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
         Object[] fields = new Object[5];
         fields[0] = employee.getEmployeeNumber();
         fields[1] = employee.getFirstName();
-        fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+        fields[2] = employee.getInsertion().isEmpty() ? "" : employee.getInsertion();
         fields[3] = employee.getFamilyName();
         fields[4] = contracttype;
         model.addRow(fields);

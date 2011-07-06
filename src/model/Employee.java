@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -27,7 +25,6 @@ public class Employee {
     private double contractHours;
     private boolean admin;
     private double vacationPercentage;
-    private List<WorkHours> workHours = new ArrayList<WorkHours>();
 
     public Employee() {
         this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false);
@@ -109,7 +106,7 @@ public class Employee {
 
     public String getFullName() {
         String name = firstName + " ";
-        if (!RoosterProgramma.getInstance().isEmpty(insertion)) {
+        if (!insertion.isEmpty()) {
             name += insertion + " ";
         }
         name += familyName;
@@ -170,21 +167,6 @@ public class Employee {
      */
     public boolean isAdmin() {
         return admin;
-    }
-
-    public WorkHours getWorkHour(String date) {
-        WorkHours workHour = new WorkHours();
-        workHour.setEmployee(this);
-        workHour.setDate(date);
-        if (workHours.isEmpty()) {
-            workHours = RoosterProgramma.getQueryManager().getWorkHours(this);
-        }
-        for (WorkHours hour : workHours) {
-            if (hour.getDate().equals(date)) {
-                workHour = hour;
-            }
-        }
-        return workHour;
     }
 
     /**

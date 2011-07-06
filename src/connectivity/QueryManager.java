@@ -192,17 +192,20 @@ public class QueryManager {
         return employees;
     }
 
-    public List<WorkHours> getWorkHours(Employee employee) {
-        List<WorkHours> hours = new ArrayList<WorkHours>();
+    public WorkHours getWorkHours(int employeeNumber, String date) {
+        WorkHours hours = new WorkHours();
         try {
-            String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
+            String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employeeNumber + "' AND datum = '" + date + "';";
             ResultSet result = dbmanager.doQuery(sql);
-            while (result.next()) {
-                hours.add(new WorkHours(
-                        employee, result.getString("datum"), result.getString("ingeroosterd"),
+            if (result.next()) {
+                hours = new WorkHours(
+                        employeeNumber, result.getString("datum"), result.getString("ingeroosterd"),
                         result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
-                        result.getDouble("verlof"), result.getDouble("project")));
+                        result.getDouble("verlof"), result.getDouble("project"));
+            } else {
+                hours.setEmployeeNumber(employeeNumber);
+                hours.setDate(date);
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -210,54 +213,50 @@ public class QueryManager {
         return hours;
     }
 
-    public boolean workHourExists(Employee employee, String date) {
-        boolean exists = false;
-        try {
-            String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "' AND datum = '" + date + "';";
-            ResultSet result = dbmanager.doQuery(sql);
-            if (result.next()) {
-                exists = true;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return exists;
-    }
-
     public void updateWorkHours(WorkHours hour) {
         String sql = "";
-        if (workHourExists(hour.getEmployee(), hour.getDate())) {
+        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getShouldWork().equals("")) {
             sql = "UPDATE werktijden SET "
-                    + "ingeroosterd = " + hour.getShouldWork() + ", "
-                    + "gewerkt = " + hour.getWorked() + ", "
-                    + "compensatie150 = " + hour.getCompensation150() + ", "
-                    + "compensatie200 = " + hour.getCompensation200() + ", "
-                    + "vakantie = " + hour.getVacation() + ", "
-                    + "adv = " + hour.getADV() + ", "
-                    + "ziekte = " + hour.getIllness() + ", "
-                    + "verlof = " + hour.getLeave() + ", "
-                    + "project = " + hour.getProject() + " "
-                    + "WHERE personeelsnummer = " + hour.getEmployee().getEmployeeNumber() + " "
-                    + "AND datum = " + hour.getDate()
-                    + ";";
+                    + "ingeroosterd = '" + hour.getShouldWork() + "', "
+                    + "gewerkt = '" + hour.getWorked() + "', "
+                    + "compensatie150 = '" + hour.getCompensation150() + "', "
+                    + "compensatie200 = '" + hour.getCompensation200() + "', "
+                    + "vakantie = '" + hour.getVacation() + "', "
+                    + "adv = '" + hour.getADV() + "', "
+                    + "ziekte = '" + hour.getIllness() + "', "
+                    + "verlof = '" + hour.getLeave() + "', "
+                    + "project = '" + hour.getProject() + "' "
+                    + "WHERE personeelsnummer = '" + hour.getEmployeeNumber() + "' "
+                    + "AND datum = '" + hour.getDate()
+                    + "';";
         } else {
-            sql = "INSERT INTO werktijden VALUES ('"
-                    + hour.getEmployee().getEmployeeNumber()
-                    + "', '" + hour.getDate()
-                    + "', '" + hour.getShouldWork()
-                    + "', '" + hour.getWorked()
-                    + "', '" + hour.getCompensation150()
-                    + "', '" + hour.getCompensation200()
-                    + "', '" + hour.getVacation()
-                    + "', '" + hour.getADV()
-                    + "', '" + hour.getIllness()
-                    + "', '" + hour.getLeave()
-                    + "', '" + hour.getProject()
-                    + "');";
+            if (!hour.getShouldWork().equals("")
+                    || hour.getWorked() > 0
+                    || hour.getVacation() > 0
+                    || hour.getADV() > 0
+                    || hour.getIllness() > 0
+                    || hour.getLeave() > 0
+                    || hour.getProject() > 0) {
+                sql = "INSERT INTO werktijden VALUES ('"
+                        + hour.getEmployeeNumber()
+                        + "', '" + hour.getDate()
+                        + "', '" + hour.getShouldWork()
+                        + "', '" + hour.getWorked()
+                        + "', '" + hour.getCompensation150()
+                        + "', '" + hour.getCompensation200()
+                        + "', '" + hour.getVacation()
+                        + "', '" + hour.getADV()
+                        + "', '" + hour.getIllness()
+                        + "', '" + hour.getLeave()
+                        + "', '" + hour.getProject()
+                        + "');";
+            } else {
+                return;
+            }
         }
         dbmanager.insertQuery(sql);
     }
-    
+
     public Settings getSettings() {
         Settings settings = new Settings();
         try {
@@ -265,17 +264,16 @@ public class QueryManager {
             ResultSet result = dbmanager.doQuery(sql);
             if (result.next()) {
                 settings.setSettings(
-                    result.getString("x1"),
-                    result.getString("x2"),
-                    result.getString("x3")
-                );
+                        result.getString("x1"),
+                        result.getString("x2"),
+                        result.getString("x3"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return settings;
     }
-    
+
     public void saveSettings(Settings settings) {
         String sql = "UPDATE settings SET "
                 + "x1 = '" + settings.getX1() + "', "

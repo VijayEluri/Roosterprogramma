@@ -22,16 +22,16 @@ public class WorkHours {
     private double illness;
     private double leave;
     private double project;
-    private Employee employee;
+    private int employeeNumber;
 
     public WorkHours() {
-        this(new Employee(), "", "", 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0);
     }
 
-    public WorkHours(Employee employee, String date, String shouldWork, double worked,
+    public WorkHours(int employeeNumber, String date, String shouldWork, double worked,
             double compensation150, double compensation200, double vacation, double ADV,
             double illness, double leave, double project) {
-        this.employee = employee;
+        this.employeeNumber = employeeNumber;
         this.date = date;
         this.shouldWork = shouldWork;
         this.worked = worked;
@@ -171,20 +171,6 @@ public class WorkHours {
     }
 
     /**
-     * @return the employee
-     */
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    /**
-     * @param employee the employee to set
-     */
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    /**
      * @return the shouldwork
      */
     public String getShouldWork() {
@@ -198,7 +184,29 @@ public class WorkHours {
         this.shouldWork = shouldWork;
     }
     
-    public void update() {
-        RoosterProgramma.getQueryManager().updateWorkHours(this);
+    public String getShouldWorkHours() {
+        if (shouldWork.equalsIgnoreCase("x1")) {
+            return Double.toString(RoosterProgramma.getInstance().getSettings().getX1Duration());
+        } else if (shouldWork.equalsIgnoreCase("x2")) {
+            return Double.toString(RoosterProgramma.getInstance().getSettings().getX2Duration());
+        } else if (shouldWork.equalsIgnoreCase("x3")) {
+            return Double.toString(RoosterProgramma.getInstance().getSettings().getX3Duration());
+        } else {
+            return shouldWork;
+        }
+    }
+
+    /**
+     * @return the employeeNumber
+     */
+    public int getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    /**
+     * @param employeeNumber the employeeNumber to set
+     */
+    public void setEmployeeNumber(int employeeNumber) {
+        this.employeeNumber = employeeNumber;
     }
 }

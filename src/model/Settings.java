@@ -95,8 +95,30 @@ public class Settings {
     public String getX2() {
         return x2Start + "-" + x2End;
     }
-    
+
     public String getX3() {
         return x3Start + "-" + x3End;
+    }
+
+    public double getX1Duration() {
+        int startMinutes = (Integer.parseInt(getX1Start().split(":")[0]) * 60) + Integer.parseInt(getX1Start().split(":")[1]);
+        int endMinutes = (Integer.parseInt(getX1End().split(":")[0]) * 60) + Integer.parseInt(getX1End().split(":")[1]);
+        return (endMinutes - startMinutes) / 60; 
+    }
+
+    public double getX2Duration() {
+        int startMinutes = (Integer.parseInt(getX2Start().split(":")[0]) * 60) + Integer.parseInt(getX2Start().split(":")[1]);
+        int endMinutes = (Integer.parseInt(getX2End().split(":")[0]) * 60) + Integer.parseInt(getX2End().split(":")[1]);
+        return (endMinutes - startMinutes) / 60;        
+    }
+
+    public double getX3Duration() {
+        int startMinutes = (Integer.parseInt(getX3Start().split(":")[0]) * 60) + Integer.parseInt(getX3Start().split(":")[1]);
+        System.out.println((Integer.parseInt(getX3Start().split(":")[0]) * 60) + " + " + Integer.parseInt(getX3Start().split(":")[1]));
+        int endMinutes = (Integer.parseInt(getX3End().split(":")[0]) * 60) + Integer.parseInt(getX3End().split(":")[1]);
+        System.out.println((Integer.parseInt(getX3End().split(":")[0]) * 60) + " + " + Integer.parseInt(getX3End().split(":")[1]));
+        int outCome = (endMinutes - startMinutes) / 60;
+        System.out.println(endMinutes + " - " + startMinutes + " / 60 = " + outCome);
+        return (endMinutes - startMinutes) / 60;
     }
 }

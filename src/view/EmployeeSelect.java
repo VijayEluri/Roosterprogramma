@@ -23,7 +23,7 @@ import roosterprogramma.RoosterProgramma;
  */
 public class EmployeeSelect extends javax.swing.JPanel {
 
-    private Employee selectedEmployee;
+    private int selectedEmployee;
     private DefaultTableModel model;
 
     /** Creates new form medewerkerOverzicht */
@@ -44,7 +44,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
         Object[] fields = new Object[4];
         fields[0] = employee.getEmployeeNumber();
         fields[1] = employee.getFirstName();
-        fields[2] = RoosterProgramma.getInstance().isEmpty(employee.getInsertion()) ? "" : employee.getInsertion();
+        fields[2] = employee.getInsertion().isEmpty() ? "" : employee.getInsertion();
         fields[3] = employee.getFamilyName();
         model.addRow(fields);
     }
@@ -229,7 +229,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
         if (evt.getClickCount() < 2) {
             OK.setEnabled(true);
-            selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
+            selectedEmployee = Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString());
         } else {
             showInfo();
         }
@@ -256,7 +256,7 @@ public class EmployeeSelect extends javax.swing.JPanel {
 
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
+        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(RoosterProgramma.getQueryManager().getEmployee(selectedEmployee), calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OK;

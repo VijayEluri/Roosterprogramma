@@ -50,7 +50,7 @@ public class Login extends javax.swing.JPanel {
                             "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
                             + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
                             + "Voer hieronder het gewenste wachtwoord in.\n");
-                    if (!RoosterProgramma.getInstance().isEmpty(password)) {
+                    if (password != null && !password.isEmpty()) {
                         password = ShaEncrypt.SHA1(password);
                         employee.setPassword(password);
                         employee.update();

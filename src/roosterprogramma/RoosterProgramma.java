@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileSystemView;
 import model.Employee;
+import model.Settings;
 import view.Login;
 
 /**
@@ -36,7 +37,8 @@ public class RoosterProgramma {
     public static final Font FONT_25_BOLD = new Font("Verdana", Font.BOLD, 25);
     private Dbmanager dbManager;
     private QueryManager queryManager;
-    private model.Employee employee;
+    private Settings settings;
+    private Employee employee;
     public int screenHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     public int screenWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 
@@ -80,6 +82,7 @@ public class RoosterProgramma {
         dbManager = new Dbmanager();
         dbManager.openConnection();
         queryManager = new QueryManager(dbManager);
+        settings = getQueryManager().getSettings();
     }
 
     public void startup() {
@@ -179,14 +182,12 @@ public class RoosterProgramma {
         this.employee = employee;
     }
 
-    public boolean isEmpty(String strToTest) {
-        boolean empty = false;
-        try {
-            strToTest.length();
-        } catch (NullPointerException npe) {
-            empty = true;
-        }
-        return empty;
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     public boolean isNumeric(String strToTest) {
