@@ -115,7 +115,12 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 (hour.getCompensation200() == 0.0 ? "" : hour.getCompensation200())
             });
         }
-        Object[] fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0};
+        Object[] fields;
+        if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
+            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0};
+        } else {
+            fields = new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
+        }
         model.addRow(fields);
         for (int i = 1; i <= (8 - modifier); i++) {
             tblTimeSheet.getColumnModel().getColumn(i).setPreferredWidth(75);
@@ -379,26 +384,26 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             WorkHours hour = employee.getWorkHour(getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
             for (int j = 0; j < model.getColumnCount(); j++) {
                 if (model.getColumnName(j).equals("Gewerkt")) {
-                    hour.setWorked(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setWorked(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Compensatie 150")) {
-                    hour.setCompensation150(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setCompensation150(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Compensatie 200")) {
-                    hour.setCompensation200(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setCompensation200(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Vakantie")) {
-                    hour.setVacation(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setVacation(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("ADV")) {
-                    hour.setADV(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setADV(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Ziek")) {
-                    hour.setIllness(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setIllness(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Speciaal Verlof")) {
-                    hour.setLeave(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setLeave(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 } else if (model.getColumnName(j).equals("Project")) {
-                    hour.setProject(Double.parseDouble(model.getValueAt(i, j).toString()));
+                    hour.setProject(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                 }
             }
             hour.update();
         }
-        
+        RoosterProgramma.getInstance().showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
