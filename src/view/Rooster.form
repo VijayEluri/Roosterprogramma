@@ -19,7 +19,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jspSchedule" alignment="0" pref="1700" max="32767" attributes="0"/>
+                  <Component id="jspSchedule" alignment="0" pref="1706" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="1417" max="32767" attributes="0"/>
@@ -30,7 +30,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnPreviousMonth" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="pnlControls" pref="1456" max="32767" attributes="0"/>
+                      <Component id="pnlControls" pref="1458" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnNextMonth" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -43,7 +43,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jspSchedule" pref="605" max="32767" attributes="0"/>
+              <Component id="jspSchedule" pref="606" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="pnlControls" alignment="1" min="-2" max="-2" attributes="1"/>
@@ -103,14 +103,6 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnGo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ga"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGoActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -10,6 +10,8 @@
  */
 package view;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
@@ -31,6 +33,14 @@ public class Rooster extends javax.swing.JPanel {
     private Translater translater = new Translater();
     private Calendar calendar = Calendar.getInstance();
     private int year, month;
+    private ItemListener changeListener = new ItemListener() {
+
+        public void itemStateChanged(ItemEvent e) {
+            int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
+            int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString());
+            handleTime(selectedYear, selectedMonth);
+        }
+    };
 
     /** Creates new form Rooster */
     public Rooster(int year, int month) {
@@ -39,19 +49,21 @@ public class Rooster extends javax.swing.JPanel {
         this.year = year;
         this.month = month;
         initComponents();
-        process();
         fillBoxes();
+        process();
     }
 
     private void fillBoxes() {
         for (int i = -20; i <= 20; i++) {
             cmbYear.addItem(calendar.get(Calendar.YEAR) + i);
         }
-        cmbYear.setSelectedItem(year);
         for (int j = 1; j <= 12; j++) {
             cmbMonth.addItem(j);
         }
+        cmbYear.setSelectedItem(year);
         cmbMonth.setSelectedItem(month);
+        cmbYear.addItemListener(changeListener);
+        cmbMonth.addItemListener(changeListener);
     }
 
     private void process() {
@@ -78,7 +90,7 @@ public class Rooster extends javax.swing.JPanel {
             }
         }
         for (int i = 1; i <= daysOfMonth; i++) {
-            tblSchedule.getColumnModel().getColumn(i+1).setPreferredWidth(50);
+            tblSchedule.getColumnModel().getColumn(i + 1).setPreferredWidth(50);
         }
         tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(150);
     }
@@ -112,7 +124,6 @@ public class Rooster extends javax.swing.JPanel {
         pnlControls = new javax.swing.JPanel();
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
-        btnGo = new javax.swing.JButton();
         btnExcelExport = new javax.swing.JButton();
         btnNextMonth = new javax.swing.JButton();
         jspSchedule = new javax.swing.JScrollPane();
@@ -142,14 +153,6 @@ public class Rooster extends javax.swing.JPanel {
         pnlControls.add(cmbYear);
 
         pnlControls.add(cmbMonth);
-
-        btnGo.setText("Ga");
-        btnGo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGoActionPerformed(evt);
-            }
-        });
-        pnlControls.add(btnGo);
 
         btnExcelExport.setText("Exporteer naar excel");
         btnExcelExport.addActionListener(new java.awt.event.ActionListener() {
@@ -184,7 +187,7 @@ public class Rooster extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1700, Short.MAX_VALUE)
+                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1706, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1417, Short.MAX_VALUE)
@@ -194,7 +197,7 @@ public class Rooster extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnPreviousMonth)
                         .addGap(18, 18, 18)
-                        .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1456, Short.MAX_VALUE)
+                        .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1458, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(btnNextMonth)))
                 .addContainerGap())
@@ -203,7 +206,7 @@ public class Rooster extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,12 +256,6 @@ public class Rooster extends javax.swing.JPanel {
         handleTime(year, month + 1);
     }//GEN-LAST:event_btnNextMonthActionPerformed
 
-    private void btnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoActionPerformed
-        int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
-        int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString());
-        handleTime(selectedYear, selectedMonth);
-    }//GEN-LAST:event_btnGoActionPerformed
-
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
         String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
         if (!input.isEmpty()) {
@@ -268,14 +265,12 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnExcelExportActionPerformed
 
     private boolean isValidWorkHour(String shouldWork) {
-        return (
-            shouldWork.equalsIgnoreCase("z")
-            || shouldWork.equalsIgnoreCase("x1")
-            || shouldWork.equalsIgnoreCase("x2")
-            || shouldWork.equalsIgnoreCase("x3")
-            || shouldWork.equalsIgnoreCase("v")                
-            || RoosterProgramma.getInstance().isNumeric(shouldWork)
-        );
+        return (shouldWork.equalsIgnoreCase("z")
+                || shouldWork.equalsIgnoreCase("x1")
+                || shouldWork.equalsIgnoreCase("x2")
+                || shouldWork.equalsIgnoreCase("x3")
+                || shouldWork.equalsIgnoreCase("v")
+                || RoosterProgramma.getInstance().isNumeric(shouldWork));
     }
 
     private void handleTime(int year, int month) {
@@ -291,7 +286,6 @@ public class Rooster extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnExcelExport;
-    private javax.swing.JButton btnGo;
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;

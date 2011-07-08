@@ -50,42 +50,42 @@ public class Settings {
      * @return the x1Start
      */
     public String getX1Start() {
-        return x1Start.substring(0, 2) + ":" + x1Start.substring(2, 4);
+        return x1Start.replace(":", "");
     }
 
     /**
      * @return the x1Start
      */
     public String getX1End() {
-        return x1End.substring(0, 2) + ":" + x1End.substring(2, 4);
+        return x1End.replace(":", "");
     }
 
     /**
      * @return the x1Start
      */
     public String getX2Start() {
-        return x2Start.substring(0, 2) + ":" + x2Start.substring(2, 4);
+        return x2Start.replace(":", "");
     }
 
     /**
      * @return the x1Start
      */
     public String getX2End() {
-        return x2End.substring(0, 2) + ":" + x2End.substring(2, 4);
+        return x2End.replace(":", "");
     }
 
     /**
      * @return the x1Start
      */
     public String getX3Start() {
-        return x3Start.substring(0, 2) + ":" + x3Start.substring(2, 4);
+        return x3Start.replace(":", "");
     }
 
     /**
      * @return the x1Start
      */
     public String getX3End() {
-        return x3End.substring(0, 2) + ":" + x3End.substring(2, 4);
+        return x3End.replace(":", "");
     }
     
     public String getX1() {

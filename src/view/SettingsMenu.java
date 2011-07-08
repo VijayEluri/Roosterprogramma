@@ -33,6 +33,7 @@ public class SettingsMenu extends javax.swing.JPanel {
     }
 
     private void fillFields() {
+        System.out.println(settings.getX1Start());
         tfX1.setText(settings.getX1Start());
         tfX1till.setText(settings.getX1End());
         tfX2.setText(settings.getX2Start());
