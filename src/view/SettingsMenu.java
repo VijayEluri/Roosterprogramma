@@ -208,41 +208,40 @@ public class SettingsMenu extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         settings.setSettings(
-            tfX1.getText().replace(":", "") + "-" + tfX1till.getText().replace(":", ""),
-            tfX2.getText().replace(":", "") + "-" + tfX2till.getText().replace(":", ""),
-            tfX3.getText().replace(":", "") + "-" + tfX3till.getText().replace(":", "")
-        );
+                tfX1.getText().replace(":", "") + "-" + tfX1till.getText().replace(":", ""),
+                tfX2.getText().replace(":", "") + "-" + tfX2till.getText().replace(":", ""),
+                tfX3.getText().replace(":", "") + "-" + tfX3till.getText().replace(":", ""));
         settings.save();
         RoosterProgramma.getInstance().setSettings(settings);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void tfX1tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1tillKeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX1tillKeyPressed
 
     private void tfX2tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2tillKeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX2tillKeyPressed
 
     private void tfX3tillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3tillKeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX3tillKeyPressed
 
     private void tfX3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX3KeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX3KeyPressed
 
     private void tfX2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX2KeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX2KeyPressed
 
     private void tfX1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfX1KeyPressed
-        handleTextField((JTextField)evt.getSource());
+        handleTextField((JTextField) evt.getSource());
         checkEnabled();
     }//GEN-LAST:event_tfX1KeyPressed
 

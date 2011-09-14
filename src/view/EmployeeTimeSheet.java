@@ -31,7 +31,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private int year, month, modifier = 0;
     private DecimalFormat format = new DecimalFormat("0.00");
 
-    /** Creates new form medewerkerInfo */
+    /** Creates new form medewerkerInfo
+     * @param employee
+     * @param year
+     * @param month  
+     */
     public EmployeeTimeSheet(Employee employee, int year, int month) {
         this.employee = employee;
         calendar.set(Calendar.YEAR, year);
@@ -171,7 +175,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     }
 
                     if (model.getColumnName(k).toString().equals("Gewerkt")) {
-                        if (model.getValueAt(l, k) != null && !model.getValueAt(l, k).toString().equals("")) {
+                        if (model.getValueAt(l, k) != null && !model.getValueAt(l, k).toString().isEmpty()) {
                             double gewerkt = Double.parseDouble(model.getValueAt(l, k).toString());
                             String day = model.getValueAt(l, 0).toString().split(" - ")[0];
                             Calendar today = Calendar.getInstance();
@@ -217,8 +221,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         btnPreviousMonth = new javax.swing.JButton();
         btnNextMonth = new javax.swing.JButton();
         pnlDateSelect = new javax.swing.JPanel();
-        cmbYear = new javax.swing.JComboBox();
-        cmbMonth = new javax.swing.JComboBox();
+        cmbYear = new javax.swing.JComboBox<Integer>();
+        cmbMonth = new javax.swing.JComboBox<Integer>();
         btnGo = new javax.swing.JButton();
         pnlVacationHours = new javax.swing.JPanel();
         lblExpVacationHours = new javax.swing.JLabel();
@@ -394,24 +398,24 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             for (int i = 0; i < model.getRowCount() - 3; i++) {
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
-                    if (model.getColumnName(1).equals("Ingeroosterd") && !model.getValueAt(i, 1).toString().equals("")) {
+                    if (model.getColumnName(1).equals("Ingeroosterd") && !model.getValueAt(i, 1).toString().isEmpty()) {
                         System.out.println("Saving...");
                         if (model.getColumnName(j).equals("Gewerkt")) {
-                            hour.setWorked(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setWorked(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Compensatie 150")) {
-                            hour.setCompensation150(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setCompensation150(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Compensatie 200")) {
-                            hour.setCompensation200(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setCompensation200(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Vakantie")) {
-                            hour.setVacation(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setVacation(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("ADV")) {
-                            hour.setADV(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setADV(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Ziek")) {
-                            hour.setIllness(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setIllness(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Speciaal Verlof")) {
-                            hour.setLeave(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setLeave(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         } else if (model.getColumnName(j).equals("Project")) {
-                            hour.setProject(model.getValueAt(i, j).toString().equals("") ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
+                            hour.setProject(model.getValueAt(i, j).toString().isEmpty() ? 0 : Double.parseDouble(model.getValueAt(i, j).toString()));
                         }
                     }
                 }
@@ -466,7 +470,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         boolean correct = true;
         for (int i = 0; i < tblTimeSheet.getRowCount(); i++) {
             String ingeroosterd = model.getValueAt(i, 1).toString();
-            if (!ingeroosterd.isEmpty() && !ingeroosterd.toString().equals("")
+            if (!ingeroosterd.isEmpty() && !ingeroosterd.toString().isEmpty()
                     && (ingeroosterd.equalsIgnoreCase("v")
                     || ingeroosterd.equalsIgnoreCase("z")
                     || ingeroosterd.equalsIgnoreCase("c")
@@ -494,8 +498,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox cmbMonth;
-    private javax.swing.JComboBox cmbYear;
+    private javax.swing.JComboBox<Integer> cmbMonth;
+    private javax.swing.JComboBox<Integer> cmbYear;
     private javax.swing.JScrollPane jspEmployeeInformation;
     private javax.swing.JScrollPane jspTimeSheet;
     private javax.swing.JLabel lblExpVacationHours;

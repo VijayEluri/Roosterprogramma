@@ -247,7 +247,7 @@ public class QueryManager {
 
     public void updateWorkHours(WorkHours hour) {
         String sql = "";
-        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getDate().equals("")) {
+        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getDate().isEmpty()) {
             sql = "UPDATE werktijden SET "
                     + "ingeroosterd = '" + hour.getShouldWork() + "', "
                     + "gewerkt = '" + hour.getWorked() + "', "
@@ -262,7 +262,7 @@ public class QueryManager {
                     + "AND datum = '" + hour.getDate()
                     + "';";
         } else {
-            if (!hour.getShouldWork().equals("")
+            if (!hour.getShouldWork().isEmpty()
                     || hour.getWorked() > 0
                     || hour.getVacation() > 0
                     || hour.getADV() > 0

@@ -112,6 +112,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbMonth">
           <Properties>
@@ -119,6 +122,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

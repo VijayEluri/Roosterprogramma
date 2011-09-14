@@ -33,7 +33,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
         fillFields();
         checkEnabled();
     }
-    
+
     private void clearUI() {
         pnlHours.setVisible(false);
         pnlDays.setVisible(false);
@@ -658,7 +658,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             return false;
         }
     }
-    
+
     private boolean numberInUse() {
         if (tfEmployeeNumber.getText().isEmpty() || !RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())) {
             lblNumberInUse.setVisible(false);

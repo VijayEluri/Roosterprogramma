@@ -27,7 +27,9 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private DefaultTableModel model;
     private boolean isEdit = false;
 
-    /** Creates new form medewerkerOverzicht */
+    /** Creates new form medewerkerOverzicht
+     * @param isEdit 
+     */
     public EmployeeOverview(boolean isEdit) {
         this.isEdit = isEdit;
         initComponents();
@@ -82,8 +84,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private void showInfo() {
         Calendar calendar = Calendar.getInstance();
         RoosterProgramma.getInstance().showPanel(
-            new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
-        );
+                new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
     }
 
     /** This method is called from within the constructor to

@@ -42,7 +42,10 @@ public class Rooster extends javax.swing.JPanel {
         }
     };
 
-    /** Creates new form Rooster */
+    /** Creates new form Rooster
+     * @param year
+     * @param month  
+     */
     public Rooster(int year, int month) {
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month - 1);
@@ -113,8 +116,8 @@ public class Rooster extends javax.swing.JPanel {
         btnBack = new javax.swing.JButton();
         btnPreviousMonth = new javax.swing.JButton();
         pnlControls = new javax.swing.JPanel();
-        cmbYear = new javax.swing.JComboBox();
-        cmbMonth = new javax.swing.JComboBox();
+        cmbYear = new javax.swing.JComboBox<Integer>();
+        cmbMonth = new javax.swing.JComboBox<Integer>();
         btnExcelExport = new javax.swing.JButton();
         btnNextMonth = new javax.swing.JButton();
         jspSchedule = new javax.swing.JScrollPane();
@@ -282,7 +285,7 @@ public class Rooster extends javax.swing.JPanel {
                         RoosterProgramma.getQueryManager().updateWorkHours(hour);
                     }
                 } else {
-                    if (!shouldWork.equals("")) {
+                    if (!shouldWork.isEmpty()) {
                         RoosterProgramma.getInstance().showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true);
                         succesfull = false;
                         break;
@@ -398,8 +401,8 @@ public class Rooster extends javax.swing.JPanel {
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox cmbMonth;
-    private javax.swing.JComboBox cmbYear;
+    private javax.swing.JComboBox<Integer> cmbMonth;
+    private javax.swing.JComboBox<Integer> cmbYear;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jspSchedule;
     private javax.swing.JPanel pnlControls;

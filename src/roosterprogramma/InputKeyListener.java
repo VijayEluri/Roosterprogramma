@@ -11,22 +11,20 @@ import javax.swing.KeyStroke;
  *
  * @author Dark
  */
-public class InputKeyListener extends Thread{
+public class InputKeyListener extends Thread {
+
     JFrame main;
-    
-    InputKeyListener(JFrame main)
-    {
+
+    InputKeyListener(JFrame main) {
         this.main = main;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
-        AbstractAction escapeAction = new AbstractAction()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
+        AbstractAction escapeAction = new AbstractAction() {
+
+            public void actionPerformed(ActionEvent e) {
                 RoosterProgramma.getInstance().shutdown();
             }
         };

@@ -16,6 +16,9 @@ import java.util.logging.Logger;
  */
 public class ShaEncrypt {
 
+    private ShaEncrypt() {
+    }
+
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < data.length; i++) {

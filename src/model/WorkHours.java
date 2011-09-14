@@ -183,7 +183,7 @@ public class WorkHours {
     public void setShouldWork(String shouldWork) {
         this.shouldWork = shouldWork;
     }
-    
+
     public String getShouldWorkHours() {
         if (shouldWork.equalsIgnoreCase("x1")) {
             return Double.toString(RoosterProgramma.getInstance().getSettings().getX1Duration());
