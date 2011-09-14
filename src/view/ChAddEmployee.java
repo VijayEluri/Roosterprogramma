@@ -521,7 +521,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(true));
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -561,7 +561,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setVacationPercentage(vacationPercentage);
             employee.update();
         }
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(true));
 
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -663,17 +663,18 @@ public class ChAddEmployee extends javax.swing.JPanel {
         if (tfEmployeeNumber.getText().isEmpty() || !RoosterProgramma.getInstance().isNumeric(tfEmployeeNumber.getText())) {
             lblNumberInUse.setVisible(false);
             return true;
-        }
-        Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNumber.getText()));
-        if (existingEmployee.getEmployeeNumber() == Integer.parseInt(tfEmployeeNumber.getText())
-                && (isAdd
-                || (!existingEmployee.getFirstName().toLowerCase().equals(employee.getFirstName().toLowerCase())
-                || !existingEmployee.getFamilyName().toLowerCase().equals(employee.getFamilyName().toLowerCase())))) {
-            lblNumberInUse.setVisible(true);
-            return true;
         } else {
-            lblNumberInUse.setVisible(false);
-            return false;
+            Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNumber.getText()));
+            if (existingEmployee.getEmployeeNumber() == Integer.parseInt(tfEmployeeNumber.getText())
+                    && (isAdd
+                    || (!existingEmployee.getFirstName().toLowerCase().equals(employee.getFirstName().toLowerCase())
+                    || !existingEmployee.getFamilyName().toLowerCase().equals(employee.getFamilyName().toLowerCase())))) {
+                lblNumberInUse.setVisible(true);
+                return true;
+            } else {
+                lblNumberInUse.setVisible(false);
+                return false;
+            }
         }
     }
 

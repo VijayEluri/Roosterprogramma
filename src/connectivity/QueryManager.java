@@ -112,6 +112,34 @@ public class QueryManager {
         return employees;
     }
 
+    public List<Employee> getEmployeesOnSchedule() {
+        List<Employee> employees = new ArrayList<Employee>();
+        try {
+            String sql = "SELECT * FROM medewerkers WHERE museumdocent = '1' OR baliemedewerker = '1' OR oproepkracht = '1';";
+            ResultSet result = dbmanager.doQuery(sql);
+            while (result.next()) {
+                employees.add(
+                        new Employee(
+                        result.getInt("personeelsnummer"),
+                        result.getString("voornaam"),
+                        result.getString("tussenvoegsel"),
+                        result.getString("achternaam"),
+                        result.getString("wachtwoord"),
+                        result.getBoolean("fulltime"),
+                        result.getBoolean("parttime"),
+                        result.getBoolean("oproepkracht"),
+                        result.getBoolean("baliemedewerker"),
+                        result.getBoolean("museumdocent"),
+                        result.getDouble("contracturen"),
+                        result.getDouble("vakantiepercentage"),
+                        result.getBoolean("admin")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return employees;
+    }
+
     public void addEmployee(Employee employee) {
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
@@ -168,23 +196,27 @@ public class QueryManager {
             if (achternaam.length() > 0) {
                 sql += "(SELECT achternaam REGEXP '^" + achternaam + ".*') = 1";
             }
-            ResultSet result = dbmanager.doQuery(sql);
-            while (result.next()) {
-                employees.add(
-                        new Employee(
-                        result.getInt("personeelsnummer"),
-                        result.getString("voornaam"),
-                        result.getString("tussenvoegsel"),
-                        result.getString("achternaam"),
-                        result.getString("wachtwoord"),
-                        result.getBoolean("fulltime"),
-                        result.getBoolean("parttime"),
-                        result.getBoolean("oproepkracht"),
-                        result.getBoolean("baliemedewerker"),
-                        result.getBoolean("museumdocent"),
-                        result.getDouble("contracturen"),
-                        result.getDouble("vakantiepercentage"),
-                        result.getBoolean("admin")));
+            if (!sql.equals("SELECT * FROM medewerkers WHERE ")) {
+                ResultSet result = dbmanager.doQuery(sql);
+                while (result.next()) {
+                    employees.add(
+                            new Employee(
+                            result.getInt("personeelsnummer"),
+                            result.getString("voornaam"),
+                            result.getString("tussenvoegsel"),
+                            result.getString("achternaam"),
+                            result.getString("wachtwoord"),
+                            result.getBoolean("fulltime"),
+                            result.getBoolean("parttime"),
+                            result.getBoolean("oproepkracht"),
+                            result.getBoolean("baliemedewerker"),
+                            result.getBoolean("museumdocent"),
+                            result.getDouble("contracturen"),
+                            result.getDouble("vakantiepercentage"),
+                            result.getBoolean("admin")));
+                }
+            } else {
+                return getEmployees();
             }
         } catch (SQLException ex) {
             Logger.getLogger(QueryManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -215,7 +247,7 @@ public class QueryManager {
 
     public void updateWorkHours(WorkHours hour) {
         String sql = "";
-        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getShouldWork().equals("")) {
+        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getDate().equals("")) {
             sql = "UPDATE werktijden SET "
                     + "ingeroosterd = '" + hour.getShouldWork() + "', "
                     + "gewerkt = '" + hour.getWorked() + "', "

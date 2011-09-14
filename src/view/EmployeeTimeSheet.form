@@ -44,11 +44,9 @@
                       <EmptySpace pref="614" max="32767" attributes="0"/>
                       <Component id="btnSave" min="-2" pref="127" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jspTimeSheet" pref="815" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jspCompensation" min="-2" pref="201" max="-2" attributes="0"/>
+                      <Component id="jspTimeSheet" pref="1022" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -69,8 +67,7 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jspCompensation" pref="556" max="32767" attributes="1"/>
-                  <Component id="lblMonth" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblMonth" min="-2" max="-2" attributes="0"/>
                   <Component id="jspTimeSheet" pref="556" max="32767" attributes="1"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -162,6 +159,9 @@
                 </Column>
               </TableColumnModel>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
@@ -184,9 +184,7 @@
             <Property name="rowSelectionAllowed" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblTimeSheetFocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblTimeSheetFocusLost"/>
-            <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="tblTimeSheetCaretPositionChanged"/>
+            <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="tblTimeSheetMouseMoved"/>
           </Events>
         </Component>
       </SubComponents>
@@ -268,25 +266,6 @@
         <Component class="javax.swing.JLabel" name="lblVacationHours">
           <Properties>
             <Property name="text" type="java.lang.String" value="&lt;uren&gt;"/>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JScrollPane" name="jspCompensation">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTable" name="tblCompensation">
-          <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="2" rowCount="0">
-                <Column editable="false" title="Compensatie 150" type="java.lang.String"/>
-                <Column editable="false" title="Compensatie 200" type="java.lang.String"/>
-              </Table>
-            </Property>
           </Properties>
         </Component>
       </SubComponents>

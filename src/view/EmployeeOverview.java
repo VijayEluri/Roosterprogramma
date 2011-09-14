@@ -10,8 +10,11 @@
  */
 package view;
 
+import java.io.File;
+import java.util.Calendar;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
+import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -22,18 +25,18 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
     private Employee selectedEmployee;
     private DefaultTableModel model;
+    private boolean isEdit = false;
 
     /** Creates new form medewerkerOverzicht */
-    public EmployeeOverview() {
+    public EmployeeOverview(boolean isEdit) {
+        this.isEdit = isEdit;
         initComponents();
-        fillTable();
-    }
-
-    // ToDo : FillTable functie kan gegeneraliseerd worden waardoor SearchTable hem kan aanroepen...heb je niet meer 3x dezelfde code
-    private void fillTable() {
         model = (DefaultTableModel) tblEmployee.getModel();
-        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
-            insertEmployeeIntoTable(employee);
+        searchTable();
+        if (!isEdit) {
+            btnAdd.setText("OK");
+            btnChange.setText("Exporteer naar Excel");
+            btnDelete.setVisible(false);
         }
     }
 
@@ -69,9 +72,18 @@ public class EmployeeOverview extends javax.swing.JPanel {
                     insertEmployeeIntoTable(employee);
                 }
             } else {
-                fillTable();
+                for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
+                    insertEmployeeIntoTable(employee);
+                }
             }
         }
+    }
+
+    private void showInfo() {
+        Calendar calendar = Calendar.getInstance();
+        RoosterProgramma.getInstance().showPanel(
+            new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1)
+        );
     }
 
     /** This method is called from within the constructor to
@@ -246,7 +258,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         if (RoosterProgramma.getInstance().promptQuestion("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?", true, "Ja", "Nee")) {
             selectedEmployee.delete();
-            RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+            searchTable();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -256,12 +268,23 @@ public class EmployeeOverview extends javax.swing.JPanel {
             btnChange.setEnabled(true);
             selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
         } else {
-            RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+            if (isEdit) {
+                RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+            } else {
+                showInfo();
+            }
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
 
     private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+        if (isEdit) {
+            RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+        } else {
+            String input = RoosterProgramma.getInstance().showFileChooser("Opslaan");
+            if (!input.isEmpty()) {
+                ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"), false);
+            }
+        }
     }//GEN-LAST:event_btnChangeActionPerformed
 
     private void tfEmployeeNrKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmployeeNrKeyReleased

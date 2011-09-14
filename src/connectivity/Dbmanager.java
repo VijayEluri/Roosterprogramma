@@ -15,12 +15,21 @@ public class Dbmanager {
     private static final String mysql_port = "3306", mysql_address = "127.0.0.1", mysql_user = "root", mysql_pass = "mangos";
     private static final String databasename = "Roosterprogramma";
     public Connection connection;
-    private static final boolean mysql = true;
+    private static boolean mysql = true;   // Meteen mysql proberen of eerst MS SQL
 
     /**
      * Open database connection
      */
     public void openConnection() {
+        if (mysql || !openConnection(false)) {
+            if (!openConnection(true)) {
+                RoosterProgramma.getInstance().shutdown();
+            }
+        }
+    }
+
+    private boolean openConnection(boolean mysql) {
+        boolean connected = false;
         try {
             String url = "";
             if (mysql) {
@@ -38,16 +47,14 @@ public class Dbmanager {
                         + ";userName=" + sqlexpress_user
                         + ";password=" + sqlexpress_pass;
             }
-
-            /** Open connection */
             connection = DriverManager.getConnection(url);
+            connected = true;
         } catch (ClassNotFoundException e) {
             System.err.println(JDBC_EXCEPTION + e);
-            RoosterProgramma.getInstance().shutdown();
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
-            RoosterProgramma.getInstance().shutdown();
         }
+        return connected;
     }
 
     /**
@@ -71,6 +78,7 @@ public class Dbmanager {
             statement.executeQuery(query);
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
+            System.err.println("Query:" + query);
         }
     }
 
@@ -86,6 +94,7 @@ public class Dbmanager {
             result = statement.executeQuery(query);
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
+            System.err.println("Query:" + query);
         }
         return result;
     }
@@ -103,6 +112,7 @@ public class Dbmanager {
             result = statement.getGeneratedKeys();
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
+            System.err.println("Query:" + query);
         }
         return result;
     }

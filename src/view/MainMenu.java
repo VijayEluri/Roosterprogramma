@@ -122,7 +122,7 @@ public class MainMenu extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOverviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOverviewActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeSelect());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(false));
     }//GEN-LAST:event_btnOverviewActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -135,7 +135,7 @@ public class MainMenu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRoostersActionPerformed
 
     private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview());
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(true));
     }//GEN-LAST:event_btnManageActionPerformed
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed

@@ -77,17 +77,8 @@ public class Rooster extends javax.swing.JPanel {
             String day = translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
             model.addColumn(i + " - " + day.substring(0, 2));
         }
-        for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
-            if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
-                Object[] fields = new Object[daysOfMonth + 2];
-                fields[0] = employee.getEmployeeNumber() + " - " + employee.getFullName();
-                fields[1] = employee.getContractHours();
-                for (int i = 1; i <= daysOfMonth; i++) {
-                    calendar.set(Calendar.DAY_OF_MONTH, i);
-                    handleField(calendar, employee, fields);
-                }
-                model.addRow(fields);
-            }
+        for (Employee employee : RoosterProgramma.getQueryManager().getEmployeesOnSchedule()) {
+            insertEmployeeIntoTable(employee, daysOfMonth);
         }
         for (int i = 1; i <= daysOfMonth; i++) {
             tblSchedule.getColumnModel().getColumn(i + 1).setPreferredWidth(50);
@@ -128,6 +119,10 @@ public class Rooster extends javax.swing.JPanel {
         btnNextMonth = new javax.swing.JButton();
         jspSchedule = new javax.swing.JScrollPane();
         tblSchedule = new javax.swing.JTable();
+        tfVoornaam = new javax.swing.JTextField();
+        tfAchternaam = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        tfPersoneelsnummer = new javax.swing.JFormattedTextField();
 
         btnSave.setText("Opslaan");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -180,33 +175,80 @@ public class Rooster extends javax.swing.JPanel {
         tblSchedule.setMaximumSize(new java.awt.Dimension(2500, 1700));
         jspSchedule.setViewportView(tblSchedule);
 
+        tfVoornaam.setText("Voornaam");
+        tfVoornaam.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfVoornaamFocusGained(evt);
+            }
+        });
+        tfVoornaam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfVoornaamKeyReleased(evt);
+            }
+        });
+
+        tfAchternaam.setText("Achternaam");
+        tfAchternaam.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfAchternaamFocusGained(evt);
+            }
+        });
+        tfAchternaam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfAchternaamKeyReleased(evt);
+            }
+        });
+
+        jLabel1.setText("of personeelsnummer:");
+
+        tfPersoneelsnummer.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        tfPersoneelsnummer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfPersoneelsnummerKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1706, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jspSchedule, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1706, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1417, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1423, Short.MAX_VALUE)
                         .addComponent(btnExcelExport)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPreviousMonth)
                         .addGap(18, 18, 18)
-                        .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1458, Short.MAX_VALUE)
+                        .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1462, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnNextMonth)))
+                        .addComponent(btnNextMonth))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(tfVoornaam, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfAchternaam, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(tfPersoneelsnummer, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tfVoornaam)
+                    .addComponent(tfAchternaam)
+                    .addComponent(jLabel1)
+                    .addComponent(tfPersoneelsnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(pnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,6 +268,7 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        boolean succesfull = true;
         for (int i = 0; i < model.getRowCount(); i++) {
             String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(pieces[0]));
@@ -241,11 +284,15 @@ public class Rooster extends javax.swing.JPanel {
                 } else {
                     if (!shouldWork.equals("")) {
                         RoosterProgramma.getInstance().showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true);
+                        succesfull = false;
+                        break;
                     }
                 }
             }
         }
-        RoosterProgramma.getInstance().showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false);
+        if (succesfull) {
+            RoosterProgramma.getInstance().showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false);
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
@@ -264,12 +311,74 @@ public class Rooster extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnExcelExportActionPerformed
 
+    private void tfVoornaamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfVoornaamKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfVoornaamKeyReleased
+
+    private void tfAchternaamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAchternaamKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfAchternaamKeyReleased
+
+    private void tfPersoneelsnummerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfPersoneelsnummerKeyReleased
+        searchTable();
+    }//GEN-LAST:event_tfPersoneelsnummerKeyReleased
+
+    private void tfVoornaamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfVoornaamFocusGained
+        if (tfVoornaam.getText().equals("Voornaam")) {
+            tfVoornaam.setText("");
+        }
+    }//GEN-LAST:event_tfVoornaamFocusGained
+
+    private void tfAchternaamFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfAchternaamFocusGained
+        if (tfAchternaam.getText().equals("Achternaam")) {
+            tfAchternaam.setText("");
+        }
+    }//GEN-LAST:event_tfAchternaamFocusGained
+
+    private void insertEmployeeIntoTable(Employee employee, int daysOfMonth) {
+        if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
+            Object[] fields = new Object[daysOfMonth + 2];
+            fields[0] = employee.getEmployeeNumber() + " - " + employee.getFullName();
+            fields[1] = employee.getContractHours();
+            for (int i = 1; i <= daysOfMonth; i++) {
+                calendar.set(Calendar.DAY_OF_MONTH, i);
+                handleField(calendar, employee, fields);
+            }
+            model.addRow(fields);
+        }
+    }
+
+    private void searchTable() {
+        while (model.getRowCount() != 0) {
+            model.removeRow(0);
+        }
+        if (!tfPersoneelsnummer.getText().isEmpty()) {
+            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
+            if (!employee.getFirstName().isEmpty()) {
+                insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            }
+        } else {
+            if (!tfVoornaam.getText().isEmpty() || !tfAchternaam.getText().isEmpty()) {
+                String voornaam = tfVoornaam.getText().equals("Voornaam") ? "" : tfVoornaam.getText();
+                String achternaam = tfAchternaam.getText().equals("Achternaam") ? "" : tfAchternaam.getText();
+                for (Employee employee : RoosterProgramma.getQueryManager().searchEmployee(voornaam, achternaam)) {
+                    insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                }
+            } else {
+                process();
+            }
+        }
+    }
+
     private boolean isValidWorkHour(String shouldWork) {
         return (shouldWork.equalsIgnoreCase("z")
                 || shouldWork.equalsIgnoreCase("x1")
                 || shouldWork.equalsIgnoreCase("x2")
                 || shouldWork.equalsIgnoreCase("x3")
                 || shouldWork.equalsIgnoreCase("v")
+                || shouldWork.equalsIgnoreCase("c")
+                || shouldWork.equalsIgnoreCase("k")
+                || shouldWork.equals("*")
                 || RoosterProgramma.getInstance().isNumeric(shouldWork));
     }
 
@@ -291,8 +400,12 @@ public class Rooster extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jspSchedule;
     private javax.swing.JPanel pnlControls;
     private javax.swing.JTable tblSchedule;
+    private javax.swing.JTextField tfAchternaam;
+    private javax.swing.JFormattedTextField tfPersoneelsnummer;
+    private javax.swing.JTextField tfVoornaam;
     // End of variables declaration//GEN-END:variables
 }

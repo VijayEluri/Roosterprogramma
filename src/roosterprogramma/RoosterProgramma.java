@@ -201,6 +201,7 @@ public class RoosterProgramma {
     }
 
     public boolean isHoliday(Calendar calendar) {
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
         return (isEaster(calendar)
                 || isChristmasSecond(calendar)
                 || isFifthOfMay(calendar)
