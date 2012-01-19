@@ -334,7 +334,9 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        tblSchedule.getCellEditor().stopCellEditing();
+        if (tblSchedule.getCellEditor() != null) {
+            tblSchedule.getCellEditor().stopCellEditing();
+        }
         for (int i = 0; i < model.getRowCount(); i++) {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
             for (int j = 2; j < model.getColumnCount(); j++) {

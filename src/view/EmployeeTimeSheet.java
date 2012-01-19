@@ -425,7 +425,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        tblTimeSheet.getCellEditor().stopCellEditing();
+        if (tblTimeSheet.getCellEditor() != null) {
+            tblTimeSheet.getCellEditor().stopCellEditing();
+        }
         if (isCorrectlyFilled()) {
             boolean success = true;
             for (int i = 0; i < model.getRowCount() - 1; i++) {
@@ -433,7 +435,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
                     String value = model.getValueAt(i, 1).toString();
                     String columnName = model.getColumnName(j);
-                    if (model.getColumnName(1).equals("Ingeroosterd") && !value.isEmpty()) {
+                    if (model.getColumnName(1).equals("Ingeroosterd")) {
                         if (model.getColumnName(j).equals("Gewerkt")) {
                             hour.setWorked(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
                         } else if (columnName.equals("Compensatie 150")) {
@@ -460,7 +462,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             if (success) {
                 Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
             } else {
-                Utils.showMessage("Opslaan van minstens één van de velden is niet gelukt.", "Fout!", true, "");
+                Utils.showMessage("Opslaan van minstens een van de rijen is niet gelukt.", "Fout!", true, "");
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
