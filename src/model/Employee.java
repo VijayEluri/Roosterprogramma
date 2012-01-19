@@ -33,9 +33,6 @@ public class Employee {
     public Employee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
             boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
             boolean museumdocent, double contracturen, double vacationPercentage, boolean admin) {
-        if (tussenvoegsel == null) {    // ToDo : Gebeurt dit ooit ?
-            tussenvoegsel = "";
-        }
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
         this.insertion = tussenvoegsel;
