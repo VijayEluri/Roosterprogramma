@@ -90,9 +90,7 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void fill(int daysOfMonth) {
-        while (model.getRowCount() != 0) {
-            model.removeRow(0);
-        }
+        removeRows();
         for (Employee employee : RoosterProgramma.getInstance().getEmployees()) {
             if ((chkClerk.isSelected() && employee.isClerk())
                     || (chkMuseumEducator.isSelected() && employee.isMuseumEducator())
@@ -336,7 +334,7 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        boolean succesfull = true;
+        tblSchedule.getCellEditor().stopCellEditing();
         for (int i = 0; i < model.getRowCount(); i++) {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
             for (int j = 2; j < model.getColumnCount(); j++) {
@@ -351,15 +349,12 @@ public class Rooster extends javax.swing.JPanel {
                 } else {
                     if (!shouldWork.isEmpty()) {
                         Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true, "");
-                        succesfull = false;
-                        break;
+                        return;
                     }
                 }
             }
         }
-        if (succesfull) {
-            Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
-        }
+        Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
@@ -428,9 +423,7 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void searchTable() {
-        while (model.getRowCount() != 0) {
-            model.removeRow(0);
-        }
+        removeRows();
         if (!tfPersoneelsnummer.getText().isEmpty()) {
             Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
             if (!employee.getFirstName().isEmpty()) {
@@ -471,6 +464,12 @@ public class Rooster extends javax.swing.JPanel {
             year += 1;
         }
         RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
+    }
+
+    public void removeRows() {
+        while (model.getRowCount() != 0) {
+            model.removeRow(0);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;

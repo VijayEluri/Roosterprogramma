@@ -425,6 +425,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        tblTimeSheet.getCellEditor().stopCellEditing();
         if (isCorrectlyFilled()) {
             boolean success = true;
             for (int i = 0; i < model.getRowCount() - 1; i++) {
