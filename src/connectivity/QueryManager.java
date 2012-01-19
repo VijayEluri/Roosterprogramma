@@ -185,13 +185,13 @@ public class QueryManager {
         List<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers WHERE ";
         if (voornaam.length() > 0) {
-            sql += "(SELECT voornaam REGEXP '^" + voornaam + ".*') = 1";
+            sql += "(SELECT voornaam REGEXP '" + voornaam + "') = 1";
         }
         if (voornaam.length() > 0 && achternaam.length() > 0) {
             sql += " AND ";
         }
         if (achternaam.length() > 0) {
-            sql += "(SELECT achternaam REGEXP '^" + achternaam + ".*') = 1";
+            sql += "(SELECT achternaam REGEXP '" + achternaam + "') = 1";
         }
         if (!sql.equals("SELECT * FROM medewerkers WHERE ")) {
             try {
