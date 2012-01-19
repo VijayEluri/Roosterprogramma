@@ -15,6 +15,8 @@ import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
@@ -32,6 +34,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private DefaultTableModel model;
     private Calendar calendar = Calendar.getInstance();
     private int year, month, modifier = 0;
+    private Translater translater = new Translater();
     private DecimalFormat format = new DecimalFormat("0.00");
     private ItemListener changeListener = new ItemListener() {
 
@@ -57,11 +60,31 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         this.year = year;
         this.month = month;
         initComponents();
+        initializeTable();
         fillInfoTable();
         fillVerantwoordingTable();
         fillBoxes();
         calculateTotal();
         calculateVacation();
+    }
+
+    private void initializeTable() {
+
+        tblTimesheet.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                calculateVacation();
+                calculateTotal();
+            }
+        });
+        tblTimesheet.setModel(new DefaultTableModel() {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return !model.getColumnName(colIndex).contains("Compensatie") && colIndex != 0 && !model.getColumnName(colIndex).equals("Ingeroosterd") && !model.getColumnName(colIndex).equals("Totaal") && !model.getValueAt(rowIndex, 0).toString().equals("Totaal");
+            }
+        });
     }
 
     private void fillBoxes() {
@@ -79,9 +102,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private void fillInfoTable() {
         ((DefaultTableModel) tblEmployeeInformation.getModel()).addRow(new Object[]{
+                    employee.getEmployeeNumber(),
                     employee.getFirstName(),
                     employee.getFamilyName(),
-                    employee.getEmployeeNumber(),
                     employee.isFullTime(),
                     employee.isPartTime(),
                     employee.isCallWorker()
@@ -89,15 +112,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }
 
     private void fillVerantwoordingTable() {
-        tblTimeSheet.setModel(new DefaultTableModel() {
-
-            @Override
-            public boolean isCellEditable(int rowIndex, int colIndex) {
-                return !model.getColumnName(colIndex).contains("Compensatie") && colIndex != 0 && !model.getColumnName(colIndex).equals("Ingeroosterd") && !model.getColumnName(colIndex).equals("Totaal") && !model.getValueAt(rowIndex, 0).toString().equals("Totaal");
-            }
-        });
-        Translater translater = new Translater();
-        model = (DefaultTableModel) tblTimeSheet.getModel();
+        model = (DefaultTableModel) tblTimesheet.getModel();
         model.addColumn("Dag van de Maand");
         if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
             model.addColumn("Ingeroosterd");
@@ -135,10 +150,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         Object[] fields = (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) ? new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0} : new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
         model.addRow(fields);
         for (int i = 1; i <= (11 - modifier); i++) {
-            tblTimeSheet.getColumnModel().getColumn(i).setPreferredWidth(100);
+            tblTimesheet.getColumnModel().getColumn(i).setPreferredWidth(100);
         }
-        tblTimeSheet.getColumnModel().getColumn(0).setPreferredWidth(120);
-        tblTimeSheet.getColumnModel().getColumn(9 - modifier).setPreferredWidth(400);
+        tblTimesheet.getColumnModel().getColumn(0).setPreferredWidth(120);
+        tblTimesheet.getColumnModel().getColumn(9 - modifier).setPreferredWidth(400);
     }
 
     private void calculateVacation() {
@@ -154,7 +169,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             double vakantieUren = Double.valueOf((gewerkt + ziekte) * (employee.getVacationPercentage() / 100));
             lblVacationHours.setText(Double.toString(vakantieUren));
         } else {
-            pnlVacationHours.setVisible(false);
+            lblVacationHours.setVisible(false);
+            lblExpVacationHours.setVisible(false);
         }
     }
 
@@ -195,7 +211,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             }
             model.setValueAt(totalHours, model.getRowCount() - 1, k);
         }
-        tblTimeSheet.repaint();
+        tblTimesheet.repaint();
     }
 
     private double verifyInput(int row, int column) {
@@ -230,33 +246,64 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnBack = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        lblExpVacationHours = new javax.swing.JLabel();
+        lblVacationHours = new javax.swing.JLabel();
+        jspTimesheet = new javax.swing.JScrollPane();
+        tblTimesheet = new javax.swing.JTable();
         jspEmployeeInformation = new javax.swing.JScrollPane();
         tblEmployeeInformation = new javax.swing.JTable();
-        jspTimeSheet = new javax.swing.JScrollPane();
-        tblTimeSheet = new javax.swing.JTable();
-        lblMonth = new javax.swing.JLabel();
         pnlDateSelect = new javax.swing.JPanel();
         btnPreviousMonth = new javax.swing.JButton();
         cmbYear = new javax.swing.JComboBox<Integer>();
         cmbMonth = new javax.swing.JComboBox<Integer>();
         btnNextMonth = new javax.swing.JButton();
-        bottomSticker = new javax.swing.JPanel();
-        pnlVacationHours = new javax.swing.JPanel();
-        lblExpVacationHours = new javax.swing.JLabel();
-        lblVacationHours = new javax.swing.JLabel();
-        btnBack = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+
+        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnPrevious.png"))); // NOI18N
+        btnBack.setToolTipText("Vorige");
+        btnBack.setContentAreaFilled(false);
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnSave.png"))); // NOI18N
+        btnSave.setToolTipText("Opslaan");
+        btnSave.setContentAreaFilled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
+        lblExpVacationHours.setText("Opgebouwde vakantieuren:");
+
+        lblVacationHours.setText("0");
+
+        tblTimesheet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jspTimesheet.setViewportView(tblTimesheet);
+
+        jspEmployeeInformation.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
         tblEmployeeInformation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Voornaam", "Achternaam", "Personeelsnummer", "Fulltime", "Parttime", "Oproepkracht", "Noodhulp"
+                "Personeelsnummer", "Voornaam", "Achternaam", "Fulltime", "Parttime", "Oproepkracht", "Noodhulp"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false
@@ -270,31 +317,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblEmployeeInformation.setEnabled(false);
-        tblEmployeeInformation.setFocusable(false);
-        tblEmployeeInformation.setRequestFocusEnabled(false);
         jspEmployeeInformation.setViewportView(tblEmployeeInformation);
-
-        tblTimeSheet.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        tblTimeSheet.setRowSelectionAllowed(false);
-        tblTimeSheet.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                tblTimeSheetMouseMoved(evt);
-            }
-        });
-        tblTimeSheet.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblTimeSheetKeyReleased(evt);
-            }
-        });
-        jspTimeSheet.setViewportView(tblTimeSheet);
 
         btnPreviousMonth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnMinus.png"))); // NOI18N
         btnPreviousMonth.setToolTipText("Vorige maand");
@@ -320,122 +343,59 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         });
         pnlDateSelect.add(btnNextMonth);
 
-        lblExpVacationHours.setText("Opgebouwde vakantieuren:");
-
-        lblVacationHours.setText("<uren>");
-
-        javax.swing.GroupLayout pnlVacationHoursLayout = new javax.swing.GroupLayout(pnlVacationHours);
-        pnlVacationHours.setLayout(pnlVacationHoursLayout);
-        pnlVacationHoursLayout.setHorizontalGroup(
-            pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVacationHoursLayout.createSequentialGroup()
-                .addComponent(lblExpVacationHours)
-                .addGap(18, 18, 18)
-                .addComponent(lblVacationHours)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        pnlVacationHoursLayout.setVerticalGroup(
-            pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlVacationHoursLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(lblExpVacationHours)
-                .addComponent(lblVacationHours))
-        );
-
-        btnBack.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnPrevious.png"))); // NOI18N
-        btnBack.setToolTipText("Vorige");
-        btnBack.setContentAreaFilled(false);
-        btnBack.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackActionPerformed(evt);
-            }
-        });
-
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnSave.png"))); // NOI18N
-        btnSave.setToolTipText("Opslaan");
-        btnSave.setContentAreaFilled(false);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout bottomStickerLayout = new javax.swing.GroupLayout(bottomSticker);
-        bottomSticker.setLayout(bottomStickerLayout);
-        bottomStickerLayout.setHorizontalGroup(
-            bottomStickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bottomStickerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlVacationHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 902, Short.MAX_VALUE)
-                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        bottomStickerLayout.setVerticalGroup(
-            bottomStickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomStickerLayout.createSequentialGroup()
-                .addGroup(bottomStickerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnSave)
-                    .addComponent(pnlVacationHours, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBack))
-                .addContainerGap(5, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 1318, Short.MAX_VALUE)
-                            .addComponent(lblMonth)))
+                    .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.DEFAULT_SIZE, 902, Short.MAX_VALUE)
+                    .addComponent(jspTimesheet)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(bottomSticker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jspTimeSheet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1314, Short.MAX_VALUE)
-                            .addComponent(pnlDateSelect, javax.swing.GroupLayout.DEFAULT_SIZE, 1314, Short.MAX_VALUE))))
+                        .addComponent(btnBack)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblExpVacationHours)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblVacationHours)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSave))
+                    .addComponent(pnlDateSelect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jspEmployeeInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlDateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMonth)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspTimeSheet, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bottomSticker, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jspTimesheet, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnBack)
+                        .addComponent(btnSave))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblExpVacationHours)
+                        .addComponent(lblVacationHours)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(false));
-    }//GEN-LAST:event_btnBackActionPerformed
-
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if (tblTimeSheet.getCellEditor() != null) {
-            tblTimeSheet.getCellEditor().stopCellEditing();
+        if (tblTimesheet.getCellEditor() != null) {
+            tblTimesheet.getCellEditor().stopCellEditing();
         }
         if (isCorrectlyFilled()) {
             boolean success = true;
             for (int i = 0; i < model.getRowCount() - 1; i++) {
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
-                    String value = model.getValueAt(i, 1).toString();
+                    String value = model.getValueAt(i, j).toString();
                     String columnName = model.getColumnName(j);
-                    if (model.getColumnName(1).equals("Ingeroosterd")) {
+                    if (model.getColumnName(1).equals("Ingeroosterd") && !model.getValueAt(i, j).toString().isEmpty()) {
                         if (model.getColumnName(j).equals("Gewerkt")) {
                             hour.setWorked(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
                         } else if (columnName.equals("Compensatie 150")) {
@@ -475,15 +435,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         handleTime(year, month + 1);
     }//GEN-LAST:event_btnNextMonthActionPerformed
 
-    private void tblTimeSheetMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTimeSheetMouseMoved
-        calculateTotal();
-        calculateVacation();
-    }//GEN-LAST:event_tblTimeSheetMouseMoved
-
-    private void tblTimeSheetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblTimeSheetKeyReleased
-        calculateTotal();
-        calculateVacation();
-    }//GEN-LAST:event_tblTimeSheetKeyReleased
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(false));
+    }//GEN-LAST:event_btnBackActionPerformed
 
     private void handleTime(int year, int month) {
         if (month == 0) {
@@ -510,7 +464,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
     private boolean isCorrectlyFilled() {
         boolean correct = true;
-        for (int i = 0; i < tblTimeSheet.getRowCount(); i++) {
+        for (int i = 0; i < tblTimesheet.getRowCount(); i++) {
             String ingeroosterd = model.getValueAt(i, 1).toString();
             if (!ingeroosterd.isEmpty()) {
                 if (!(ingeroosterd.equalsIgnoreCase("v")
@@ -519,7 +473,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                         || ingeroosterd.equalsIgnoreCase("k")
                         || ingeroosterd.equalsIgnoreCase("*"))) {
                     double shouldWork = Double.parseDouble(model.getValueAt(i, 1).toString().replace(",", "."));
-                    double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimeSheet.getColumnCount() - 4).toString().replace(",", "."));
+                    double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
                     if (haveWorked < shouldWork) {
                         String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
                         Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", true, "");
@@ -536,7 +490,6 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         return correct;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel bottomSticker;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnPreviousMonth;
@@ -544,13 +497,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private javax.swing.JComboBox<Integer> cmbMonth;
     private javax.swing.JComboBox<Integer> cmbYear;
     private javax.swing.JScrollPane jspEmployeeInformation;
-    private javax.swing.JScrollPane jspTimeSheet;
+    private javax.swing.JScrollPane jspTimesheet;
     private javax.swing.JLabel lblExpVacationHours;
-    private javax.swing.JLabel lblMonth;
     private javax.swing.JLabel lblVacationHours;
     private javax.swing.JPanel pnlDateSelect;
-    private javax.swing.JPanel pnlVacationHours;
     private javax.swing.JTable tblEmployeeInformation;
-    private javax.swing.JTable tblTimeSheet;
+    private javax.swing.JTable tblTimesheet;
     // End of variables declaration//GEN-END:variables
 }
