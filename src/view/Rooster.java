@@ -57,6 +57,7 @@ public class Rooster extends javax.swing.JPanel {
         this.year = year;
         this.month = month;
         initComponents();
+        refreshTable();
         fillBoxes();
         process();
     }
@@ -123,7 +124,13 @@ public class Rooster extends javax.swing.JPanel {
     private void refreshTable() {
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
-                new String[]{}));
+                new String[]{}) {
+
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return colIndex != 0 && colIndex != 1;
+            }
+        });
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblSchedule.setMaximumSize(new java.awt.Dimension(2500, 1700));
         jspSchedule.setViewportView(tblSchedule);
