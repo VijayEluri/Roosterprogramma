@@ -35,7 +35,7 @@ public class Employee {
             boolean museumdocent, double contracturen, double vacationPercentage, boolean admin) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
-        this.insertion = tussenvoegsel;
+        this.insertion = tussenvoegsel == null ? "" : tussenvoegsel;
         this.familyName = achternaam;
         this.password = wachtwoord;
         this.fullTime = fulltime;
