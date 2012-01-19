@@ -12,21 +12,12 @@ import roosterprogramma.RoosterProgramma;
  */
 public class Settings {
 
-    private String x1Start;
-    private String x1End;
-    private String x2Start;
-    private String x2End;
-    private String x3Start;
-    private String x3End;
-
-    public Settings() {
-        this.x1Start = "0000";
-        this.x1End = "0000";
-        this.x2Start = "0000";
-        this.x2End = "0000";
-        this.x3Start = "0000";
-        this.x3End = "0000";
-    }
+    private String x1Start = "0000";
+    private String x1End = "0000";
+    private String x2Start = "0000";
+    private String x2End = "0000";
+    private String x3Start = "0000";
+    private String x3End = "0000";
 
     public void setSettings(String x1, String x2, String x3) {
         if (x1.length() == 9) { //  1130-1700 --> 9 karakters
