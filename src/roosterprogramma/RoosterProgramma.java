@@ -68,8 +68,6 @@ public class RoosterProgramma {
                 shutdown();
             }
         });
-        InputKeyListener keylisten = new InputKeyListener(mainWindow);
-        keylisten.start();
         mainWindow.getContentPane().setLayout(new BorderLayout());
         showPanel(new Login());
         mainWindow.setVisible(true);
