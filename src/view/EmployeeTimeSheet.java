@@ -13,6 +13,7 @@ package view;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.event.ListSelectionEvent;
@@ -217,19 +218,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private double verifyInput(int row, int column) {
         String value = model.getValueAt(row, column).toString().replace(",", ".");
         Double hours = 0.0;
-        if (value.equalsIgnoreCase("x1")) {
-            hours = RoosterProgramma.getInstance().getSettings().getX1Duration();
-        } else if (value.equalsIgnoreCase("x2")) {
-            hours = RoosterProgramma.getInstance().getSettings().getX2Duration();
-        } else if (value.equalsIgnoreCase("x3")) {
-            hours = RoosterProgramma.getInstance().getSettings().getX3Duration();
-        } else if (value.equalsIgnoreCase("v")) {
-        } else if (value.equalsIgnoreCase("z")) {
-        } else if (value.equalsIgnoreCase("c")) {
-        } else if (value.equalsIgnoreCase("k")) {
-            hours = 4.5;
-        } else if (value.equals("*")) {
-        } else if (Utils.isNumeric(value)) {
+        if (Utils.isNumeric(value)) {
             hours = Double.parseDouble(value);
         } else {
             Utils.showMessage("Fout opgetreden, foutieve invoer (" + value + ") in veld (" + row + ", " + column + ")", "Fout!", true, "");
@@ -389,7 +378,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             tblTimesheet.getCellEditor().stopCellEditing();
         }
         if (isCorrectlyFilled()) {
-            boolean success = true;
+            ArrayList<Integer> failures = new ArrayList<Integer>();
             for (int i = 0; i < model.getRowCount() - 1; i++) {
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
@@ -417,12 +406,19 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                         }
                     }
                 }
-                success = success && RoosterProgramma.getQueryManager().updateWorkHours(hour);
+                boolean success = RoosterProgramma.getQueryManager().updateWorkHours(hour);
+                if (!success) {
+                    failures.add(i);
+                }
             }
-            if (success) {
+            if (failures.isEmpty()) {
                 Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
             } else {
-                Utils.showMessage("Opslaan van minstens een van de rijen is niet gelukt.", "Fout!", true, "");
+                String errors = "";
+                for (int failure : failures) {
+                    errors += "\nRij " + failure;
+                }
+                Utils.showMessage("Opslaan van de volgende rijen is niet gelukt: " + errors, "Fout!", true, "");
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -466,24 +462,22 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         boolean correct = true;
         for (int i = 0; i < tblTimesheet.getRowCount(); i++) {
             String ingeroosterd = model.getValueAt(i, 1).toString();
-            if (!ingeroosterd.isEmpty()) {
-                if (!(ingeroosterd.equalsIgnoreCase("v")
-                        || ingeroosterd.equalsIgnoreCase("z")
-                        || ingeroosterd.equalsIgnoreCase("c")
-                        || ingeroosterd.equalsIgnoreCase("k")
-                        || ingeroosterd.equalsIgnoreCase("*"))) {
-                    double shouldWork = Double.parseDouble(model.getValueAt(i, 1).toString().replace(",", "."));
-                    double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
-                    if (haveWorked < shouldWork) {
-                        String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
-                        Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", true, "");
-                        correct = false;
-                        break;
-                    }
+            if (!ingeroosterd.isEmpty() && Utils.isNumeric(ingeroosterd)) {
+                double shouldWork = Double.parseDouble(model.getValueAt(i, 1).toString().replace(",", "."));
+                double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
+                if (haveWorked < shouldWork) {
+                    String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
+                    Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", true, "");
+                    correct = false;
+                    break;
                 }
             } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
                 correct = false;
-                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve waarde", true, "");
+                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", true, "");
+                break;
+            } else {
+                correct = false;
+                Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", true, "");
                 break;
             }
         }
