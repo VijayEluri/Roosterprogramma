@@ -316,7 +316,7 @@ public class QueryManager {
     }
 
     public void addToLog(String message) {
-        String sql = "INSERT INTO `messages` (`message`) VALUES('" + message + "');";
+        String sql = "INSERT INTO `log` (`message`) VALUES('" + message + "');";
         dbManager.insertQuery(sql);
     }
 }
