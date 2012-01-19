@@ -23,8 +23,8 @@ public class Employee {
     private boolean clerk;
     private boolean museumEducator;
     private double contractHours;
-    private boolean admin;
     private double vacationPercentage;
+    private boolean admin;
 
     public Employee() {
         this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false);

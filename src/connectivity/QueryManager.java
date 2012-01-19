@@ -145,9 +145,9 @@ public class QueryManager {
         int baliemedewerker = tmpBalieMedewerker ? 1 : 0;
         int museumdocent = tmpMuseumDocent ? 1 : 0;
         int admin = tmpAdmin ? 1 : 0;
-        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, achternaam, wachtwoord, fulltime, parttime, oproepkracht, baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin)"
+        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, wachtwoord, fulltime, parttime, oproepkracht, baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin)"
                 + "VALUES('" + personeelsNummer + "', '" + voornaam.replace("'", "\'") + "', '"
-                + tussenvoegsel.replace("'", "\'") + "', '" + achternaam.replace("'", "\'") + "', '" + fulltime + "', '"
+                + tussenvoegsel.replace("'", "\'") + "', '" + achternaam.replace("'", "\'") + "', '" + wachtwoord + "', '" + fulltime + "', '"
                 + parttime + "', '" + oproepkracht + "', '" + baliemedewerker + "', '" + museumdocent + "', '" + contractUren + "', '" + vakantiePercentage + "', '" + admin + "')";
         dbManager.insertQuery(sql);
     }
