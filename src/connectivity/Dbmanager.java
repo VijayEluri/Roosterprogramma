@@ -1,6 +1,10 @@
 package connectivity;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import roosterprogramma.RoosterProgramma;
 
 /**
@@ -15,23 +19,14 @@ public class Dbmanager {
     private static final String mysql_port = "3306", mysql_address = "127.0.0.1", mysql_user = "root", mysql_pass = "mangos";
     private static final String databasename = "Roosterprogramma";
     public Connection connection;
-    private static boolean mysql = true;   // Meteen mysql proberen of eerst MS SQL
+    private static boolean mysql = true;
 
     /**
      * Open database connection
      */
     public void openConnection() {
-        if (mysql || !openConnection(false)) {
-            if (!openConnection(true)) {
-                RoosterProgramma.getInstance().shutdown();
-            }
-        }
-    }
-
-    private boolean openConnection(boolean mysql) {
-        boolean connected = false;
         try {
-            String url = "";
+            String url;
             if (mysql) {
                 Class.forName("com.mysql.jdbc.Driver");
                 url = "jdbc:mysql://" + mysql_address
@@ -47,14 +42,17 @@ public class Dbmanager {
                         + ";userName=" + sqlexpress_user
                         + ";password=" + sqlexpress_pass;
             }
+            DriverManager.setLoginTimeout(15);
             connection = DriverManager.getConnection(url);
-            connected = true;
         } catch (ClassNotFoundException e) {
             System.err.println(JDBC_EXCEPTION + e);
+            JOptionPane.showMessageDialog(null, "Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", JOptionPane.ERROR_MESSAGE);
+            RoosterProgramma.getInstance().shutdown();
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
+            JOptionPane.showMessageDialog(null, "Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", JOptionPane.ERROR_MESSAGE);
+            RoosterProgramma.getInstance().shutdown();
         }
-        return connected;
     }
 
     /**
@@ -74,8 +72,7 @@ public class Dbmanager {
      */
     public void executeQuery(String query) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeQuery(query);
+            connection.createStatement().executeQuery(query);
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
             System.err.println("Query:" + query);
@@ -90,8 +87,7 @@ public class Dbmanager {
     public ResultSet doQuery(String query) {
         ResultSet result = null;
         try {
-            Statement statement = connection.createStatement();
-            result = statement.executeQuery(query);
+            result = connection.createStatement().executeQuery(query);
         } catch (java.sql.SQLException e) {
             System.err.println(SQL_EXCEPTION + e);
             System.err.println("Query:" + query);
