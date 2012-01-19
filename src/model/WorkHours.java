@@ -21,16 +21,17 @@ public class WorkHours {
     private double ADV;
     private double illness;
     private double leave;
-    private double project;
+    private double withdrawnCompensation;
     private int employeeNumber;
+    private String comment;
 
     public WorkHours() {
-        this(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0);
+        this(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, "");
     }
 
     public WorkHours(int employeeNumber, String date, String shouldWork, double worked,
             double compensation150, double compensation200, double vacation, double ADV,
-            double illness, double leave, double project) {
+            double illness, double leave, double withdrawnCompensation, String comment) {
         this.employeeNumber = employeeNumber;
         this.date = date;
         this.shouldWork = shouldWork;
@@ -41,7 +42,8 @@ public class WorkHours {
         this.ADV = ADV;
         this.illness = illness;
         this.leave = leave;
-        this.project = project;
+        this.withdrawnCompensation = withdrawnCompensation;
+        this.comment = comment;
     }
 
     /**
@@ -159,15 +161,15 @@ public class WorkHours {
     /**
      * @return the project
      */
-    public double getProject() {
-        return project;
+    public double getWithdrawnCompensation() {
+        return withdrawnCompensation;
     }
 
     /**
-     * @param project the project to set
+     * @param withdrawnCompensation the project to set
      */
-    public void setProject(double project) {
-        this.project = project;
+    public void setWithdrawnCompensation(double withdrawnCompensation) {
+        this.withdrawnCompensation = withdrawnCompensation;
     }
 
     /**
@@ -208,5 +210,19 @@ public class WorkHours {
      */
     public void setEmployeeNumber(int employeeNumber) {
         this.employeeNumber = employeeNumber;
+    }
+
+    /**
+     * @return the comment
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * @param comment the comment to set
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
