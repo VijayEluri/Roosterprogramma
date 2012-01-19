@@ -24,6 +24,7 @@ public class InputKeyListener extends Thread {
         KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
         AbstractAction escapeAction = new AbstractAction() {
 
+            @Override
             public void actionPerformed(ActionEvent e) {
                 RoosterProgramma.getInstance().shutdown();
             }
