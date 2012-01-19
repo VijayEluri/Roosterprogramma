@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +28,7 @@ public class RoosterProgramma {
     private QueryManager queryManager;
     private Settings settings;
     private Employee employee;
+    private ArrayList<Employee> employees;
 
     public static RoosterProgramma getInstance() {
         return instance;
@@ -57,7 +59,6 @@ public class RoosterProgramma {
         dbManager = new Dbmanager();
         dbManager.openConnection();
         queryManager = new QueryManager(dbManager);
-        settings = getQueryManager().getSettings();
         mainWindow = new JFrame(NAME);
         mainWindow.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -83,8 +84,8 @@ public class RoosterProgramma {
         }
     }
 
-    public static model.Employee getEmployee() {
-        return getInstance().employee;
+    public model.Employee getEmployee() {
+        return employee;
     }
 
     public void setEmployee(Employee employee) {
@@ -97,5 +98,17 @@ public class RoosterProgramma {
 
     public void setSettings(Settings settings) {
         this.settings = settings;
+    }
+
+    public void initializeEmployees() {
+        this.employees = getQueryManager().getEmployees();
+    }
+
+    public void initializeSettings() {
+        this.settings = getQueryManager().getSettings();
+    }
+
+    public ArrayList<Employee> getEmployees() {
+        return employees;
     }
 }

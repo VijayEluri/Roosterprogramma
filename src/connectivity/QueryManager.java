@@ -3,7 +3,6 @@ package connectivity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import model.Employee;
 import model.Settings;
 import model.WorkHours;
@@ -80,8 +79,8 @@ public class QueryManager {
         return employee;
     }
 
-    public List<Employee> getEmployees() {
-        List<Employee> employees = new ArrayList<Employee>();
+    public ArrayList<Employee> getEmployees() {
+        ArrayList<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers;";
         try {
             ResultSet result = dbManager.doQuery(sql);
@@ -104,34 +103,6 @@ public class QueryManager {
             }
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", true, ex.getMessage());
-        }
-        return employees;
-    }
-
-    public List<Employee> getEmployeesOnSchedule() {
-        List<Employee> employees = new ArrayList<Employee>();
-        String sql = "SELECT * FROM medewerkers WHERE museumdocent = '1' OR baliemedewerker = '1' OR oproepkracht = '1';";
-        ResultSet result = dbManager.doQuery(sql);
-        try {
-            while (result.next()) {
-                employees.add(
-                        new Employee(
-                        result.getInt("personeelsnummer"),
-                        result.getString("voornaam"),
-                        result.getString("tussenvoegsel"),
-                        result.getString("achternaam"),
-                        result.getString("wachtwoord"),
-                        result.getBoolean("fulltime"),
-                        result.getBoolean("parttime"),
-                        result.getBoolean("oproepkracht"),
-                        result.getBoolean("baliemedewerker"),
-                        result.getBoolean("museumdocent"),
-                        result.getDouble("contracturen"),
-                        result.getDouble("vakantiepercentage"),
-                        result.getBoolean("admin")));
-            }
-        } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, kon geen werknemers ophalen die museumdocent/baliemedewerker/oproepkracht zijn.", "Fout!", true, ex.getMessage());
         }
         return employees;
     }
@@ -181,8 +152,8 @@ public class QueryManager {
         dbManager.insertQuery(sql);
     }
 
-    public List<Employee> searchEmployee(String voornaam, String achternaam) {
-        List<Employee> employees = new ArrayList<Employee>();
+    public ArrayList<Employee> searchEmployee(String voornaam, String achternaam) {
+        ArrayList<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers WHERE ";
         if (voornaam.length() > 0) {
             sql += "(SELECT voornaam REGEXP '" + voornaam + "') = 1";

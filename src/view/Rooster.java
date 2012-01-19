@@ -35,7 +35,6 @@ public class Rooster extends javax.swing.JPanel {
     private Translater translater = new Translater();
     private Calendar calendar = Calendar.getInstance();
     private int year, month;
-    private List<Employee> employeesOnSchedule;
     private ItemListener changeListener = new ItemListener() {
 
         @Override
@@ -57,7 +56,6 @@ public class Rooster extends javax.swing.JPanel {
         calendar.set(Calendar.MONTH, month - 1);
         this.year = year;
         this.month = month;
-        employeesOnSchedule = RoosterProgramma.getQueryManager().getEmployeesOnSchedule();
         initComponents();
         fillBoxes();
         process();
@@ -95,7 +93,7 @@ public class Rooster extends javax.swing.JPanel {
         while (model.getRowCount() != 0) {
             model.removeRow(0);
         }
-        for (Employee employee : employeesOnSchedule) {
+        for (Employee employee : RoosterProgramma.getInstance().getEmployees()) {
             if ((chkClerk.isSelected() && employee.isClerk())
                     || (chkMuseumEducator.isSelected() && employee.isMuseumEducator())
                     || (chkCallWorker.isSelected() && employee.isCallWorker())) {

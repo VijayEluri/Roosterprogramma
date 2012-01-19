@@ -57,6 +57,12 @@ public class Login extends javax.swing.JPanel {
                         employee.setPassword(password);
                         employee.update();
                         if (RoosterProgramma.getQueryManager().getEmployee(employeeNumber).getPassword().equals(password)) {
+                            RoosterProgramma.getInstance().setEmployee(employee);
+                            jpbLoading.setValue(10);
+                            RoosterProgramma.getInstance().initializeSettings();
+                            jpbLoading.setValue(30);
+                            RoosterProgramma.getInstance().initializeEmployees();
+                            jpbLoading.setValue(100);
                             RoosterProgramma.getInstance().showPanel(new MainMenu());
                         } else {
                             lblIncorrectField.setText("Er is een fout opgetreden bij het updaten van het wachtwoord in de database.");
@@ -83,6 +89,11 @@ public class Login extends javax.swing.JPanel {
         String Sha1Pass = Utils.SHA1(Utils.decodePassword(tfPassword.getPassword()));
         if (Sha1Pass.equals(employee.getPassword())) {
             RoosterProgramma.getInstance().setEmployee(employee);
+            jpbLoading.setValue(10);
+            RoosterProgramma.getInstance().initializeSettings();
+            jpbLoading.setValue(30);
+            RoosterProgramma.getInstance().initializeEmployees();
+            jpbLoading.setValue(100);
             RoosterProgramma.getInstance().showPanel(new MainMenu());
         } else {
             lblIncorrectField.setText("Wachtwoord onjuist");
@@ -109,7 +120,7 @@ public class Login extends javax.swing.JPanel {
         btnPasswordOK = new javax.swing.JButton();
         lblLogo = new javax.swing.JLabel();
         updatePanel = new javax.swing.JPanel();
-        lblUpdate = new javax.swing.JLabel();
+        jpbLoading = new javax.swing.JProgressBar();
         textPanel = new javax.swing.JPanel();
         lblIncorrectField = new javax.swing.JLabel();
 
@@ -191,7 +202,21 @@ public class Login extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        updatePanel.add(lblUpdate);
+        javax.swing.GroupLayout updatePanelLayout = new javax.swing.GroupLayout(updatePanel);
+        updatePanel.setLayout(updatePanelLayout);
+        updatePanelLayout.setHorizontalGroup(
+            updatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, updatePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpbLoading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        updatePanelLayout.setVerticalGroup(
+            updatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(updatePanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(jpbLoading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         textPanel.add(lblIncorrectField);
 
@@ -203,7 +228,7 @@ public class Login extends javax.swing.JPanel {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(updatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE))
+                        .addComponent(updatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(familyNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -249,11 +274,11 @@ public class Login extends javax.swing.JPanel {
     private javax.swing.JButton btnNumberOK;
     private javax.swing.JButton btnPasswordOK;
     private javax.swing.JPanel familyNamePanel;
+    private javax.swing.JProgressBar jpbLoading;
     private javax.swing.JLabel lblEmployeeNumber;
     private javax.swing.JLabel lblIncorrectField;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblUpdate;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JPanel textPanel;
     private javax.swing.JTextField tfEmployeeNumber;
