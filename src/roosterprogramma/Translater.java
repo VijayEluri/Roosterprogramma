@@ -14,7 +14,7 @@ public class Translater {
     }
 
     public String Translate(String strToTranslate) {
-        String translated = "";
+        String translated;
         if (strToTranslate.equals("Monday")) {
             translated = "Maandag";
         } else if (strToTranslate.equals("Tuesday")) {
@@ -54,7 +54,7 @@ public class Translater {
         } else if (strToTranslate.equals("December")) {
             translated = "December";
         } else {
-            System.out.println("Error:  " + strToTranslate + " returns an empty translation!");
+            Utils.showMessage("Fout opgetreden, missende vertaling voor woord: " + strToTranslate, "Fout!", true, "");
             translated = strToTranslate;
         }
 

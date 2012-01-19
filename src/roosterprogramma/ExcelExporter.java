@@ -6,8 +6,6 @@ package roosterprogramma;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import jxl.Workbook;
@@ -56,11 +54,11 @@ public class ExcelExporter {
             workbook.write();
             workbook.setProtected(true);    // Niet zeker of hij hier goed staat...maar deze zou de file "read-only" moeten maken
             workbook.close();
-            RoosterProgramma.getInstance().showMessage("Exporteren naar excel bestand is gelukt.", "Succes!", false);
+            Utils.showMessage("Exporteren naar excel bestand is gelukt.", "Succes!", false, "");
         } catch (WriteException ex) {
-            Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
+            Utils.showMessage("Fout opgetreden in de excel module.", "Fout!", true, ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(ExcelExporter.class.getName()).log(Level.SEVERE, null, ex);
+            Utils.showMessage("Fout opgetreden in het lezen/schrijven van het bestand.", "Fout!", true, ex.getMessage());
         }
     }
 }
