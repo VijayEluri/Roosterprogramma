@@ -1,0 +1,2 @@
+UPDATE `medewerkers` SET `tussenvoegsel` = 'de' AND `achternaam` = 'Vries' WHERE `achternaam` = 'de Vries';
+UPDATE `medewerkers` SET `tussenvoegsel` = 'van' AND `achternaam` = 'Rooijen' WHERE `achternaam` = 'van Rooijen';
