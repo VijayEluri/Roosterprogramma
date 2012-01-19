@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
@@ -16,23 +16,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="pnlControls" alignment="0" pref="1706" max="32767" attributes="0"/>
                   <Component id="jspSchedule" alignment="0" pref="1706" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="1423" max="32767" attributes="0"/>
+                      <EmptySpace pref="1397" max="32767" attributes="0"/>
                       <Component id="btnExcelExport" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSave" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnPreviousMonth" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="pnlControls" pref="1462" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnNextMonth" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="tfVoornaam" min="-2" pref="88" max="-2" attributes="0"/>
@@ -59,18 +53,16 @@
                   <Component id="tfPersoneelsnummer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jspSchedule" pref="580" max="32767" attributes="0"/>
+              <Component id="jspSchedule" pref="477" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="pnlControls" alignment="1" min="-2" max="-2" attributes="1"/>
-                  <Component id="btnNextMonth" alignment="1" min="-2" max="-2" attributes="1"/>
-                  <Component id="btnPreviousMonth" alignment="1" min="-2" max="-2" attributes="1"/>
-              </Group>
+              <Component id="pnlControls" min="-2" max="-2" attributes="1"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnExcelExport" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBack" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="btnExcelExport" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -80,7 +72,11 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btnSave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Opslaan"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/btnSave.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Opslaan"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
@@ -88,24 +84,59 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnBack">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Terug"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/btnPrevious.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Vorige"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnPreviousMonth">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Vorige Maand"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPreviousMonthActionPerformed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="pnlControls">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
       <SubComponents>
+        <Component class="javax.swing.JButton" name="btnPreviousMonth">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/btnMinus.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Vorige Maand"/>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPreviousMonthActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkCallWorker">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Oproepkracht"/>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkCallWorkerItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkClerk">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Baliemedewerker"/>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkClerkItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkMuseumEducator">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Museumdocent"/>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="chkMuseumEducatorItemStateChanged"/>
+          </Events>
+        </Component>
         <Component class="javax.swing.JComboBox" name="cmbYear">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -126,25 +157,36 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Integer&gt;"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JButton" name="btnNextMonth">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/btnPlus.png"/>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Volgende Maand"/>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextMonthActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="btnExcelExport">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Exporteer naar excel"/>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/images/btnExport.png"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Exporteer naar excel"/>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcelExportActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnNextMonth">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Volgende Maand"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextMonthActionPerformed"/>
-      </Events>
-    </Component>
     <Container class="javax.swing.JScrollPane" name="jspSchedule">
+      <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="Mogelijke invoer: Z, V, C, K, *, X1, X2, X3"/>
+      </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
