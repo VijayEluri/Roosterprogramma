@@ -55,7 +55,7 @@ public class Login extends javax.swing.JPanel {
             int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
             employee = RoosterProgramma.getInstance().getEmployee(employeeNumber);
             if (employee != null) {
-                if ("TEST".equals(employee.getPassword())) {
+                if (employee.getPassword() == null) {
                     String password = Utils.promptInput(
                             "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
                             + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
