@@ -60,6 +60,7 @@ public class QueryManager {
         return employees;
     }
 
+    // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
     public void addEmployee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
             boolean tmpFulltime, boolean tmpParttime, boolean tmpOproepkracht, boolean tmpBalieMedewerker,
             boolean tmpMuseumDocent, double contractUren, double vakantiePercentage, boolean tmpAdmin) {
@@ -76,6 +77,7 @@ public class QueryManager {
         dbManager.insertQuery(sql);
     }
 
+    // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
     public void changeEmployee(Employee employee) {
         int fulltime = employee.isFullTime() ? 1 : 0;
         int parttime = employee.isPartTime() ? 1 : 0;
@@ -154,6 +156,7 @@ public class QueryManager {
         return employees;
     }
 
+    // ToDo: WorkHours constructor maken met alleen employeenumber en date
     public WorkHours getWorkHours(int employeeNumber, String date) {
         WorkHours hours = new WorkHours();
         String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employeeNumber + "' AND datum = '" + date + "';";
@@ -175,6 +178,7 @@ public class QueryManager {
         return hours;
     }
 
+    // ToDo: Checks weghalen uit de ELSE, je kan niet opslaan zonder wijziging
     public boolean updateWorkHours(WorkHours hour) {
         String sql;
         if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getShouldWork().isEmpty()) {
@@ -247,6 +251,7 @@ public class QueryManager {
         dbManager.insertQuery(sql);
     }
 
+    // ToDo: Datum toevoegen aan elke log entry
     public void addToLog(String message) {
         String sql = "INSERT INTO `log` (`message`) VALUES('" + message + "');";
         dbManager.insertQuery(sql);
