@@ -28,6 +28,14 @@ public class Login extends javax.swing.JPanel {
     public Login() {
         initComponents();
         disablePassword();
+        loadProgram();
+    }
+
+    private void loadProgram() {
+        RoosterProgramma.getInstance().initializeSettings();
+        jpbLoading.setValue(50);
+        RoosterProgramma.getInstance().initializeEmployees();
+        jpbLoading.setValue(100);
     }
 
     private void enablePassword() {
@@ -45,8 +53,8 @@ public class Login extends javax.swing.JPanel {
     private void handleNumber() {
         if (Utils.isNumeric(tfEmployeeNumber.getText())) {
             int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
-            employee = RoosterProgramma.getQueryManager().getEmployee(employeeNumber);
-            if (!employee.getFirstName().isEmpty()) {
+            employee = RoosterProgramma.getInstance().getEmployee(employeeNumber);
+            if (employee != null) {
                 if ("TEST".equals(employee.getPassword())) {
                     String password = Utils.promptInput(
                             "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
@@ -56,17 +64,9 @@ public class Login extends javax.swing.JPanel {
                         password = Utils.SHA1(password);
                         employee.setPassword(password);
                         employee.update();
-                        if (RoosterProgramma.getQueryManager().getEmployee(employeeNumber).getPassword().equals(password)) {
-                            RoosterProgramma.getInstance().setEmployee(employee);
-                            jpbLoading.setValue(10);
-                            RoosterProgramma.getInstance().initializeSettings();
-                            jpbLoading.setValue(30);
-                            RoosterProgramma.getInstance().initializeEmployees();
-                            jpbLoading.setValue(100);
-                            RoosterProgramma.getInstance().showPanel(new MainMenu());
-                        } else {
-                            lblIncorrectField.setText("Er is een fout opgetreden bij het updaten van het wachtwoord in de database.");
-                        }
+                        RoosterProgramma.getInstance().setEmployee(employee);
+                        RoosterProgramma.getInstance().initializeEmployees();
+                        RoosterProgramma.getInstance().showPanel(new MainMenu());
                     }
                 } else {
                     enablePassword();
@@ -89,11 +89,6 @@ public class Login extends javax.swing.JPanel {
         String Sha1Pass = Utils.SHA1(Utils.decodePassword(tfPassword.getPassword()));
         if (Sha1Pass.equals(employee.getPassword())) {
             RoosterProgramma.getInstance().setEmployee(employee);
-            jpbLoading.setValue(10);
-            RoosterProgramma.getInstance().initializeSettings();
-            jpbLoading.setValue(30);
-            RoosterProgramma.getInstance().initializeEmployees();
-            jpbLoading.setValue(100);
             RoosterProgramma.getInstance().showPanel(new MainMenu());
         } else {
             lblIncorrectField.setText("Wachtwoord onjuist");

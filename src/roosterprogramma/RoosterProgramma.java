@@ -111,4 +111,24 @@ public class RoosterProgramma {
     public ArrayList<Employee> getEmployees() {
         return employees;
     }
+
+    public Employee getEmployee(int id) {
+        for (Employee tmpEmployee : employees) {
+            if (tmpEmployee.getEmployeeNumber() == id) {
+                return tmpEmployee;
+            }
+        }
+        return null;
+    }
+
+    public Employee getEmployee(String firstName, String insertion, String familyName) {
+        for (Employee tmpEmployee : employees) {
+            if (tmpEmployee.getFirstName().equalsIgnoreCase(firstName) && tmpEmployee.getFamilyName().equalsIgnoreCase(familyName)) {
+                if (insertion == null || (insertion != null && tmpEmployee.getInsertion().equalsIgnoreCase(insertion))) {
+                    return tmpEmployee;
+                }
+            }
+        }
+        return null;
+    }
 }

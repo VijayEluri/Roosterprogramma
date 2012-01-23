@@ -345,7 +345,7 @@ public class Rooster extends javax.swing.JPanel {
             tblSchedule.getCellEditor().stopCellEditing();
         }
         for (int i = 0; i < model.getRowCount(); i++) {
-            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
+            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
             for (int j = 2; j < model.getColumnCount(); j++) {
                 String date = year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
                 String shouldWork = model.getValueAt(i, j).toString();
@@ -434,8 +434,8 @@ public class Rooster extends javax.swing.JPanel {
     private void searchTable() {
         removeRows();
         if (!tfPersoneelsnummer.getText().isEmpty()) {
-            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
-            if (!employee.getFirstName().isEmpty()) {
+            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
+            if (employee != null) {
                 insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
             }
         } else {
@@ -453,10 +453,10 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private boolean isValidWorkHour(String shouldWork) {
-        return (shouldWork.equalsIgnoreCase("z")
-                || shouldWork.equalsIgnoreCase("x1")
+        return (shouldWork.equalsIgnoreCase("x1")
                 || shouldWork.equalsIgnoreCase("x2")
                 || shouldWork.equalsIgnoreCase("x3")
+                || shouldWork.equalsIgnoreCase("z")
                 || shouldWork.equalsIgnoreCase("v")
                 || shouldWork.equalsIgnoreCase("c")
                 || shouldWork.equalsIgnoreCase("k")

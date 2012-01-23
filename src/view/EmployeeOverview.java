@@ -70,8 +70,8 @@ public class EmployeeOverview extends javax.swing.JPanel {
             model.removeRow(0);
         }
         if (!tfEmployeeNr.getText().isEmpty()) {
-            Employee employee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
-            if (!employee.getFirstName().isEmpty()) {
+            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tfEmployeeNr.getText()));
+            if (employee != null) {
                 insertEmployeeIntoTable(employee);
             }
         } else {
@@ -80,7 +80,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
                     insertEmployeeIntoTable(employee);
                 }
             } else {
-                for (Employee employee : RoosterProgramma.getQueryManager().getEmployees()) {
+                for (Employee employee : RoosterProgramma.getInstance().getEmployees()) {
                     insertEmployeeIntoTable(employee);
                 }
             }
@@ -282,7 +282,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
-        selectedEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
+        selectedEmployee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
         if (evt.getClickCount() < 2) {
             btnDelete.setEnabled(true);
             btnChange.setEnabled(true);

@@ -25,60 +25,6 @@ public class QueryManager {
         this.dbManager = dbmanager;
     }
 
-    public Employee getEmployee(int id) {
-        Employee employee = new Employee();
-        try {
-            String sql = "SELECT * FROM medewerkers WHERE personeelsnummer = '" + id + "';";
-            ResultSet result = dbManager.doQuery(sql);
-            if (result.next()) {
-                employee = new Employee(
-                        result.getInt("personeelsnummer"),
-                        result.getString("voornaam"),
-                        result.getString("tussenvoegsel"),
-                        result.getString("achternaam"),
-                        result.getString("wachtwoord"),
-                        result.getBoolean("fulltime"),
-                        result.getBoolean("parttime"),
-                        result.getBoolean("oproepkracht"),
-                        result.getBoolean("baliemedewerker"),
-                        result.getBoolean("museumdocent"),
-                        result.getDouble("contracturen"),
-                        result.getDouble("vakantiepercentage"),
-                        result.getBoolean("admin"));
-            }
-        } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, gebruiker met personeelsnummer '" + id + "' kan niet worden opgehaald uit de database.", "Fout!", true, ex.getMessage());
-        }
-        return employee;
-    }
-
-    public Employee getEmployee(String firstName, String insertion, String familyName) throws SQLException {
-        Employee employee = new Employee();
-        String sql = "SELECT * FROM medewerkers WHERE voornaam = '" + firstName + "' AND ";
-        if (!insertion.isEmpty()) {
-            sql += "tussenvoegsel = '" + insertion + "' AND ";
-        }
-        sql += "achternaam = '" + familyName + "';";
-        ResultSet result = dbManager.doQuery(sql);
-        if (result.next()) {
-            employee = new Employee(
-                    result.getInt("personeelsnummer"),
-                    result.getString("voornaam"),
-                    result.getString("tussenvoegsel"),
-                    result.getString("achternaam"),
-                    result.getString("wachtwoord"),
-                    result.getBoolean("fulltime"),
-                    result.getBoolean("parttime"),
-                    result.getBoolean("oproepkracht"),
-                    result.getBoolean("baliemedewerker"),
-                    result.getBoolean("museumdocent"),
-                    result.getDouble("contracturen"),
-                    result.getDouble("vakantiepercentage"),
-                    result.getBoolean("admin"));
-        }
-        return employee;
-    }
-
     public ArrayList<Employee> getEmployees() {
         ArrayList<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers;";
@@ -152,19 +98,20 @@ public class QueryManager {
         dbManager.insertQuery(sql);
     }
 
+    // ToDo : Porten naar RoosterProgramma.java om gebruik te maken van de al-aanwezige werknemers
     public ArrayList<Employee> searchEmployee(String voornaam, String achternaam) {
         ArrayList<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers WHERE ";
-        if (voornaam.length() > 0) {
+        if (!voornaam.isEmpty()) {
             sql += "(SELECT voornaam REGEXP '" + voornaam + "') = 1";
         }
-        if (voornaam.length() > 0 && achternaam.length() > 0) {
+        if (!voornaam.isEmpty() && !achternaam.isEmpty()) {
             sql += " AND ";
         }
-        if (achternaam.length() > 0) {
+        if (!achternaam.isEmpty()) {
             sql += "(SELECT achternaam REGEXP '" + achternaam + "') = 1";
         }
-        if (!sql.equals("SELECT * FROM medewerkers WHERE ")) {
+        if (!voornaam.isEmpty() || !achternaam.isEmpty()) {
             try {
                 ResultSet result = dbManager.doQuery(sql);
                 while (result.next()) {

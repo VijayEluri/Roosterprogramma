@@ -5,7 +5,6 @@
  */
 package view;
 
-import java.sql.SQLException;
 import model.Employee;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Utils;
@@ -560,6 +559,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setVacationPercentage(vacationPercentage);
             employee.update();
         }
+
+        RoosterProgramma.getInstance().initializeEmployees();
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview(true));
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -642,13 +643,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
         if (tfFirstName.getText().isEmpty() || tfFamilyName.getText().isEmpty()) {
             lblNameInUse.setVisible(false);
             return true;
-        }
-        String firstName = tfFirstName.getText().toLowerCase();
-        String familyName = tfFamilyName.getText().toLowerCase();
-        try {
-            Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(firstName, "", familyName);
-            if (existingEmployee.getFirstName().toLowerCase().equals(firstName)
-                    && existingEmployee.getFamilyName().toLowerCase().equals(familyName)
+        } else {
+            String firstName = tfFirstName.getText();
+            String familyName = tfFamilyName.getText();
+            Employee existingEmployee = RoosterProgramma.getInstance().getEmployee(firstName, "", familyName);
+            if (existingEmployee != null
                     && (isAdd
                     || existingEmployee.getEmployeeNumber() != employee.getEmployeeNumber())) {
                 lblNameInUse.setVisible(true);
@@ -657,10 +656,6 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 lblNameInUse.setVisible(false);
                 return false;
             }
-        } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, de database gaf een fout bij de controle of de gebruiker al bestaat.", "Fout!", true, ex.getMessage());
-            lblNameInUse.setVisible(true);
-            return false;
         }
     }
 
@@ -669,11 +664,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
             lblNumberInUse.setVisible(false);
             return true;
         } else {
-            Employee existingEmployee = RoosterProgramma.getQueryManager().getEmployee(Integer.parseInt(tfEmployeeNumber.getText()));
-            if (existingEmployee.getEmployeeNumber() == Integer.parseInt(tfEmployeeNumber.getText())
+            Employee existingEmployee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tfEmployeeNumber.getText()));
+            if (existingEmployee != null
                     && (isAdd
-                    || (!existingEmployee.getFirstName().toLowerCase().equals(employee.getFirstName().toLowerCase())
-                    || !existingEmployee.getFamilyName().toLowerCase().equals(employee.getFamilyName().toLowerCase())))) {
+                    || (!existingEmployee.getFirstName().equalsIgnoreCase(employee.getFirstName())
+                    || !existingEmployee.getFamilyName().equalsIgnoreCase(employee.getFamilyName())))) {
                 lblNumberInUse.setVisible(true);
                 return true;
             } else {
