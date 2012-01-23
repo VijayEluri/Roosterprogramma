@@ -380,7 +380,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         if (isCorrectlyFilled()) {
             ArrayList<Integer> failures = new ArrayList<Integer>();
             for (int i = 0; i < model.getRowCount() - 1; i++) {
-                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0]);
+                String date = getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0];
+                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
                     String value = model.getValueAt(i, j).toString();
                     String columnName = model.getColumnName(j);
@@ -406,9 +407,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                         }
                     }
                 }
-                boolean success = RoosterProgramma.getQueryManager().updateWorkHours(hour);
-                if (!success) {
-                    failures.add(i);
+                if (!hour.equals(new WorkHours(employee.getEmployeeNumber(), date))) {
+                    if (!RoosterProgramma.getQueryManager().updateWorkHours(hour)) {
+                        failures.add(i);
+                    }
                 }
             }
             if (failures.isEmpty()) {
