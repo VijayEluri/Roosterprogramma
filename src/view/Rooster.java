@@ -367,15 +367,13 @@ public class Rooster extends javax.swing.JPanel {
                         hour.setShouldWork(shouldWork);
                         RoosterProgramma.getQueryManager().updateWorkHours(hour);
                     }
-                } else {
-                    if (!shouldWork.isEmpty()) {
-                        Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true, null);
-                        return;
-                    }
+                } else if (!shouldWork.isEmpty()) {
+                    Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", null, false);
+                    return;
                 }
             }
         }
-        Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, null);
+        Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", null, false);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed

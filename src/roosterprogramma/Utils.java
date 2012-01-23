@@ -150,14 +150,19 @@ public class Utils {
         return input;
     }
 
-    public static void showMessage(String message, String title, boolean error, String exception) {
+    public static void showMessage(String message, String title, String exception, boolean fatal) {
         JOptionPane.showMessageDialog(
                 null,
                 message,
                 title,
-                error ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
-        if (error && exception != null) {
-            writeToLog(exception);
+                exception != null ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+        if (exception != null) {
+            if (fatal) {
+                System.err.println(exception);
+                RoosterProgramma.getInstance().shutdown();
+            } else {
+                writeToLog(exception);
+            }
         }
     }
 

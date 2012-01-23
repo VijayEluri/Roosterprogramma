@@ -50,12 +50,12 @@ public class QueryManager {
                         result.getBoolean("worktuesday"),
                         result.getBoolean("workwednesday"),
                         result.getBoolean("workthursday"),
-                        result.getBoolean("workmfriday"),
+                        result.getBoolean("workfriday"),
                         result.getBoolean("worksaturday"),
                         result.getBoolean("worksunday")));
             }
         } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", ex.getMessage(), false);
         }
         return employees;
     }

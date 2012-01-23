@@ -54,7 +54,7 @@ public class RoosterProgramma {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
-            Utils.showMessage("Fout opgetreden, kan het thema van het programma niet starten.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden, kan het thema van het programma niet starten.", "Fout!", ex.getMessage(), false);
         }
         dbManager = new Dbmanager();
         dbManager.openConnection();

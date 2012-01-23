@@ -40,11 +40,11 @@ public class ExcelExporter {
             }
             workbook.write();
             workbook.close();
-            Utils.showMessage("Exporteren naar excel bestand is gelukt.", "Succes!", false, null);
+            Utils.showMessage("Exporteren naar excel bestand is gelukt.", "Succes!", null, false);
         } catch (WriteException ex) {
-            Utils.showMessage("Fout opgetreden in de excel module.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden in de excel module.", "Fout!", ex.getMessage(), false);
         } catch (IOException ex) {
-            Utils.showMessage("Fout opgetreden in het lezen/schrijven van het bestand.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden in het lezen/schrijven van het bestand.", "Fout!", ex.getMessage(), false);
         }
     }
 }
