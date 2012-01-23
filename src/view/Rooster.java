@@ -130,9 +130,20 @@ public class Rooster extends javax.swing.JPanel {
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return colIndex != 0 && colIndex != 1;
             }
+
+            @Override
+            public void fireTableCellUpdated(int row, int column) {
+                String value = model.getValueAt(row, column).toString();
+                if (value.equalsIgnoreCase("x1")) {
+                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX1(), row, column);
+                } else if (value.equalsIgnoreCase("x2")) {
+                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX2(), row, column);
+                } else if (value.equalsIgnoreCase("x3")) {
+                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX3(), row, column);
+                }
+                super.fireTableCellUpdated(row, column);
+            }
         });
-        tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblSchedule.setMaximumSize(new java.awt.Dimension(2500, 1700));
         jspSchedule.setViewportView(tblSchedule);
     }
 
@@ -241,7 +252,7 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
-        jspSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3");
+        jspSchedule.setToolTipText("");
 
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -251,8 +262,9 @@ public class Rooster extends javax.swing.JPanel {
 
             }
         ));
+        tblSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3");
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblSchedule.setMaximumSize(new java.awt.Dimension(2500, 1700));
+        tblSchedule.setMaximumSize(new java.awt.Dimension(25000, 17000));
         jspSchedule.setViewportView(tblSchedule);
 
         tfVoornaam.setText("Voornaam");
@@ -295,11 +307,11 @@ public class Rooster extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1706, Short.MAX_VALUE)
-                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1706, Short.MAX_VALUE)
+                    .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
+                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1397, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
                         .addComponent(btnExcelExport)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave))
