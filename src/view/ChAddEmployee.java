@@ -557,6 +557,13 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setMuseumEducator(museumEducator);
             employee.setContractHours(contractHours);
             employee.setVacationPercentage(vacationPercentage);
+            employee.setWorkMonday(cbMonday.isSelected());
+            employee.setWorkTuesday(cbTuesday.isSelected());
+            employee.setWorkWednesday(cbWednesday.isSelected());
+            employee.setWorkThursday(cbThursday.isSelected());
+            employee.setWorkFriday(cbFriday.isSelected());
+            employee.setWorkSaturday(cbSaturday.isSelected());
+            employee.setWorkSunday(cbSunday.isSelected());
             employee.update();
         }
 

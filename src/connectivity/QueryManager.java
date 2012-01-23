@@ -45,7 +45,14 @@ public class QueryManager {
                         result.getBoolean("museumdocent"),
                         result.getDouble("contracturen"),
                         result.getDouble("vakantiepercentage"),
-                        result.getBoolean("admin")));
+                        result.getBoolean("admin"),
+                        result.getBoolean("workmonday"),
+                        result.getBoolean("worktuesday"),
+                        result.getBoolean("workwednesday"),
+                        result.getBoolean("workthursday"),
+                        result.getBoolean("workmfriday"),
+                        result.getBoolean("worksaturday"),
+                        result.getBoolean("worksunday")));
             }
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", true, ex.getMessage());
@@ -129,7 +136,14 @@ public class QueryManager {
                             result.getBoolean("museumdocent"),
                             result.getDouble("contracturen"),
                             result.getDouble("vakantiepercentage"),
-                            result.getBoolean("admin")));
+                            result.getBoolean("admin"),
+                            result.getBoolean("workmonday"),
+                            result.getBoolean("worktuesday"),
+                            result.getBoolean("workwednesday"),
+                            result.getBoolean("workthursday"),
+                            result.getBoolean("workmfriday"),
+                            result.getBoolean("worksaturday"),
+                            result.getBoolean("worksunday")));
                 }
             } catch (SQLException ex) {
                 Utils.showMessage("Fout opgetreden, kon niet zoeken naar deze gebruiker.", "Fout!", true, ex.getMessage());

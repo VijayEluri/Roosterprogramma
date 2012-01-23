@@ -25,14 +25,16 @@ public class Employee {
     private double contractHours;
     private double vacationPercentage;
     private boolean admin;
+    private boolean workMonday, workTuesday, workWednesday, workThursday, workFriday, workSaturday, workSunday;
 
     public Employee() {
-        this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false);
+        this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false, false, false, false, false, false, false, false);
     }
 
     public Employee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
             boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
-            boolean museumdocent, double contracturen, double vacationPercentage, boolean admin) {
+            boolean museumdocent, double contracturen, double vacationPercentage, boolean admin, boolean workMonday, boolean workTuesday,
+            boolean workWednesday, boolean workThursday, boolean workFriday, boolean workSaturday, boolean workSunday) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
         this.insertion = tussenvoegsel == null ? "" : tussenvoegsel;
@@ -46,6 +48,13 @@ public class Employee {
         this.contractHours = contracturen;
         this.vacationPercentage = vacationPercentage;
         this.admin = admin;
+        this.workMonday = workMonday;
+        this.workTuesday = workTuesday;
+        this.workWednesday = workWednesday;
+        this.workThursday = workThursday;
+        this.workFriday = workFriday;
+        this.workSaturday = workSaturday;
+        this.workSunday = workSunday;
     }
 
     public void delete() {
@@ -238,5 +247,103 @@ public class Employee {
      */
     public void setVacationPercentage(double vacationPercentage) {
         this.vacationPercentage = vacationPercentage;
+    }
+
+    /**
+     * @return the workMonday
+     */
+    public boolean isWorkMonday() {
+        return workMonday;
+    }
+
+    /**
+     * @param workMonday the workMonday to set
+     */
+    public void setWorkMonday(boolean workMonday) {
+        this.workMonday = workMonday;
+    }
+
+    /**
+     * @return the workTuesday
+     */
+    public boolean isWorkTuesday() {
+        return workTuesday;
+    }
+
+    /**
+     * @param workTuesday the workTuesday to set
+     */
+    public void setWorkTuesday(boolean workTuesday) {
+        this.workTuesday = workTuesday;
+    }
+
+    /**
+     * @return the workWednesday
+     */
+    public boolean isWorkWednesday() {
+        return workWednesday;
+    }
+
+    /**
+     * @param workWednesday the workWednesday to set
+     */
+    public void setWorkWednesday(boolean workWednesday) {
+        this.workWednesday = workWednesday;
+    }
+
+    /**
+     * @return the workThursday
+     */
+    public boolean isWorkThursday() {
+        return workThursday;
+    }
+
+    /**
+     * @param workThursday the workThursday to set
+     */
+    public void setWorkThursday(boolean workThursday) {
+        this.workThursday = workThursday;
+    }
+
+    /**
+     * @return the workFriday
+     */
+    public boolean isWorkFriday() {
+        return workFriday;
+    }
+
+    /**
+     * @param workFriday the workFriday to set
+     */
+    public void setWorkFriday(boolean workFriday) {
+        this.workFriday = workFriday;
+    }
+
+    /**
+     * @return the workSaturday
+     */
+    public boolean isWorkSaturday() {
+        return workSaturday;
+    }
+
+    /**
+     * @param workSaturday the workSaturday to set
+     */
+    public void setWorkSaturday(boolean workSaturday) {
+        this.workSaturday = workSaturday;
+    }
+
+    /**
+     * @return the workSunday
+     */
+    public boolean isWorkSunday() {
+        return workSunday;
+    }
+
+    /**
+     * @param workSunday the workSunday to set
+     */
+    public void setWorkSunday(boolean workSunday) {
+        this.workSunday = workSunday;
     }
 }
