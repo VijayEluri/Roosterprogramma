@@ -54,7 +54,7 @@ public class Translater {
         } else if (strToTranslate.equals("December")) {
             translated = "December";
         } else {
-            Utils.showMessage("Fout opgetreden, missende vertaling voor woord: " + strToTranslate, "Fout!", true, "");
+            Utils.showMessage("Fout opgetreden, missende vertaling voor woord: " + strToTranslate, "Fout!", true, null);
             translated = strToTranslate;
         }
 

@@ -273,7 +273,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         if (Utils.promptQuestion("Weet je zeker dat je " + selectedEmployee.getFirstName() + " " + selectedEmployee.getFamilyName() + " wilt verwijderen?", true, "Ja", "Nee")) {
             if (selectedEmployee.isAdmin()) {
-                Utils.showMessage("U kunt geen administrator verwijderen.", "Fout!", true, "");
+                Utils.showMessage("U kunt geen administrator verwijderen.", "Fout!", true, null);
                 return;
             }
             selectedEmployee.delete();

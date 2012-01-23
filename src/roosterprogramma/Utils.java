@@ -127,14 +127,14 @@ public class Utils {
             no
         };
         int choice = JOptionPane.showOptionDialog(
-                null, // frame
+                null,
                 question,
                 warning ? "Waarschuwing!" : "Gebruikersinteractie vereist",
                 JOptionPane.YES_NO_OPTION,
                 warning ? JOptionPane.WARNING_MESSAGE : JOptionPane.QUESTION_MESSAGE,
-                null, // custom icon
+                null,
                 options,
-                options[0] // default button
+                options[0]
                 );
         if (choice == JOptionPane.YES_OPTION) {
             answer = true;
@@ -157,7 +157,7 @@ public class Utils {
                 message,
                 title,
                 error ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
-        if (error) {
+        if (error && exception != null) {
             writeToLog(exception);
         }
     }

@@ -221,7 +221,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         if (Utils.isNumeric(value)) {
             hours = Double.parseDouble(value);
         } else {
-            Utils.showMessage("Fout opgetreden, foutieve invoer (" + value + ") in veld (" + row + ", " + column + ")", "Fout!", true, "");
+            Utils.showMessage("Fout opgetreden, foutieve invoer (" + value + ") in veld (" + row + ", " + column + ")", "Fout!", true, null);
         }
         return hours;
     }
@@ -412,13 +412,13 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 }
             }
             if (failures.isEmpty()) {
-                Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
+                Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, null);
             } else {
                 String errors = "";
                 for (int failure : failures) {
                     errors += "\nRij " + failure;
                 }
-                Utils.showMessage("Opslaan van de volgende rijen is niet gelukt: " + errors, "Fout!", true, "");
+                Utils.showMessage("Opslaan van de volgende rijen is niet gelukt: " + errors, "Fout!", true, null);
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -467,17 +467,17 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
                 if (haveWorked < shouldWork) {
                     String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
-                    Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", true, "");
+                    Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", true, null);
                     correct = false;
                     break;
                 }
             } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
                 correct = false;
-                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", true, "");
+                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", true, null);
                 break;
             } else {
                 correct = false;
-                Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", true, "");
+                Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", true, null);
                 break;
             }
         }

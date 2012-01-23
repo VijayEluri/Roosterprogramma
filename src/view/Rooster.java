@@ -369,13 +369,13 @@ public class Rooster extends javax.swing.JPanel {
                     }
                 } else {
                     if (!shouldWork.isEmpty()) {
-                        Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true, "");
+                        Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", true, null);
                         return;
                     }
                 }
             }
         }
-        Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, "");
+        Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", false, null);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
