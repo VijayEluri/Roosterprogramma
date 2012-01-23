@@ -134,8 +134,7 @@ public class Utils {
                 warning ? JOptionPane.WARNING_MESSAGE : JOptionPane.QUESTION_MESSAGE,
                 null,
                 options,
-                options[0]
-                );
+                options[0]);
         if (choice == JOptionPane.YES_OPTION) {
             answer = true;
         }

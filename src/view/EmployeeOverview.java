@@ -76,7 +76,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
             }
         } else {
             if (!tfFirstName.getText().isEmpty() || !tfFamilyName.getText().isEmpty()) {
-                for (Employee employee : RoosterProgramma.getQueryManager().searchEmployee(tfFirstName.getText(), tfFamilyName.getText())) {
+                for (Employee employee : RoosterProgramma.getInstance().searchEmployee(tfFirstName.getText(), tfFamilyName.getText())) {
                     insertEmployeeIntoTable(employee);
                 }
             } else {

@@ -66,7 +66,10 @@ public class RoosterProgramma {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                shutdown();
+                int shutdown = JOptionPane.showConfirmDialog(null, "Weet u zeker dat u het programma wilt afsluiten?\nAlle niet-opgeslagen gegevens zullen verloren gaan...", "Afsluiten", JOptionPane.YES_NO_OPTION);
+                if (shutdown == JOptionPane.YES_OPTION) {
+                    shutdown();
+                }
             }
         });
         mainWindow.getContentPane().setLayout(new BorderLayout());
@@ -75,16 +78,13 @@ public class RoosterProgramma {
     }
 
     public void shutdown() {
-        int shutdown = JOptionPane.showConfirmDialog(null, "Weet u zeker dat u het programma wilt afsluiten?\nAlle niet-opgeslagen gegevens zullen verloren gaan...", "Afsluiten", JOptionPane.YES_NO_OPTION);
-        if (shutdown == JOptionPane.YES_OPTION) {
-            mainWindow.setVisible(false);
-            mainWindow.dispose();
-            dbManager.closeConnection();
-            System.exit(0);
-        }
+        mainWindow.setVisible(false);
+        mainWindow.dispose();
+        dbManager.closeConnection();
+        System.exit(0);
     }
 
-    public model.Employee getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
@@ -121,14 +121,37 @@ public class RoosterProgramma {
         return null;
     }
 
-    public Employee getEmployee(String firstName, String insertion, String familyName) {
+    public Employee getEmployee(String firstname, String insertion, String familyname) {
         for (Employee tmpEmployee : employees) {
-            if (tmpEmployee.getFirstName().equalsIgnoreCase(firstName) && tmpEmployee.getFamilyName().equalsIgnoreCase(familyName)) {
-                if (insertion == null || (insertion != null && tmpEmployee.getInsertion().equalsIgnoreCase(insertion))) {
+            if (tmpEmployee.getFirstName().equalsIgnoreCase(firstname) && tmpEmployee.getFamilyName().equalsIgnoreCase(familyname)) {
+                if (insertion == null || tmpEmployee.getInsertion().equalsIgnoreCase(insertion)) {
                     return tmpEmployee;
                 }
             }
         }
         return null;
+    }
+
+    public ArrayList<Employee> searchEmployee(String firstname, String familyname) {
+        firstname = firstname.toLowerCase();
+        familyname = familyname.toLowerCase();
+
+        ArrayList<Employee> result = new ArrayList<Employee>();
+        for (Employee tmpEmployee : employees) {
+            String tmpFirstname = tmpEmployee.getFirstName().toLowerCase();
+            String tmpFamilyname = tmpEmployee.getFamilyName().toLowerCase();
+            if (!firstname.isEmpty()) {
+                if (tmpFirstname.contains(firstname) && (familyname.isEmpty() || tmpFamilyname.contains(familyname))) {
+                    result.add(tmpEmployee);
+                }
+            } else if (!familyname.isEmpty()) {
+                if (tmpFamilyname.contains(familyname)) {
+                    result.add(tmpEmployee);
+                }
+            } else {
+                return getEmployees();
+            }
+        }
+        return result;
     }
 }

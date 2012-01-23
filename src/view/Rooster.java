@@ -454,7 +454,7 @@ public class Rooster extends javax.swing.JPanel {
             if (!tfVoornaam.getText().isEmpty() || !tfAchternaam.getText().isEmpty()) {
                 String voornaam = tfVoornaam.getText().equals("Voornaam") ? "" : tfVoornaam.getText();
                 String achternaam = tfAchternaam.getText().equals("Achternaam") ? "" : tfAchternaam.getText();
-                List<Employee> employees = RoosterProgramma.getQueryManager().searchEmployee(voornaam, achternaam);
+                List<Employee> employees = RoosterProgramma.getInstance().searchEmployee(voornaam, achternaam);
                 for (Employee employee : employees) {
                     insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
                 }
