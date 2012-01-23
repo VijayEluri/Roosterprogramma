@@ -62,101 +62,52 @@ public class QueryManager {
 
     // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
     public void addEmployee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
-            boolean tmpFulltime, boolean tmpParttime, boolean tmpOproepkracht, boolean tmpBalieMedewerker,
-            boolean tmpMuseumDocent, double contractUren, double vakantiePercentage, boolean tmpAdmin) {
-        int fulltime = tmpFulltime ? 1 : 0;
-        int parttime = tmpParttime ? 1 : 0;
-        int oproepkracht = tmpOproepkracht ? 1 : 0;
-        int baliemedewerker = tmpBalieMedewerker ? 1 : 0;
-        int museumdocent = tmpMuseumDocent ? 1 : 0;
-        int admin = tmpAdmin ? 1 : 0;
+            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
+            boolean museumdocent, double contractUren, double vakantiePercentage, boolean admin) {
         String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, wachtwoord, fulltime, parttime, oproepkracht, baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin)"
                 + "VALUES('" + personeelsNummer + "', '" + voornaam.replace("'", "\'") + "', '"
-                + tussenvoegsel.replace("'", "\'") + "', '" + achternaam.replace("'", "\'") + "', '" + wachtwoord + "', '" + fulltime + "', '"
-                + parttime + "', '" + oproepkracht + "', '" + baliemedewerker + "', '" + museumdocent + "', '" + contractUren + "', '" + vakantiePercentage + "', '" + admin + "')";
-        dbManager.insertQuery(sql);
+                + tussenvoegsel.replace("'", "\'") + "', '" + achternaam.replace("'", "\'") + "', '" + wachtwoord + "', '" + Utils.booleanToInt(fulltime) + "', '"
+                + Utils.booleanToInt(parttime) + "', '" + Utils.booleanToInt(oproepkracht) + "', '" + Utils.booleanToInt(baliemedewerker) + "', '" + Utils.booleanToInt(museumdocent) + "', '"
+                + contractUren + "', '" + vakantiePercentage + "', '" + Utils.booleanToInt(admin) + "')";
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, nieuwe medewerker kon niet worden toegevoegd.", "Fout!", ex.getMessage(), false);
+        }
     }
 
     // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
     public void changeEmployee(Employee employee) {
-        int fulltime = employee.isFullTime() ? 1 : 0;
-        int parttime = employee.isPartTime() ? 1 : 0;
-        int oproepkracht = employee.isCallWorker() ? 1 : 0;
-        int baliemedewerker = employee.isClerk() ? 1 : 0;
-        int museumdocent = employee.isMuseumEducator() ? 1 : 0;
-        int admin = employee.isAdmin() ? 1 : 0;
         String sql = "UPDATE medewerkers SET "
                 + "voornaam = '" + employee.getFirstName().replace("'", "\'") + "', "
                 + "tussenvoegsel = '" + employee.getInsertion().replace("'", "\'") + "', "
                 + "achternaam = '" + employee.getFamilyName().replace("'", "\'") + "', "
                 + "wachtwoord = '" + employee.getPassword().replace("'", "\'") + "', "
-                + "fulltime = '" + fulltime + "', "
-                + "parttime = '" + parttime + "', "
-                + "oproepkracht = '" + oproepkracht + "', "
-                + "baliemedewerker = '" + baliemedewerker + "', "
-                + "museumdocent = '" + museumdocent + "', "
+                + "fulltime = '" + Utils.booleanToInt(employee.isFullTime()) + "', "
+                + "parttime = '" + Utils.booleanToInt(employee.isPartTime()) + "', "
+                + "oproepkracht = '" + Utils.booleanToInt(employee.isCallWorker()) + "', "
+                + "baliemedewerker = '" + Utils.booleanToInt(employee.isClerk()) + "', "
+                + "museumdocent = '" + Utils.booleanToInt(employee.isMuseumEducator()) + "', "
                 + "contracturen = '" + employee.getContractHours() + "', "
                 + "vakantiepercentage = '" + employee.getVacationPercentage() + "', "
-                + "admin = '" + admin + "' "
+                + "admin = '" + Utils.booleanToInt(employee.isAdmin()) + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
-        dbManager.insertQuery(sql);
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, medewerker kon niet worden gewijzigd.", "Fout!", ex.getMessage(), false);
+        }
     }
 
     public void deleteEmployee(Employee employee) {
         String sql = "DELETE FROM medewerkers WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
-        dbManager.insertQuery(sql);
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, medewerker kon niet worden verwijderd.", "Fout!", ex.getMessage(), false);
+        }
     }
 
-    // ToDo : Porten naar RoosterProgramma.java om gebruik te maken van de al-aanwezige werknemers
-    public ArrayList<Employee> searchEmployee(String voornaam, String achternaam) {
-        ArrayList<Employee> employees = new ArrayList<Employee>();
-        String sql = "SELECT * FROM medewerkers WHERE ";
-        if (!voornaam.isEmpty()) {
-            sql += "(SELECT voornaam REGEXP '" + voornaam + "') = 1";
-        }
-        if (!voornaam.isEmpty() && !achternaam.isEmpty()) {
-            sql += " AND ";
-        }
-        if (!achternaam.isEmpty()) {
-            sql += "(SELECT achternaam REGEXP '" + achternaam + "') = 1";
-        }
-        if (!voornaam.isEmpty() || !achternaam.isEmpty()) {
-            try {
-                ResultSet result = dbManager.doQuery(sql);
-                while (result.next()) {
-                    employees.add(
-                            new Employee(
-                            result.getInt("personeelsnummer"),
-                            result.getString("voornaam"),
-                            result.getString("tussenvoegsel"),
-                            result.getString("achternaam"),
-                            result.getString("wachtwoord"),
-                            result.getBoolean("fulltime"),
-                            result.getBoolean("parttime"),
-                            result.getBoolean("oproepkracht"),
-                            result.getBoolean("baliemedewerker"),
-                            result.getBoolean("museumdocent"),
-                            result.getDouble("contracturen"),
-                            result.getDouble("vakantiepercentage"),
-                            result.getBoolean("admin"),
-                            result.getBoolean("workmonday"),
-                            result.getBoolean("worktuesday"),
-                            result.getBoolean("workwednesday"),
-                            result.getBoolean("workthursday"),
-                            result.getBoolean("workmfriday"),
-                            result.getBoolean("worksaturday"),
-                            result.getBoolean("worksunday")));
-                }
-            } catch (SQLException ex) {
-                Utils.showMessage("Fout opgetreden, kon niet zoeken naar deze gebruiker.", "Fout!", true, ex.getMessage());
-            }
-        } else {
-            return getEmployees();
-        }
-        return employees;
-    }
-
-    // ToDo: WorkHours constructor maken met alleen employeenumber en date
     public WorkHours getWorkHours(int employeeNumber, String date) {
         WorkHours hours = new WorkHours();
         String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employeeNumber + "' AND datum = '" + date + "';";
@@ -169,16 +120,14 @@ public class QueryManager {
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
                         result.getDouble("verlof"), result.getDouble("opgcompensatie"), result.getString("opmerking"));
             } else {
-                hours.setEmployeeNumber(employeeNumber);
-                hours.setDate(date);
+                hours = new WorkHours(employeeNumber, date);
             }
         } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, kon niet de werkuren van personeelsnummer '" + employeeNumber + "' ophalen.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden, kon niet de werkuren van personeelsnummer '" + employeeNumber + "' ophalen.", "Fout!", ex.getMessage(), false);
         }
         return hours;
     }
 
-    // ToDo: Checks weghalen uit de ELSE, je kan niet opslaan zonder wijziging
     public boolean updateWorkHours(WorkHours hour) {
         String sql;
         if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getShouldWork().isEmpty()) {
@@ -197,40 +146,35 @@ public class QueryManager {
                     + "AND datum = '" + hour.getDate()
                     + "';";
         } else {
-            if (!hour.getShouldWork().isEmpty()
-                    || hour.getWorked() > 0
-                    || hour.getVacation() > 0
-                    || hour.getADV() > 0
-                    || hour.getIllness() > 0
-                    || hour.getLeave() > 0
-                    || hour.getWithdrawnCompensation() > 0) {
-                sql = "INSERT INTO werktijden VALUES ('"
-                        + hour.getEmployeeNumber()
-                        + "', '" + hour.getDate()
-                        + "', '" + hour.getShouldWork()
-                        + "', '" + hour.getWorked()
-                        + "', '" + hour.getCompensation150()
-                        + "', '" + hour.getCompensation200()
-                        + "', '" + hour.getVacation()
-                        + "', '" + hour.getADV()
-                        + "', '" + hour.getIllness()
-                        + "', '" + hour.getLeave()
-                        + "', '" + hour.getWithdrawnCompensation()
-                        + "', '" + hour.getComment()
-                        + "');";
-            } else {
-                return false;
-            }
+            sql = "INSERT INTO werktijden VALUES ('"
+                    + hour.getEmployeeNumber()
+                    + "', '" + hour.getDate()
+                    + "', '" + hour.getShouldWork()
+                    + "', '" + hour.getWorked()
+                    + "', '" + hour.getCompensation150()
+                    + "', '" + hour.getCompensation200()
+                    + "', '" + hour.getVacation()
+                    + "', '" + hour.getADV()
+                    + "', '" + hour.getIllness()
+                    + "', '" + hour.getLeave()
+                    + "', '" + hour.getWithdrawnCompensation()
+                    + "', '" + hour.getComment()
+                    + "');";
         }
-        dbManager.insertQuery(sql);
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
+            return false;
+        }
         return true;
     }
 
     public Settings getSettings() {
         Settings settings = new Settings();
         String sql = "SELECT * FROM settings;";
-        ResultSet result = dbManager.doQuery(sql);
         try {
+            ResultSet result = dbManager.doQuery(sql);
             if (result.next()) {
                 settings.setSettings(
                         result.getString("x1"),
@@ -238,7 +182,7 @@ public class QueryManager {
                         result.getString("x3"));
             }
         } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, het opslaan van de instellingen is niet gelukt.", "Fout!", true, ex.getMessage());
+            Utils.showMessage("Fout opgetreden, het ophalen van de instellingen is niet gelukt.", "Fout!", ex.getMessage(), false);
         }
         return settings;
     }
@@ -248,12 +192,20 @@ public class QueryManager {
                 + "x1 = '" + settings.getX1() + "', "
                 + "x2 = '" + settings.getX2() + "', "
                 + "x3 = '" + settings.getX3() + "';";
-        dbManager.insertQuery(sql);
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, het opslaan van de instellingen is niet gelukt.", "Fout!", ex.getMessage(), false);
+        }
     }
 
     // ToDo: Datum toevoegen aan elke log entry
     public void addToLog(String message) {
-        String sql = "INSERT INTO `log` (`message`) VALUES('" + message + "');";
-        dbManager.insertQuery(sql);
+        String sql = "INSERT INTO `log` (`message`) VALUES ('" + message + "');";
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("ERNSTIGE FOUT, er is een fout opgetreden bij het loggen van een fout.", "Fout!", ex.getMessage(), true);
+        }
     }
 }

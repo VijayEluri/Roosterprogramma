@@ -26,7 +26,11 @@ public class WorkHours {
     private String comment;
 
     public WorkHours() {
-        this(0, "", "", 0, 0, 0, 0, 0, 0, 0, 0, "");
+        this(0, "");
+    }
+
+    public WorkHours(int employeeNumber, String date) {
+        this(employeeNumber, date, "", 0, 0, 0, 0, 0, 0, 0, 0, "");
     }
 
     public WorkHours(int employeeNumber, String date, String shouldWork, double worked,

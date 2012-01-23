@@ -1,11 +1,10 @@
 package connectivity;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import roosterprogramma.RoosterProgramma;
+import roosterprogramma.Utils;
 
 /**
  *
@@ -44,13 +43,8 @@ public class Dbmanager {
             }
             DriverManager.setLoginTimeout(15);
             connection = DriverManager.getConnection(url);
-        } catch (ClassNotFoundException e) {
-            System.err.println(JDBC_EXCEPTION + e);
-            JOptionPane.showMessageDialog(null, "Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", JOptionPane.ERROR_MESSAGE);
-            RoosterProgramma.getInstance().shutdown();
-        } catch (java.sql.SQLException e) {
-            System.err.println(SQL_EXCEPTION + e);
-            JOptionPane.showMessageDialog(null, "Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            Utils.showMessage("Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", ex.getMessage(), false);
             RoosterProgramma.getInstance().shutdown();
         }
     }
@@ -61,55 +55,42 @@ public class Dbmanager {
     public void closeConnection() {
         try {
             connection.close();
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(Dbmanager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
      * Executes a query without result.
+     *
      * @param query
+     * @throws SQLException
      */
-    public void executeQuery(String query) {
-        try {
-            connection.createStatement().executeQuery(query);
-        } catch (java.sql.SQLException e) {
-            System.err.println(SQL_EXCEPTION + e);
-            System.err.println("Query:" + query);
-        }
+    public void executeQuery(String query) throws SQLException {
+        connection.createStatement().executeQuery(query);
     }
 
     /**
      * Executes a query with result.
+     *
      * @param query
-     * @return 
-     */
-    public ResultSet doQuery(String query) {
-        ResultSet result = null;
-        try {
-            result = connection.createStatement().executeQuery(query);
-        } catch (java.sql.SQLException e) {
-            System.err.println(SQL_EXCEPTION + e);
-            System.err.println("Query:" + query);
-        }
-        return result;
-    }
-
-    /**
-     * Executes a query with result.
-     * @param query 
      * @return
+     * @throws SQLException
      */
-    public ResultSet insertQuery(String query) {
-        ResultSet result = null;
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-            result = statement.getGeneratedKeys();
-        } catch (java.sql.SQLException e) {
-            System.err.println(SQL_EXCEPTION + e);
-            System.err.println("Query:" + query);
-        }
-        return result;
+    public ResultSet doQuery(String query) throws SQLException {
+        return connection.createStatement().executeQuery(query);
+    }
+
+    /**
+     * Executes a query with result.
+     *
+     * @param query
+     * @return
+     * @throws SQLException
+     */
+    public ResultSet insertQuery(String query) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        return statement.getGeneratedKeys();
     }
 }

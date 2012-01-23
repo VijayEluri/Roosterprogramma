@@ -218,4 +218,8 @@ public class Utils {
         }
         return Sha1;
     }
+
+    public static int booleanToInt(boolean bool) {
+        return (bool ? 1 : 0);
+    }
 }
