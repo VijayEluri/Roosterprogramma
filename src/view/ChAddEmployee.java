@@ -541,10 +541,20 @@ public class ChAddEmployee extends javax.swing.JPanel {
         boolean callWorker = cbCallWorker.isSelected();
         boolean clerk = cbClerk.isSelected();
         boolean museumEducator = cbMuseumEducator.isSelected();
+        boolean monday = cbMonday.isSelected();
+        boolean tuesday = cbTuesday.isSelected();
+        boolean wednesday = cbWednesday.isSelected();
+        boolean thursday = cbThursday.isSelected();
+        boolean friday = cbFriday.isSelected();
+        boolean saturday = cbSaturday.isSelected();
+        boolean sunday = cbSunday.isSelected();
         Double vacationPercentage = callWorker ? Double.parseDouble(tfVacationPercentage.getText().replace(",", ".")) : 0.0;
         Double contractHours = fullTime ? 40.0 : Double.parseDouble(tfHours.getText().replace(",", "."));
         if (isAdd) {
-            RoosterProgramma.getQueryManager().addEmployee(employeeNumber, firstName, insertion, familyName, Utils.SHA1(password), fullTime, partTime, callWorker, clerk, museumEducator, contractHours, vacationPercentage, false);
+            employee = new Employee(employeeNumber, firstName, insertion, familyName, password,
+                    fullTime, partTime, callWorker, clerk, museumEducator, contractHours, vacationPercentage,
+                    false, monday, wednesday, wednesday, thursday, friday, saturday, sunday);
+            RoosterProgramma.getQueryManager().addEmployee(employee);
         } else {
             employee.setFirstName(firstName);
             employee.setInsertion(insertion);
@@ -557,17 +567,15 @@ public class ChAddEmployee extends javax.swing.JPanel {
             employee.setMuseumEducator(museumEducator);
             employee.setContractHours(contractHours);
             employee.setVacationPercentage(vacationPercentage);
-            employee.setWorkMonday(cbMonday.isSelected());
-            employee.setWorkTuesday(cbTuesday.isSelected());
-            employee.setWorkWednesday(cbWednesday.isSelected());
-            employee.setWorkThursday(cbThursday.isSelected());
-            employee.setWorkFriday(cbFriday.isSelected());
-            employee.setWorkSaturday(cbSaturday.isSelected());
-            employee.setWorkSunday(cbSunday.isSelected());
+            employee.setWorkMonday(monday);
+            employee.setWorkTuesday(tuesday);
+            employee.setWorkWednesday(wednesday);
+            employee.setWorkThursday(thursday);
+            employee.setWorkFriday(friday);
+            employee.setWorkSaturday(saturday);
+            employee.setWorkSunday(sunday);
             employee.update();
         }
-
-        RoosterProgramma.getInstance().initializeEmployees();
         RoosterProgramma.getInstance().showPanel(new EmployeeOverview(true));
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -623,9 +631,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
     }//GEN-LAST:event_tfHoursKeyReleased
 
     private void tfVacationPercentageKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfVacationPercentageKeyReleased
-        if (evt.getKeyChar() == '.') {
-            tfVacationPercentage.setText(tfVacationPercentage.getText().replace(".", ","));
-        }
+        tfVacationPercentage.setText(tfVacationPercentage.getText().replace(".", ","));
         checkEnabled();
     }//GEN-LAST:event_tfVacationPercentageKeyReleased
 

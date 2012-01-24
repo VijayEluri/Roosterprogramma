@@ -104,17 +104,8 @@ public class Rooster extends javax.swing.JPanel {
         }
     }
 
-    private void handleField(Calendar calendar, Employee employee, Object[] fields) {
-        WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getDate(calendar));
-        fields[calendar.get(Calendar.DAY_OF_MONTH) + 1] = hour.getShouldWork();
-    }
-
     private String getDate(Calendar calendar) {
-        return year
-                + "-"
-                + getMonth()
-                + "-"
-                + (Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)).length() < 2 ? "0" + Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)) : Integer.toString(calendar.get(Calendar.DAY_OF_MONTH)));
+        return year + "-" + getMonth() + "-" + (calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + calendar.get(Calendar.DAY_OF_MONTH) : calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     private String getMonth() {
@@ -145,6 +136,71 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
         jspSchedule.setViewportView(tblSchedule);
+    }
+
+    private void insertEmployeeIntoTable(Employee employee, int daysOfMonth) {
+        if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
+            Object[] fields = new Object[daysOfMonth + 2];
+            fields[0] = employee.getEmployeeNumber();
+            fields[1] = employee.getFullName();
+            fields[2] = employee.getContractHours();
+            for (int i = 1; i <= daysOfMonth; i++) {
+                calendar.set(Calendar.DAY_OF_MONTH, i);
+                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getDate(calendar));
+                fields[i + 1] = hour.getShouldWork();
+            }
+            model.addRow(fields);
+        }
+    }
+
+    private void searchTable() {
+        removeRows();
+        if (!tfPersoneelsnummer.getText().isEmpty()) {
+            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
+            if (employee != null) {
+                insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+            }
+        } else {
+            if (!tfVoornaam.getText().isEmpty() || !tfAchternaam.getText().isEmpty()) {
+                String voornaam = tfVoornaam.getText().equals("Voornaam") ? "" : tfVoornaam.getText();
+                String achternaam = tfAchternaam.getText().equals("Achternaam") ? "" : tfAchternaam.getText();
+                List<Employee> employees = RoosterProgramma.getInstance().searchEmployee(voornaam, achternaam);
+                for (Employee employee : employees) {
+                    insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                }
+            } else {
+                process();
+            }
+        }
+    }
+
+    private boolean isValidWorkHour(String shouldWork) {
+        return (shouldWork.equalsIgnoreCase("x1")
+                || shouldWork.equalsIgnoreCase("x2")
+                || shouldWork.equalsIgnoreCase("x3")
+                || shouldWork.equalsIgnoreCase("z")
+                || shouldWork.equalsIgnoreCase("v")
+                || shouldWork.equalsIgnoreCase("c")
+                || shouldWork.equalsIgnoreCase("k")
+                || shouldWork.equals("*")
+                || Utils.isNumeric(shouldWork));
+    }
+
+    private void handleTime(int year, int month) {
+        if (month == 0) {
+            month = 12;
+            year -= 1;
+        } else if (month == 13) {
+            month = 1;
+            year += 1;
+        }
+        RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
+    }
+
+    public void removeRows() {
+        while (model.getRowCount() != 0) {
+            model.removeRow(0);
+        }
     }
 
     /**
@@ -427,69 +483,6 @@ public class Rooster extends javax.swing.JPanel {
     private void chkClerkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkClerkItemStateChanged
         process();
     }//GEN-LAST:event_chkClerkItemStateChanged
-
-    private void insertEmployeeIntoTable(Employee employee, int daysOfMonth) {
-        if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
-            Object[] fields = new Object[daysOfMonth + 2];
-            fields[0] = employee.getEmployeeNumber() + " - " + employee.getFullName();
-            fields[1] = employee.getContractHours();
-            for (int i = 1; i <= daysOfMonth; i++) {
-                calendar.set(Calendar.DAY_OF_MONTH, i);
-                handleField(calendar, employee, fields);
-            }
-            model.addRow(fields);
-        }
-    }
-
-    private void searchTable() {
-        removeRows();
-        if (!tfPersoneelsnummer.getText().isEmpty()) {
-            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tfPersoneelsnummer.getText()));
-            if (employee != null) {
-                insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-            }
-        } else {
-            if (!tfVoornaam.getText().isEmpty() || !tfAchternaam.getText().isEmpty()) {
-                String voornaam = tfVoornaam.getText().equals("Voornaam") ? "" : tfVoornaam.getText();
-                String achternaam = tfAchternaam.getText().equals("Achternaam") ? "" : tfAchternaam.getText();
-                List<Employee> employees = RoosterProgramma.getInstance().searchEmployee(voornaam, achternaam);
-                for (Employee employee : employees) {
-                    insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-                }
-            } else {
-                process();
-            }
-        }
-    }
-
-    private boolean isValidWorkHour(String shouldWork) {
-        return (shouldWork.equalsIgnoreCase("x1")
-                || shouldWork.equalsIgnoreCase("x2")
-                || shouldWork.equalsIgnoreCase("x3")
-                || shouldWork.equalsIgnoreCase("z")
-                || shouldWork.equalsIgnoreCase("v")
-                || shouldWork.equalsIgnoreCase("c")
-                || shouldWork.equalsIgnoreCase("k")
-                || shouldWork.equals("*")
-                || Utils.isNumeric(shouldWork));
-    }
-
-    private void handleTime(int year, int month) {
-        if (month == 0) {
-            month = 12;
-            year -= 1;
-        } else if (month == 13) {
-            month = 1;
-            year += 1;
-        }
-        RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
-    }
-
-    public void removeRows() {
-        while (model.getRowCount() != 0) {
-            model.removeRow(0);
-        }
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnExcelExport;

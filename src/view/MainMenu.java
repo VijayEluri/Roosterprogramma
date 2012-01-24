@@ -29,9 +29,9 @@ public class MainMenu extends javax.swing.JPanel {
     }
 
     private void adminCheck() {
-        btnManage.setEnabled(RoosterProgramma.getInstance().getEmployee().isAdmin());
-        btnOverview.setEnabled(RoosterProgramma.getInstance().getEmployee().isAdmin());
-        btnSettings.setEnabled(RoosterProgramma.getInstance().getEmployee().isAdmin());
+        btnManage.setEnabled(RoosterProgramma.getInstance().getCurrentUser().isAdmin());
+        btnOverview.setEnabled(RoosterProgramma.getInstance().getCurrentUser().isAdmin());
+        btnSettings.setEnabled(RoosterProgramma.getInstance().getCurrentUser().isAdmin());
     }
 
     /**

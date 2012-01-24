@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,8 +28,8 @@ public class RoosterProgramma {
     private Dbmanager dbManager;
     private QueryManager queryManager;
     private Settings settings;
-    private Employee employee;
-    private ArrayList<Employee> employees;
+    private Employee currentUser;
+    private HashMap<Integer, Employee> employees = new HashMap<Integer, Employee>();
 
     public static RoosterProgramma getInstance() {
         return instance;
@@ -84,12 +85,12 @@ public class RoosterProgramma {
         System.exit(0);
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Employee getCurrentUser() {
+        return currentUser;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setCurrentUser(Employee employee) {
+        this.currentUser = employee;
     }
 
     public Settings getSettings() {
@@ -101,7 +102,9 @@ public class RoosterProgramma {
     }
 
     public void initializeEmployees() {
-        this.employees = getQueryManager().getEmployees();
+        for (Employee tmpEmployee : getQueryManager().getEmployees()) {
+            employees.put(tmpEmployee.getEmployeeNumber(), tmpEmployee);
+        }
     }
 
     public void initializeSettings() {
@@ -109,20 +112,19 @@ public class RoosterProgramma {
     }
 
     public ArrayList<Employee> getEmployees() {
-        return employees;
+        ArrayList<Employee> employeeList = new ArrayList<Employee>();
+        for (Employee tmpEmployee : employees.values()) {
+            employeeList.add(tmpEmployee);
+        }
+        return employeeList;
     }
 
     public Employee getEmployee(int id) {
-        for (Employee tmpEmployee : employees) {
-            if (tmpEmployee.getEmployeeNumber() == id) {
-                return tmpEmployee;
-            }
-        }
-        return null;
+        return employees.get(id);
     }
 
     public Employee getEmployee(String firstname, String insertion, String familyname) {
-        for (Employee tmpEmployee : employees) {
+        for (Employee tmpEmployee : employees.values()) {
             if (tmpEmployee.getFirstName().equalsIgnoreCase(firstname) && tmpEmployee.getFamilyName().equalsIgnoreCase(familyname)) {
                 if (insertion == null || tmpEmployee.getInsertion().equalsIgnoreCase(insertion)) {
                     return tmpEmployee;
@@ -137,7 +139,7 @@ public class RoosterProgramma {
         familyname = familyname.toLowerCase();
 
         ArrayList<Employee> result = new ArrayList<Employee>();
-        for (Employee tmpEmployee : employees) {
+        for (Employee tmpEmployee : employees.values()) {
             String tmpFirstname = tmpEmployee.getFirstName().toLowerCase();
             String tmpFamilyname = tmpEmployee.getFamilyName().toLowerCase();
             if (!firstname.isEmpty()) {
@@ -153,5 +155,18 @@ public class RoosterProgramma {
             }
         }
         return result;
+    }
+
+    public void removeEmployee(Employee employee) {
+        employees.remove(employee.getEmployeeNumber());
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.put(employee.getEmployeeNumber(), employee);
+    }
+
+    public void changeEmployee(Employee employee) {
+        removeEmployee(employee);
+        addEmployee(employee);
     }
 }

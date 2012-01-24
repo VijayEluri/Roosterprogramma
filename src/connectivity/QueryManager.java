@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import model.Employee;
 import model.Settings;
 import model.WorkHours;
+import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Utils;
 
 /**
@@ -60,24 +61,42 @@ public class QueryManager {
         return employees;
     }
 
-    // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
-    public void addEmployee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
-            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
-            boolean museumdocent, double contractUren, double vakantiePercentage, boolean admin) {
-        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, wachtwoord, fulltime, parttime, oproepkracht, baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin)"
-                + "VALUES('" + personeelsNummer + "', '" + voornaam.replace("'", "\'") + "', '"
-                + tussenvoegsel.replace("'", "\'") + "', '" + achternaam.replace("'", "\'") + "', '" + wachtwoord + "', '" + Utils.booleanToInt(fulltime) + "', '"
-                + Utils.booleanToInt(parttime) + "', '" + Utils.booleanToInt(oproepkracht) + "', '" + Utils.booleanToInt(baliemedewerker) + "', '" + Utils.booleanToInt(museumdocent) + "', '"
-                + contractUren + "', '" + vakantiePercentage + "', '" + Utils.booleanToInt(admin) + "')";
+    public void addEmployee(Employee employee) {
+        int fulltime = Utils.booleanToInt(employee.isFullTime());
+        int parttime = Utils.booleanToInt(employee.isPartTime());
+        int callworker = Utils.booleanToInt(employee.isCallWorker());
+        int clerk = Utils.booleanToInt(employee.isClerk());
+        int museumeducator = Utils.booleanToInt(employee.isMuseumEducator());
+        int workmonday = Utils.booleanToInt(employee.isWorkMonday());
+        int worktuesday = Utils.booleanToInt(employee.isWorkTuesday());
+        int workwednesday = Utils.booleanToInt(employee.isWorkWednesday());
+        int workthursday = Utils.booleanToInt(employee.isWorkThursday());
+        int workfriday = Utils.booleanToInt(employee.isWorkFriday());
+        int worksaturday = Utils.booleanToInt(employee.isWorkSaturday());
+        int worksunday = Utils.booleanToInt(employee.isWorkSunday());
+        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, wachtwoord, fulltime, parttime, oproepkracht,"
+                + "baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin, workmonday, worktuesday, workwednesday, workthursday, workfriday, worksaturday, worksunday)"
+                + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
+                + employee.getInsertion().replace("'", "\'") + "', '" + employee.getFamilyName().replace("'", "\'") + "', '"
+                + employee.getPassword() + "', '" + fulltime + "', '" + parttime + "', '" + callworker + "', '" + clerk + "', '"
+                + museumeducator + "', '" + employee.getContractHours() + "', '" + employee.getVacationPercentage() + "', '0', '" + workmonday + "', '"
+                + worktuesday + "', '" + workwednesday + "', '" + workthursday + "', '" + workfriday + "', '" + worksaturday + "', '" + worksunday + "')";
         try {
             dbManager.insertQuery(sql);
+            RoosterProgramma.getInstance().addEmployee(employee);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, nieuwe medewerker kon niet worden toegevoegd.", "Fout!", ex.getMessage(), false);
         }
     }
 
-    // ToDo : Uitbreiden met de dagen waarop iemand niet wilt werken
     public void changeEmployee(Employee employee) {
+        int workmonday = Utils.booleanToInt(employee.isWorkMonday());
+        int worktuesday = Utils.booleanToInt(employee.isWorkTuesday());
+        int workwednesday = Utils.booleanToInt(employee.isWorkWednesday());
+        int workthursday = Utils.booleanToInt(employee.isWorkThursday());
+        int workfriday = Utils.booleanToInt(employee.isWorkFriday());
+        int worksaturday = Utils.booleanToInt(employee.isWorkSaturday());
+        int worksunday = Utils.booleanToInt(employee.isWorkSunday());
         String sql = "UPDATE medewerkers SET "
                 + "voornaam = '" + employee.getFirstName().replace("'", "\'") + "', "
                 + "tussenvoegsel = '" + employee.getInsertion().replace("'", "\'") + "', "
@@ -90,10 +109,18 @@ public class QueryManager {
                 + "museumdocent = '" + Utils.booleanToInt(employee.isMuseumEducator()) + "', "
                 + "contracturen = '" + employee.getContractHours() + "', "
                 + "vakantiepercentage = '" + employee.getVacationPercentage() + "', "
-                + "admin = '" + Utils.booleanToInt(employee.isAdmin()) + "' "
+                + "admin = '" + Utils.booleanToInt(employee.isAdmin()) + "', "
+                + "workmonday = '" + workmonday + "', "
+                + "worktuesday = '" + worktuesday + "', "
+                + "workwednesday = '" + workwednesday + "', "
+                + "workthursday = '" + workthursday + "', "
+                + "workfriday = '" + workfriday + "', "
+                + "worksaturday = '" + worksaturday + "', "
+                + "worksunday = '" + worksunday + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         try {
             dbManager.insertQuery(sql);
+            RoosterProgramma.getInstance().changeEmployee(employee);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, medewerker kon niet worden gewijzigd.", "Fout!", ex.getMessage(), false);
         }
@@ -199,7 +226,6 @@ public class QueryManager {
         }
     }
 
-    // ToDo: Datum toevoegen aan elke log entry
     public void addToLog(String message) {
         String sql = "INSERT INTO `log` (`message`) VALUES ('" + message + "');";
         try {

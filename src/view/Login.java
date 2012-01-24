@@ -64,8 +64,7 @@ public class Login extends javax.swing.JPanel {
                         password = Utils.SHA1(password);
                         employee.setPassword(password);
                         employee.update();
-                        RoosterProgramma.getInstance().setEmployee(employee);
-                        RoosterProgramma.getInstance().initializeEmployees();
+                        RoosterProgramma.getInstance().setCurrentUser(employee);
                         RoosterProgramma.getInstance().showPanel(new MainMenu());
                     }
                 } else {
@@ -88,7 +87,7 @@ public class Login extends javax.swing.JPanel {
     private void handlePassword() {
         String Sha1Pass = Utils.SHA1(Utils.decodePassword(tfPassword.getPassword()));
         if (Sha1Pass.equals(employee.getPassword())) {
-            RoosterProgramma.getInstance().setEmployee(employee);
+            RoosterProgramma.getInstance().setCurrentUser(employee);
             RoosterProgramma.getInstance().showPanel(new MainMenu());
         } else {
             lblIncorrectField.setText("Wachtwoord onjuist");
