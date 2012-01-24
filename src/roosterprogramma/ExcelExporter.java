@@ -34,7 +34,7 @@ public class ExcelExporter {
             }
             for (int i = 0; i < model.getRowCount(); i++) {
                 for (int j = 0; j < model.getColumnCount(); j++) {
-                    Label label = new Label((inverted ? j : i + 1), (inverted ? i + 1 : j), model.getValueAt(i, j).toString());
+                    Label label = new Label((inverted ? j : i + 1), (inverted ? i + 1 : j), model.getValueAt(table.convertRowIndexToModel(i), j).toString());
                     sheet.addCell(label);
                 }
             }
