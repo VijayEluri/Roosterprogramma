@@ -79,6 +79,7 @@ public class Rooster extends javax.swing.JPanel {
         refreshTable();
         tblSchedule.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         model = (DefaultTableModel) tblSchedule.getModel();
+        model.addColumn("Nummer");
         model.addColumn("Naam");
         model.addColumn("Contracturen");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -87,7 +88,9 @@ public class Rooster extends javax.swing.JPanel {
             model.addColumn(j + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
         }
         fill(daysOfMonth);
-        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(150);
+        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tblSchedule.getColumnModel().getColumn(1).setPreferredWidth(100);
+        tblSchedule.getColumnModel().getColumn(2).setPreferredWidth(75);
     }
 
     private void fill(int daysOfMonth) {
@@ -310,6 +313,7 @@ public class Rooster extends javax.swing.JPanel {
 
         jspSchedule.setToolTipText("");
 
+        tblSchedule.setAutoCreateRowSorter(true);
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -320,7 +324,7 @@ public class Rooster extends javax.swing.JPanel {
         ));
         tblSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3");
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        tblSchedule.setMaximumSize(new java.awt.Dimension(25000, 17000));
+        tblSchedule.getTableHeader().setReorderingAllowed(false);
         jspSchedule.setViewportView(tblSchedule);
 
         tfVoornaam.setText("Voornaam");
