@@ -115,6 +115,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         tfFirstName = new javax.swing.JTextField();
 
+        tblEmployee.setAutoCreateRowSorter(true);
         tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -138,6 +139,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblEmployee.getTableHeader().setReorderingAllowed(false);
         tblEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblEmployeeMouseClicked(evt);

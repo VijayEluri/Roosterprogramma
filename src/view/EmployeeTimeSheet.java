@@ -279,6 +279,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
             }
         ));
+        tblTimesheet.getTableHeader().setReorderingAllowed(false);
         jspTimesheet.setViewportView(tblTimesheet);
 
         jspEmployeeInformation.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
