@@ -461,29 +461,27 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }
 
     private boolean isCorrectlyFilled() {
-        boolean correct = true;
         for (int i = 0; i < tblTimesheet.getRowCount(); i++) {
             String ingeroosterd = model.getValueAt(i, 1).toString();
             if (!ingeroosterd.isEmpty() && Utils.isNumeric(ingeroosterd)) {
-                double shouldWork = Double.parseDouble(model.getValueAt(i, 1).toString().replace(",", "."));
+                String shouldWork = model.getValueAt(i, 1).toString().replace(",", ".");
                 double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
-                if (haveWorked < shouldWork) {
-                    String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
-                    Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", null, false);
-                    correct = false;
-                    break;
+                if (Utils.isNumeric(shouldWork)) {
+                    if (haveWorked < Double.parseDouble(shouldWork)) {
+                        String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
+                        Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", null, false);
+                        return false;
+                    }
                 }
             } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
-                correct = false;
                 Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", null, false);
-                break;
+                return false;
             } else {
-                correct = false;
                 Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", null, false);
-                break;
+                return false;
             }
         }
-        return correct;
+        return true;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
