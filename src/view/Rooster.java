@@ -79,7 +79,7 @@ public class Rooster extends javax.swing.JPanel {
         refreshTable();
         tblSchedule.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         model = (DefaultTableModel) tblSchedule.getModel();
-        model.addColumn("Nummer");
+        model.addColumn("Nr.");
         model.addColumn("Naam");
         model.addColumn("Contracturen");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -88,7 +88,7 @@ public class Rooster extends javax.swing.JPanel {
             model.addColumn(j + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
         }
         fill(daysOfMonth);
-        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(30);
         tblSchedule.getColumnModel().getColumn(1).setPreferredWidth(100);
         tblSchedule.getColumnModel().getColumn(2).setPreferredWidth(75);
     }
@@ -103,7 +103,7 @@ public class Rooster extends javax.swing.JPanel {
             }
         }
         for (int i = 1; i <= daysOfMonth; i++) {
-            tblSchedule.getColumnModel().getColumn(i + 1).setPreferredWidth(50);
+            tblSchedule.getColumnModel().getColumn(i + 2).setPreferredWidth(50);
         }
     }
 
@@ -121,36 +121,46 @@ public class Rooster extends javax.swing.JPanel {
                 new String[]{}) {
 
             @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                if (columnIndex == 0 || columnIndex == 2) {
+                    return Integer.class;
+                }
+                return String.class;
+            }
+
+            @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
-                return colIndex != 0 && colIndex != 1;
+                return colIndex > 2;
             }
 
             @Override
             public void fireTableCellUpdated(int row, int column) {
-                String value = model.getValueAt(row, column).toString();
-                if (value.equalsIgnoreCase("x1")) {
-                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX1(), row, column);
-                } else if (value.equalsIgnoreCase("x2")) {
-                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX2(), row, column);
-                } else if (value.equalsIgnoreCase("x3")) {
-                    model.setValueAt(RoosterProgramma.getInstance().getSettings().getX3(), row, column);
+                Object tmpValue = model.getValueAt(row, column);
+                if (tmpValue != null) {
+                    String value = tmpValue.toString();
+                    if (value.equalsIgnoreCase("x1")) {
+                        model.setValueAt(RoosterProgramma.getInstance().getSettings().getX1(), row, column);
+                    } else if (value.equalsIgnoreCase("x2")) {
+                        model.setValueAt(RoosterProgramma.getInstance().getSettings().getX2(), row, column);
+                    } else if (value.equalsIgnoreCase("x3")) {
+                        model.setValueAt(RoosterProgramma.getInstance().getSettings().getX3(), row, column);
+                    }
                 }
                 super.fireTableCellUpdated(row, column);
             }
         });
-        jspSchedule.setViewportView(tblSchedule);
     }
 
     private void insertEmployeeIntoTable(Employee employee, int daysOfMonth) {
         if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
-            Object[] fields = new Object[daysOfMonth + 2];
+            Object[] fields = new Object[daysOfMonth + 3];
             fields[0] = employee.getEmployeeNumber();
             fields[1] = employee.getFullName();
             fields[2] = employee.getContractHours();
             for (int i = 1; i <= daysOfMonth; i++) {
                 calendar.set(Calendar.DAY_OF_MONTH, i);
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getDate(calendar));
-                fields[i + 1] = hour.getShouldWork();
+                fields[i + 2] = hour.getShouldWork();
             }
             model.addRow(fields);
         }
@@ -367,11 +377,11 @@ public class Rooster extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
-                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 1310, Short.MAX_VALUE)
+                    .addComponent(pnlControls, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
+                    .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBack)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1001, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 604, Short.MAX_VALUE)
                         .addComponent(btnExcelExport)
                         .addGap(18, 18, 18)
                         .addComponent(btnSave))
@@ -395,7 +405,7 @@ public class Rooster extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(tfPersoneelsnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -418,17 +428,23 @@ public class Rooster extends javax.swing.JPanel {
         }
         for (int i = 0; i < model.getRowCount(); i++) {
             Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
-            for (int j = 2; j < model.getColumnCount(); j++) {
+            for (int j = 3; j < model.getColumnCount(); j++) {
                 String date = year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
                 String shouldWork = model.getValueAt(i, j).toString();
                 if (isValidWorkHour(shouldWork)) {
                     WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
-                    if (!hour.getShouldWork().equals(shouldWork)) {
+                    if (hour.getEmployeeNumber() == 0) {
+                        hour = new WorkHours(employee.getEmployeeNumber(), date);
+                        hour.setShouldWork(shouldWork);
+                        RoosterProgramma.getQueryManager().insertWorkHours(hour);
+                    } else if (!hour.getShouldWork().equals(shouldWork)) {
                         hour.setShouldWork(shouldWork);
                         RoosterProgramma.getQueryManager().updateWorkHours(hour);
                     }
                 } else if (!shouldWork.isEmpty()) {
-                    Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op " + date + " is incorrect.", "Incorrecte veldwaarde!", null, false);
+                    Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op "
+                            + date + " is incorrect.", "Incorrecte veldwaarde!", null,
+                            false);
                     return;
                 }
             }

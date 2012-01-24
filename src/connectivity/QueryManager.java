@@ -146,8 +146,6 @@ public class QueryManager {
                         result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
                         result.getDouble("verlof"), result.getDouble("opgcompensatie"), result.getString("opmerking"));
-            } else {
-                hours = new WorkHours(employeeNumber, date);
             }
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, kon niet de werkuren van personeelsnummer '" + employeeNumber + "' ophalen.", "Fout!", ex.getMessage(), false);
@@ -155,39 +153,45 @@ public class QueryManager {
         return hours;
     }
 
-    public boolean updateWorkHours(WorkHours hour) {
-        String sql;
-        if (!getWorkHours(hour.getEmployeeNumber(), hour.getDate()).getShouldWork().isEmpty()) {
-            sql = "UPDATE werktijden SET "
-                    + "ingeroosterd = '" + hour.getShouldWork() + "', "
-                    + "gewerkt = '" + hour.getWorked() + "', "
-                    + "compensatie150 = '" + hour.getCompensation150() + "', "
-                    + "compensatie200 = '" + hour.getCompensation200() + "', "
-                    + "vakantie = '" + hour.getVacation() + "', "
-                    + "adv = '" + hour.getADV() + "', "
-                    + "ziekte = '" + hour.getIllness() + "', "
-                    + "verlof = '" + hour.getLeave() + "', "
-                    + "opgcompensatie = '" + hour.getWithdrawnCompensation() + "', "
-                    + "opmerking = '" + hour.getComment() + "' "
-                    + "WHERE personeelsnummer = '" + hour.getEmployeeNumber() + "' "
-                    + "AND datum = '" + hour.getDate()
-                    + "';";
-        } else {
-            sql = "INSERT INTO werktijden VALUES ('"
-                    + hour.getEmployeeNumber()
-                    + "', '" + hour.getDate()
-                    + "', '" + hour.getShouldWork()
-                    + "', '" + hour.getWorked()
-                    + "', '" + hour.getCompensation150()
-                    + "', '" + hour.getCompensation200()
-                    + "', '" + hour.getVacation()
-                    + "', '" + hour.getADV()
-                    + "', '" + hour.getIllness()
-                    + "', '" + hour.getLeave()
-                    + "', '" + hour.getWithdrawnCompensation()
-                    + "', '" + hour.getComment()
-                    + "');";
+    public void insertWorkHours(WorkHours hour) {
+        String sql = "INSERT INTO werktijden VALUES ('"
+                + hour.getEmployeeNumber()
+                + "', '" + hour.getDate()
+                + "', '" + hour.getShouldWork()
+                + "', '" + hour.getWorked()
+                + "', '" + hour.getCompensation150()
+                + "', '" + hour.getCompensation200()
+                + "', '" + hour.getVacation()
+                + "', '" + hour.getADV()
+                + "', '" + hour.getIllness()
+                + "', '" + hour.getLeave()
+                + "', '" + hour.getWithdrawnCompensation()
+                + "', '" + hour.getComment()
+                + "');";
+        System.err.println(sql);
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
         }
+    }
+
+    public boolean updateWorkHours(WorkHours hour) {
+        String sql = "UPDATE werktijden SET "
+                + "ingeroosterd = '" + hour.getShouldWork() + "', "
+                + "gewerkt = '" + hour.getWorked() + "', "
+                + "compensatie150 = '" + hour.getCompensation150() + "', "
+                + "compensatie200 = '" + hour.getCompensation200() + "', "
+                + "vakantie = '" + hour.getVacation() + "', "
+                + "adv = '" + hour.getADV() + "', "
+                + "ziekte = '" + hour.getIllness() + "', "
+                + "verlof = '" + hour.getLeave() + "', "
+                + "opgcompensatie = '" + hour.getWithdrawnCompensation() + "', "
+                + "opmerking = '" + hour.getComment() + "' "
+                + "WHERE personeelsnummer = '" + hour.getEmployeeNumber() + "' "
+                + "AND datum = '" + hour.getDate()
+                + "';";
+        System.err.println(sql);
         try {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {

@@ -19,11 +19,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="pnlControls" alignment="0" pref="1310" max="32767" attributes="0"/>
-                  <Component id="jspSchedule" alignment="0" pref="1310" max="32767" attributes="0"/>
+                  <Component id="pnlControls" alignment="0" pref="913" max="32767" attributes="0"/>
+                  <Component id="jspSchedule" alignment="0" pref="913" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="btnBack" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="1001" max="32767" attributes="0"/>
+                      <EmptySpace pref="604" max="32767" attributes="0"/>
                       <Component id="btnExcelExport" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnSave" min="-2" max="-2" attributes="0"/>
@@ -53,7 +53,7 @@
                   <Component id="tfPersoneelsnummer" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jspSchedule" pref="477" max="32767" attributes="0"/>
+              <Component id="jspSchedule" pref="417" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="pnlControls" min="-2" max="-2" attributes="1"/>
               <EmptySpace max="-2" attributes="0"/>
