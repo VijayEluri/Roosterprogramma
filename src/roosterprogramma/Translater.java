@@ -10,10 +10,7 @@ package roosterprogramma;
  */
 public class Translater {
 
-    public Translater() {
-    }
-
-    public String Translate(String strToTranslate) {
+    public static String Translate(String strToTranslate) {
         String translated;
         if (strToTranslate.equals("Monday")) {
             translated = "Maandag";
@@ -59,5 +56,8 @@ public class Translater {
         }
 
         return translated;
+    }
+
+    private Translater() {
     }
 }

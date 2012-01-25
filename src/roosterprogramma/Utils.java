@@ -222,4 +222,13 @@ public class Utils {
     public static int booleanToInt(boolean bool) {
         return (bool ? 1 : 0);
     }
+
+    public static int intervalToDuration(String interval) {
+        String pieces[] = interval.split("-");
+        String start = pieces[0];
+        String end = pieces[1];
+        int minutesStart = Integer.parseInt(start.substring(start.length() - 2, start.length())) + Integer.parseInt(start.substring(start.length(), start.length() - 2)) * 60;
+        int minutesEnd = Integer.parseInt(end.substring(end.length() - 2, end.length())) + Integer.parseInt(end.substring(end.length(), end.length() - 2)) * 60;
+        return (minutesEnd - minutesStart) / 60;
+    }
 }

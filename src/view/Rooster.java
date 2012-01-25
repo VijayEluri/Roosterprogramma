@@ -32,7 +32,6 @@ import roosterprogramma.Utils;
 public class Rooster extends javax.swing.JPanel {
 
     private DefaultTableModel model;
-    private Translater translater = new Translater();
     private Calendar calendar = Calendar.getInstance();
     private int year, month;
     private ItemListener changeListener = new ItemListener() {
@@ -85,7 +84,7 @@ public class Rooster extends javax.swing.JPanel {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int j = 1; j <= daysOfMonth; j++) {
             calendar.set(Calendar.DAY_OF_MONTH, j);
-            model.addColumn(j + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
+            model.addColumn(j + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
         }
         fill(daysOfMonth);
         tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -196,7 +195,7 @@ public class Rooster extends javax.swing.JPanel {
                 || shouldWork.equalsIgnoreCase("c")
                 || shouldWork.equalsIgnoreCase("k")
                 || shouldWork.equals("*")
-                || Utils.isNumeric(shouldWork));
+                || shouldWork.matches("[0-2]\\d{3}-[0-2]\\d{3}"));
     }
 
     private void handleTime(int year, int month) {
@@ -332,7 +331,7 @@ public class Rooster extends javax.swing.JPanel {
 
             }
         ));
-        tblSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3");
+        tblSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3, 0000-0000");
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tblSchedule.getTableHeader().setReorderingAllowed(false);
         jspSchedule.setViewportView(tblSchedule);
@@ -443,7 +442,7 @@ public class Rooster extends javax.swing.JPanel {
                     }
                 } else if (!shouldWork.isEmpty()) {
                     Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op "
-                            + date + " is incorrect.", "Incorrecte veldwaarde!", null,
+                            + date + " is incorrect.", "Incorrecte veldwaarde!", "",
                             false);
                     return;
                 }

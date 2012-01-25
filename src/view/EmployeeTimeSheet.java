@@ -35,7 +35,6 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private DefaultTableModel model;
     private Calendar calendar = Calendar.getInstance();
     private int year, month, modifier = 0;
-    private Translater translater = new Translater();
     private DecimalFormat format = new DecimalFormat("0.00");
     private ItemListener changeListener = new ItemListener() {
 
@@ -135,7 +134,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             calendar.set(Calendar.DAY_OF_MONTH, i);
             WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + getDay());
             Object[] fields = (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) ? new Object[11] : new Object[10];
-            fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
+            fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
             fields[1] = hour.getShouldWorkHours();
             if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
                 fields[2] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());

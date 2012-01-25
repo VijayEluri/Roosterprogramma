@@ -4,7 +4,7 @@
  */
 package model;
 
-import roosterprogramma.RoosterProgramma;
+import roosterprogramma.Utils;
 
 /**
  *
@@ -191,15 +191,7 @@ public class WorkHours {
     }
 
     public String getShouldWorkHours() {
-        if (shouldWork.equalsIgnoreCase("x1")) {
-            return Double.toString(RoosterProgramma.getInstance().getSettings().getX1Duration());
-        } else if (shouldWork.equalsIgnoreCase("x2")) {
-            return Double.toString(RoosterProgramma.getInstance().getSettings().getX2Duration());
-        } else if (shouldWork.equalsIgnoreCase("x3")) {
-            return Double.toString(RoosterProgramma.getInstance().getSettings().getX3Duration());
-        } else {
-            return shouldWork;
-        }
+        return Double.toString(Utils.intervalToDuration(shouldWork));
     }
 
     /**

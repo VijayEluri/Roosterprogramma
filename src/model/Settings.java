@@ -91,22 +91,4 @@ public class Settings {
     public String getX3() {
         return x3Start + "-" + x3End;
     }
-
-    public double getX1Duration() {
-        int startMinutes = (Integer.parseInt(getX1Start().substring(0, 2)) * 60) + Integer.parseInt(getX1Start().substring(2, 4));
-        int endMinutes = (Integer.parseInt(getX1End().substring(0, 2)) * 60) + Integer.parseInt(getX1End().substring(2, 4));
-        return (endMinutes - startMinutes) / 60;
-    }
-
-    public double getX2Duration() {
-        int startMinutes = (Integer.parseInt(getX2Start().substring(0, 2)) * 60) + Integer.parseInt(getX2Start().substring(2, 4));
-        int endMinutes = (Integer.parseInt(getX2End().substring(0, 2)) * 60) + Integer.parseInt(getX2End().substring(2, 4));
-        return (endMinutes - startMinutes) / 60;
-    }
-
-    public double getX3Duration() {
-        int startMinutes = (Integer.parseInt(getX3Start().substring(0, 2)) * 60) + Integer.parseInt(getX3Start().substring(2, 4));
-        int endMinutes = (Integer.parseInt(getX3End().substring(0, 2)) * 60) + Integer.parseInt(getX3End().substring(2, 4));
-        return (endMinutes - startMinutes) / 60;
-    }
 }
