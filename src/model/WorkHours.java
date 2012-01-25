@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.regex.Pattern;
 import roosterprogramma.Utils;
 
 /**
@@ -191,7 +192,11 @@ public class WorkHours {
     }
 
     public String getShouldWorkHours() {
-        return Double.toString(Utils.intervalToDuration(shouldWork));
+        if (Pattern.matches("[0-2]\\d{3}-[0-2]\\d{3}", shouldWork)) {
+            return Double.toString(Utils.intervalToDuration(shouldWork));
+        } else {
+            return shouldWork;
+        }
     }
 
     /**
