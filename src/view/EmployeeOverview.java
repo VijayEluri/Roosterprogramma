@@ -284,7 +284,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
-        selectedEmployee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.getSelectedRow(), 0).toString()));
+        selectedEmployee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.convertRowIndexToModel(tblEmployee.getSelectedRow()), 0).toString()));
         if (evt.getClickCount() < 2) {
             btnDelete.setEnabled(true);
             btnChange.setEnabled(true);
