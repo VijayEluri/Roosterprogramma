@@ -155,7 +155,7 @@ public class QueryManager {
         return hours;
     }
 
-    public void insertWorkHours(WorkHours hour) {
+    public boolean insertWorkHours(WorkHours hour) {
         String sql = "INSERT INTO werktijden VALUES ('"
                 + hour.getEmployeeNumber()
                 + "', '" + hour.getDate()
@@ -174,7 +174,9 @@ public class QueryManager {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
+            return false;
         }
+        return true;
     }
 
     public boolean updateWorkHours(WorkHours hour) {
@@ -196,6 +198,17 @@ public class QueryManager {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteWorkHours(int employeenumber, String date) {
+        String sql = "DELETE FROM werktijden WHERE personeelsnummer = '" + employeenumber + "' AND datum = '" + date + "';";
+        try {
+            dbManager.insertQuery(sql);
+        } catch (SQLException ex) {
+            Utils.showMessage("Fout opgetreden, het weghalen van de te werken uren is mislukt.", "Fout!", ex.getMessage(), false);
             return false;
         }
         return true;
