@@ -47,13 +47,13 @@ public class QueryManager {
                         result.getDouble("contracturen"),
                         result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin"),
-                        result.getBoolean("workmonday"),
-                        result.getBoolean("worktuesday"),
-                        result.getBoolean("workwednesday"),
-                        result.getBoolean("workthursday"),
-                        result.getBoolean("workfriday"),
-                        result.getBoolean("worksaturday"),
-                        result.getBoolean("worksunday")));
+                        result.getBoolean("werkmaandag"),
+                        result.getBoolean("werkdinsdag"),
+                        result.getBoolean("werkwoensdag"),
+                        result.getBoolean("werkdonderdag"),
+                        result.getBoolean("werkvrijdag"),
+                        result.getBoolean("werkzaterdag"),
+                        result.getBoolean("werkzondag")));
             }
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", ex.getMessage(), false);
@@ -74,8 +74,10 @@ public class QueryManager {
         int workfriday = Utils.booleanToInt(employee.isWorkFriday());
         int worksaturday = Utils.booleanToInt(employee.isWorkSaturday());
         int worksunday = Utils.booleanToInt(employee.isWorkSunday());
-        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, wachtwoord, fulltime, parttime, oproepkracht,"
-                + "baliemedewerker, museumdocent, contracturen, vakantiepercentage, admin, workmonday, worktuesday, workwednesday, workthursday, workfriday, worksaturday, worksunday)"
+        String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, "
+                + "wachtwoord, fulltime, parttime, oproepkracht, "
+                + "baliemedewerker, museumdocent, contracturen, vakantiepercentage, "
+                + "admin, werkmaandag, werkdinsdag, werkwoensdag, werkdonderdag, werkvrijdag, werkzaterdag, werkzondag) "
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getInsertion().replace("'", "\'") + "', '" + employee.getFamilyName().replace("'", "\'") + "', '"
                 + employee.getPassword() + "', '" + fulltime + "', '" + parttime + "', '" + callworker + "', '" + clerk + "', '"
@@ -110,13 +112,13 @@ public class QueryManager {
                 + "contracturen = '" + employee.getContractHours() + "', "
                 + "vakantiepercentage = '" + employee.getVacationPercentage() + "', "
                 + "admin = '" + Utils.booleanToInt(employee.isAdmin()) + "', "
-                + "workmonday = '" + workmonday + "', "
-                + "worktuesday = '" + worktuesday + "', "
-                + "workwednesday = '" + workwednesday + "', "
-                + "workthursday = '" + workthursday + "', "
-                + "workfriday = '" + workfriday + "', "
-                + "worksaturday = '" + worksaturday + "', "
-                + "worksunday = '" + worksunday + "' "
+                + "werkmaandag = '" + workmonday + "', "
+                + "werkdinsdag = '" + worktuesday + "', "
+                + "werkwoensdag = '" + workwednesday + "', "
+                + "werkdonderdag = '" + workthursday + "', "
+                + "werkvrijdag = '" + workfriday + "', "
+                + "werkzaterdag = '" + worksaturday + "', "
+                + "werkzondag = '" + worksunday + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         try {
             dbManager.insertQuery(sql);
@@ -168,7 +170,6 @@ public class QueryManager {
                 + "', '" + hour.getWithdrawnCompensation()
                 + "', '" + hour.getComment()
                 + "');";
-        System.err.println(sql);
         try {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
@@ -191,7 +192,6 @@ public class QueryManager {
                 + "WHERE personeelsnummer = '" + hour.getEmployeeNumber() + "' "
                 + "AND datum = '" + hour.getDate()
                 + "';";
-        System.err.println(sql);
         try {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
