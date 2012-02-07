@@ -63,6 +63,7 @@ public class RoosterProgramma {
         mainWindow = new JFrame(NAME);
         mainWindow.setSize(Toolkit.getDefaultToolkit().getScreenSize());
         mainWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         mainWindow.addWindowListener(new WindowAdapter() {
 
             @Override
