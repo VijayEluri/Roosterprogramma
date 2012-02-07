@@ -71,8 +71,13 @@ public class SettingsMenu extends javax.swing.JPanel {
         btnSave = new javax.swing.JButton();
         btnPrevious = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(153, 204, 255));
+
+        pnlFlowLayout.setBackground(new java.awt.Color(153, 204, 255));
+
         pnlBoxLayout.setLayout(new javax.swing.BoxLayout(pnlBoxLayout, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel1.setBackground(new java.awt.Color(153, 204, 255));
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel1.setText("X1 : ");
@@ -99,6 +104,7 @@ public class SettingsMenu extends javax.swing.JPanel {
 
         pnlBoxLayout.add(jPanel1);
 
+        jPanel2.setBackground(new java.awt.Color(153, 204, 255));
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel2.setText("X2 : ");
@@ -125,6 +131,7 @@ public class SettingsMenu extends javax.swing.JPanel {
 
         pnlBoxLayout.add(jPanel2);
 
+        jPanel3.setBackground(new java.awt.Color(153, 204, 255));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.LINE_AXIS));
 
         jLabel3.setText("X3 : ");
@@ -153,7 +160,8 @@ public class SettingsMenu extends javax.swing.JPanel {
 
         pnlFlowLayout.add(pnlBoxLayout);
 
-        lblSettings.setFont(new java.awt.Font("Tahoma", 0, 24));
+        lblSettings.setBackground(new java.awt.Color(153, 204, 255));
+        lblSettings.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         lblSettings.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblSettings.setText("Instellingen");
 
@@ -161,9 +169,6 @@ public class SettingsMenu extends javax.swing.JPanel {
         btnSave.setToolTipText("Opslaan");
         btnSave.setContentAreaFilled(false);
         btnSave.setEnabled(false);
-        btnSave.setMaximumSize(new java.awt.Dimension(97, 73));
-        btnSave.setMinimumSize(new java.awt.Dimension(97, 73));
-        btnSave.setPreferredSize(new java.awt.Dimension(97, 73));
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -191,7 +196,7 @@ public class SettingsMenu extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnPrevious)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 549, Short.MAX_VALUE)
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSave)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -202,7 +207,7 @@ public class SettingsMenu extends javax.swing.JPanel {
                 .addComponent(pnlFlowLayout, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSave)
                     .addComponent(btnPrevious))
                 .addContainerGap())
         );

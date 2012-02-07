@@ -51,6 +51,8 @@ public class MainMenu extends javax.swing.JPanel {
         btnManage = new javax.swing.JButton();
         btnSettings = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(153, 204, 255));
+
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnLogoff.png"))); // NOI18N
         btnLogout.setToolTipText("Uitloggen");
         btnLogout.setContentAreaFilled(false);
@@ -60,10 +62,14 @@ public class MainMenu extends javax.swing.JPanel {
             }
         });
 
+        flowPanel.setBackground(new java.awt.Color(153, 204, 255));
+
+        boxPanel.setBackground(new java.awt.Color(153, 204, 255));
         boxPanel.setLayout(new javax.swing.BoxLayout(boxPanel, javax.swing.BoxLayout.Y_AXIS));
 
         btnRoosters.setText("Roosters bekijken en veranderen");
         btnRoosters.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnRoosters.setOpaque(false);
         btnRoosters.setPreferredSize(new java.awt.Dimension(200, 100));
         btnRoosters.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,6 +80,7 @@ public class MainMenu extends javax.swing.JPanel {
 
         btnOverview.setText("Medewerker Overzicht");
         btnOverview.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnOverview.setOpaque(false);
         btnOverview.setPreferredSize(new java.awt.Dimension(200, 100));
         btnOverview.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +91,7 @@ public class MainMenu extends javax.swing.JPanel {
 
         btnManage.setText("Medewerkers beheren");
         btnManage.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnManage.setOpaque(false);
         btnManage.setPreferredSize(new java.awt.Dimension(200, 100));
         btnManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +102,7 @@ public class MainMenu extends javax.swing.JPanel {
 
         btnSettings.setText("Instellingen");
         btnSettings.setMaximumSize(new java.awt.Dimension(200, 100));
+        btnSettings.setOpaque(false);
         btnSettings.setPreferredSize(new java.awt.Dimension(200, 100));
         btnSettings.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,7 +121,7 @@ public class MainMenu extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogout)
-                    .addComponent(flowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1468, Short.MAX_VALUE))
+                    .addComponent(flowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -136,7 +145,7 @@ public class MainMenu extends javax.swing.JPanel {
 
     private void btnRoostersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRoostersActionPerformed
         Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(new Rooster(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
+        RoosterProgramma.getInstance().showPanel(new Rooster());
     }//GEN-LAST:event_btnRoostersActionPerformed
 
     private void btnManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageActionPerformed

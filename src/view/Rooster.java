@@ -10,20 +10,19 @@
  */
 package view;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
-import roosterprogramma.ExcelExporter;
-import roosterprogramma.RoosterProgramma;
-import roosterprogramma.Translater;
-import roosterprogramma.Utils;
+import roosterprogramma.*;
 
 /**
  *
@@ -33,11 +32,10 @@ public class Rooster extends javax.swing.JPanel {
 
     private DefaultTableModel model;
     private Calendar calendar = Calendar.getInstance();
-    private int year, month;
-    private ItemListener changeListener = new ItemListener() {
+    private ActionListener changeListener = new ActionListener() {
 
         @Override
-        public void itemStateChanged(ItemEvent e) {
+        public void actionPerformed(ActionEvent e) {
             int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
             int selectedMonth = Integer.parseInt(cmbMonth.getSelectedItem().toString());
             handleTime(selectedYear, selectedMonth);
@@ -46,15 +44,9 @@ public class Rooster extends javax.swing.JPanel {
 
     /**
      * Creates new form Rooster
-     *
-     * @param year
-     * @param month
      */
-    public Rooster(int year, int month) {
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month - 1);
-        this.year = year;
-        this.month = month;
+    public Rooster() {
+        calendar.setTimeInMillis(System.currentTimeMillis());
         initComponents();
         refreshTable();
         fillBoxes();
@@ -62,16 +54,16 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void fillBoxes() {
-        for (int i = -20; i <= 20; i++) {
+        for (int i = -5; i <= 5; i++) {
             cmbYear.addItem(calendar.get(Calendar.YEAR) + i);
         }
         for (int j = 1; j <= 12; j++) {
             cmbMonth.addItem(j);
         }
-        cmbYear.setSelectedItem(year);
-        cmbMonth.setSelectedItem(month);
-        cmbYear.addItemListener(changeListener);
-        cmbMonth.addItemListener(changeListener);
+        cmbYear.setSelectedItem(calendar.get(Calendar.YEAR));
+        cmbMonth.setSelectedItem(calendar.get(Calendar.MONTH) + 1);
+        cmbYear.addActionListener(changeListener);
+        cmbMonth.addActionListener(changeListener);
     }
 
     private void process() {
@@ -82,14 +74,17 @@ public class Rooster extends javax.swing.JPanel {
         model.addColumn("Naam");
         model.addColumn("Contracturen");
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        for (int j = 1; j <= daysOfMonth; j++) {
-            calendar.set(Calendar.DAY_OF_MONTH, j);
-            model.addColumn(j + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
+        for (int i = 1; i <= daysOfMonth; i++) {
+            calendar.set(Calendar.DAY_OF_MONTH, i);
+            model.addColumn(i + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)).substring(0, 2));
         }
         fill(daysOfMonth);
         tblSchedule.getColumnModel().getColumn(0).setPreferredWidth(30);
         tblSchedule.getColumnModel().getColumn(1).setPreferredWidth(100);
         tblSchedule.getColumnModel().getColumn(2).setPreferredWidth(75);
+        for (int j = 0; j < tblSchedule.getColumnCount(); j++) {
+            tblSchedule.getColumnModel().getColumn(j).setCellRenderer(new WhiteRenderer());
+        }
     }
 
     private void fill(int daysOfMonth) {
@@ -107,10 +102,11 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private String getDate(Calendar calendar) {
-        return year + "-" + getMonth() + "-" + (calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + calendar.get(Calendar.DAY_OF_MONTH) : calendar.get(Calendar.DAY_OF_MONTH));
+        return calendar.get(Calendar.YEAR) + "-" + getMonth() + "-" + (calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0" + calendar.get(Calendar.DAY_OF_MONTH) : calendar.get(Calendar.DAY_OF_MONTH));
     }
 
     private String getMonth() {
+        int month = calendar.get(Calendar.MONTH) + 1;
         return month < 10 ? "0" + Integer.toString(month) : Integer.toString(month);
     }
 
@@ -176,8 +172,7 @@ public class Rooster extends javax.swing.JPanel {
             if (!tfVoornaam.getText().isEmpty() || !tfAchternaam.getText().isEmpty()) {
                 String voornaam = tfVoornaam.getText().equals("Voornaam") ? "" : tfVoornaam.getText();
                 String achternaam = tfAchternaam.getText().equals("Achternaam") ? "" : tfAchternaam.getText();
-                List<Employee> employees = RoosterProgramma.getInstance().searchEmployee(voornaam, achternaam);
-                for (Employee employee : employees) {
+                for (Employee employee : RoosterProgramma.getInstance().searchEmployee(voornaam, achternaam)) {
                     insertEmployeeIntoTable(employee, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
                 }
             } else {
@@ -199,17 +194,13 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private void handleTime(int year, int month) {
-        if (month == 0) {
-            month = 12;
-            year -= 1;
-        } else if (month == 13) {
-            month = 1;
-            year += 1;
-        }
-        RoosterProgramma.getInstance().showPanel(new Rooster(year, month));
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        process();
     }
 
-    public void removeRows() {
+    private void removeRows() {
         while (model.getRowCount() != 0) {
             model.removeRow(0);
         }
@@ -227,13 +218,11 @@ public class Rooster extends javax.swing.JPanel {
         btnSave = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         pnlControls = new javax.swing.JPanel();
-        btnPreviousMonth = new javax.swing.JButton();
         chkCallWorker = new javax.swing.JCheckBox();
         chkClerk = new javax.swing.JCheckBox();
         chkMuseumEducator = new javax.swing.JCheckBox();
         cmbYear = new javax.swing.JComboBox<Integer>();
         cmbMonth = new javax.swing.JComboBox<Integer>();
-        btnNextMonth = new javax.swing.JButton();
         btnExcelExport = new javax.swing.JButton();
         jspSchedule = new javax.swing.JScrollPane();
         tblSchedule = new javax.swing.JTable();
@@ -241,6 +230,8 @@ public class Rooster extends javax.swing.JPanel {
         tfAchternaam = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         tfPersoneelsnummer = new javax.swing.JFormattedTextField();
+
+        setBackground(new java.awt.Color(153, 204, 255));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnSave.png"))); // NOI18N
         btnSave.setToolTipText("Opslaan");
@@ -260,16 +251,9 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
-        btnPreviousMonth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnMinus.png"))); // NOI18N
-        btnPreviousMonth.setToolTipText("Vorige Maand");
-        btnPreviousMonth.setContentAreaFilled(false);
-        btnPreviousMonth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPreviousMonthActionPerformed(evt);
-            }
-        });
-        pnlControls.add(btnPreviousMonth);
+        pnlControls.setBackground(new java.awt.Color(153, 204, 255));
 
+        chkCallWorker.setBackground(new java.awt.Color(153, 204, 255));
         chkCallWorker.setSelected(true);
         chkCallWorker.setText("Oproepkracht");
         chkCallWorker.addItemListener(new java.awt.event.ItemListener() {
@@ -279,6 +263,7 @@ public class Rooster extends javax.swing.JPanel {
         });
         pnlControls.add(chkCallWorker);
 
+        chkClerk.setBackground(new java.awt.Color(153, 204, 255));
         chkClerk.setSelected(true);
         chkClerk.setText("Baliemedewerker");
         chkClerk.addItemListener(new java.awt.event.ItemListener() {
@@ -288,6 +273,7 @@ public class Rooster extends javax.swing.JPanel {
         });
         pnlControls.add(chkClerk);
 
+        chkMuseumEducator.setBackground(new java.awt.Color(153, 204, 255));
         chkMuseumEducator.setSelected(true);
         chkMuseumEducator.setText("Museumdocent");
         chkMuseumEducator.addItemListener(new java.awt.event.ItemListener() {
@@ -301,16 +287,6 @@ public class Rooster extends javax.swing.JPanel {
 
         pnlControls.add(cmbMonth);
 
-        btnNextMonth.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnPlus.png"))); // NOI18N
-        btnNextMonth.setToolTipText("Volgende Maand");
-        btnNextMonth.setContentAreaFilled(false);
-        btnNextMonth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextMonthActionPerformed(evt);
-            }
-        });
-        pnlControls.add(btnNextMonth);
-
         btnExcelExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnExport.png"))); // NOI18N
         btnExcelExport.setToolTipText("Exporteer naar excel");
         btnExcelExport.setContentAreaFilled(false);
@@ -320,9 +296,12 @@ public class Rooster extends javax.swing.JPanel {
             }
         });
 
+        jspSchedule.setBackground(new java.awt.Color(255, 255, 255));
         jspSchedule.setToolTipText("");
+        jspSchedule.setPreferredSize(new java.awt.Dimension(452, 200));
 
         tblSchedule.setAutoCreateRowSorter(true);
+        tblSchedule.setBackground(new java.awt.Color(153, 204, 255));
         tblSchedule.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -333,6 +312,7 @@ public class Rooster extends javax.swing.JPanel {
         ));
         tblSchedule.setToolTipText("Mogelijke invoer: Z, V, C, K, *, X1, X2, X3, 0000-0000");
         tblSchedule.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tblSchedule.setFillsViewportHeight(true);
         tblSchedule.getTableHeader().setReorderingAllowed(false);
         jspSchedule.setViewportView(tblSchedule);
 
@@ -404,7 +384,7 @@ public class Rooster extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(tfPersoneelsnummer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+                .addComponent(jspSchedule, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(pnlControls, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -426,21 +406,31 @@ public class Rooster extends javax.swing.JPanel {
             tblSchedule.getCellEditor().stopCellEditing();
         }
         for (int i = 0; i < model.getRowCount(); i++) {
-            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(model.getValueAt(i, 0).toString().split(" - ")[0]));
+            Employee employee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(model.getValueAt(tblSchedule.convertRowIndexToModel(i), 0).toString().split(" - ")[0]));
             for (int j = 3; j < model.getColumnCount(); j++) {
-                String date = year + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
-                String shouldWork = model.getValueAt(i, j).toString();
-                if (isValidWorkHour(shouldWork)) {
+                String date = calendar.get(Calendar.YEAR) + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
+                String shouldWork = model.getValueAt(tblSchedule.convertRowIndexToModel(i), j).toString();
+                if (isValidWorkHour(shouldWork) || shouldWork.isEmpty()) {
                     WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
-                    if (hour.getEmployeeNumber() == 0) {
+                    if (hour.getEmployeeNumber() == 0 && !shouldWork.isEmpty()) {
                         hour = new WorkHours(employee.getEmployeeNumber(), date);
                         hour.setShouldWork(shouldWork);
-                        RoosterProgramma.getQueryManager().insertWorkHours(hour);
+                        if (!RoosterProgramma.getQueryManager().insertWorkHours(hour)) {
+                            return;
+                        }
                     } else if (!hour.getShouldWork().equals(shouldWork)) {
-                        hour.setShouldWork(shouldWork);
-                        RoosterProgramma.getQueryManager().updateWorkHours(hour);
+                        if (shouldWork.isEmpty()) {
+                            if (!RoosterProgramma.getQueryManager().deleteWorkHours(employee.getEmployeeNumber(), date)) {
+                                return;
+                            }
+                        } else {
+                            hour.setShouldWork(shouldWork);
+                            if (!RoosterProgramma.getQueryManager().updateWorkHours(hour)) {
+                                return;
+                            }
+                        }
                     }
-                } else if (!shouldWork.isEmpty()) {
+                } else {
                     Utils.showMessage("De waarde ingevuld voor " + employee.getFullName() + " op "
                             + date + " is incorrect.", "Incorrecte veldwaarde!", "",
                             false);
@@ -450,14 +440,6 @@ public class Rooster extends javax.swing.JPanel {
         }
         Utils.showMessage("Succesvol opgeslagen.", "Opslaan gelukt!", null, false);
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
-        handleTime(year, month - 1);
-    }//GEN-LAST:event_btnPreviousMonthActionPerformed
-
-    private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed
-        handleTime(year, month + 1);
-    }//GEN-LAST:event_btnNextMonthActionPerformed
 
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
         String input = Utils.showFileChooser("Opslaan");
@@ -505,8 +487,6 @@ public class Rooster extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnExcelExport;
-    private javax.swing.JButton btnNextMonth;
-    private javax.swing.JButton btnPreviousMonth;
     private javax.swing.JButton btnSave;
     private javax.swing.JCheckBox chkCallWorker;
     private javax.swing.JCheckBox chkClerk;

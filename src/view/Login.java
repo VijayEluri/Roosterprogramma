@@ -118,7 +118,14 @@ public class Login extends javax.swing.JPanel {
         textPanel = new javax.swing.JPanel();
         lblIncorrectField = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(153, 204, 255));
+
+        mainPanel.setBackground(new java.awt.Color(153, 204, 255));
+
+        familyNamePanel.setBackground(new java.awt.Color(153, 204, 255));
+
         btnNumberOK.setText("OK");
+        btnNumberOK.setOpaque(false);
         btnNumberOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNumberOKActionPerformed(evt);
@@ -144,12 +151,14 @@ public class Login extends javax.swing.JPanel {
         lblPassword.setText("Wachtwoord");
 
         btnPasswordOK.setText("OK");
+        btnPasswordOK.setOpaque(false);
         btnPasswordOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPasswordOKActionPerformed(evt);
             }
         });
 
+        lblLogo.setBackground(new java.awt.Color(153, 204, 255));
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.png"))); // NOI18N
 
@@ -196,6 +205,8 @@ public class Login extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        updatePanel.setBackground(new java.awt.Color(153, 204, 255));
+
         javax.swing.GroupLayout updatePanelLayout = new javax.swing.GroupLayout(updatePanel);
         updatePanel.setLayout(updatePanelLayout);
         updatePanelLayout.setHorizontalGroup(
@@ -212,6 +223,7 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(jpbLoading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        textPanel.setBackground(new java.awt.Color(153, 204, 255));
         textPanel.add(lblIncorrectField);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);

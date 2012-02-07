@@ -18,6 +18,7 @@ import model.Employee;
 import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Utils;
+import roosterprogramma.WhiteRenderer;
 
 /**
  *
@@ -63,6 +64,9 @@ public class EmployeeOverview extends javax.swing.JPanel {
         fields[3] = employee.getFamilyName();
         fields[4] = contracttype;
         model.addRow(fields);
+        for (int i = 0; i < tblEmployee.getColumnCount(); i++) {
+            tblEmployee.getColumnModel().getColumn(i).setCellRenderer(new WhiteRenderer());
+        }
     }
 
     private void searchTable() {
@@ -115,7 +119,10 @@ public class EmployeeOverview extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         tfFirstName = new javax.swing.JTextField();
 
+        setBackground(new java.awt.Color(153, 204, 255));
+
         tblEmployee.setAutoCreateRowSorter(true);
+        tblEmployee.setBackground(new java.awt.Color(153, 204, 255));
         tblEmployee.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -139,6 +146,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblEmployee.setFillsViewportHeight(true);
         tblEmployee.getTableHeader().setReorderingAllowed(false);
         tblEmployee.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

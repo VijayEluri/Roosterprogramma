@@ -128,6 +128,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
         lblOther = new javax.swing.JLabel();
         cbOther = new javax.swing.JCheckBox();
 
+        setBackground(new java.awt.Color(153, 204, 255));
+
         lblEmployeeNumber.setText("PersoneelsNummer:");
 
         lblFirstName.setText("Voornaam:");
@@ -156,7 +158,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblClerk.setText("Baliemedewerker:");
 
+        cbClerk.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup.add(cbClerk);
+        cbClerk.setBorder(null);
         cbClerk.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbClerkStateChanged(evt);
@@ -191,7 +195,11 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblNumberInUse.setText("Dat nummer is al in gebruik!");
 
+        pnlExtra.setBackground(new java.awt.Color(153, 204, 255));
+
+        cbCallWorker.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(cbCallWorker);
+        cbCallWorker.setBorder(null);
         cbCallWorker.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbCallWorkerStateChanged(evt);
@@ -200,7 +208,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblCallWorker.setText("Oproepkracht:");
 
+        cbPartTime.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(cbPartTime);
+        cbPartTime.setBorder(null);
         cbPartTime.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbPartTimeStateChanged(evt);
@@ -209,8 +219,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblPartTime.setText("Parttime:");
 
+        cbFullTime.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(cbFullTime);
         cbFullTime.setSelected(true);
+        cbFullTime.setBorder(null);
         cbFullTime.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbFullTimeStateChanged(evt);
@@ -218,6 +230,8 @@ public class ChAddEmployee extends javax.swing.JPanel {
         });
 
         lblFullTime.setText("Fulltime:");
+
+        pnlHours.setBackground(new java.awt.Color(153, 204, 255));
 
         lblHours.setText("Minimum aantal uren per week:");
 
@@ -248,19 +262,42 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addContainerGap(462, Short.MAX_VALUE))
         );
 
+        pnlDays.setBackground(new java.awt.Color(153, 204, 255));
+
         lblInstruction.setText("Niet in te roosteren dagen:");
 
         lblMonday.setText("Maandag");
 
+        cbMonday.setBackground(new java.awt.Color(255, 255, 255));
+        cbMonday.setBorder(null);
+
         lblTuesday.setText("Dinsdag");
+
+        cbTuesday.setBackground(new java.awt.Color(255, 255, 255));
+        cbTuesday.setBorder(null);
+
+        cbWednesday.setBackground(new java.awt.Color(255, 255, 255));
+        cbWednesday.setBorder(null);
 
         lblWednesday.setText("Woensdag");
 
         lblThursday.setText("Donderdag");
 
+        cbThursday.setBackground(new java.awt.Color(255, 255, 255));
+        cbThursday.setBorder(null);
+
+        cbFriday.setBackground(new java.awt.Color(255, 255, 255));
+        cbFriday.setBorder(null);
+
         lblFriday.setText("Vrijdag");
 
         lblSaturday.setText("Zaterdag");
+
+        cbSaturday.setBackground(new java.awt.Color(255, 255, 255));
+        cbSaturday.setBorder(null);
+
+        cbSunday.setBackground(new java.awt.Color(255, 255, 255));
+        cbSunday.setBorder(null);
 
         lblSunday.setText("Zondag");
 
@@ -325,8 +362,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addGroup(pnlDaysLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSunday)
                     .addComponent(cbSunday))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
+
+        pnlVacationPercentage.setBackground(new java.awt.Color(153, 204, 255));
 
         lblVacationPercentage.setText("Vakantiepercentage:");
 
@@ -410,7 +449,9 @@ public class ChAddEmployee extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        cbMuseumEducator.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup.add(cbMuseumEducator);
+        cbMuseumEducator.setBorder(null);
         cbMuseumEducator.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbMuseumEducatorStateChanged(evt);
@@ -423,8 +464,10 @@ public class ChAddEmployee extends javax.swing.JPanel {
 
         lblOther.setText("Anders:");
 
+        cbOther.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup.add(cbOther);
         cbOther.setSelected(true);
+        cbOther.setBorder(null);
         cbOther.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 cbOtherStateChanged(evt);
@@ -519,7 +562,7 @@ public class ChAddEmployee extends javax.swing.JPanel {
                     .addComponent(cbOther))
                 .addGap(18, 18, 18)
                 .addComponent(pnlExtra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
