@@ -77,8 +77,7 @@ public class Employee {
         /**
          *
          */
-        KUIPERIJ
-        ;
+        KUIPERIJ;
 
         @Override
         public String toString() {

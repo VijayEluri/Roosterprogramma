@@ -141,7 +141,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         int daysOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 1; i <= daysOfMonth; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i);
-            WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getYear() + "-" + getMonth() + "-" + getDay());
+            WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, getYear() + "-" + getMonth() + "-" + getDay());
             Object[] fields = (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) ? new Object[11] : new Object[10];
             fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
             fields[1] = hour.getShouldWorkHours();
@@ -529,7 +529,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             ArrayList<Integer> failures = new ArrayList<Integer>();
             for (int i = 0; i < model.getRowCount() - 1; i++) {
                 String date = getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0];
-                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
+                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, date);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
                     Object tmpValue = model.getValueAt(i, j);
                     if (tmpValue != null) {
@@ -585,7 +585,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }//GEN-LAST:event_btnNextYearActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(new EmployeeOverview(false));
+        RoosterProgramma.getInstance().showPanel(RoosterProgramma.getInstance().getPrevPanel());
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed

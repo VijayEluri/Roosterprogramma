@@ -10,15 +10,12 @@
  */
 package view;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
@@ -154,7 +151,7 @@ public class Rooster extends javax.swing.JPanel {
             fields[2] = employee.getContractHours();
             for (int i = 1; i <= daysOfMonth; i++) {
                 calendar.set(Calendar.DAY_OF_MONTH, i);
-                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), getDate(calendar));
+                WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, getDate(calendar));
                 fields[i + 2] = hour.getShouldWork();
             }
             model.addRow(fields);
@@ -411,7 +408,7 @@ public class Rooster extends javax.swing.JPanel {
                 String date = calendar.get(Calendar.YEAR) + "-" + getMonth() + "-" + model.getColumnName(j).split(" - ")[0];
                 String shouldWork = model.getValueAt(tblSchedule.convertRowIndexToModel(i), j).toString();
                 if (isValidWorkHour(shouldWork) || shouldWork.isEmpty()) {
-                    WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee.getEmployeeNumber(), date);
+                    WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, date);
                     if (hour.getEmployeeNumber() == 0 && !shouldWork.isEmpty()) {
                         hour = new WorkHours(employee.getEmployeeNumber(), date);
                         hour.setShouldWork(shouldWork);

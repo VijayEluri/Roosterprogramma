@@ -10,6 +10,11 @@ package roosterprogramma;
  */
 public class Translater {
 
+    /**
+     *
+     * @param strToTranslate
+     * @return
+     */
     public static String Translate(String strToTranslate) {
         String translated;
         if (strToTranslate.equals("Monday")) {

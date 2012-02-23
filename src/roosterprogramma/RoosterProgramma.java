@@ -44,11 +44,28 @@ public class RoosterProgramma {
         applicatie.startup();
     }
 
+    /**
+     *
+     * @param panel
+     * @param prevPanel
+     */
+    public void showPanel(JPanel panel, JPanel prevPanel) {
+        this.prevPanel = prevPanel;
+        showPanel(panel);
+    }
     public void showPanel(JPanel panel) {
         mainWindow.getContentPane().removeAll();
         mainWindow.getContentPane().add(panel, BorderLayout.CENTER);
         mainWindow.getContentPane().validate();
         mainWindow.getContentPane().repaint();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JPanel getPrevPanel() {
+        return this.prevPanel;
     }
 
     public void startup() {

@@ -26,14 +26,37 @@ public class WorkHours {
     private int employeeNumber;
     private String comment;
 
+    /**
+     *
+     */
     public WorkHours() {
         this(0, "");
     }
 
+    /**
+     *
+     * @param employeeNumber
+     * @param date
+     */
     public WorkHours(int employeeNumber, String date) {
         this(employeeNumber, date, "", 0, 0, 0, 0, 0, 0, 0, 0, "");
     }
 
+    /**
+     *
+     * @param employeeNumber
+     * @param date
+     * @param shouldWork
+     * @param worked
+     * @param compensation150
+     * @param compensation200
+     * @param vacation
+     * @param ADV
+     * @param illness
+     * @param leave
+     * @param withdrawnCompensation
+     * @param comment
+     */
     public WorkHours(int employeeNumber, String date, String shouldWork, double worked,
             double compensation150, double compensation200, double vacation, double ADV,
             double illness, double leave, double withdrawnCompensation, String comment) {
@@ -191,6 +214,10 @@ public class WorkHours {
         this.shouldWork = shouldWork;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getShouldWorkHours() {
         if (Pattern.matches("[0-2]\\d{3}-[0-2]\\d{3}", shouldWork)) {
             return Double.toString(Utils.intervalToDuration(shouldWork));

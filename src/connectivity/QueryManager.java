@@ -17,6 +17,7 @@ import roosterprogramma.Utils;
 public class QueryManager {
 
     private final Dbmanager dbManager;
+    private final static boolean DEBUG = true;
 
     /**
      * Sla het Dbmanager object op voor intern (private) gebruik
@@ -27,6 +28,10 @@ public class QueryManager {
         this.dbManager = dbmanager;
     }
 
+    /**
+     *
+     * @return an ArrayList of employees
+     */
     public ArrayList<Employee> getEmployees() {
         ArrayList<Employee> employees = new ArrayList<Employee>();
         String sql = "SELECT * FROM medewerkers;";
@@ -57,6 +62,10 @@ public class QueryManager {
                         result.getBoolean("werkzondag")));
             }
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, kan geen enkele gebruiker ophalen uit de database.", "Fout!", ex.getMessage(), false);
         }
         return employees;
@@ -87,6 +96,10 @@ public class QueryManager {
             dbManager.insertQuery(sql);
             RoosterProgramma.getInstance().addEmployee(employee);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, nieuwe medewerker kon niet worden toegevoegd.", "Fout!", ex.getMessage(), false);
         }
     }
@@ -126,6 +139,10 @@ public class QueryManager {
             dbManager.executeUpdate(sql);
             Utils.showMessage("Succesvol gewijzigd.", "Gelukt!", "Account " + employee.getEmployeeNumber() + " is gewijzigd.", false);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, medewerker kon niet worden gewijzigd.", "Fout!", ex.getMessage(), false);
         }
     }
@@ -141,24 +158,38 @@ public class QueryManager {
             dbManager.insertQuery(sql);
             Utils.showMessage("Succesvol verwijderd.", "Gelukt!", "Account " + employee.getEmployeeNumber() + "is verwijderd.", false);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, medewerker kon niet worden verwijderd.", "Fout!", ex.getMessage(), false);
         }
     }
 
-    public WorkHours getWorkHours(int employeeNumber, String date) {
+    /**
+     *
+     * @param employee the employee who's workhours we want
+     * @param date the date of which we want the workhours
+     * @return WorkHours the hour justification of employee
+     */
+    public WorkHours getWorkHours(Employee employee, String date) {
         WorkHours hours = new WorkHours();
-        String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employeeNumber + "' AND datum = '" + date + "';";
+        String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "' AND datum = '" + date + "';";
         try {
             ResultSet result = dbManager.doQuery(sql);
             if (result.next()) {
                 hours = new WorkHours(
-                        employeeNumber, result.getString("datum"), result.getString("ingeroosterd"),
+                        employee.getEmployeeNumber(), result.getString("datum"), result.getString("ingeroosterd"),
                         result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
                         result.getDouble("verlof"), result.getDouble("opgcompensatie"), result.getString("opmerking"));
             }
         } catch (SQLException ex) {
-            Utils.showMessage("Fout opgetreden, kon niet de werkuren van personeelsnummer '" + employeeNumber + "' ophalen.", "Fout!", ex.getMessage(), false);
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
+            Utils.showMessage("Fout opgetreden, kon niet de werkuren van personeelsnummer '" + employee.getEmployeeNumber() + "' ophalen.", "Fout!", ex.getMessage(), false);
         }
         return hours;
     }
@@ -186,6 +217,10 @@ public class QueryManager {
         try {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
             return false;
         }
@@ -236,6 +271,10 @@ public class QueryManager {
         try {
             dbManager.executeUpdate(sql);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, het weghalen van de te werken uren is mislukt.", "Fout!", ex.getMessage(), false);
             return false;
         }
@@ -258,28 +297,48 @@ public class QueryManager {
                         result.getString("x3"));
             }
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, het ophalen van de instellingen is niet gelukt.", "Fout!", ex.getMessage(), false);
         }
         return settings;
     }
 
+    /**
+     *
+     * @param settings
+     */
     public void saveSettings(Settings settings) {
         String sql = "UPDATE settings SET "
                 + "x1 = '" + settings.getX1() + "', "
                 + "x2 = '" + settings.getX2() + "', "
                 + "x3 = '" + settings.getX3() + "';";
         try {
-            dbManager.insertQuery(sql);
+            dbManager.executeUpdate(sql);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, het opslaan van de instellingen is niet gelukt.", "Fout!", ex.getMessage(), false);
         }
     }
 
+    /**
+     *
+     * @param message
+     */
     public void addToLog(String message) {
-        String sql = "INSERT INTO `log` (`message`) VALUES ('" + message + "');";
+        String sql = "INSERT INTO log (message) VALUES ('" + message + "');";
         try {
             dbManager.insertQuery(sql);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("ERNSTIGE FOUT, er is een fout opgetreden bij het loggen van een fout.", "Fout!", ex.getMessage(), true);
         }
     }

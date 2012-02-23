@@ -23,6 +23,12 @@ public class ExcelExporter {
     private ExcelExporter() {
     }
 
+    /**
+     *
+     * @param table
+     * @param file
+     * @param inverted
+     */
     public static void Export(JTable table, File file, boolean inverted) {
         try {
             TableModel model = table.getModel();

@@ -19,6 +19,12 @@ public class Settings {
     private String x3Start = "0000";
     private String x3End = "0000";
 
+    /**
+     *
+     * @param x1
+     * @param x2
+     * @param x3
+     */
     public void setSettings(String x1, String x2, String x3) {
         if (x1.length() == 9) { //  1130-1700 --> 9 karakters
             this.x1Start = x1.split("-")[0];
@@ -34,6 +40,9 @@ public class Settings {
         }
     }
 
+    /**
+     *
+     */
     public void save() {
         RoosterProgramma.getQueryManager().saveSettings(this);
     }
@@ -80,14 +89,26 @@ public class Settings {
         return x3End.replace(":", "");
     }
 
+    /**
+     *
+     * @return
+     */
     public String getX1() {
         return x1Start + "-" + x1End;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getX2() {
         return x2Start + "-" + x2End;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getX3() {
         return x3Start + "-" + x3End;
     }
