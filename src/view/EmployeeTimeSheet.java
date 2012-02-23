@@ -111,9 +111,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     employee.getEmployeeNumber(),
                     employee.getFirstName(),
                     employee.getFamilyName(),
-                    employee.getContractType(),
-                    employee.isPartTime(),
-                    employee.isCallWorker()
+                    employee.isFullTime() ? "Ja" : "Nee",
+                    employee.isPartTime() ? "Ja" : "Nee",
+                    employee.isCallWorker() ? "Ja" : "Nee"
                 });
         for (int i = 0; i < tblEmployeeInformation.getColumnCount(); i++) {
             tblEmployeeInformation.getColumnModel().getColumn(i).setCellRenderer(new WhiteRenderer());
@@ -123,7 +123,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private void fillVerantwoordingTable() {
         model = (DefaultTableModel) tblTimesheet.getModel();
         model.addColumn("Dag van de Maand");
-        if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
+        if (employee.isClerk()) {
             model.addColumn("Ingeroosterd");
         } else {
             modifier = 1;
@@ -269,6 +269,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }
 
     private boolean isCorrectlyFilled() {
+        if (!employee.isClerk()) {
+            return true;
+        }
         for (int i = 0; i < tblTimesheet.getRowCount(); i++) {
             String ingeroosterd = model.getValueAt(i, 1).toString();
             if (!ingeroosterd.isEmpty()) {
@@ -368,14 +371,14 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Personeelsnummer", "Voornaam", "Achternaam", "Fulltime", "Parttime", "Oproepkracht", "Noodhulp"
+                "Personeelsnummer", "Voornaam", "Achternaam", "Fulltime", "Parttime", "Oproepkracht"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -535,7 +538,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     if (tmpValue != null) {
                         String value = tmpValue.toString();
                         String columnName = model.getColumnName(j);
-                        if (model.getColumnName(1).equals("Ingeroosterd") && !model.getValueAt(i, j).toString().isEmpty()) {
+                        if ((model.getColumnName(1).equals("Ingeroosterd") || !employee.isClerk()) // Alle rijen behalve Totaal
+                                && !model.getValueAt(i, j).toString().isEmpty()) {  // Vakje is niet leeg
                             if (model.getColumnName(j).equals("Gewerkt")) {
                                 hour.setWorked(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
                             } else if (columnName.equals("Compensatie 150")) {

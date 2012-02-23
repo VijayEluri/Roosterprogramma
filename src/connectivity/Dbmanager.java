@@ -71,16 +71,7 @@ public class Dbmanager {
 
     /**
      * Executes a query without result.
-     *
-     * @param query
-     * @throws SQLException
-     */
-    public void executeQuery(String query) throws SQLException {
-        connection.createStatement().executeQuery(query);
-    }
-
-    /**
-     * Executes a query without result.
+     * Use for UPDATE queries.
      *
      * @param query
      * @throws SQLException
