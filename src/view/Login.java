@@ -55,14 +55,13 @@ public class Login extends javax.swing.JPanel {
             int employeeNumber = Integer.parseInt(tfEmployeeNumber.getText());
             employee = RoosterProgramma.getInstance().getEmployee(employeeNumber);
             if (employee != null) {
-                if (employee.getPassword() == null) {
+                if ("(NULL)".equals(employee.getPassword())) {
                     String password = Utils.promptInput(
                             "Uw account heeft geen ingesteld wachtwoord, dit is wel vereist...\n"
                             + "Dit veld is niet gemaskeerd, zorg ervoor dat er niemand in de buurt is.\n"
                             + "Voer hieronder het gewenste wachtwoord in.\n");
                     if (password != null && !password.isEmpty()) {
-                        password = Utils.SHA1(password);
-                        employee.setPassword(password);
+                        employee.setPassword(Utils.SHA1(password));
                         employee.update();
                         RoosterProgramma.getInstance().setCurrentUser(employee);
                         RoosterProgramma.getInstance().showPanel(new MainMenu());
