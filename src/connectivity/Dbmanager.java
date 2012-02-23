@@ -12,11 +12,20 @@ import roosterprogramma.Utils;
  */
 public class Dbmanager {
 
+    /**
+     * The constant for all JDBC exceptions
+     */
     public static final String JDBC_EXCEPTION = "JDBC Exception: ";
+    /**
+     * The constant for all SQL exceptions
+     */
     public static final String SQL_EXCEPTION = "SQL Exception: ";
     private static final String sqlexpress_instance = "ZAANSMUSEUM", sqlexpress_address = "zm-server11", sqlexpress_user = "sa", sqlexpress_pass = "";
     private static final String mysql_port = "3306", mysql_address = "127.0.0.1", mysql_user = "root", mysql_pass = "mangos";
     private static final String databasename = "Roosterprogramma";
+    /**
+     * The actual connection
+     */
     public Connection connection;
     private static boolean mysql = true;
 
@@ -68,6 +77,16 @@ public class Dbmanager {
      */
     public void executeQuery(String query) throws SQLException {
         connection.createStatement().executeQuery(query);
+    }
+
+    /**
+     * Executes a query without result.
+     *
+     * @param query
+     * @throws SQLException
+     */
+    public void executeUpdate(String query) throws SQLException {
+        connection.createStatement().executeUpdate(query);
     }
 
     /**
