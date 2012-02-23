@@ -471,15 +471,15 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_tfAchternaamFocusGained
 
     private void chkMuseumEducatorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkMuseumEducatorItemStateChanged
-        process();
+        fill(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
     }//GEN-LAST:event_chkMuseumEducatorItemStateChanged
 
     private void chkCallWorkerItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkCallWorkerItemStateChanged
-        process();
+        fill(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
     }//GEN-LAST:event_chkCallWorkerItemStateChanged
 
     private void chkClerkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_chkClerkItemStateChanged
-        process();
+        fill(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
     }//GEN-LAST:event_chkClerkItemStateChanged
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
