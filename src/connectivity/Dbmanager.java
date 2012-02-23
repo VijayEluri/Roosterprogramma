@@ -27,7 +27,7 @@ public class Dbmanager {
      * The actual connection
      */
     public Connection connection;
-    private static boolean mysql = true;
+    private static boolean mysql = false;
 
     /**
      * Open database connection

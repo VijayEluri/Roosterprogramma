@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Employee;
-import model.Employee.contractTypes;
 import model.Settings;
 import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
@@ -17,7 +16,7 @@ import roosterprogramma.Utils;
 public class QueryManager {
 
     private final Dbmanager dbManager;
-    private final static boolean DEBUG = true;
+    private final static boolean DEBUG = false;
 
     /**
      * Sla het Dbmanager object op voor intern (private) gebruik
@@ -40,9 +39,6 @@ public class QueryManager {
         }
         try {
             ResultSet result = dbManager.doQuery(sql);
-            for (contractTypes type : contractTypes.values()) {
-                type.ordinal();
-            }
             while (result.next()) {
                 employees.add(
                         new Employee(
@@ -181,7 +177,7 @@ public class QueryManager {
      * @return WorkHours the hour justification of employee
      */
     public WorkHours getWorkHours(Employee employee, String date) {
-        WorkHours hours = new WorkHours();
+        WorkHours hours = new WorkHours(-1, date);
         String sql = "SELECT * FROM werktijden WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "' AND datum = '" + date + "';";
         if (DEBUG) {
             System.err.println(sql);

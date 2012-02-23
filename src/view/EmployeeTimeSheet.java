@@ -36,6 +36,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private Calendar calendar = Calendar.getInstance();
     private int year, month, modifier = 0;
     private DecimalFormat format = new DecimalFormat("0.00");
+    private static final boolean DEBUG = false;
     private ItemListener changeListener = new ItemListener() {
 
         @Override
@@ -142,12 +143,12 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         for (int i = 1; i <= daysOfMonth; i++) {
             calendar.set(Calendar.DAY_OF_MONTH, i);
             WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, getYear() + "-" + getMonth() + "-" + getDay());
-            Object[] fields = (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) ? new Object[11] : new Object[10];
+            Object[] fields = employee.isClerk() ? new Object[11] : new Object[10];
             fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
-            fields[1] = hour.getShouldWorkHours();
-            if (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) {
-                fields[2] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
+            if (employee.isClerk()) {
+                fields[1] = hour.getShouldWorkHours();
             }
+            fields[2 - modifier] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
             fields[3 - modifier] = (hour.getVacation() == 0.0 ? "" : hour.getVacation());
             fields[4 - modifier] = (hour.getADV() == 0.0 ? "" : hour.getADV());
             fields[5 - modifier] = (hour.getIllness() == 0.0 ? "" : hour.getIllness());
@@ -156,7 +157,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             fields[9 - modifier] = hour.getComment();
             model.addRow(fields);
         }
-        Object[] fields = (employee.isClerk() || employee.isMuseumEducator() || employee.isCallWorker()) ? new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0} : new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
+        Object[] fields = employee.isClerk() ? new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0} : new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
         model.addRow(fields);
         for (int i = 1; i <= (11 - modifier); i++) {
             tblTimesheet.getColumnModel().getColumn(i).setPreferredWidth(100);
@@ -188,14 +189,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }
 
     private void calculateTotal() {
-        int tmpModifier = 0;
-        if (employee.isCallWorker() || employee.isClerk() || employee.isMuseumEducator()) {
-            tmpModifier = 1;
-        }
         // Totaalkolom
         for (int i = 0; i < model.getRowCount(); i++) { // Voor iedere rij
             double totalHours = 0;
-            for (int j = 1 + tmpModifier; j < model.getColumnCount() - 4; j++) {    // Alle rijen behalve degene vanaf Totaal
+            for (int j = -modifier + 2; j < model.getColumnCount() - 4; j++) {    // Alle rijen behalve degene vanaf Totaal
                 if (model.getValueAt(i, j) != null && !model.getValueAt(i, j).toString().isEmpty()) {
                     totalHours += verifyInput(i, j);
                 }
@@ -532,6 +529,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             ArrayList<Integer> failures = new ArrayList<Integer>();
             for (int i = 0; i < model.getRowCount() - 1; i++) {
                 String date = getYear() + "-" + getMonth() + "-" + model.getValueAt(i, 0).toString().split(" - ")[0];
+                boolean changed = false;
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, date);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
                     Object tmpValue = model.getValueAt(i, j);
@@ -542,28 +540,73 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                                 && !model.getValueAt(i, j).toString().isEmpty()) {  // Vakje is niet leeg
                             if (model.getColumnName(j).equals("Gewerkt")) {
                                 hour.setWorked(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getWorked());
+                                }
                             } else if (columnName.equals("Compensatie 150")) {
                                 hour.setCompensation150(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getCompensation150());
+                                }
                             } else if (columnName.equals("Compensatie 200")) {
                                 hour.setCompensation200(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getCompensation200());
+                                }
                             } else if (columnName.equals("Vakantie")) {
                                 hour.setVacation(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getVacation());
+                                }
                             } else if (columnName.equals("ADV")) {
                                 hour.setADV(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getADV());
+                                }
                             } else if (columnName.equals("Ziek")) {
                                 hour.setIllness(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getIllness());
+                                }
                             } else if (columnName.equals("Speciaal Verlof")) {
                                 hour.setLeave(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getLeave());
+                                }
                             } else if (columnName.equals("Opg. compensatie")) {
                                 hour.setWithdrawnCompensation(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getWithdrawnCompensation());
+                                }
                             } else if (columnName.equals("Opmerking")) {
                                 hour.setComment(value);
+                                changed = true;
+                                if (DEBUG) {
+                                    System.out.println(hour.getComment());
+                                }
                             }
                         }
                     }
                 }
-                if (!hour.equals(new WorkHours(employee.getEmployeeNumber(), date))) {
+                if (hour.getEmployeeNumber() != -1) {
                     if (!RoosterProgramma.getQueryManager().updateWorkHours(hour)) {
+                        failures.add(i);
+                    }
+                } else if (changed) {
+                    if (DEBUG) {
+                        System.out.println("Changed");
+                    }
+                    hour.setEmployeeNumber(employee.getEmployeeNumber());
+                    hour.setDate(date);
+                    if (!RoosterProgramma.getQueryManager().insertWorkHours(hour)) {
                         failures.add(i);
                     }
                 }
