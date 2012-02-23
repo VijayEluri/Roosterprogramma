@@ -13,6 +13,7 @@ package view;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTextField;
+import model.Settings;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Utils;
 
@@ -33,12 +34,17 @@ public class SettingsMenu extends javax.swing.JPanel {
     }
 
     private void fillFields() {
-        tfX1.setText(RoosterProgramma.getInstance().getSettings().getX1Start());
-        tfX1till.setText(RoosterProgramma.getInstance().getSettings().getX1End());
-        tfX2.setText(RoosterProgramma.getInstance().getSettings().getX2Start());
-        tfX2till.setText(RoosterProgramma.getInstance().getSettings().getX2End());
-        tfX3.setText(RoosterProgramma.getInstance().getSettings().getX3Start());
-        tfX3till.setText(RoosterProgramma.getInstance().getSettings().getX3End());
+        Settings settings = RoosterProgramma.getInstance().getSettings();
+        tfX1.setText(format(settings.getX1Start()));
+        tfX1till.setText(format(settings.getX1End()));
+        tfX2.setText(format(settings.getX2Start()));
+        tfX2till.setText(format(settings.getX2End()));
+        tfX3.setText(format(settings.getX3Start()));
+        tfX3till.setText(format(settings.getX3End()));
+    }
+
+    private String format(String toFormat) {
+        return toFormat.substring(0, 2) + ":" + toFormat.substring(2);
     }
 
     /**
