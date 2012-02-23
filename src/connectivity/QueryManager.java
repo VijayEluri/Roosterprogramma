@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Employee;
+import model.Employee.contractTypes;
 import model.Settings;
 import model.WorkHours;
 import roosterprogramma.RoosterProgramma;
@@ -31,6 +32,9 @@ public class QueryManager {
         String sql = "SELECT * FROM medewerkers;";
         try {
             ResultSet result = dbManager.doQuery(sql);
+            for (contractTypes type : contractTypes.values()) {
+                type.ordinal();
+            }
             while (result.next()) {
                 employees.add(
                         new Employee(
@@ -39,11 +43,8 @@ public class QueryManager {
                         result.getString("tussenvoegsel"),
                         result.getString("achternaam"),
                         result.getString("wachtwoord"),
-                        result.getBoolean("fulltime"),
-                        result.getBoolean("parttime"),
-                        result.getBoolean("oproepkracht"),
-                        result.getBoolean("baliemedewerker"),
-                        result.getBoolean("museumdocent"),
+                        Utils.intToContractType(result.getInt("contracttype")),
+                        Utils.intToEmployeeType(result.getInt("werknemerstype")),
                         result.getDouble("contracturen"),
                         result.getDouble("vakantiepercentage"),
                         result.getBoolean("admin"),
@@ -61,12 +62,12 @@ public class QueryManager {
         return employees;
     }
 
+    /**
+     * Adds an employee to the database
+     *
+     * @param employee
+     */
     public void addEmployee(Employee employee) {
-        int fulltime = Utils.booleanToInt(employee.isFullTime());
-        int parttime = Utils.booleanToInt(employee.isPartTime());
-        int callworker = Utils.booleanToInt(employee.isCallWorker());
-        int clerk = Utils.booleanToInt(employee.isClerk());
-        int museumeducator = Utils.booleanToInt(employee.isMuseumEducator());
         int workmonday = Utils.booleanToInt(employee.isWorkMonday());
         int worktuesday = Utils.booleanToInt(employee.isWorkTuesday());
         int workwednesday = Utils.booleanToInt(employee.isWorkWednesday());
@@ -75,13 +76,12 @@ public class QueryManager {
         int worksaturday = Utils.booleanToInt(employee.isWorkSaturday());
         int worksunday = Utils.booleanToInt(employee.isWorkSunday());
         String sql = "INSERT INTO medewerkers (personeelsnummer, voornaam, tussenvoegsel, achternaam, "
-                + "wachtwoord, fulltime, parttime, oproepkracht, "
-                + "baliemedewerker, museumdocent, contracturen, vakantiepercentage, "
+                + "wachtwoord, contracttype, werknemerstype, contracturen, vakantiepercentage, "
                 + "admin, werkmaandag, werkdinsdag, werkwoensdag, werkdonderdag, werkvrijdag, werkzaterdag, werkzondag) "
                 + "VALUES('" + employee.getEmployeeNumber() + "', '" + employee.getFirstName().replace("'", "\'") + "', '"
                 + employee.getInsertion().replace("'", "\'") + "', '" + employee.getFamilyName().replace("'", "\'") + "', '"
-                + employee.getPassword() + "', '" + fulltime + "', '" + parttime + "', '" + callworker + "', '" + clerk + "', '"
-                + museumeducator + "', '" + employee.getContractHours() + "', '" + employee.getVacationPercentage() + "', '0', '" + workmonday + "', '"
+                + employee.getPassword() + "', '" + employee.getContractType().ordinal() + "', '" + employee.getEmployeeType().ordinal() + "', '"
+                + employee.getContractHours() + "', '" + employee.getVacationPercentage() + "', '0', '" + workmonday + "', '"
                 + worktuesday + "', '" + workwednesday + "', '" + workthursday + "', '" + workfriday + "', '" + worksaturday + "', '" + worksunday + "')";
         try {
             dbManager.insertQuery(sql);
@@ -91,6 +91,11 @@ public class QueryManager {
         }
     }
 
+    /**
+     * Changes an employee in the database
+     *
+     * @param employee
+     */
     public void changeEmployee(Employee employee) {
         int workmonday = Utils.booleanToInt(employee.isWorkMonday());
         int worktuesday = Utils.booleanToInt(employee.isWorkTuesday());
@@ -103,12 +108,9 @@ public class QueryManager {
                 + "voornaam = '" + employee.getFirstName().replace("'", "\'") + "', "
                 + "tussenvoegsel = '" + employee.getInsertion().replace("'", "\'") + "', "
                 + "achternaam = '" + employee.getFamilyName().replace("'", "\'") + "', "
-                + "wachtwoord = '" + employee.getPassword().replace("'", "\'") + "', "
-                + "fulltime = '" + Utils.booleanToInt(employee.isFullTime()) + "', "
-                + "parttime = '" + Utils.booleanToInt(employee.isPartTime()) + "', "
-                + "oproepkracht = '" + Utils.booleanToInt(employee.isCallWorker()) + "', "
-                + "baliemedewerker = '" + Utils.booleanToInt(employee.isClerk()) + "', "
-                + "museumdocent = '" + Utils.booleanToInt(employee.isMuseumEducator()) + "', "
+                + "wachtwoord = '" + employee.getPassword() + "', "
+                + "contracttype = '" + employee.getContractType().ordinal() + "', "
+                + "werknemerstype = '" + employee.getEmployeeType().ordinal() + "', "
                 + "contracturen = '" + employee.getContractHours() + "', "
                 + "vakantiepercentage = '" + employee.getVacationPercentage() + "', "
                 + "admin = '" + Utils.booleanToInt(employee.isAdmin()) + "', "
@@ -121,17 +123,23 @@ public class QueryManager {
                 + "werkzondag = '" + worksunday + "' "
                 + "WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         try {
-            dbManager.insertQuery(sql);
-            RoosterProgramma.getInstance().changeEmployee(employee);
+            dbManager.executeUpdate(sql);
+            Utils.showMessage("Succesvol gewijzigd.", "Gelukt!", "Account " + employee.getEmployeeNumber() + " is gewijzigd.", false);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, medewerker kon niet worden gewijzigd.", "Fout!", ex.getMessage(), false);
         }
     }
 
+    /**
+     * Removes an employee from the database
+     *
+     * @param employee
+     */
     public void deleteEmployee(Employee employee) {
         String sql = "DELETE FROM medewerkers WHERE personeelsnummer = '" + employee.getEmployeeNumber() + "';";
         try {
             dbManager.insertQuery(sql);
+            Utils.showMessage("Succesvol verwijderd.", "Gelukt!", "Account " + employee.getEmployeeNumber() + "is verwijderd.", false);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, medewerker kon niet worden verwijderd.", "Fout!", ex.getMessage(), false);
         }
@@ -155,6 +163,11 @@ public class QueryManager {
         return hours;
     }
 
+    /**
+     *
+     * @param hour
+     * @return
+     */
     public boolean insertWorkHours(WorkHours hour) {
         String sql = "INSERT INTO werktijden VALUES ('"
                 + hour.getEmployeeNumber()
@@ -179,6 +192,11 @@ public class QueryManager {
         return true;
     }
 
+    /**
+     *
+     * @param hour
+     * @return
+     */
     public boolean updateWorkHours(WorkHours hour) {
         String sql = "UPDATE werktijden SET "
                 + "ingeroosterd = '" + hour.getShouldWork() + "', "
@@ -195,18 +213,28 @@ public class QueryManager {
                 + "AND datum = '" + hour.getDate()
                 + "';";
         try {
-            dbManager.insertQuery(sql);
+            dbManager.executeUpdate(sql);
         } catch (SQLException ex) {
+            if (DEBUG) {
+                System.err.println(sql);
+                ex.printStackTrace();
+            }
             Utils.showMessage("Fout opgetreden, het opslaan van de gewerkte uren is niet gelukt.", "Fout!", ex.getMessage(), false);
             return false;
         }
         return true;
     }
 
+    /**
+     *
+     * @param employeenumber
+     * @param date
+     * @return
+     */
     public boolean deleteWorkHours(int employeenumber, String date) {
         String sql = "DELETE FROM werktijden WHERE personeelsnummer = '" + employeenumber + "' AND datum = '" + date + "';";
         try {
-            dbManager.insertQuery(sql);
+            dbManager.executeUpdate(sql);
         } catch (SQLException ex) {
             Utils.showMessage("Fout opgetreden, het weghalen van de te werken uren is mislukt.", "Fout!", ex.getMessage(), false);
             return false;
@@ -214,6 +242,10 @@ public class QueryManager {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public Settings getSettings() {
         Settings settings = new Settings();
         String sql = "SELECT * FROM settings;";

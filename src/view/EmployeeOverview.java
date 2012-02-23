@@ -45,24 +45,20 @@ public class EmployeeOverview extends javax.swing.JPanel {
             btnAdd.setIcon(new ImageIcon(getClass().getResource("/images/btnNext.png")));
             btnChange.setToolTipText("Exporteer naar Excel");
             btnChange.setIcon(new ImageIcon(getClass().getResource("/images/btnExport.png")));
+            btnChange.setEnabled(true);
             btnDelete.setVisible(false);
         }
     }
 
     private void insertEmployeeIntoTable(Employee employee) {
-        String contracttype = "Fulltime";
-        if (employee.isCallWorker() || employee.isMuseumEducator() || employee.isClerk()) {
-            contracttype = "Oproepkracht";
-        }
-        if (employee.isPartTime()) {
-            contracttype = "Parttime";
-        }
-        Object[] fields = new Object[5];
+        Object[] fields = new Object[7];
         fields[0] = employee.getEmployeeNumber();
         fields[1] = employee.getFirstName();
         fields[2] = employee.getInsertion().isEmpty() ? "" : employee.getInsertion();
         fields[3] = employee.getFamilyName();
-        fields[4] = contracttype;
+        fields[4] = employee.getContractType().toString();
+        fields[5] = employee.getEmployeeType().toString();
+        fields[6] = employee.getContractHours();
         model.addRow(fields);
         for (int i = 0; i < tblEmployee.getColumnCount(); i++) {
             tblEmployee.getColumnModel().getColumn(i).setCellRenderer(new WhiteRenderer());
@@ -89,12 +85,6 @@ public class EmployeeOverview extends javax.swing.JPanel {
                 }
             }
         }
-    }
-
-    private void showInfo() {
-        Calendar calendar = Calendar.getInstance();
-        RoosterProgramma.getInstance().showPanel(
-                new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1));
     }
 
     /**
@@ -128,14 +118,14 @@ public class EmployeeOverview extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Personeelsnummer", "Voornaam", "Tussenvoegsel", "Achternaam", "Contracttype"
+                "Personeelsnummer", "Voornaam", "Tussenvoegsel", "Achternaam", "Contracttype", "Werknemerstype", "Min. uur"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -277,7 +267,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        RoosterProgramma.getInstance().showPanel(new ChAddEmployee());
+        RoosterProgramma.getInstance().showPanel(new ChAddEmployee(), this);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -292,26 +282,30 @@ public class EmployeeOverview extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void tblEmployeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmployeeMouseClicked
-        selectedEmployee = RoosterProgramma.getInstance().getEmployee(Integer.parseInt(tblEmployee.getModel().getValueAt(tblEmployee.convertRowIndexToModel(tblEmployee.getSelectedRow()), 0).toString()));
-        if (evt.getClickCount() < 2) {
+        int row = tblEmployee.convertRowIndexToModel(tblEmployee.getSelectedRow());
+        int personeelsnummer = Integer.parseInt(tblEmployee.getModel().getValueAt(row, 0).toString());
+        selectedEmployee = RoosterProgramma.getInstance().getEmployee(personeelsnummer);
+        if (evt.getClickCount() == 1) {
             btnDelete.setEnabled(true);
             btnChange.setEnabled(true);
         } else {
             if (isEdit) {
-                RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+                RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee), this);
             } else {
-                showInfo();
+                Calendar calendar = Calendar.getInstance();
+                EmployeeTimeSheet timesheet = new EmployeeTimeSheet(selectedEmployee, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1);
+                RoosterProgramma.getInstance().showPanel(timesheet, this);
             }
         }
     }//GEN-LAST:event_tblEmployeeMouseClicked
 
     private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
         if (isEdit) {
-            RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee));
+            RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee), this);
         } else {
             String input = Utils.showFileChooser("Opslaan");
             if (!input.isEmpty()) {
-                ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"), false);
+                ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"), true);
             }
         }
     }//GEN-LAST:event_btnChangeActionPerformed

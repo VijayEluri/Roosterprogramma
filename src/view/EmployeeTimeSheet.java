@@ -111,7 +111,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     employee.getEmployeeNumber(),
                     employee.getFirstName(),
                     employee.getFamilyName(),
-                    employee.isFullTime(),
+                    employee.getContractType(),
                     employee.isPartTime(),
                     employee.isCallWorker()
                 });

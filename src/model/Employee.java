@@ -17,34 +17,113 @@ public class Employee {
     private String insertion;
     private String familyName;
     private String password;
-    private boolean fullTime;
-    private boolean partTime;
-    private boolean callWorker;
-    private boolean clerk;
-    private boolean museumEducator;
+    private contractTypes contractType;
+    private employeeTypes employeeType;
     private double contractHours;
     private double vacationPercentage;
     private boolean admin;
     private boolean workMonday, workTuesday, workWednesday, workThursday, workFriday, workSaturday, workSunday;
 
+    /**
+     *
+     */
+    public enum contractTypes {
+
+        /**
+         *
+         */
+        FULLTIME,
+        /**
+         *
+         */
+        PARTTIME,
+        /**
+         *
+         */
+        CALLWORKER,
+        /**
+         *
+         */
+        VOLUNTEER;
+
+        @Override
+        public String toString() {
+            return contractStrings[this.ordinal()];
+        }
+    }
+    private static final String[] contractStrings = {"Fulltime", "Parttime", "Oproepkracht", "Vrijwilliger"};
+
+    /**
+     *
+     */
+    public enum employeeTypes {
+
+        /**
+         *
+         */
+        CLERK,
+        /**
+         *
+         */
+        MUSEUMEDUCATOR,
+        /**
+         *
+         */
+        OTHER,
+        /**
+         *
+         */
+        CPH,
+        /**
+         *
+         */
+        KUIPERIJ
+        ;
+
+        @Override
+        public String toString() {
+            return employeeStrings[this.ordinal()];
+        }
+    }
+    private static final String[] employeeStrings = {"Baliemedewerker", "Museumdocent", "Anders", "CPH", "Kuiperij"};
+
+    /**
+     *
+     */
     public Employee() {
-        this(0, "", "", "", "", true, false, false, false, false, 0.0, 0.0, false, false, false, false, false, false, false, false);
+        this(0, "", "", "", "", contractTypes.CALLWORKER, employeeTypes.CLERK, 0.0, 0.0, false, false, false, false, false, false, false, false);
     }
 
+    /**
+     *
+     * @param personeelsNummer
+     * @param voornaam
+     * @param tussenvoegsel
+     * @param achternaam
+     * @param wachtwoord
+     * @param contractType
+     * @param employeeType
+     * @param contracturen
+     * @param vacationPercentage
+     * @param admin
+     * @param workMonday
+     * @param workTuesday
+     * @param workWednesday
+     * @param workThursday
+     * @param workFriday
+     * @param workSaturday
+     * @param workSunday
+     */
     public Employee(int personeelsNummer, String voornaam, String tussenvoegsel, String achternaam, String wachtwoord,
-            boolean fulltime, boolean parttime, boolean oproepkracht, boolean baliemedewerker,
-            boolean museumdocent, double contracturen, double vacationPercentage, boolean admin, boolean workMonday, boolean workTuesday,
+            contractTypes contractType, employeeTypes employeeType, double contracturen, double vacationPercentage, boolean admin, boolean workMonday, boolean workTuesday,
             boolean workWednesday, boolean workThursday, boolean workFriday, boolean workSaturday, boolean workSunday) {
         this.employeeNumber = personeelsNummer;
         this.firstName = voornaam;
         this.insertion = tussenvoegsel == null ? "" : tussenvoegsel;
         this.familyName = achternaam;
         this.password = wachtwoord;
-        this.fullTime = fulltime;
-        this.partTime = parttime;
-        this.callWorker = oproepkracht;
-        this.clerk = baliemedewerker;
-        this.museumEducator = museumdocent;
+        this.contractType = contractType;
+        this.employeeType = employeeType;
         this.contractHours = contracturen;
         this.vacationPercentage = vacationPercentage;
         this.admin = admin;
@@ -57,6 +136,9 @@ public class Employee {
         this.workSunday = workSunday;
     }
 
+    /**
+     *
+     */
     public void delete() {
         RoosterProgramma.getQueryManager().deleteEmployee(this);
     }
@@ -110,6 +192,10 @@ public class Employee {
         return password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getFullName() {
         String name = firstName + " ";
         if (!insertion.isEmpty()) {
@@ -127,45 +213,49 @@ public class Employee {
     }
 
     /**
-     * @return the fullTime
+     * @param contractType the contract type to set
+     */
+    public void setContractType(contractTypes contractType) {
+        this.contractType = contractType;
+    }
+
+    /**
+     * @return the contractType
+     */
+    public contractTypes getContractType() {
+        return this.contractType;
+    }
+
+    /**
+     *
+     * @return
      */
     public boolean isFullTime() {
-        return fullTime;
+        return this.contractType == contractTypes.FULLTIME;
     }
 
     /**
-     * @param fullTime the fullTime to set
-     */
-    public void setFullTime(boolean fullTime) {
-        this.fullTime = fullTime;
-    }
-
-    /**
-     * @return the partTime
+     *
+     * @return
      */
     public boolean isPartTime() {
-        return partTime;
+        return this.contractType == contractTypes.PARTTIME;
     }
 
     /**
-     * @param partTime the partTime to set
-     */
-    public void setPartTime(boolean partTime) {
-        this.partTime = partTime;
-    }
-
-    /**
-     * @return the callWorker
+     *
+     * @return
      */
     public boolean isCallWorker() {
-        return callWorker;
+        return this.contractType == contractTypes.CALLWORKER;
     }
 
     /**
-     * @param callWorker the callWorker to set
+     *
+     * @return
      */
-    public void setCallWorker(boolean callWorker) {
-        this.callWorker = callWorker;
+    public boolean isVolunteer() {
+        return this.contractType == contractTypes.VOLUNTEER;
     }
 
     /**
@@ -190,33 +280,36 @@ public class Employee {
     }
 
     /**
-     * @return the clerk
+     * @param employeeType the contract type to set
      */
-    public boolean isClerk() {
-        return clerk;
+    public void setEmployeeType(employeeTypes employeeType) {
+        this.employeeType = employeeType;
     }
 
     /**
-     * @param clerk the clerk to set
+     * @return the contractType
      */
-    public void setClerk(boolean clerk) {
-        this.clerk = clerk;
+    public employeeTypes getEmployeeType() {
+        return this.employeeType;
+    }
+
+    /**
+     * @return the clerk
+     */
+    public boolean isClerk() {
+        return this.employeeType == employeeTypes.CLERK;
     }
 
     /**
      * @return the museumEducator
      */
     public boolean isMuseumEducator() {
-        return museumEducator;
+        return this.employeeType == employeeTypes.MUSEUMEDUCATOR;
     }
 
     /**
-     * @param museumEducator the museumEducator to set
+     *
      */
-    public void setMuseumEducator(boolean museumEducator) {
-        this.museumEducator = museumEducator;
-    }
-
     public void update() {
         RoosterProgramma.getQueryManager().changeEmployee(this);
     }

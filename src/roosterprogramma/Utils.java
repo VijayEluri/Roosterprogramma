@@ -13,6 +13,8 @@ import java.util.Calendar;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileSystemView;
+import model.Employee.contractTypes;
+import model.Employee.employeeTypes;
 
 /**
  *
@@ -23,6 +25,11 @@ public class Utils {
     private Utils() {
     }
 
+    /**
+     *
+     * @param strToTest
+     * @return
+     */
     public static boolean isNumeric(String strToTest) {
         try {
             Double.parseDouble(strToTest);
@@ -32,6 +39,11 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param calendar
+     * @return
+     */
     public static boolean isHoliday(Calendar calendar) {
         calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
         return (isEaster(calendar)
@@ -111,6 +123,11 @@ public class Utils {
                 && calendar.get(Calendar.DAY_OF_MONTH) == 30);
     }
 
+    /**
+     *
+     * @param input
+     * @return
+     */
     public static String decodePassword(char[] input) {
         String typedPassword = "";
         for (char output : input) {
@@ -120,6 +137,14 @@ public class Utils {
         return typedPassword;
     }
 
+    /**
+     *
+     * @param question
+     * @param warning
+     * @param yes
+     * @param no
+     * @return
+     */
     public static boolean promptQuestion(String question, boolean warning, String yes, String no) {
         boolean answer = false;
         Object[] options = {
@@ -141,6 +166,11 @@ public class Utils {
         return answer;
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public static String promptInput(String message) {
         String input = JOptionPane.showInputDialog(
                 null,
@@ -150,6 +180,13 @@ public class Utils {
         return input;
     }
 
+    /**
+     *
+     * @param message
+     * @param title
+     * @param exception
+     * @param fatal
+     */
     public static void showMessage(String message, String title, String exception, boolean fatal) {
         JOptionPane.showMessageDialog(
                 null,
@@ -166,6 +203,11 @@ public class Utils {
         }
     }
 
+    /**
+     *
+     * @param message
+     * @return
+     */
     public static String showFileChooser(String message) {
         String input = "";
         File startDirectory = FileSystemView.getFileSystemView().getRoots()[0];
@@ -201,6 +243,11 @@ public class Utils {
         return buf.toString();
     }
 
+    /**
+     *
+     * @param text
+     * @return
+     */
     public static String SHA1(String text) {
         String Sha1 = "";
         text = text.toUpperCase();
@@ -219,10 +266,20 @@ public class Utils {
         return Sha1;
     }
 
+    /**
+     *
+     * @param bool
+     * @return
+     */
     public static int booleanToInt(boolean bool) {
         return (bool ? 1 : 0);
     }
 
+    /**
+     *
+     * @param interval
+     * @return
+     */
     public static int intervalToDuration(String interval) {
         String pieces[] = interval.split("-");
         String start = pieces[0];
@@ -230,5 +287,33 @@ public class Utils {
         int minutesStart = Integer.parseInt(start.substring(start.length() - 2, start.length())) + Integer.parseInt(start.substring(0, start.length() - 2)) * 60;
         int minutesEnd = Integer.parseInt(end.substring(end.length() - 2, end.length())) + Integer.parseInt(end.substring(0, end.length() - 2)) * 60;
         return (minutesEnd - minutesStart) / 60;
+    }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public static contractTypes intToContractType(int type) {
+        for (contractTypes tmpType : contractTypes.values()) {
+            if (tmpType.ordinal() == type) {
+                return tmpType;
+            }
+        }
+        return contractTypes.CALLWORKER;
+    }
+
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public static employeeTypes intToEmployeeType(int type) {
+        for (employeeTypes tmpType : employeeTypes.values()) {
+            if (tmpType.ordinal() == type) {
+                return tmpType;
+            }
+        }
+        return employeeTypes.CLERK;
     }
 }
