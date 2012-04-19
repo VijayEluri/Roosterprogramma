@@ -50,7 +50,11 @@ public class RoosterProgramma {
      * @return
      */
     public static QueryManager getQueryManager() {
-        return getInstance().queryManager;
+        return getInstance().getDynamicQueryManager();
+    }
+
+    public QueryManager getDynamicQueryManager() {
+        return queryManager;
     }
 
     /**
