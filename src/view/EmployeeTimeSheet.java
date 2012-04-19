@@ -217,11 +217,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                         double gewerkt = Double.parseDouble(model.getValueAt(l, k).toString().replace(",", "."));
                         String pieces[] = model.getValueAt(l, 0).toString().split(" - ");
                         Calendar today = Calendar.getInstance();
-                        today.set(year, month, Integer.parseInt(pieces[0]));
+                        today.set(year, month - 1, Integer.parseInt(pieces[0]));
                         if (Utils.isHoliday(today)) {
-                            model.setValueAt(format.format(gewerkt), l, model.getColumnCount());
+                            model.setValueAt(format.format(gewerkt), l, model.getColumnCount() - 1);
                         } else if (pieces[1].equalsIgnoreCase("Zondag")) {
-                            model.setValueAt(format.format(gewerkt / 2), l, model.getColumnCount() - 1);
+                            model.setValueAt(format.format(gewerkt / 2), l, model.getColumnCount() - 2);
                         }
                     }
                 }
