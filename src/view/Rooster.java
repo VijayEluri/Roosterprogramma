@@ -179,10 +179,7 @@ public class Rooster extends javax.swing.JPanel {
     }
 
     private boolean isValidWorkHour(String shouldWork) {
-        return (shouldWork.equalsIgnoreCase("x1")
-                || shouldWork.equalsIgnoreCase("x2")
-                || shouldWork.equalsIgnoreCase("x3")
-                || shouldWork.equalsIgnoreCase("z")
+        return (shouldWork.equalsIgnoreCase("z")
                 || shouldWork.equalsIgnoreCase("v")
                 || shouldWork.equalsIgnoreCase("c")
                 || shouldWork.equalsIgnoreCase("k")

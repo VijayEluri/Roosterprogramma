@@ -236,6 +236,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         Double hours = 0.0;
         if (Utils.isNumeric(value)) {
             hours = Double.parseDouble(value);
+        } else if (value.equalsIgnoreCase("v")) {
+        } else if (value.equalsIgnoreCase("z")) {
+        } else if (value.equalsIgnoreCase("c")) {
+        } else if (value.equals("*")) {
         } else {
             Utils.showMessage("Fout opgetreden, foutieve invoer (" + value + ") in veld (" + row + ", " + column + ")", "Fout!", null, false);
         }
@@ -284,9 +288,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                             return false;
                         }
                     }
-                } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
-                    Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", "", false);
-                    return false;
+                } else if (ingeroosterd.equalsIgnoreCase("v") || ingeroosterd.equalsIgnoreCase("z") || ingeroosterd.equalsIgnoreCase("*") || ingeroosterd.equalsIgnoreCase("c")) {
                 } else {
                     Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", "", false);
                     return false;

@@ -4,7 +4,7 @@
  */
 
 /*
- * Login2.java
+ * Login.java
  *
  * Created on 20-jan-2011, 11:12:42
  */
