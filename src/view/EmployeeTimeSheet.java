@@ -211,7 +211,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         }
         // Compensatie
         for (int k = 1; k < model.getColumnCount() - 3; k++) {  // Voor iedere kolom behalve Opmerking en Compensatie
-            for (int l = 0; l < model.getRowCount() - 2; l++) { // Voor iedere rij behalve Totaal
+            for (int l = 0; l < model.getRowCount() - 1; l++) { // Voor iedere rij behalve Totaal
                 if (model.getColumnName(k).toString().equals("Gewerkt")) {  // Als de kolomnaam gelijk is aan Gewerkt
                     if (model.getValueAt(l, k) != null && !model.getValueAt(l, k).toString().isEmpty()) {
                         double gewerkt = Double.parseDouble(model.getValueAt(l, k).toString().replace(",", "."));
@@ -293,6 +293,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", "", false);
                     return false;
                 }
+            } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
+                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", "", false);
+                return false;
             }
         }
         return true;
