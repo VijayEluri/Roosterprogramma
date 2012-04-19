@@ -406,7 +406,7 @@ public class Rooster extends javax.swing.JPanel {
                 String shouldWork = model.getValueAt(tblSchedule.convertRowIndexToModel(i), j).toString();
                 if (isValidWorkHour(shouldWork) || shouldWork.isEmpty()) {
                     WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, date);
-                    if (hour.getEmployeeNumber() == 0 && !shouldWork.isEmpty()) {
+                    if (hour.getEmployeeNumber() == -1 && !shouldWork.isEmpty()) {
                         hour = new WorkHours(employee.getEmployeeNumber(), date);
                         hour.setShouldWork(shouldWork);
                         if (!RoosterProgramma.getQueryManager().insertWorkHours(hour)) {
