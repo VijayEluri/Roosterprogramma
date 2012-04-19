@@ -3,7 +3,6 @@ package connectivity;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Utils;
 
 /**
@@ -26,7 +25,7 @@ public class Dbmanager {
     /**
      * The actual connection
      */
-    public Connection connection;
+    private Connection connection;
     private static boolean mysql = false;
 
     /**
@@ -53,8 +52,7 @@ public class Dbmanager {
             DriverManager.setLoginTimeout(15);
             connection = DriverManager.getConnection(url);
         } catch (Exception ex) {
-            Utils.showMessage("Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", ex.getMessage(), false);
-            RoosterProgramma.getInstance().shutdown();
+            Utils.showMessage("Kon geen verbinding met de database maken...\nProbeer het later nog eens of neem contact op met Joke Terol.", "Database fout.", ex.getMessage(), true);
         }
     }
 
@@ -70,8 +68,7 @@ public class Dbmanager {
     }
 
     /**
-     * Executes a query without result.
-     * Use for UPDATE queries.
+     * Executes a query without result. Use for UPDATE queries.
      *
      * @param query
      * @throws SQLException
