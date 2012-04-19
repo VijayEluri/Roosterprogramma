@@ -250,12 +250,12 @@ public class Utils {
      */
     public static String SHA1(String text) {
         String Sha1 = "";
-        text = text.toUpperCase();
+        String value = text.toUpperCase();
         try {
             MessageDigest md;
             md = MessageDigest.getInstance("SHA-1");
             byte[] sha1hash;
-            md.update(text.getBytes("iso-8859-1"), 0, text.length());
+            md.update(value.getBytes("iso-8859-1"), 0, value.length());
             sha1hash = md.digest();
             Sha1 = convertToHex(sha1hash);
         } catch (NoSuchAlgorithmException ex) {

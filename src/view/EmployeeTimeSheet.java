@@ -243,14 +243,16 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     }
 
     private void handleTime(int year, int month) {
-        if (month == 0) {
-            month = 12;
-            year -= 1;
-        } else if (month == 13) {
-            month = 1;
-            year += 1;
+        int newMonth = month;
+        int newYear = year;
+        if (newMonth == 0) {
+            newMonth = 12;
+            newYear -= 1;
+        } else if (newMonth == 13) {
+            newMonth = 1;
+            newYear += 1;
         }
-        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(employee, year, month));
+        RoosterProgramma.getInstance().showPanel(new EmployeeTimeSheet(employee, newYear, newMonth));
     }
 
     private String getYear() {

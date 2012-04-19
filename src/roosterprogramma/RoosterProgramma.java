@@ -230,19 +230,19 @@ public class RoosterProgramma {
      * @return
      */
     public ArrayList<Employee> searchEmployee(String firstname, String familyname) {
-        firstname = firstname.toLowerCase();
-        familyname = familyname.toLowerCase();
+        String newFirstname = firstname.toLowerCase();
+        String newFamilyname = familyname.toLowerCase();
 
         ArrayList<Employee> result = new ArrayList<Employee>();
         for (Employee tmpEmployee : employees.values()) {
             String tmpFirstname = tmpEmployee.getFirstName().toLowerCase();
             String tmpFamilyname = tmpEmployee.getFamilyName().toLowerCase();
-            if (!firstname.isEmpty()) {
-                if (tmpFirstname.contains(firstname) && (familyname.isEmpty() || tmpFamilyname.contains(familyname))) {
+            if (!newFirstname.isEmpty()) {
+                if (tmpFirstname.contains(newFirstname) && (newFamilyname.isEmpty() || tmpFamilyname.contains(newFamilyname))) {
                     result.add(tmpEmployee);
                 }
-            } else if (!familyname.isEmpty()) {
-                if (tmpFamilyname.contains(familyname)) {
+            } else if (!newFamilyname.isEmpty()) {
+                if (tmpFamilyname.contains(newFamilyname)) {
                     result.add(tmpEmployee);
                 }
             } else {
