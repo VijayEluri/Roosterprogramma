@@ -215,14 +215,15 @@ public class Utils {
     /**
      *
      * @param message
+     * @param identifier
      * @return
      */
-    public static String showFileChooser(String message) {
+    public static String showFileChooser(String message, String identifier) {
         String input = "";
         File startDirectory = FileSystemView.getFileSystemView().getRoots()[0];
         JFileChooser fileChooser = new JFileChooser(startDirectory);
         Calendar calendar = Calendar.getInstance();
-        fileChooser.setSelectedFile(new File("export_" + calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) + "_" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR) + ".xls"));
+        fileChooser.setSelectedFile(new File("export_" + identifier + "_" + calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) + "_" + calendar.get(Calendar.DAY_OF_MONTH) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.YEAR) + ".xls"));
         int saveDialog = fileChooser.showDialog(null, message);
         if (saveDialog == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();

@@ -12,6 +12,7 @@ package view;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 import model.Employee;
 import model.WorkHours;
+import roosterprogramma.ExcelExporter;
 import roosterprogramma.RoosterProgramma;
 import roosterprogramma.Translater;
 import roosterprogramma.Utils;
@@ -38,7 +40,6 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private DecimalFormat format = new DecimalFormat("0.00");
     private static final boolean DEBUG = false;
     private ItemListener changeListener = new ItemListener() {
-
         @Override
         public void itemStateChanged(ItemEvent e) {
             int selectedYear = Integer.parseInt(cmbYear.getSelectedItem().toString());
@@ -78,7 +79,6 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         btnNextMonth.setIcon(plusIcon);
         btnPreviousMonth.setIcon(minusIcon);
         tblTimesheet.setModel(new DefaultTableModel() {
-
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return !model.getColumnName(colIndex).contains("Compensatie") && colIndex != 0 && !model.getColumnName(colIndex).equals("Ingeroosterd") && !model.getColumnName(colIndex).equals("Totaal") && !model.getValueAt(rowIndex, 0).toString().equals("Totaal");
@@ -126,10 +126,12 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         model.addColumn("Dag van de Maand");
         if (employee.isClerk()) {
             model.addColumn("Ingeroosterd");
+            model.addColumn("Gewerkt");
+            model.addColumn("Pauze");
         } else {
+            model.addColumn("Gewerkt");
             modifier = 1;
         }
-        model.addColumn("Gewerkt");
         model.addColumn("Vakantie");
         model.addColumn("ADV");
         model.addColumn("Ziek");
@@ -147,14 +149,23 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             fields[0] = calendar.get(Calendar.DAY_OF_MONTH) + " - " + Translater.Translate(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH));
             if (employee.isClerk()) {
                 fields[1] = hour.getShouldWorkHours();
+                fields[2] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
+                fields[3] = (hour.getBreak() == 0.0 ? 0.0 : hour.getBreak());
+                fields[4] = (hour.getVacation() == 0.0 ? "" : hour.getVacation());
+                fields[5] = (hour.getADV() == 0.0 ? "" : hour.getADV());
+                fields[6] = (hour.getIllness() == 0.0 ? "" : hour.getIllness());
+                fields[7] = (hour.getLeave() == 0.0 ? "" : hour.getLeave());
+                fields[8] = (hour.getWithdrawnCompensation() == 0.0 ? "" : hour.getWithdrawnCompensation());
+                fields[10] = hour.getComment();
+            } else {
+                fields[1] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
+                fields[2] = (hour.getVacation() == 0.0 ? "" : hour.getVacation());
+                fields[3] = (hour.getADV() == 0.0 ? "" : hour.getADV());
+                fields[4] = (hour.getIllness() == 0.0 ? "" : hour.getIllness());
+                fields[5] = (hour.getLeave() == 0.0 ? "" : hour.getLeave());
+                fields[6] = (hour.getWithdrawnCompensation() == 0.0 ? "" : hour.getWithdrawnCompensation());
+                fields[8] = hour.getComment();
             }
-            fields[2 - modifier] = (hour.getWorked() == 0.0 ? "" : hour.getWorked());
-            fields[3 - modifier] = (hour.getVacation() == 0.0 ? "" : hour.getVacation());
-            fields[4 - modifier] = (hour.getADV() == 0.0 ? "" : hour.getADV());
-            fields[5 - modifier] = (hour.getIllness() == 0.0 ? "" : hour.getIllness());
-            fields[6 - modifier] = (hour.getLeave() == 0.0 ? "" : hour.getLeave());
-            fields[7 - modifier] = (hour.getWithdrawnCompensation() == 0.0 ? "" : hour.getWithdrawnCompensation());
-            fields[9 - modifier] = hour.getComment();
             model.addRow(fields);
         }
         Object[] fields = employee.isClerk() ? new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0, 0} : new Object[]{"Totaal", 0, 0, 0, 0, 0, 0, 0};
@@ -193,8 +204,10 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         for (int i = 0; i < model.getRowCount(); i++) { // Voor iedere rij
             double totalHours = 0;
             for (int j = -modifier + 2; j < model.getColumnCount() - 4; j++) {    // Alle rijen behalve degene vanaf Totaal
-                if (model.getValueAt(i, j) != null && !model.getValueAt(i, j).toString().isEmpty()) {
-                    totalHours += verifyInput(i, j);
+                if (!model.getColumnName(j).toString().equals("Pauze")) {
+                    if (model.getValueAt(i, j) != null && !model.getValueAt(i, j).toString().isEmpty()) {
+                        totalHours += verifyInput(i, j);
+                    }
                 }
             }
             model.setValueAt(totalHours, i, model.getColumnCount() - 4);
@@ -202,9 +215,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         // Totaalrij
         for (int k = 1; k < model.getColumnCount() - 3; k++) {  // Voor iedere kolom behalve Opmerking en Compensatie
             double totalHours = 0;
-            for (int l = 0; l < model.getRowCount() - 1; l++) { // Voor iedere rij
-                if (model.getValueAt(l, k) != null && !model.getValueAt(l, k).toString().isEmpty()) {
-                    totalHours += verifyInput(l, k);
+            if (!model.getColumnName(k).toString().equals("Pauze")) {
+                for (int l = 0; l < model.getRowCount() - 1; l++) { // Voor iedere rij
+                    if (model.getValueAt(l, k) != null && !model.getValueAt(l, k).toString().isEmpty()) {
+                        totalHours += verifyInput(l, k);
+                    }
                 }
             }
             model.setValueAt(totalHours, model.getRowCount() - 1, k);
@@ -275,15 +290,23 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         if (!employee.isClerk()) {
             return true;
         }
-        for (int i = 0; i < tblTimesheet.getRowCount(); i++) {
-            String ingeroosterd = model.getValueAt(i, 1).toString();
+        for (int i = 0; i < tblTimesheet.getRowCount() - 1; i++) {
+            String ingeroosterd = model.getValueAt(i, 1).toString().replace(",", ".");
             if (!ingeroosterd.isEmpty()) {
-                if (Utils.isNumeric(ingeroosterd)) {
-                    String shouldWork = model.getValueAt(i, 1).toString().replace(",", ".");
-                    double haveWorked = Double.parseDouble(model.getValueAt(i, tblTimesheet.getColumnCount() - 4).toString().replace(",", "."));
-                    if (Utils.isNumeric(shouldWork)) {
-                        if (haveWorked < Double.parseDouble(shouldWork)) {
-                            String[] pieces = model.getValueAt(i, 0).toString().split(" - ");
+                if (!employee.isCallWorker() && Utils.isNumeric(ingeroosterd)) {    // Oproepkrachten mogen minder werken dan ingeroosterd.
+                    if (Utils.isNumeric(ingeroosterd)) {
+                        int maxColumn = tblTimesheet.getColumnCount() - 4;
+                        double haveWorked = Double.parseDouble(model.getValueAt(i, maxColumn).toString().replace(",", "."));
+                        double pbreak = 0;
+                        for (int j = 0; j < maxColumn; j++) {
+                            if (tblTimesheet.getColumnName(j).toString().equals("Pauze")) {
+                                pbreak = Double.parseDouble(tblTimesheet.getValueAt(i, j).toString().replace(",", "."));
+                            }
+                        }
+                        haveWorked += pbreak;
+                        if (haveWorked < Double.parseDouble(ingeroosterd)) {
+                            String day = model.getValueAt(i, 0).toString();
+                            String[] pieces = day.split(" - ");
                             Utils.showMessage("De urenverantwoording voor " + pieces[1] + " de " + pieces[0] + "e komt niet overeen met de ingeroosterde uren.", "Foutieve urenverantwoording.", "", false);
                             return false;
                         }
@@ -293,10 +316,11 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                     Utils.showMessage("Bij de " + (i + 1) + "e staat een teken, geen getal.\nAlleen in het rooster hebben letters betekenis.", "Foutieve urenverantwoording.", "", false);
                     return false;
                 }
-            } else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
-                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", "", false);
-                return false;
             }
+//            else if (!model.getValueAt(i, model.getColumnCount() - 4).toString().equals("0.0")) {
+//                Utils.showMessage("Bij de " + (i + 1) + "e staan verantwoorde uren maar u bent op die dag niet ingeroosterd.", "Foutieve urenverantwoording.", "", false);
+//                return false;
+//            }
         }
         return true;
     }
@@ -311,7 +335,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
     private void initComponents() {
 
         btnBack = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
+        btnExport = new javax.swing.JButton();
         lblExpVacationHours = new javax.swing.JLabel();
         lblVacationHours = new javax.swing.JLabel();
         jspTimesheet = new javax.swing.JScrollPane();
@@ -329,6 +353,7 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
         btnPreviousMonth = new javax.swing.JButton();
         cmbMonth = new javax.swing.JComboBox<Integer>();
         btnNextMonth = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(153, 204, 255));
 
@@ -341,12 +366,12 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             }
         });
 
-        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnSave.png"))); // NOI18N
-        btnSave.setToolTipText("Opslaan");
-        btnSave.setContentAreaFilled(false);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
+        btnExport.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnExport.png"))); // NOI18N
+        btnExport.setToolTipText("Exporteer naar excel");
+        btnExport.setContentAreaFilled(false);
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
+                btnExportActionPerformed(evt);
             }
         });
 
@@ -487,6 +512,15 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
 
         pnlDateSelect.add(jpTimeNavigation);
 
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/btnSave.png"))); // NOI18N
+        btnSave.setToolTipText("Opslaan");
+        btnSave.setContentAreaFilled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -503,6 +537,8 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblVacationHours)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExport)
+                        .addGap(3, 3, 3)
                         .addComponent(btnSave))
                     .addComponent(jspTimesheet, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
@@ -517,16 +553,46 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlDateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnBack)
-                        .addComponent(btnSave))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnExport, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBack)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblExpVacationHours)
-                        .addComponent(lblVacationHours)))
+                        .addComponent(lblVacationHours))
+                    .addComponent(btnSave))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        String input = Utils.showFileChooser("Opslaan", "Tijdlijst");
+        if (!input.isEmpty()) {
+            boolean inverted = Utils.promptQuestion("Wilt u de tabel omgedraaid of precies zoals hierboven?", false, "Zoals hierboven", "Omgedraaid");
+            ExcelExporter.Export(tblTimesheet, new File(input.contains(".xls") ? input : input + ".xls"), inverted);
+        }
+    }//GEN-LAST:event_btnExportActionPerformed
+
+    private void btnPreviousYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousYearActionPerformed
+        handleTime(year - 1, month);
+    }//GEN-LAST:event_btnPreviousYearActionPerformed
+
+    private void btnNextYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextYearActionPerformed
+        handleTime(year + 1, month);
+    }//GEN-LAST:event_btnNextYearActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        RoosterProgramma.getInstance().showPanel(RoosterProgramma.getInstance().getPrevPanel());
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed
+        handleTime(year, month + 1);
+    }//GEN-LAST:event_btnNextMonthActionPerformed
+
+    private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
+        handleTime(year, month - 1);
+    }//GEN-LAST:event_btnPreviousMonthActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         if (tblTimesheet.getCellEditor() != null) {
@@ -540,55 +606,68 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
                 WorkHours hour = RoosterProgramma.getQueryManager().getWorkHours(employee, date);
                 for (int j = 0; j < model.getColumnCount() - 1; j++) {
                     Object tmpValue = model.getValueAt(i, j);
-                    if (tmpValue != null) {
+                    if (tmpValue != null && !"".equals(tmpValue.toString())) {
                         String value = tmpValue.toString();
                         String columnName = model.getColumnName(j);
+                        if (DEBUG) {
+                            System.out.println(columnName + ": " + value);
+                        }
                         if ((model.getColumnName(1).equals("Ingeroosterd") || !employee.isClerk()) // Alle rijen behalve Totaal
                                 && !model.getValueAt(i, j).toString().isEmpty()) {  // Vakje is niet leeg
+                            value = value.isEmpty() ? "0" : value.replace(",", ".");
                             if (model.getColumnName(j).equals("Gewerkt")) {
-                                hour.setWorked(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setWorked(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getWorked());
                                 }
+                            } else if (model.getColumnName(j).equals("Pauze")) {
+                                double numericValue = Double.parseDouble(value);
+                                if (numericValue != 0 && numericValue != 0.0) {
+                                    hour.setBreak(Double.parseDouble(value));
+                                    changed = true;
+                                }
+                                if (DEBUG) {
+                                    System.out.println(hour.getBreak());
+                                }
                             } else if (columnName.equals("Compensatie 150")) {
-                                hour.setCompensation150(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setCompensation150(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getCompensation150());
                                 }
                             } else if (columnName.equals("Compensatie 200")) {
-                                hour.setCompensation200(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setCompensation200(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getCompensation200());
                                 }
                             } else if (columnName.equals("Vakantie")) {
-                                hour.setVacation(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setVacation(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getVacation());
                                 }
                             } else if (columnName.equals("ADV")) {
-                                hour.setADV(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setADV(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getADV());
                                 }
                             } else if (columnName.equals("Ziek")) {
-                                hour.setIllness(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setIllness(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getIllness());
                                 }
                             } else if (columnName.equals("Speciaal Verlof")) {
-                                hour.setLeave(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setLeave(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getLeave());
                                 }
                             } else if (columnName.equals("Opg. compensatie")) {
-                                hour.setWithdrawnCompensation(value.isEmpty() ? 0 : Double.parseDouble(value.replace(",", ".")));
+                                hour.setWithdrawnCompensation(Double.parseDouble(value));
                                 changed = true;
                                 if (DEBUG) {
                                     System.out.println(hour.getWithdrawnCompensation());
@@ -629,28 +708,9 @@ public class EmployeeTimeSheet extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnPreviousYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousYearActionPerformed
-        handleTime(year - 1, month);
-    }//GEN-LAST:event_btnPreviousYearActionPerformed
-
-    private void btnNextYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextYearActionPerformed
-        handleTime(year + 1, month);
-    }//GEN-LAST:event_btnNextYearActionPerformed
-
-    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
-        RoosterProgramma.getInstance().showPanel(RoosterProgramma.getInstance().getPrevPanel());
-    }//GEN-LAST:event_btnBackActionPerformed
-
-    private void btnNextMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMonthActionPerformed
-        handleTime(year, month + 1);
-    }//GEN-LAST:event_btnNextMonthActionPerformed
-
-    private void btnPreviousMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousMonthActionPerformed
-        handleTime(year, month - 1);
-    }//GEN-LAST:event_btnPreviousMonthActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnNextMonth;
     private javax.swing.JButton btnNextYear;
     private javax.swing.JButton btnPreviousMonth;

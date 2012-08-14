@@ -16,6 +16,7 @@ public class WorkHours {
     private String date;
     private String shouldWork;
     private double worked;
+    private double pbreak;
     private double compensation150;
     private double compensation200;
     private double vacation;
@@ -39,7 +40,7 @@ public class WorkHours {
      * @param date
      */
     public WorkHours(int employeeNumber, String date) {
-        this(employeeNumber, date, "", 0, 0, 0, 0, 0, 0, 0, 0, "");
+        this(employeeNumber, date, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, "");
     }
 
     /**
@@ -48,6 +49,7 @@ public class WorkHours {
      * @param date
      * @param shouldWork
      * @param worked
+     * @param pbreak
      * @param compensation150
      * @param compensation200
      * @param vacation
@@ -58,12 +60,13 @@ public class WorkHours {
      * @param comment
      */
     public WorkHours(int employeeNumber, String date, String shouldWork, double worked,
-            double compensation150, double compensation200, double vacation, double ADV,
+            double pbreak, double compensation150, double compensation200, double vacation, double ADV,
             double illness, double leave, double withdrawnCompensation, String comment) {
         this.employeeNumber = employeeNumber;
         this.date = date;
         this.shouldWork = shouldWork;
         this.worked = worked;
+        this.pbreak = pbreak;
         this.compensation150 = compensation150;
         this.compensation200 = compensation200;
         this.vacation = vacation;
@@ -86,6 +89,20 @@ public class WorkHours {
      */
     public void setDate(String date) {
         this.date = date;
+    }
+
+    /**
+     * @return the pbreak
+     */
+    public double getBreak() {
+        return pbreak;
+    }
+
+    /**
+     * @param pbreak
+     */
+    public void setBreak(double pbreak) {
+        this.pbreak = pbreak;
     }
 
     /**

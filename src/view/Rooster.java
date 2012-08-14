@@ -436,7 +436,7 @@ public class Rooster extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnExcelExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelExportActionPerformed
-        String input = Utils.showFileChooser("Opslaan");
+        String input = Utils.showFileChooser("Opslaan", "Rooster");
         if (!input.isEmpty()) {
             boolean inverted = Utils.promptQuestion("Wilt u de tabel omgedraaid of precies zoals hierboven?", false, "Zoals hierboven", "Omgedraaid");
             ExcelExporter.Export(tblSchedule, new File(input.contains(".xls") ? input : input + ".xls"), inverted);

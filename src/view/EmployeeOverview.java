@@ -303,7 +303,7 @@ public class EmployeeOverview extends javax.swing.JPanel {
         if (isEdit) {
             RoosterProgramma.getInstance().showPanel(new ChAddEmployee(selectedEmployee), this);
         } else {
-            String input = Utils.showFileChooser("Opslaan");
+            String input = Utils.showFileChooser("Opslaan", "Medewerkersoverzicht");
             if (!input.isEmpty()) {
                 ExcelExporter.Export(tblEmployee, new File(input.contains(".xls") ? input : input + ".xls"), true);
             }

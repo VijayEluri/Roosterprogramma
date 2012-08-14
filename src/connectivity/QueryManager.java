@@ -187,7 +187,7 @@ public class QueryManager {
             if (result.next()) {
                 hours = new WorkHours(
                         employee.getEmployeeNumber(), result.getString("datum"), result.getString("ingeroosterd"),
-                        result.getDouble("gewerkt"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
+                        result.getDouble("gewerkt"), result.getDouble("pauze"), result.getDouble("compensatie150"), result.getDouble("compensatie200"),
                         result.getDouble("vakantie"), result.getDouble("adv"), result.getDouble("ziekte"),
                         result.getDouble("verlof"), result.getDouble("opgcompensatie"), result.getString("opmerking"));
             }
@@ -211,6 +211,7 @@ public class QueryManager {
                 + "', '" + hour.getDate()
                 + "', '" + hour.getShouldWork()
                 + "', '" + hour.getWorked()
+                + "', '" + hour.getBreak()
                 + "', '" + hour.getCompensation150()
                 + "', '" + hour.getCompensation200()
                 + "', '" + hour.getVacation()
@@ -244,6 +245,7 @@ public class QueryManager {
         String sql = "UPDATE werktijden SET "
                 + "ingeroosterd = '" + hour.getShouldWork() + "', "
                 + "gewerkt = '" + hour.getWorked() + "', "
+                + "pauze = '" + hour.getBreak() + "', "
                 + "compensatie150 = '" + hour.getCompensation150() + "', "
                 + "compensatie200 = '" + hour.getCompensation200() + "', "
                 + "vakantie = '" + hour.getVacation() + "', "
